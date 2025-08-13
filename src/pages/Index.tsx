@@ -58,9 +58,22 @@ const Index = () => {
               </a>
             </div>
             
-            <p className="text-sm text-muted-foreground">
-              © Digital Democracy Hub Schweiz - Fachstelle für Demokratie und Digitalisierung 2025
-            </p>
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">
+                made with ❤️ from{" "}
+                <a 
+                  href="https://www.digitaldemocracyhub.ch/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:text-primary/80 underline underline-offset-4"
+                >
+                  Digital Democracy Hub Schweiz
+                </a>
+              </p>
+              <p className="text-sm text-muted-foreground">
+                © Digital Democracy Hub Schweiz - Fachstelle für Demokratie und Digitalisierung 2025
+              </p>
+            </div>
           </div>
         </div>
       </footer>
