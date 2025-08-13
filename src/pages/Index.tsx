@@ -60,7 +60,7 @@ const Index = () => {
             
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">
-                made with ❤️ from{" "}
+                made with ❤️ by{" "}
                 <a 
                   href="https://www.digitaldemocracyhub.ch/" 
                   target="_blank" 
