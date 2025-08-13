@@ -328,7 +328,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                       <SelectTrigger className="h-12 text-base">
                         <SelectValue placeholder={type ? "Titel auswählen" : "Zuerst Typ wählen"} />
                       </SelectTrigger>
-                      <SelectContent className="max-h-[300px] overflow-auto z-50 bg-background border shadow-lg">
+                      <SelectContent className="max-h-[300px] overflow-auto z-50 bg-background border shadow-lg w-full min-w-[300px]">
                         {options.map((o) => (
                           <SelectItem key={o.id} value={o.id} className="text-sm py-3 leading-relaxed">
                             {o.title}
