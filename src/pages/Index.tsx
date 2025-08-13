@@ -12,7 +12,7 @@ const Index = () => {
     type: "Referendum" as const,
     id: referendumMatch.params.id as string
   } : undefined;
-  return <div className="min-h-screen bg-gradient-secondary">
+  return <div className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Header */}
       <header className="bg-background border-b shadow-card">
         <div className="container mx-auto px-4 py-6">
@@ -33,7 +33,7 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 flex-grow">
         <div className="grid gap-8">
           <ReceiptCredentialIssuer preselect={preselect} />
           <VerificationDashboard />
@@ -41,7 +41,7 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-background border-t mt-16">
+      <footer className="bg-background border-t mt-auto">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center space-y-4">
             <div className="bg-warning/10 border border-warning/20 rounded-lg p-4 max-w-2xl mx-auto">
