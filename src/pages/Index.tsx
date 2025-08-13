@@ -44,12 +44,6 @@ const Index = () => {
       <footer className="bg-background border-t mt-auto">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center space-y-4">
-            <div className="bg-warning/10 border border-warning/20 rounded-lg p-4 max-w-2xl mx-auto">
-              <p className="text-warning-foreground font-medium">
-                ⚠️ Dies ist ein nicht-produktiver Prototyp
-              </p>
-            </div>
-            
             <div className="bg-muted/30 border border-muted rounded-lg p-4 max-w-3xl mx-auto space-y-3">
               <p className="text-sm text-muted-foreground">
                 Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die Swiyu-App erstellt werden.
