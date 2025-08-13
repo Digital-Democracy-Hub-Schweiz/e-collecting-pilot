@@ -1,0 +1,18 @@
+[
+  { "id": "0a1b2c3d-4e5f-6789-abcd-ef0123456789", "title": "Bundesgesetz über die Unfallversicherung (UVG) (Finanzierung der Stiftung Entschädigungsfonds für Asbestopfer)" },
+  { "id": "1b2c3d4e-5f67-489a-bcde-f0123456789a", "title": "Bundesbeschluss über die Änderung des Bundesbeschlusses über die Genehmigung und die Umsetzung der bilateralen Abkommen zwischen der Schweiz und der EU über die Assoziierung an Schengen und an Dublin" },
+  { "id": "2c3d4e5f-6789-4abc-def0-1234567890ab", "title": "Bundesbeschluss über die Genehmigung eines Protokolls zur Änderung des Doppelbesteuerungsabkommens zwischen der Schweiz und Ungarn" },
+  { "id": "3d4e5f67-89ab-4cde-f012-34567890abcd", "title": "Bundesgesetz über die Unfallversicherung (UVG) (Finanzierung der Stiftung Entschädigungsfonds für Asbestopfer)" },
+  { "id": "4e5f6789-abcd-4def-0123-4567890abcde", "title": "Bundespersonalgesetz (BPG)" },
+  { "id": "5f6789ab-cdef-4012-3456-7890abcdef12", "title": "Schweizerisches Zivilgesetzbuch (Besitzesschutz bei verbotener Eigenmacht an Grundstücken)" },
+  { "id": "6789abcd-ef01-4234-5678-90abcdef1234", "title": "Schweizerisches Strafgesetzbuch (Verbesserung des strafrechtlichen Schutzes vor Nachstellung)" },
+  { "id": "789abcde-f012-4345-6789-0abcdef12345", "title": "Bundesgesetz über die Schweizerische Nationalbibliothek (Nationalbibliotheksgesetz, NBibG)" },
+  { "id": "89abcdef-0123-4456-7890-abcdef123456", "title": "Bundesgesetz über die wirtschaftliche Landesversorgung (Landesversorgungsgesetz, LVG)" },
+  { "id": "9abcdef0-1234-4567-890a-bcdef1234567", "title": "Bundesgesetz über die Individualbesteuerung" },
+  { "id": "abcdef01-2345-4678-90ab-cdef12345678", "title": "Bundesgesetz über die Zollpflicht und die Bemessung der Zollabgaben (Zollabgabengesetz, ZoG)" },
+  { "id": "bcdef012-3456-4789-0abc-def123456789", "title": "Bundesgesetz über den Allgemeinen Teil der Abgabenerhebung und die Kontrolle des grenzüberschreitenden Waren- und Personenverkehrs durch das Bundesamt für Zoll und Grenzsicherheit (BAZG-Vollzugsaufgabengesetz, BAZG-VG)" },
+  { "id": "cdef0123-4567-4890-abcd-ef1234567890", "title": "Bundesgesetz über die Stromversorgung (Stromversorgungsgesetz, StromVG (Stromreserve)" },
+  { "id": "def01234-5678-490a-bcde-f1234567890a", "title": "Bundesgesetz über die Gentechnik im Ausserhumanbereich (Gentechnikgesetz, GTG)" },
+  { "id": "ef012345-6789-4a0b-cdef-1234567890ab", "title": "Bundesgesetz über Tabakprodukte und elektronische Zigaretten (Tabakproduktegesetz, TabPG)" },
+  { "id": "f0123456-789a-4b0c-def1-234567890abc", "title": "Bundesgesetz über Ergänzungsleistungen zur Alters-, Hinterlassenen- und Invalidenversicherung (ELG)" }
+]
