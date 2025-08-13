@@ -49,6 +49,21 @@ const Index = () => {
                 ⚠️ Dies ist ein nicht-produktiver Prototyp
               </p>
             </div>
+            
+            <div className="bg-muted/30 border border-muted rounded-lg p-4 max-w-3xl mx-auto space-y-3">
+              <p className="text-sm text-muted-foreground">
+                Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die Swiyu-App erstellt werden.
+              </p>
+              <a 
+                href="https://www.bcs.admin.ch/bcs-web/#/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4"
+              >
+                Beta E-ID ausstellen
+              </a>
+            </div>
+            
             <p className="text-sm text-muted-foreground">
               © Digital Democracy Hub Schweiz - Fachstelle für Demokratie und Digitalisierung 2025
             </p>
