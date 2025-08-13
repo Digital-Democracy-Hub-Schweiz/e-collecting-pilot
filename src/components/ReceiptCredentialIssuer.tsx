@@ -436,6 +436,16 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                           <QRCode value={verificationUrl} size={192} />
                         </div>
                         
+                        <div className="flex justify-center">
+                          <Button 
+                            variant="outline" 
+                            onClick={() => window.open(verificationUrl, '_blank')}
+                            className="min-w-[200px]"
+                          >
+                            Mit Swiyu App öffnen
+                          </Button>
+                        </div>
+                        
                         {isPollingVerification && (
                           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <RefreshCw className="w-4 h-4 animate-spin" />
