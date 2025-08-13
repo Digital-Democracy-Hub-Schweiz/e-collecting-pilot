@@ -57,16 +57,14 @@ export interface VerificationResponse {
 }
 
 export class VerificationBusinessAPI {
-  private baseUrl = 'http://localhost:8082/api/v1';
+  private baseUrl = 'https://verifier-management.e-collecting.com/api/v1';
 
   async createVerification(): Promise<VerificationResponse> {
-    const requestData: CreateVerificationRequest = {
-      accepted_issuer_dids: ["string"],
-      jwt_secured_authorization_request: true,
+    const requestData = {
       presentation_definition: {
         id: "00000000-0000-0000-0000-000000000000",
-        name: "Test Verification",
-        purpose: "We want to test a new Verifier",
+        name: "E-ID Verification",
+        purpose: "Verification for E-Collecting support",
         format: {
           "vc+sd-jwt": {
             "sd-jwt_alg_values": ["ES256"],
@@ -75,9 +73,9 @@ export class VerificationBusinessAPI {
         },
         input_descriptors: [
           {
-            id: "11111111-1111-1111-1111-111111111111",
-            name: "Example Data Request",
-            purpose: "We collect this data to test our verifier",
+            id: "my-custom-vc",
+            name: "Custom VC",
+            purpose: "DEMO vc",
             format: {
               "vc+sd-jwt": {
                 "sd-jwt_alg_values": ["ES256"],
@@ -85,36 +83,14 @@ export class VerificationBusinessAPI {
               }
             },
             constraints: {
-              id: "string",
-              name: "string",
-              purpose: "string",
-              format: {
-                additionalProp1: {
-                  "sd-jwt_alg_values": ["string"],
-                  "kb-jwt_alg_values": ["string"]
-                },
-                additionalProp2: {
-                  "sd-jwt_alg_values": ["string"],
-                  "kb-jwt_alg_values": ["string"]
-                },
-                additionalProp3: {
-                  "sd-jwt_alg_values": ["string"],
-                  "kb-jwt_alg_values": ["string"]
-                }
-              },
               fields: [
                 {
-                  path: ["$.vct"],
-                  filter: {
-                    type: "string",
-                    const: "test-sdjwt"
-                  }
-                },
-                {
-                  path: ["$.dateOfBirth"]
+                  path: [
+                    "$.credentialSubject.firstName",
+                    "$.credentialSubject.lastName"
+                  ]
                 }
-              ],
-              limit_disclosure: "required"
+              ]
             }
           }
         ]

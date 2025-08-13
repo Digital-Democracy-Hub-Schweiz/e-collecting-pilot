@@ -24,6 +24,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { issuerBusinessAPI } from "@/services/issuerAPI";
+import { verificationBusinessAPI } from "@/services/verificationAPI";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
@@ -54,10 +55,14 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
   const [issuedId, setIssuedId] = useState<string | null>(null);
   const [offerDeeplink, setOfferDeeplink] = useState<string | null>(null);
   const [statusResult, setStatusResult] = useState<any>(null);
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [isValidatingAddress, setIsValidatingAddress] = useState(false);
   const [municipality, setMunicipality] = useState<string | null>(null);
   const [municipalityDetails, setMunicipalityDetails] = useState<{ town: string; canton: string; bfs: string } | null>(null);
+  const [verificationId, setVerificationId] = useState<string | null>(null);
+  const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
+  const [isCreatingVerification, setIsCreatingVerification] = useState(false);
+  const [isPollingVerification, setIsPollingVerification] = useState(false);
 
   // Vorbelegung via URL
   useEffect(() => {
@@ -166,6 +171,61 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
     setStep(3);
   };
 
+  const handleStartVerification = async () => {
+    setIsCreatingVerification(true);
+    try {
+      const verification = await verificationBusinessAPI.createVerification();
+      setVerificationId(verification.id);
+      setVerificationUrl(verification.verification_url);
+      setStep(4);
+      // Start polling for verification result
+      startPollingVerification(verification.id);
+      toast({ title: "E-ID Verification gestartet", description: "Scannen Sie den QR-Code mit Ihrer E-ID App." });
+    } catch (e: any) {
+      toast({ title: "Verification fehlgeschlagen", description: e?.message ?? "Unbekannter Fehler", variant: "destructive" });
+    } finally {
+      setIsCreatingVerification(false);
+    }
+  };
+
+  const startPollingVerification = (verificationId: string) => {
+    setIsPollingVerification(true);
+    const pollInterval = setInterval(async () => {
+      try {
+        const result = await verificationBusinessAPI.getVerification(verificationId);
+        if (result.state === 'SUCCESS' && result.wallet_response) {
+          clearInterval(pollInterval);
+          setIsPollingVerification(false);
+          
+          // Extract data from wallet response
+          const walletData = result.wallet_response;
+          if (walletData?.credentialSubject) {
+            setFirstName(walletData.credentialSubject.firstName || "");
+            setLastName(walletData.credentialSubject.lastName || "");
+            setBirthDate(walletData.credentialSubject.birthDate || "");
+          }
+          
+          toast({ title: "E-ID erfolgreich verifiziert", description: "Daten wurden übernommen." });
+          
+          // Automatically issue the credential
+          handleIssue();
+        } else if (result.state === 'FAILED') {
+          clearInterval(pollInterval);
+          setIsPollingVerification(false);
+          toast({ title: "Verification fehlgeschlagen", description: "Bitte versuchen Sie es erneut.", variant: "destructive" });
+        }
+      } catch (e) {
+        console.error('Polling error:', e);
+      }
+    }, 2000);
+
+    // Stop polling after 5 minutes
+    setTimeout(() => {
+      clearInterval(pollInterval);
+      setIsPollingVerification(false);
+    }, 300000);
+  };
+
   const handleCheckStatus = async () => {
     if (!issuedId) return;
     setIsChecking(true);
@@ -224,6 +284,10 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
     setIsValidatingAddress(false);
     setMunicipality(null);
     setMunicipalityDetails(null);
+    setVerificationId(null);
+    setVerificationUrl(null);
+    setIsCreatingVerification(false);
+    setIsPollingVerification(false);
     toast({ title: "Zurückgesetzt", description: "Formular wurde geleert." });
   };
 
@@ -240,7 +304,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
           <div className={cn("grid gap-6", issuedId ? "md:grid-cols-2" : "")}>
             <div className={cn("space-y-4", !issuedId && "md:max-w-2xl mx-auto")}> 
               <div className="flex items-center justify-between">
-                <Badge variant="outline" className="text-xs">Schritt {step} von 3</Badge>
+                <Badge variant="outline" className="text-xs">Schritt {step} von 4</Badge>
               </div>
 
               {step === 1 && (
@@ -310,34 +374,88 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
               )}
 
               {step === 3 && (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Vorname</Label>
-                      <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="z.B. Maria" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Nachname</Label>
-                      <Input value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="z.B. Muster" />
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Übersicht Ihrer Angaben</h3>
+                    
+                    <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                      <div>
+                        <Label className="text-sm font-medium text-muted-foreground">Volksbegehren</Label>
+                        <p className="text-sm">
+                          {type} - {options.find(o => o.id === selectedId)?.title}
+                        </p>
+                      </div>
+                      
+                      <div>
+                        <Label className="text-sm font-medium text-muted-foreground">Adresse</Label>
+                        <p className="text-sm">
+                          {street} {houseNumber}<br />
+                          {postalCode} {city}
+                        </p>
+                      </div>
+
+                      {municipality && (
+                        <div>
+                          <Label className="text-sm font-medium text-muted-foreground">Politische Gemeinde</Label>
+                          <p className="text-sm text-primary font-medium">
+                            {municipality}
+                            {isValidatingAddress && (
+                              <RefreshCw className="w-3 h-3 ml-2 inline animate-spin" />
+                            )}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Geburtsdatum</Label>
-                      <Input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Datum der Willensbekundung</Label>
-                      <Input readOnly type="date" value={signDate} onChange={(e) => setSignDate(e.target.value)} />
+
+                  <div className="flex gap-2 pt-2">
+                    <Button variant="secondary" onClick={() => setStep(2)}>Zurück</Button>
+                    <Button 
+                      onClick={handleStartVerification} 
+                      disabled={isCreatingVerification || isValidatingAddress}
+                      className="min-w-[200px]"
+                    >
+                      {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
+                      Volksbegehren unterstützen
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {step === 4 && (
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">E-ID Verification</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Scannen Sie den QR-Code mit Ihrer E-ID App um Ihre Identität zu verifizieren.
+                    </p>
+
+                    {verificationUrl && (
+                      <div className="space-y-4">
+                        <div className="bg-background p-6 rounded border flex items-center justify-center">
+                          <QRCode value={verificationUrl} size={192} />
+                        </div>
+                        
+                        {isPollingVerification && (
+                          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                            Warten auf E-ID Verification...
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    <div className="space-y-2 hidden">
+                      <Label>Status-List URL (optional)</Label>
+                      <Input readOnly value={statusListUrl} onChange={(e) => setStatusListUrl(e.target.value)} placeholder="https://.../statuslist/xyz.jwt" />
                     </div>
                   </div>
-                  <div className="space-y-2 hidden">
-                    <Label>Status-List URL (optional)</Label>
-                    <Input readOnly value={statusListUrl} onChange={(e) => setStatusListUrl(e.target.value)} placeholder="https://.../statuslist/xyz.jwt" />
-                  </div>
+
                   <div className="flex gap-2 pt-2">
                     {!issuedId ? (
-                      <Button variant="secondary" onClick={() => setStep(2)}>Zurück</Button>
+                      <Button variant="secondary" onClick={() => setStep(3)} disabled={isPollingVerification}>
+                        Zurück
+                      </Button>
                     ) : (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -357,11 +475,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                         </AlertDialogContent>
                       </AlertDialog>
                     )}
-                    {!issuedId ? (
-                      <Button onClick={handleIssue} disabled={isIssuing} className="min-w-[200px]">
-                        {isIssuing && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} Willensbekundung abschliessen
-                      </Button>
-                    ) : (
+                    {issuedId && (
                       <Button onClick={handleShare}>
                         <Share2 className="w-4 h-4 mr-2" /> Volksbegehren teilen
                       </Button>
