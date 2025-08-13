@@ -37,6 +37,22 @@ const Index = () => {
           <VerificationDashboard />
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-background border-t mt-16">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center space-y-4">
+            <div className="bg-warning/10 border border-warning/20 rounded-lg p-4 max-w-2xl mx-auto">
+              <p className="text-warning-foreground font-medium">
+                ⚠️ Dies ist ein nicht-produktiver Prototyp
+              </p>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              © Digital Democracy Hub Schweiz - Fachstelle für Demokratie und Digitalisierung 2025
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>;
 };
 export default Index;
