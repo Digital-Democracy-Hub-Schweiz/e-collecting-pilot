@@ -472,19 +472,18 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
 
                     {verificationUrl && (
                       <div className="space-y-4">
-                        <div className="bg-background p-6 rounded border flex items-center justify-center">
+                        <div className="bg-background p-6 rounded border flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={verificationUrl} size={192} />
-                        </div>
-                        
-                        <div className="flex justify-center">
-                          <Button 
-                            variant="outline" 
-                            onClick={() => window.open(verificationUrl, '_blank')}
-                            className="w-full sm:w-auto sm:min-w-[200px] h-12 text-base font-medium"
+                          <a
+                            href={verificationUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-muted-foreground underline break-all"
                           >
-                            Mit Swiyu App öffnen
-                          </Button>
+                            {verificationUrl}
+                          </a>
                         </div>
+
                         
                         {isPollingVerification && (
                           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
@@ -545,10 +544,18 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                       <Badge variant="outline" className="font-mono text-xs">{issuedId}</Badge>
                     </div>
                     
-                    {offerDeeplink && (
+                      {offerDeeplink && (
                       <div className="space-y-4">
-                        <div className="bg-background p-4 rounded border flex items-center justify-center">
+                        <div className="bg-background p-4 rounded border flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={offerDeeplink} size={192} />
+                          <a
+                            href={offerDeeplink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-muted-foreground underline break-all"
+                          >
+                            {offerDeeplink}
+                          </a>
                         </div>
                         
                         <Accordion type="single" collapsible>
