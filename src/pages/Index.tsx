@@ -79,7 +79,7 @@ const Index = () => {
               <div className="bg-muted/30 border border-muted rounded-lg p-6 space-y-4">
                 <h3 className="text-lg font-semibold text-foreground">Beta-Hinweis</h3>
                 <p className="text-sm text-muted-foreground">
-                  Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die Swiyu-App erstellt werden.
+                  Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die Swiyu-Wallet App erstellt werden.
                 </p>
                 <a 
                   href="https://www.bcs.admin.ch/bcs-web/#/" 

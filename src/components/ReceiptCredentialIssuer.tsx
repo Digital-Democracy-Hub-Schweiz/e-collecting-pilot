@@ -298,7 +298,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
           <CardTitle id="issuer-section" className="flex items-center gap-2">
             Volksbegehren elektronisch unterstützen
           </CardTitle>
-          <CardDescription>Unterstützen Sie ein Volksbegehren elektronisch und erhalten Sie einen digitalen Beleg als Bestätigung.</CardDescription>
+          <CardDescription>Unterstützen Sie ein Volksbegehren sicher und einfach mit der elektronischen Identität des Bundes. </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className={cn("grid gap-6", issuedId ? "md:grid-cols-2" : "")}>
@@ -465,9 +465,9 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
               {step === 4 && (
                 <div className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Verification mit Beta-ID</h3>
+                    <h3 className="text-lg font-semibold">Verifikation mit Swiyu-Wallet</h3>
                     <p className="text-sm text-muted-foreground">
-                      Scannen Sie den QR-Code mit Ihrer Swiyu-App um Ihre Identität zu verifizieren.
+                      Scannen Sie den QR-Code mit Ihrer Swiyu-Wallet App um Ihre Identität zu verifizieren.
                     </p>
 
                     {verificationUrl && (
