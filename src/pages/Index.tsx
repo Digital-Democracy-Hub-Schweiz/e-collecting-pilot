@@ -43,37 +43,18 @@ const Index = () => {
       {/* Footer */}
       <footer className="bg-background border-t mt-auto">
         <div className="container mx-auto px-4 py-8">
-          <div className="text-center space-y-4">
-            <div className="bg-muted/30 border border-muted rounded-lg p-4 max-w-3xl mx-auto space-y-3">
-              <p className="text-sm text-muted-foreground">
-                Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die Swiyu-App erstellt werden.
-              </p>
+          <div className="text-center">
+            <p className="text-sm text-muted-foreground">
+              made with ❤️ by{" "}
               <a 
-                href="https://www.bcs.admin.ch/bcs-web/#/" 
+                href="https://www.digitaldemocracyhub.ch/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4"
+                className="text-primary hover:text-primary/80 underline underline-offset-4"
               >
-                Beta E-ID ausstellen
+                Digital Democracy Hub Schweiz
               </a>
-            </div>
-            
-            <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">
-                made with ❤️ by{" "}
-                <a 
-                  href="https://www.digitaldemocracyhub.ch/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-primary hover:text-primary/80 underline underline-offset-4"
-                >
-                  Digital Democracy Hub Schweiz
-                </a>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                © Digital Democracy Hub Schweiz - Fachstelle für Demokratie und Digitalisierung 2025
-              </p>
-            </div>
+            </p>
           </div>
         </div>
       </footer>
