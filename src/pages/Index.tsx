@@ -3,17 +3,29 @@ import { ReceiptCredentialIssuer } from "@/components/ReceiptCredentialIssuer";
 import { Shield, Building2 } from "lucide-react";
 import { useMatch } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
+import initiatives from "@/data/initiatives.json";
+import referendums from "@/data/referendums.json";
 const Index = () => {
   const initiativeMatch = useMatch("/initiative/:id");
   const referendumMatch = useMatch("/referendum/:id");
   const { data: healthStatus, isLoading: healthLoading, isError: healthError } = useHealthStatus();
-  const preselect = initiativeMatch ? {
-    type: "Initiative" as const,
-    id: initiativeMatch.params.id as string
-  } : referendumMatch ? {
-    type: "Referendum" as const,
-    id: referendumMatch.params.id as string
-  } : undefined;
+  const resolveId = (list: any[], value?: string) => {
+    if (!value) return undefined;
+    const found = list.find((item) => item?.id === value || item?.slug === value);
+    return found?.id;
+  };
+
+  const preselect = initiativeMatch
+    ? {
+        type: "Initiative" as const,
+        id: (resolveId(initiatives as any[], initiativeMatch.params.id as string) || (initiativeMatch.params.id as string)),
+      }
+    : referendumMatch
+    ? {
+        type: "Referendum" as const,
+        id: (resolveId(referendums as any[], referendumMatch.params.id as string) || (referendumMatch.params.id as string)),
+      }
+    : undefined;
   return <div className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Header */}
       <header className="bg-background border-b shadow-card">
