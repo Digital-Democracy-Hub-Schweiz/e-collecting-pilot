@@ -36,6 +36,7 @@ const Index = () => {
       summary: `Initiative: ${item.title.substring(0, 120)}...`,
       url: `/initiative/${item.slug}`,
       image: "/placeholder.svg", // Using placeholder image
+      slug: item.slug,
       type: "Initiative" as const,
     })),
     ...referendums.map((item: any) => ({
@@ -44,6 +45,7 @@ const Index = () => {
       summary: `Referendum: ${item.title.substring(0, 120)}...`,
       url: `/referendum/${item.slug}`,
       image: "/placeholder.svg", // Using placeholder image
+      slug: item.slug,
       type: "Referendum" as const,
     })),
   ];

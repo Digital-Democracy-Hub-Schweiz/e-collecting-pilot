@@ -23,6 +23,7 @@ interface GalleryItem {
   summary: string;
   url: string;
   image: string;
+  slug: string;
   type?: 'Initiative' | 'Referendum';
 }
 
@@ -51,16 +52,7 @@ const Gallery6 = ({
     e.stopPropagation();
     try {
       const title = item.title;
-      // Create slug from title: lowercase, replace spaces and special chars with hyphens
-      const slug = title
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '') // Remove special characters except spaces and hyphens
-        .replace(/\s+/g, '-') // Replace spaces with hyphens
-        .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
-        .trim()
-        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
-      
-      const path = `/${item.type === "Initiative" ? "initiative" : "referendum"}/${slug}`;
+      const path = `/${item.type === "Initiative" ? "initiative" : "referendum"}/${item.slug}`;
       const url = `${window.location.origin}${path}`;
 
       if (navigator.share) {
