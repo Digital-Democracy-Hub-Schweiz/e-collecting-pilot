@@ -2,9 +2,11 @@ import { VerificationDashboard } from "@/components/VerificationDashboard";
 import { ReceiptCredentialIssuer } from "@/components/ReceiptCredentialIssuer";
 import { Shield, Building2 } from "lucide-react";
 import { useMatch } from "react-router-dom";
+import { useHealthStatus } from "@/hooks/use-health-status";
 const Index = () => {
   const initiativeMatch = useMatch("/initiative/:id");
   const referendumMatch = useMatch("/referendum/:id");
+  const { data: healthStatus, isLoading: healthLoading, isError: healthError } = useHealthStatus();
   const preselect = initiativeMatch ? {
     type: "Initiative" as const,
     id: initiativeMatch.params.id as string
@@ -64,7 +66,21 @@ const Index = () => {
       {/* Footer */}
       <footer className="bg-background border-t mt-auto">
         <div className="container mx-auto px-4 py-8">
-          <div className="text-center">
+          <div className="text-center space-y-2">
+            <div className="flex items-center justify-center gap-2">
+              <span className="text-sm text-muted-foreground">System Status:</span>
+              {healthLoading ? (
+                <span className="text-sm text-muted-foreground">Lädt...</span>
+              ) : healthError ? (
+                <span className="text-sm text-destructive">Offline</span>
+              ) : (
+                <span className={`text-sm font-medium ${
+                  healthStatus?.status === "UP" ? "text-green-600" : "text-destructive"
+                }`}>
+                  {healthStatus?.status || "Unknown"}
+                </span>
+              )}
+            </div>
             <p className="text-sm text-muted-foreground">
               made with ❤️ by{" "}
               <a 
