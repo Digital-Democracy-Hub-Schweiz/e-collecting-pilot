@@ -87,7 +87,8 @@ export class VerificationBusinessAPI {
                 {
                   path: [
                     "$.credentialSubject.firstName",
-                    "$.credentialSubject.lastName"
+                    "$.credentialSubject.lastName",
+                    "$.credentialSubject.birthDate"
                   ]
                 }
               ]
