@@ -1,7 +1,8 @@
-import { ArrowLeft, ArrowRight, Filter } from "lucide-react";
+import { ArrowLeft, ArrowRight, Filter, Share2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import {
   Select,
   SelectContent,
@@ -34,6 +35,7 @@ const Gallery6 = ({
   heading = "Gallery",
   items = [],
 }: Gallery6Props) => {
+  const { toast } = useToast();
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
@@ -43,6 +45,26 @@ const Gallery6 = ({
   const filteredItems = filter === "all" 
     ? items 
     : items.filter(item => item.type === filter);
+
+  const handleShare = async (item: GalleryItem, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const title = item.title;
+      const path = `/${item.type === "Initiative" ? "initiative" : "referendum"}/${item.id}`;
+      const url = `${window.location.origin}${path}`;
+
+      if (navigator.share) {
+        await navigator.share({ title: title, text: `Unterstütze: ${title}`, url });
+        toast({ title: "Geteilt", description: "Freigabedialog geöffnet." });
+      } else {
+        await navigator.clipboard.writeText(url);
+        toast({ title: "Link kopiert", description: url });
+      }
+    } catch (e: any) {
+      toast({ title: "Teilen fehlgeschlagen", description: e?.message ?? "Unbekannter Fehler", variant: "destructive" });
+    }
+  };
   useEffect(() => {
     if (!carouselApi) {
       return;
@@ -143,9 +165,20 @@ const Gallery6 = ({
                   <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
                     {item.summary}
                   </div>
-                  <div className="flex items-center text-sm">
-                    Details{" "}
-                    <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-sm">
+                      Details{" "}
+                      <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={(e) => handleShare(item, e)}
+                      className="flex items-center gap-1 hover:bg-accent"
+                    >
+                      <Share2 className="h-4 w-4" />
+                      Teilen
+                    </Button>
                   </div>
                 </a>
               </CarouselItem>
