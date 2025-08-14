@@ -58,7 +58,7 @@ const Gallery6 = ({
     };
   }, [carouselApi]);
   return (
-    <section className="py-32 bg-accent">
+    <section className="py-32 bg-muted/50">
       <div className="container">
         <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
           <div>
