@@ -1,5 +1,6 @@
 import { VerificationDashboard } from "@/components/VerificationDashboard";
 import { ReceiptCredentialIssuer } from "@/components/ReceiptCredentialIssuer";
+import { InitiativeCarousel } from "@/components/InitiativeCarousel";
 import { Shield, Building2, Github } from "lucide-react";
 import { useMatch } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
@@ -72,6 +73,11 @@ const Index = () => {
             </div>
           </div>
           <VerificationDashboard />
+          
+          {/* Available Initiatives & Referendums Carousel */}
+          <div className="mt-12 mb-8">
+            <InitiativeCarousel />
+          </div>
         </div>
       </main>
 
