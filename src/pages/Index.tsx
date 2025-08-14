@@ -1,6 +1,6 @@
 import { VerificationDashboard } from "@/components/VerificationDashboard";
 import { ReceiptCredentialIssuer } from "@/components/ReceiptCredentialIssuer";
-import { Shield, Building2 } from "lucide-react";
+import { Shield, Building2, Github } from "lucide-react";
 import { useMatch } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
 import initiatives from "@/data/initiatives.json";
@@ -105,18 +105,29 @@ const Index = () => {
                 )}
               </div>
             </div>
-            <p className="text-sm text-muted-foreground">
-              made with ❤️ by{" "}
+            <div className="flex items-center justify-center gap-3">
               <a 
-                href="https://www.digitaldemocracyhub.ch/" 
+                href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-primary hover:text-primary/80 underline underline-offset-4"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="GitHub Repository"
               >
-                Digital Democracy Hub Schweiz
-              </a>{" "}
-              © 2025
-            </p>
+                <Github size={20} />
+              </a>
+              <p className="text-sm text-muted-foreground">
+                made with ❤️ by{" "}
+                <a 
+                  href="https://www.digitaldemocracyhub.ch/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:text-primary/80 underline underline-offset-4"
+                >
+                  Digital Democracy Hub Schweiz
+                </a>{" "}
+                © 2025
+              </p>
+            </div>
           </div>
         </div>
       </footer>
