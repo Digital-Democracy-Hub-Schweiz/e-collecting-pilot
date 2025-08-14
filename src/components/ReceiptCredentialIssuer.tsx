@@ -465,9 +465,9 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
               {step === 4 && (
                 <div className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">E-ID Verification</h3>
+                    <h3 className="text-lg font-semibold">Verification mit Beta-ID</h3>
                     <p className="text-sm text-muted-foreground">
-                      Scannen Sie den QR-Code mit Ihrer E-ID App um Ihre Identität zu verifizieren.
+                      Scannen Sie den QR-Code mit Ihrer Swiyu-App um Ihre Identität zu verifizieren.
                     </p>
 
                     {verificationUrl && (
