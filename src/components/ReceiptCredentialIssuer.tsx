@@ -488,7 +488,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                         {isPollingVerification && (
                           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <RefreshCw className="w-4 h-4 animate-spin" />
-                            Warten auf E-ID Verification...
+                            Warten auf Verifikation der Identität mittels der Swiyu-Wallet App...
                           </div>
                         )}
                       </div>
