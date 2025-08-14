@@ -90,9 +90,9 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
       const payload = {
         metadata_credential_supported_id: ["my-test-vc"],
         credential_subject_data: {
-          firstName,
-          lastName,
-          birthDate
+          firstName: firstName || "Wilhelm",
+          lastName: lastName || "Tell",
+          birthDate: birthDate || "12.09.1848"
         /*  signDate,
           type,
           title: selectedTitle*/

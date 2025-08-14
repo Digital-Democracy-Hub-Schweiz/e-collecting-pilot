@@ -9,8 +9,8 @@ export interface SystemHealth {
 }
 
 class HealthAPI {
-  private verifierUrl = "http://verifier-management.e-collecting.com/actuator";
-  private issuerUrl = "http://issuer-management.e-collecting.com/actuator";
+  private verifierUrl = "https://verifier-management.e-collecting.com/actuator";
+  private issuerUrl = "https://issuer-management.e-collecting.com/actuator";
 
   async getVerifierHealth(): Promise<HealthStatus> {
     try {

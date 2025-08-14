@@ -61,10 +61,12 @@ export class VerificationBusinessAPI {
 
   async createVerification(): Promise<VerificationResponse> {
     const requestData = {
+      accepted_issuer_dids: [],
+      jwt_secured_authorization_request: true,
       presentation_definition: {
         id: "00000000-0000-0000-0000-000000000000",
-        name: "E-ID Verification",
-        purpose: "Verification for E-Collecting support",
+        name: "Test Verification",
+        purpose: "We want to test a new Verifier",
         format: {
           "vc+sd-jwt": {
             "sd-jwt_alg_values": ["ES256"],
@@ -85,11 +87,17 @@ export class VerificationBusinessAPI {
             constraints: {
               fields: [
                 {
-                  path: [
-                    "$.credentialSubject.firstName",
-                    "$.credentialSubject.lastName",
-                    "$.credentialSubject.birthDate"
-                  ]
+                  path: ["$.vct"],
+                  filter: { type: "string", const: "my-test-vc" }
+                },
+                {
+                  path: ["$.firstName"]
+                },
+                {
+                  path: ["$.lastName"]
+                },
+                {
+                  path: ["$.birthDate"]
                 }
               ]
             }
