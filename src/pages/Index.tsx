@@ -66,20 +66,32 @@ const Index = () => {
       {/* Footer */}
       <footer className="bg-background border-t mt-auto">
         <div className="container mx-auto px-4 py-8">
-          <div className="text-center space-y-2">
-            <div className="flex items-center justify-center gap-2">
-              <span className="text-sm text-muted-foreground">System Status:</span>
-              {healthLoading ? (
-                <span className="text-sm text-muted-foreground">Lädt...</span>
-              ) : healthError ? (
-                <span className="text-sm text-destructive">Offline</span>
-              ) : (
-                <span className={`text-sm font-medium ${
-                  healthStatus?.status === "UP" ? "text-green-600" : "text-destructive"
-                }`}>
-                  {healthStatus?.status || "Unknown"}
-                </span>
-              )}
+          <div className="text-center space-y-3">
+            <div className="flex items-center justify-center gap-6">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Verifier:</span>
+                {healthLoading ? (
+                  <span className="text-sm text-muted-foreground">Lädt...</span>
+                ) : (
+                  <span className={`text-sm font-medium ${
+                    healthStatus?.verifier?.status === "UP" ? "text-green-600" : "text-destructive"
+                  }`}>
+                    {healthStatus?.verifier?.status || "Offline"}
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Issuer:</span>
+                {healthLoading ? (
+                  <span className="text-sm text-muted-foreground">Lädt...</span>
+                ) : (
+                  <span className={`text-sm font-medium ${
+                    healthStatus?.issuer?.status === "UP" ? "text-green-600" : "text-destructive"
+                  }`}>
+                    {healthStatus?.issuer?.status || "Offline"}
+                  </span>
+                )}
+              </div>
             </div>
             <p className="text-sm text-muted-foreground">
               made with ❤️ by{" "}
