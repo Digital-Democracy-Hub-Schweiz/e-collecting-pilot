@@ -35,7 +35,28 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 flex-grow">
         <div className="grid gap-8">
-          <ReceiptCredentialIssuer preselect={preselect} />
+          {/* Receipt Credential Issuer with Info Box */}
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <ReceiptCredentialIssuer preselect={preselect} />
+            </div>
+            <div className="lg:col-span-1">
+              <div className="bg-muted/30 border border-muted rounded-lg p-6 space-y-4">
+                <h3 className="text-lg font-semibold text-foreground">Beta-Hinweis</h3>
+                <p className="text-sm text-muted-foreground">
+                  Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die Swiyu-App erstellt werden.
+                </p>
+                <a 
+                  href="https://www.bcs.admin.ch/bcs-web/#/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4"
+                >
+                  Beta E-ID ausstellen
+                </a>
+              </div>
+            </div>
+          </div>
           <VerificationDashboard />
         </div>
       </main>
