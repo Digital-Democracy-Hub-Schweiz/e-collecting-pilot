@@ -57,10 +57,7 @@ export const VerificationDashboard = () => {
   };
   return <div className="space-y-8">
       {/* Control Panel */}
-      <Card className="shadow-card">
-        
-        
-      </Card>
+      
 
       {verification && <div className="grid gap-6">
           {/* Status Overview */}
