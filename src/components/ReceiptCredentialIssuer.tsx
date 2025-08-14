@@ -308,66 +308,104 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
               </div>
 
               {step === 1 && (
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label>Typ</Label>
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <Label className="text-base font-semibold">Typ wählen</Label>
                     <Select value={type} onValueChange={(v) => setType(v as any)}>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-12 text-base">
                         <SelectValue placeholder="Wählen Sie Initiative oder Referendum" />
                       </SelectTrigger>
-                      <SelectContent className="z-50">
-                        <SelectItem value="Initiative">Initiative</SelectItem>
-                        <SelectItem value="Referendum">Referendum</SelectItem>
+                      <SelectContent className="z-50 bg-background border shadow-lg">
+                        <SelectItem value="Initiative" className="text-base py-3">Initiative</SelectItem>
+                        <SelectItem value="Referendum" className="text-base py-3">Referendum</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
-                    <Label>Titel</Label>
+                  
+                  <div className="space-y-4">
+                    <Label className="text-base font-semibold">Titel auswählen</Label>
                     <Select value={selectedId} onValueChange={setSelectedId} disabled={!type}>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-12 text-base">
                         <SelectValue placeholder={type ? "Titel auswählen" : "Zuerst Typ wählen"} />
                       </SelectTrigger>
-                      <SelectContent className="max-h-[300px] overflow-auto z-50">
+                      <SelectContent className="max-h-[300px] overflow-auto z-50 bg-background border shadow-lg w-full min-w-[300px]">
                         {options.map((o) => (
-                          <SelectItem key={o.id} value={o.id}>
+                          <SelectItem key={o.id} value={o.id} className="text-sm py-3 leading-relaxed">
                             {o.title}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="pt-2">
-                    <Button onClick={handleNextFromStep1} className="min-w-[160px]">Weiter</Button>
+                  
+                  <div className="pt-4">
+                    <Button onClick={handleNextFromStep1} className="w-full h-12 text-base font-semibold">
+                      Weiter
+                    </Button>
                   </div>
                 </div>
               )}
 
               {step === 2 && (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Strasse</Label>
-                      <Input value={street} onChange={(e) => setStreet(e.target.value)} placeholder="z.B. Bahnhofstrasse" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Hausnummer</Label>
-                      <Input value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)} placeholder="z.B. 10A" />
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">Adresse eingeben</h3>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label className="text-base font-medium">Strasse</Label>
+                          <Input 
+                            value={street} 
+                            onChange={(e) => setStreet(e.target.value)} 
+                            placeholder="z.B. Bahnhofstrasse" 
+                            className="h-12 text-base"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label className="text-base font-medium">Hausnummer</Label>
+                          <Input 
+                            value={houseNumber} 
+                            onChange={(e) => setHouseNumber(e.target.value)} 
+                            placeholder="z.B. 10A" 
+                            className="h-12 text-base"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label className="text-base font-medium">Postleitzahl</Label>
+                          <Input 
+                            value={postalCode} 
+                            onChange={(e) => setPostalCode(e.target.value)} 
+                            placeholder="z.B. 8001" 
+                            className="h-12 text-base"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label className="text-base font-medium">Ort</Label>
+                          <Input 
+                            value={city} 
+                            onChange={(e) => setCity(e.target.value)} 
+                            placeholder="z.B. Zürich" 
+                            className="h-12 text-base"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Postleitzahl</Label>
-                      <Input value={postalCode} onChange={(e) => setPostalCode(e.target.value)} placeholder="z.B. 8001" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Ort</Label>
-                      <Input value={city} onChange={(e) => setCity(e.target.value)} placeholder="z.B. Zürich" />
-                    </div>
-                  </div>
-                  <div className="flex gap-2 pt-2">
-                    <Button variant="secondary" onClick={() => setStep(1)}>Zurück</Button>
-                    <Button onClick={handleNextFromStep2} className="min-w-[160px]" disabled={isValidatingAddress}>
-                      {isValidatingAddress && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} Weiter
+                  
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                    <Button variant="secondary" onClick={() => setStep(1)} className="h-12 text-base">
+                      Zurück
+                    </Button>
+                    <Button 
+                      onClick={handleNextFromStep2} 
+                      className="h-12 text-base font-semibold flex-1" 
+                      disabled={isValidatingAddress}
+                    >
+                      {isValidatingAddress && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} 
+                      Weiter
                     </Button>
                   </div>
                 </div>
@@ -408,12 +446,14 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                     </div>
                   </div>
 
-                  <div className="flex gap-2 pt-2">
-                    <Button variant="secondary" onClick={() => setStep(2)}>Zurück</Button>
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                    <Button variant="secondary" onClick={() => setStep(2)} className="h-12 text-base">
+                      Zurück
+                    </Button>
                     <Button 
                       onClick={handleStartVerification} 
                       disabled={isCreatingVerification || isValidatingAddress}
-                      className="min-w-[200px]"
+                      className="h-12 text-base font-semibold flex-1"
                     >
                       {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
                       Volksbegehren unterstützen
@@ -436,6 +476,16 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                           <QRCode value={verificationUrl} size={192} />
                         </div>
                         
+                        <div className="flex justify-center">
+                          <Button 
+                            variant="outline" 
+                            onClick={() => window.open(verificationUrl, '_blank')}
+                            className="w-full sm:w-auto sm:min-w-[200px] h-12 text-base font-medium"
+                          >
+                            Mit Swiyu App öffnen
+                          </Button>
+                        </div>
+                        
                         {isPollingVerification && (
                           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <RefreshCw className="w-4 h-4 animate-spin" />
@@ -451,15 +501,15 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                     </div>
                   </div>
 
-                  <div className="flex gap-2 pt-2">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
                     {!issuedId ? (
-                      <Button variant="secondary" onClick={() => setStep(3)} disabled={isPollingVerification}>
+                      <Button variant="secondary" onClick={() => setStep(3)} disabled={isPollingVerification} className="h-12 text-base">
                         Zurück
                       </Button>
                     ) : (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button variant="secondary">Neu starten</Button>
+                          <Button variant="secondary" className="h-12 text-base">Neu starten</Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
@@ -476,7 +526,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                       </AlertDialog>
                     )}
                     {issuedId && (
-                      <Button onClick={handleShare}>
+                      <Button onClick={handleShare} className="h-12 text-base font-semibold flex-1">
                         <Share2 className="w-4 h-4 mr-2" /> Volksbegehren teilen
                       </Button>
                     )}
