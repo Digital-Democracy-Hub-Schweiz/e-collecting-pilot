@@ -89,6 +89,9 @@ const Index = () => {
                 >
                   Beta-ID ausstellen
                 </a>
+                <p className="text-sm text-muted-foreground">
+                 Alle Inhalte und Funktionen dieser Seite inklusive Services sind nur für Demonstrationszwecke gedacht.
+                </p>
               </div>
             </div>
           </div>
