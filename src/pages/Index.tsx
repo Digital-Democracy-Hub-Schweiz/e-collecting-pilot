@@ -102,7 +102,8 @@ const Index = () => {
                 className="text-primary hover:text-primary/80 underline underline-offset-4"
               >
                 Digital Democracy Hub Schweiz
-              </a>
+              </a>{" "}
+              © 2025
             </p>
           </div>
         </div>
