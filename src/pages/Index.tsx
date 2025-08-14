@@ -1,5 +1,6 @@
 import { VerificationDashboard } from "@/components/VerificationDashboard";
 import { ReceiptCredentialIssuer } from "@/components/ReceiptCredentialIssuer";
+import { Gallery6 } from "@/components/ui/gallery6";
 import { Shield, Building2, Github } from "lucide-react";
 import { useMatch } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
@@ -26,6 +27,24 @@ const Index = () => {
         id: (resolveId(referendums as any[], referendumMatch.params.id as string) || (referendumMatch.params.id as string)),
       }
     : undefined;
+
+  // Prepare data for carousel
+  const carouselItems = [
+    ...initiatives.map((item: any) => ({
+      id: item.id,
+      title: item.title,
+      summary: `Initiative: ${item.title.substring(0, 120)}...`,
+      url: `/initiative/${item.slug}`,
+      image: "/placeholder.svg", // Using placeholder image
+    })),
+    ...referendums.map((item: any) => ({
+      id: item.id,
+      title: item.title,
+      summary: `Referendum: ${item.title.substring(0, 120)}...`,
+      url: `/referendum/${item.slug}`,
+      image: "/placeholder.svg", // Using placeholder image
+    })),
+  ];
   return <div className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Header */}
       <header className="bg-background border-b shadow-card">
@@ -74,6 +93,15 @@ const Index = () => {
           <VerificationDashboard />
         </div>
       </main>
+
+      {/* Initiatives and Referendums Carousel */}
+      <div className="border-t">
+        <Gallery6 
+          heading="Verfügbare Initiativen und Referenden"
+          demoUrl="#"
+          items={carouselItems}
+        />
+      </div>
 
       {/* Footer */}
       <footer className="bg-background border-t mt-auto">
