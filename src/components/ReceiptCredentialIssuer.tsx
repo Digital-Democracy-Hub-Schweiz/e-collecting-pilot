@@ -48,7 +48,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [statusListUrl, setStatusListUrl] = useState(
-    "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/954062a4-6868-497e-8785-a4e38ed17e00.jwt"
+    "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/be2d22d7-2258-481f-b905-6f1697258d22.jwt"
   );
   const [isIssuing, setIsIssuing] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
