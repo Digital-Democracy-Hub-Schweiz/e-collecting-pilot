@@ -180,7 +180,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
       setStep(4);
       // Start polling for verification result
       startPollingVerification(verification.id);
-      toast({ title: "E-ID Verifikation gestartet", description: "Scannen Sie den QR-Code mit Ihrer Swiyu-Wallet App." });
+      toast({ title: "Verifikation gestartet", description: "Scannen Sie den QR-Code mit Ihrer Swiyu-Wallet App." });
     } catch (e: any) {
       toast({ title: "Verifikation fehlgeschlagen", description: e?.message ?? "Unbekannter Fehler", variant: "destructive" });
     } finally {
@@ -205,7 +205,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
             setBirthDate(walletData.credentialSubject.birthDate || "");
           }
           
-          toast({ title: "E-ID erfolgreich verifiziert", description: "Daten wurden übernommen." });
+          toast({ title: "Identität erfolgreich verifiziert", description: "Daten wurden übernommen." });
           
           // Automatically issue the credential
           handleIssue();

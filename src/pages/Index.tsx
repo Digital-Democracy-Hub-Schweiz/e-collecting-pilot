@@ -87,7 +87,7 @@ const Index = () => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4"
                 >
-                  Beta E-ID ausstellen
+                  Beta-ID ausstellen
                 </a>
               </div>
             </div>
