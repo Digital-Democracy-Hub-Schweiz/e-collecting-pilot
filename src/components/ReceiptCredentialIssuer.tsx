@@ -180,9 +180,9 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
       setStep(4);
       // Start polling for verification result
       startPollingVerification(verification.id);
-      toast({ title: "E-ID Verification gestartet", description: "Scannen Sie den QR-Code mit Ihrer E-ID App." });
+      toast({ title: "E-ID Verifikation gestartet", description: "Scannen Sie den QR-Code mit Ihrer Swiyu-Wallet App." });
     } catch (e: any) {
-      toast({ title: "Verification fehlgeschlagen", description: e?.message ?? "Unbekannter Fehler", variant: "destructive" });
+      toast({ title: "Verifikation fehlgeschlagen", description: e?.message ?? "Unbekannter Fehler", variant: "destructive" });
     } finally {
       setIsCreatingVerification(false);
     }
