@@ -298,7 +298,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
           <CardTitle id="issuer-section" className="flex items-center gap-2">
             Volksbegehren elektronisch unterstützen
           </CardTitle>
-          <CardDescription>Unterstützen Sie ein Volksbegehren sicher und einfach mit der elektronischen Identität des Bundes. </CardDescription>
+          <CardDescription>Unterstützen Sie ein Volksbegehren sicher und einfach mit der Beta-ID des Bundes. </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className={cn("grid gap-6", issuedId ? "md:grid-cols-2" : "")}>
