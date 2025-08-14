@@ -1,7 +1,14 @@
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Filter } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Carousel,
   CarouselApi,
@@ -15,63 +22,27 @@ interface GalleryItem {
   summary: string;
   url: string;
   image: string;
+  type?: 'Initiative' | 'Referendum';
 }
 
 interface Gallery6Props {
   heading?: string;
-  demoUrl?: string;
   items?: GalleryItem[];
 }
 
 const Gallery6 = ({
   heading = "Gallery",
-  demoUrl = "https://www.shadcnblocks.com",
-  items = [
-    {
-      id: "item-1",
-      title: "Build Modern UIs",
-      summary:
-        "Create stunning user interfaces with our comprehensive design system.",
-      url: "#",
-      image: "/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-2",
-      title: "Computer Vision Technology",
-      summary:
-        "Powerful image recognition and processing capabilities that allow AI systems to analyze, understand, and interpret visual information from the world.",
-      url: "#",
-      image: "/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-3",
-      title: "Machine Learning Automation",
-      summary:
-        "Self-improving algorithms that learn from data patterns to automate complex tasks and make intelligent decisions with minimal human intervention.",
-      url: "#",
-      image: "/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-4",
-      title: "Predictive Analytics",
-      summary:
-        "Advanced forecasting capabilities that analyze historical data to predict future trends and outcomes, helping businesses make data-driven decisions.",
-      url: "#",
-      image: "/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-5",
-      title: "Neural Network Architecture",
-      summary:
-        "Sophisticated AI models inspired by human brain structure, capable of solving complex problems through deep learning and pattern recognition.",
-      url: "#",
-      image: "/images/block/placeholder-dark-1.svg",
-    },
-  ],
+  items = [],
 }: Gallery6Props) => {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+  const [filter, setFilter] = useState<"all" | "Initiative" | "Referendum">("all");
+  
+  // Filter items based on selected filter
+  const filteredItems = filter === "all" 
+    ? items 
+    : items.filter(item => item.type === filter);
   useEffect(() => {
     if (!carouselApi) {
       return;
@@ -94,13 +65,19 @@ const Gallery6 = ({
             <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6">
               {heading}
             </h2>
-            <a
-              href={demoUrl}
-              className="group flex items-center gap-1 text-sm font-medium md:text-base lg:text-lg"
-            >
-              Book a demo
-              <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1" />
-            </a>
+            <div className="flex items-center gap-2">
+              <Filter className="h-4 w-4 text-muted-foreground" />
+              <Select value={filter} onValueChange={(value: "all" | "Initiative" | "Referendum") => setFilter(value)}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Filter auswählen" />
+                </SelectTrigger>
+                <SelectContent className="bg-background border shadow-md z-50">
+                  <SelectItem value="all">Alle anzeigen</SelectItem>
+                  <SelectItem value="Initiative">Nur Initiativen</SelectItem>
+                  <SelectItem value="Referendum">Nur Referenden</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
             <Button
@@ -141,7 +118,7 @@ const Gallery6 = ({
           className="relative left-[-1rem]"
         >
           <CarouselContent className="-mr-4 ml-8 2xl:ml-[max(8rem,calc(50vw-700px+1rem))] 2xl:mr-[max(0rem,calc(50vw-700px-1rem))]">
-            {items.map((item) => (
+            {filteredItems.map((item) => (
               <CarouselItem key={item.id} className="pl-4 md:max-w-[452px]">
                 <a
                   href={item.url}

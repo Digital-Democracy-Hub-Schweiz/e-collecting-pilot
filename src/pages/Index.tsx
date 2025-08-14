@@ -36,6 +36,7 @@ const Index = () => {
       summary: `Initiative: ${item.title.substring(0, 120)}...`,
       url: `/initiative/${item.slug}`,
       image: "/placeholder.svg", // Using placeholder image
+      type: "Initiative" as const,
     })),
     ...referendums.map((item: any) => ({
       id: item.id,
@@ -43,6 +44,7 @@ const Index = () => {
       summary: `Referendum: ${item.title.substring(0, 120)}...`,
       url: `/referendum/${item.slug}`,
       image: "/placeholder.svg", // Using placeholder image
+      type: "Referendum" as const,
     })),
   ];
   return <div className="min-h-screen bg-gradient-secondary flex flex-col">
@@ -98,7 +100,6 @@ const Index = () => {
       <div className="border-t">
         <Gallery6 
           heading="Verfügbare Initiativen und Referenden"
-          demoUrl="#"
           items={carouselItems}
         />
       </div>
