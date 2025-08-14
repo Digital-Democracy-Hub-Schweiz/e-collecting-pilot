@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -63,6 +64,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
   const [isCreatingVerification, setIsCreatingVerification] = useState(false);
   const [isPollingVerification, setIsPollingVerification] = useState(false);
+  const [acceptedLegalNotice, setAcceptedLegalNotice] = useState(false);
 
   // Vorbelegung via URL
   useEffect(() => {
@@ -288,6 +290,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
     setVerificationUrl(null);
     setIsCreatingVerification(false);
     setIsPollingVerification(false);
+    setAcceptedLegalNotice(false);
     toast({ title: "Zurückgesetzt", description: "Formular wurde geleert." });
   };
 
@@ -446,18 +449,35 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                     </div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <Button variant="secondary" onClick={() => setStep(2)} className="h-12 text-base">
-                      Zurück
-                    </Button>
-                    <Button 
-                      onClick={handleStartVerification} 
-                      disabled={isCreatingVerification || isValidatingAddress}
-                      className="h-12 text-base font-semibold flex-1"
-                    >
-                      {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
-                      Volksbegehren unterstützen
-                    </Button>
+                  <div className="space-y-4 pt-4">
+                    <div className="flex items-start space-x-3 p-4 border rounded-lg bg-muted/20">
+                      <Checkbox 
+                        id="legal-notice" 
+                        checked={acceptedLegalNotice}
+                        onCheckedChange={(checked) => setAcceptedLegalNotice(checked === true)}
+                        className="mt-1"
+                      />
+                      <Label 
+                        htmlFor="legal-notice" 
+                        className="text-sm leading-relaxed cursor-pointer"
+                      >
+                        Wer bei einer Unterschriftensammlung besticht oder sich bestechen lässt oder wer das Ergebnis einer Unterschriftensammlung für eine Volksinitiative fälscht, macht sich strafbar nach Art. 281 beziehungsweise nach Art. 282 des Strafgesetzbuches.
+                      </Label>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Button variant="secondary" onClick={() => setStep(2)} className="h-12 text-base">
+                        Zurück
+                      </Button>
+                      <Button 
+                        onClick={handleStartVerification} 
+                        disabled={!acceptedLegalNotice || isCreatingVerification || isValidatingAddress}
+                        className="h-12 text-base font-semibold flex-1"
+                      >
+                        {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
+                        Volksbegehren unterstützen
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )}
