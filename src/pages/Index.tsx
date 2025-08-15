@@ -36,6 +36,7 @@ const Index = () => {
       summary: `Initiative: ${item.title.substring(0, 120)}...`,
       url: `/initiative/${item.slug}`,
       image: "/placeholder.svg", // Using placeholder image
+      slug: item.slug,
       type: "Initiative" as const,
     })),
     ...referendums.map((item: any) => ({
@@ -44,6 +45,7 @@ const Index = () => {
       summary: `Referendum: ${item.title.substring(0, 120)}...`,
       url: `/referendum/${item.slug}`,
       image: "/placeholder.svg", // Using placeholder image
+      slug: item.slug,
       type: "Referendum" as const,
     })),
   ];
@@ -116,28 +118,40 @@ const Index = () => {
       <footer className="bg-background border-t mt-auto">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center space-y-3">
-            <div className="flex items-center justify-center gap-6">
+            <div className="flex items-center justify-center gap-4 flex-wrap">
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Verifier:</span>
+                <span className="text-sm text-muted-foreground">Verifier-Mgmt:</span>
                 {healthLoading ? (
                   <span className="text-sm text-muted-foreground">Lädt...</span>
                 ) : (
                   <span className={`text-sm font-medium ${
-                    healthStatus?.verifier?.status === "UP" ? "text-green-600" : "text-destructive"
+                    healthStatus?.verifierManagement?.status === "UP" ? "text-green-600" : "text-destructive"
                   }`}>
-                    {healthStatus?.verifier?.status || "Offline"}
+                    {healthStatus?.verifierManagement?.status || "Offline"}
                   </span>
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Issuer:</span>
+                <span className="text-sm text-muted-foreground">Issuer-Mgmt:</span>
                 {healthLoading ? (
                   <span className="text-sm text-muted-foreground">Lädt...</span>
                 ) : (
                   <span className={`text-sm font-medium ${
-                    healthStatus?.issuer?.status === "UP" ? "text-green-600" : "text-destructive"
+                    healthStatus?.issuerManagement?.status === "UP" ? "text-green-600" : "text-destructive"
                   }`}>
-                    {healthStatus?.issuer?.status || "Offline"}
+                    {healthStatus?.issuerManagement?.status || "Offline"}
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Issuer-OID4VCI:</span>
+                {healthLoading ? (
+                  <span className="text-sm text-muted-foreground">Lädt...</span>
+                ) : (
+                  <span className={`text-sm font-medium ${
+                    healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-600" : "text-destructive"
+                  }`}>
+                    {healthStatus?.issuerOid4vci?.status || "Offline"}
                   </span>
                 )}
               </div>
