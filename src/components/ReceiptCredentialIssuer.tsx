@@ -316,8 +316,27 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
           <CardDescription>Unterstützen Sie ein Volksbegehren sicher und einfach mit der Beta-ID des Bundes. </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          {/* Success message spans full width */}
+          {step === 4 && issuedId && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-4">
+                <ShieldCheck className="w-6 h-6 text-green-600" />
+                <h3 className="text-lg font-semibold text-green-600">Erfolgreich unterstützt!</h3>
+              </div>
+              
+              <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
+                <p className="text-sm font-medium text-green-800 mb-2">
+                  Sie haben erfolgreich die {type} "{options.find(o => o.id === selectedId)?.title}" unterstützt.
+                </p>
+                <p className="text-xs text-green-700">
+                  Ihre Willensbekundung wurde digital erfasst und an die zuständige politische Gemeinde übermittelt.
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className={cn("grid gap-6", issuedId ? "md:grid-cols-2" : "")}>
-            <div className={cn("space-y-4", !issuedId && "md:max-w-2xl mx-auto")}> 
+            <div className={cn("space-y-4", !issuedId && "md:max-w-2xl mx-auto")}>
               <div className="flex items-center justify-between">
                 <Badge variant="outline" className="text-xs">Schritt {step} von 4</Badge>
               </div>
@@ -536,56 +555,40 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
 
               {step === 4 && issuedId && (
                 <div className="space-y-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2 mb-4">
-                      <ShieldCheck className="w-6 h-6 text-green-600" />
-                      <h3 className="text-lg font-semibold text-green-600">Erfolgreich unterstützt!</h3>
-                    </div>
+                  <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                    <h4 className="font-semibold text-sm">Zusammenfassung Ihrer Angaben:</h4>
                     
-                    <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-                      <p className="text-sm font-medium text-green-800 mb-2">
-                        Sie haben erfolgreich die {type} "{options.find(o => o.id === selectedId)?.title}" unterstützt.
-                      </p>
-                      <p className="text-xs text-green-700">
-                        Ihre Willensbekundung wurde digital erfasst und an die zuständige politische Gemeinde übermittelt.
-                      </p>
-                    </div>
-
-                    <div className="bg-muted/50 p-4 rounded-lg space-y-3">
-                      <h4 className="font-semibold text-sm">Zusammenfassung Ihrer Angaben:</h4>
-                      
-                      <div className="grid gap-3 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Datum:</span>
-                          <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Uhrzeit:</span>
-                          <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Vorname:</span>
-                          <span className="font-medium">{firstName}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Nachname:</span>
-                          <span className="font-medium">{lastName}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Geburtsdatum:</span>
-                          <span className="font-medium">{birthDate}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Adresse:</span>
-                          <span className="font-medium">{street} {houseNumber}, {postalCode} {city}</span>
-                        </div>
-                        {municipalityDetails && (
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Politische Gemeinde:</span>
-                            <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
-                          </div>
-                        )}
+                    <div className="grid gap-3 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Datum:</span>
+                        <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
                       </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Uhrzeit:</span>
+                        <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Vorname:</span>
+                        <span className="font-medium">{firstName}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Nachname:</span>
+                        <span className="font-medium">{lastName}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Geburtsdatum:</span>
+                        <span className="font-medium">{birthDate}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Adresse:</span>
+                        <span className="font-medium">{street} {houseNumber}, {postalCode} {city}</span>
+                      </div>
+                      {municipalityDetails && (
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Politische Gemeinde:</span>
+                          <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
