@@ -536,6 +536,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
 
               {step === 4 && issuedId && (
                 <div className="space-y-6">
+                  {/* Success message spanning full width */}
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 mb-4">
                       <ShieldCheck className="w-6 h-6 text-green-600" />
@@ -550,41 +551,83 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                         Ihre Willensbekundung wurde digital erfasst und an die zuständige politische Gemeinde übermittelt.
                       </p>
                     </div>
+                  </div>
 
-                    <div className="bg-muted/50 p-4 rounded-lg space-y-3">
-                      <h4 className="font-semibold text-sm">Zusammenfassung Ihrer Angaben:</h4>
-                      
-                      <div className="grid gap-3 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Datum:</span>
-                          <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Uhrzeit:</span>
-                          <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Vorname:</span>
-                          <span className="font-medium">{firstName}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Nachname:</span>
-                          <span className="font-medium">{lastName}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Geburtsdatum:</span>
-                          <span className="font-medium">{birthDate}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Adresse:</span>
-                          <span className="font-medium">{street} {houseNumber}, {postalCode} {city}</span>
-                        </div>
-                        {municipalityDetails && (
+                  {/* Two column layout for summary and QR code */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Left column: Summary */}
+                    <div className="space-y-4">
+                      <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                        <h4 className="font-semibold text-sm">Zusammenfassung Ihrer Angaben:</h4>
+                        
+                        <div className="grid gap-3 text-sm">
                           <div className="flex justify-between">
-                            <span className="text-muted-foreground">Politische Gemeinde:</span>
-                            <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
+                            <span className="text-muted-foreground">Datum:</span>
+                            <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
                           </div>
-                        )}
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Uhrzeit:</span>
+                            <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Vorname:</span>
+                            <span className="font-medium">{firstName}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Nachname:</span>
+                            <span className="font-medium">{lastName}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Geburtsdatum:</span>
+                            <span className="font-medium">{birthDate}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Adresse:</span>
+                            <span className="font-medium">{street} {houseNumber}, {postalCode} {city}</span>
+                          </div>
+                          {municipalityDetails && (
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Politische Gemeinde:</span>
+                              <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right column: QR Code */}
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label>Bestätigung:</Label>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Eine Bestätigung kann mit der Swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere Swiyu-Wallet App.
+                        </p>
+                        <div className="space-y-4">
+                          {offerDeeplink && (
+                            <div className="space-y-4">
+                              <div className="bg-background p-4 rounded border flex flex-col items-center justify-center gap-3 text-center">
+                                <QRCode value={offerDeeplink} size={192} />
+                                <a
+                                  href={offerDeeplink}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-primary underline font-medium"
+                                >
+                                  In App öffnen
+                                </a>
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="pt-2 flex items-center gap-3 flex-wrap">
+                            <Button variant="secondary" onClick={handleCheckStatus} disabled={isChecking}>
+                              {isChecking && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} Status prüfen
+                            </Button>
+                            {statusResult?.status && (
+                              <Badge variant="outline" className="text-xs">{String(statusResult.status)}</Badge>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -615,43 +658,6 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
               )}
             </div>
 
-            {issuedId && (
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Bestätigung:</Label>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Eine Bestätigung kann mit der Swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere Swiyu-Wallet App.
-                  </p>
-                  <div className="space-y-4">
-                    
-                      {offerDeeplink && (
-                      <div className="space-y-4">
-                        <div className="bg-background p-4 rounded border flex flex-col items-center justify-center gap-3 text-center">
-                          <QRCode value={offerDeeplink} size={192} />
-                          <a
-                            href={offerDeeplink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary underline font-medium"
-                          >
-                            In App öffnen
-                          </a>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="pt-2 flex items-center gap-3 flex-wrap">
-                      <Button variant="secondary" onClick={handleCheckStatus} disabled={isChecking}>
-                        {isChecking && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} Status prüfen
-                      </Button>
-                      {statusResult?.status && (
-                        <Badge variant="outline" className="text-xs">{String(statusResult.status)}</Badge>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </CardContent>
       </Card>
