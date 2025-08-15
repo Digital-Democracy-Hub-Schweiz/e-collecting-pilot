@@ -555,67 +555,44 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
 
               {step === 4 && issuedId && (
                 <div className="space-y-6">
-                  <div className="bg-muted/50 p-4 rounded-lg space-y-3">
-                    <h4 className="font-semibold text-sm">Zusammenfassung Ihrer Angaben:</h4>
-                    
-                    <div className="grid gap-3 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Datum:</span>
-                        <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Uhrzeit:</span>
-                        <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Vorname:</span>
-                        <span className="font-medium">{firstName}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Nachname:</span>
-                        <span className="font-medium">{lastName}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Geburtsdatum:</span>
-                        <span className="font-medium">{birthDate}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Adresse:</span>
-                        <span className="font-medium">{street} {houseNumber}, {postalCode} {city}</span>
-                      </div>
-                      {municipalityDetails && (
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Politische Gemeinde:</span>
-                          <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="secondary" className="h-12 text-base">Neu starten</Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Neustart bestätigen</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Dadurch werden alle Eingaben gelöscht. Möchten Sie fortfahren?
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Abbrechen</AlertDialogCancel>
-                          <AlertDialogAction onClick={resetForm}>Löschen und neu starten</AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                    <Button onClick={handleShare} className="h-12 text-base font-semibold flex-1">
-                      <Share2 className="w-4 h-4 mr-2" /> Volksbegehren teilen
-                    </Button>
-                  </div>
-                </div>
-              )}
+                   <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                     <h4 className="font-semibold text-sm">Zusammenfassung Ihrer Angaben:</h4>
+                     
+                     <div className="grid gap-3 text-sm">
+                       <div className="flex justify-between">
+                         <span className="text-muted-foreground">Datum:</span>
+                         <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
+                       </div>
+                       <div className="flex justify-between">
+                         <span className="text-muted-foreground">Uhrzeit:</span>
+                         <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
+                       </div>
+                       <div className="flex justify-between">
+                         <span className="text-muted-foreground">Vorname:</span>
+                         <span className="font-medium">{firstName}</span>
+                       </div>
+                       <div className="flex justify-between">
+                         <span className="text-muted-foreground">Nachname:</span>
+                         <span className="font-medium">{lastName}</span>
+                       </div>
+                       <div className="flex justify-between">
+                         <span className="text-muted-foreground">Geburtsdatum:</span>
+                         <span className="font-medium">{birthDate}</span>
+                       </div>
+                       <div className="flex justify-between">
+                         <span className="text-muted-foreground">Adresse:</span>
+                         <span className="font-medium">{street} {houseNumber}, {postalCode} {city}</span>
+                       </div>
+                       {municipalityDetails && (
+                         <div className="flex justify-between">
+                           <span className="text-muted-foreground">Politische Gemeinde:</span>
+                           <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
+                         </div>
+                       )}
+                     </div>
+                   </div>
+                 </div>
+               )}
             </div>
 
             {issuedId && (
@@ -627,7 +604,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                   </p>
                   <div className="space-y-4">
                     
-                      {offerDeeplink && (
+                     {offerDeeplink && (
                       <div className="space-y-4">
                         <div className="bg-background p-4 rounded border flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={offerDeeplink} size={192} />
@@ -642,20 +619,37 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                         </div>
                       </div>
                     )}
-
-                    <div className="pt-2 flex items-center gap-3 flex-wrap">
-                      <Button variant="secondary" onClick={handleCheckStatus} disabled={isChecking}>
-                        {isChecking && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} Status prüfen
-                      </Button>
-                      {statusResult?.status && (
-                        <Badge variant="outline" className="text-xs">{String(statusResult.status)}</Badge>
-                      )}
-                    </div>
                   </div>
                 </div>
               </div>
             )}
           </div>
+
+          {/* Action buttons span full width below columns */}
+          {step === 4 && issuedId && (
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="secondary" className="h-12 text-base">Neu starten</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Neustart bestätigen</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Dadurch werden alle Eingaben gelöscht. Möchten Sie fortfahren?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+                    <AlertDialogAction onClick={resetForm}>Löschen und neu starten</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+              <Button onClick={handleShare} className="h-12 text-base font-semibold flex-1">
+                <Share2 className="w-4 h-4 mr-2" /> Volksbegehren teilen
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
     </section>
