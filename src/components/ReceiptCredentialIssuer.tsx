@@ -76,8 +76,12 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
 
   const options: Option[] = useMemo(() => (type === "Initiative" ? (initiatives as Option[]) : (referendums as Option[])), [type]);
 
-  const handleIssue = async () => {
-    if (!type || !selectedId || !firstName || !lastName) {
+  const handleIssue = async (credentialData?: { given_name?: string; family_name?: string; birth_date?: string }) => {
+    const currentFirstName = credentialData?.given_name || firstName;
+    const currentLastName = credentialData?.family_name || lastName;
+    const currentBirthDate = credentialData?.birth_date || birthDate;
+    
+    if (!type || !selectedId || !currentFirstName || !currentLastName) {
       toast({ title: "Fehlende Angaben", description: "Bitte Typ, Titel, Vor- und Nachname ausfüllen.", variant: "destructive" });
       return;
     }
@@ -92,9 +96,9 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
       const payload = {
         metadata_credential_supported_id: ["my-test-vc"],
         credential_subject_data: {
-          firstName: firstName || "Wilhelm",
-          lastName: lastName || "Tell",
-          birthDate: birthDate || "12.09.1848"
+          firstName: currentFirstName || "Wilhelm",
+          lastName: currentLastName || "Tell",
+          birthDate: currentBirthDate || "12.09.1848"
         /*  signDate,
           type,
           title: selectedTitle*/
@@ -209,8 +213,8 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
           
           toast({ title: "Identität erfolgreich verifiziert", description: "Daten wurden übernommen." });
           
-          // Automatically issue the credential
-          handleIssue();
+          // Automatically issue the credential with the verified data
+          handleIssue(credentialData);
         } else if (result.state === 'FAILED') {
           clearInterval(pollInterval);
           setIsPollingVerification(false);
