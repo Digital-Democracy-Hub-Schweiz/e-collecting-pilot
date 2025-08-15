@@ -618,12 +618,11 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
             {issuedId && (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label>Ergebnis</Label>
+                  <Label>Bestätigung:</Label>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Eine Bestätigung kann mit der Swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere Swiyu-Wallet App.
+                  </p>
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2">
-                      <span>Credential-ID:</span>
-                      <Badge variant="outline" className="font-mono text-xs">{issuedId}</Badge>
-                    </div>
                     
                       {offerDeeplink && (
                       <div className="space-y-4">
