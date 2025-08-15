@@ -561,32 +561,32 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                         <h4 className="font-semibold text-sm">Zusammenfassung Ihrer Angaben:</h4>
                         
                         <div className="grid gap-3 text-sm">
-                          <div className="flex justify-between">
+                          <div className="grid grid-cols-1 gap-1">
                             <span className="text-muted-foreground">Datum:</span>
                             <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
                           </div>
-                          <div className="flex justify-between">
+                          <div className="grid grid-cols-1 gap-1">
                             <span className="text-muted-foreground">Uhrzeit:</span>
                             <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
                           </div>
-                          <div className="flex justify-between">
+                          <div className="grid grid-cols-1 gap-1">
                             <span className="text-muted-foreground">Vorname:</span>
                             <span className="font-medium">{firstName}</span>
                           </div>
-                          <div className="flex justify-between">
+                          <div className="grid grid-cols-1 gap-1">
                             <span className="text-muted-foreground">Nachname:</span>
                             <span className="font-medium">{lastName}</span>
                           </div>
-                          <div className="flex justify-between">
+                          <div className="grid grid-cols-1 gap-1">
                             <span className="text-muted-foreground">Geburtsdatum:</span>
                             <span className="font-medium">{birthDate}</span>
                           </div>
-                          <div className="flex justify-between">
+                          <div className="grid grid-cols-1 gap-1">
                             <span className="text-muted-foreground">Adresse:</span>
                             <span className="font-medium">{street} {houseNumber}, {postalCode} {city}</span>
                           </div>
                           {municipalityDetails && (
-                            <div className="flex justify-between">
+                            <div className="grid grid-cols-1 gap-1">
                               <span className="text-muted-foreground">Politische Gemeinde:</span>
                               <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
                             </div>
