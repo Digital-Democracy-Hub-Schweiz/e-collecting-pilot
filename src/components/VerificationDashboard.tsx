@@ -5,12 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, CheckCircle, XCircle, Clock, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { verificationBusinessAPI, type VerificationResponse } from "@/services/verificationAPI";
+import { VerificationSummary } from "./VerificationSummary";
+
 export const VerificationDashboard = () => {
   const [verification, setVerification] = useState<VerificationResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+
   const handleCreateVerification = async () => {
     setIsLoading(true);
     try {
@@ -31,6 +32,7 @@ export const VerificationDashboard = () => {
       setIsLoading(false);
     }
   };
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'SUCCESS':
@@ -43,6 +45,7 @@ export const VerificationDashboard = () => {
         return <Shield className="w-5 h-5 text-gray-600" />;
     }
   };
+
   const getStatusVariant = (status: string) => {
     switch (status) {
       case 'SUCCESS':
@@ -55,11 +58,62 @@ export const VerificationDashboard = () => {
         return 'outline';
     }
   };
-  return <div className="space-y-8">
-      {/* Control Panel */}
-      
 
-      {verification && <div className="grid gap-6">
+  // Show summary if verification is successful
+  if (verification?.state === 'SUCCESS') {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Identitäts-Verifizierung</h2>
+            <p className="text-muted-foreground">
+              Verifizierung abgeschlossen
+            </p>
+          </div>
+          <Button onClick={() => setVerification(null)} variant="outline">
+            Neue Verifizierung
+          </Button>
+        </div>
+        <VerificationSummary 
+          verification={verification}
+          onCreateReceipt={() => {
+            // TODO: Implement receipt creation
+            toast({
+              title: "Quittung erstellen",
+              description: "Die Quittungsfunktion ist noch nicht implementiert.",
+            });
+          }}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-8">
+      {/* Control Panel */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-foreground">Identitäts-Verifizierung</h2>
+          <p className="text-muted-foreground">
+            Erstellen Sie eine Verifizierungsanfrage für Beta-ID Credentials
+          </p>
+        </div>
+        {!verification && (
+          <Button onClick={handleCreateVerification} disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Erstelle...
+              </>
+            ) : (
+              "Neue Verifizierung"
+            )}
+          </Button>
+        )}
+      </div>
+
+      {verification && (
+        <div className="grid gap-6">
           {/* Status Overview */}
           <Card className="shadow-elegant">
             <CardHeader>
@@ -122,7 +176,8 @@ export const VerificationDashboard = () => {
           </Card>
 
           {/* Input Descriptors */}
-          {verification.presentation_definition.input_descriptors.map((descriptor, index) => <Card key={descriptor.id} className="shadow-card">
+          {verification.presentation_definition.input_descriptors.map((descriptor, index) => (
+            <Card key={descriptor.id} className="shadow-card">
               <CardHeader>
                 <CardTitle className="text-lg">{descriptor.name}</CardTitle>
                 <CardDescription>
@@ -134,21 +189,26 @@ export const VerificationDashboard = () => {
                   <div>
                     <strong>Required Fields:</strong>
                     <div className="mt-2 space-y-2">
-                      {descriptor.constraints.fields.map((field, fieldIndex) => <div key={fieldIndex} className="flex items-center gap-2">
+                      {descriptor.constraints.fields.map((field, fieldIndex) => (
+                        <div key={fieldIndex} className="flex items-center gap-2">
                           <Badge variant="outline" className="font-mono">
                             {field.path.join(', ')}
                           </Badge>
-                          {field.filter && <span className="text-sm text-muted-foreground">
+                          {field.filter && (
+                            <span className="text-sm text-muted-foreground">
                               (filter: {field.filter.const || field.filter.type})
-                            </span>}
-                        </div>)}
+                            </span>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
               </CardContent>
-            </Card>)}
-        </div>}
-
-      {!verification}
-    </div>;
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
