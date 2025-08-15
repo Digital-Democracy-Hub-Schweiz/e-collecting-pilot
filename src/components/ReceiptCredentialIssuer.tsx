@@ -633,34 +633,11 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                             href={offerDeeplink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-muted-foreground underline break-all"
+                            className="text-primary underline font-medium"
                           >
-                            {offerDeeplink}
+                            In App öffnen
                           </a>
                         </div>
-                        
-                        <Accordion type="single" collapsible>
-                          <AccordionItem value="deeplink">
-                            <AccordionTrigger>
-                              <div className="flex items-center gap-2">
-                                <QrCode className="w-4 h-4" />
-                                <span>Deep Link Details</span>
-                              </div>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                              <div className="space-y-3">
-                                <div>
-                                  <a href={offerDeeplink} target="_blank" rel="noopener noreferrer" className="underline text-primary">
-                                    In App öffnen
-                                  </a>
-                                </div>
-                                <div className="bg-muted p-3 rounded">
-                                  <code className="text-xs break-all">{offerDeeplink}</code>
-                                </div>
-                              </div>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Accordion>
                       </div>
                     )}
 
