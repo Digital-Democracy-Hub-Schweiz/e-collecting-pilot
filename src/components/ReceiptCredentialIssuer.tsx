@@ -49,7 +49,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [statusListUrl, setStatusListUrl] = useState(
-    "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/be2d22d7-2258-481f-b905-6f1697258d22.jwt"
+    "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/3e6fc90b-bb80-4112-aa4e-940cda4616d7.jwt"
   );
   const [isIssuing, setIsIssuing] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
@@ -94,14 +94,14 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
       const selectedTitle = selected?.title || "";
 
       const payload = {
-        metadata_credential_supported_id: ["my-test-vc"],
+        metadata_credential_supported_id: ["e-collecting-pilot-receipt"],
         credential_subject_data: {
           firstName: currentFirstName || "Wilhelm",
           lastName: currentLastName || "Tell",
-          birthDate: currentBirthDate || "12.09.1848"
-        /*  signDate,
+          birthDate: currentBirthDate || "12.09.1848",
+          signDate: new Date().toISOString().slice(0, 10),
           type,
-          title: selectedTitle*/
+          title: selectedTitle
         },
         offer_validity_seconds: 86400,
         credential_valid_from: new Date().toISOString(),
