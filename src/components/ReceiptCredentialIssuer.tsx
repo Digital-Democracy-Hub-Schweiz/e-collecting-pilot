@@ -113,11 +113,19 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
       setIssuedId(res.id || (res as any).management_id || null);
       setOfferDeeplink(res.offer_deeplink || null);
       toast({ title: "Credential erstellt", description: `ID: ${res.id || (res as any).management_id}` });
+      
+      // Set the verified data in state for summary display
+      if (credentialData) {
+        setFirstName(credentialData.given_name || firstName);
+        setLastName(credentialData.family_name || lastName);
+        setBirthDate(credentialData.birth_date || birthDate);
+      }
+      
       if (municipalityDetails) {
         const { town = "", canton = "", bfs = "" } = municipalityDetails;
         toast({
           title: "Willensbekundung gesendet",
-          description: `Die Willensbekundung wurde an ${town} ${canton} ${bfs} gesendet.`,
+          description: `Die Willensbekundung wurde an ${town} ${canton} (BFS: ${bfs}) gesendet.`,
         });
       }
     } catch (e: any) {
@@ -486,7 +494,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                 </div>
               )}
 
-              {step === 4 && (
+              {step === 4 && !issuedId && (
                 <div className="space-y-6">
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Verifikation mit Swiyu-Wallet</h3>
@@ -508,7 +516,6 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                           </a>
                         </div>
 
-                        
                         {isPollingVerification && (
                           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <RefreshCw className="w-4 h-4 animate-spin" />
@@ -517,42 +524,92 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                         )}
                       </div>
                     )}
+                  </div>
 
-                    <div className="space-y-2 hidden">
-                      <Label>Status-List URL (optional)</Label>
-                      <Input readOnly value={statusListUrl} onChange={(e) => setStatusListUrl(e.target.value)} placeholder="https://.../statuslist/xyz.jwt" />
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                    <Button variant="secondary" onClick={() => setStep(3)} disabled={isPollingVerification} className="h-12 text-base">
+                      Zurück
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {step === 4 && issuedId && (
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 mb-4">
+                      <ShieldCheck className="w-6 h-6 text-green-600" />
+                      <h3 className="text-lg font-semibold text-green-600">Erfolgreich unterstützt!</h3>
+                    </div>
+                    
+                    <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
+                      <p className="text-sm font-medium text-green-800 mb-2">
+                        Sie haben erfolgreich die {type} "{options.find(o => o.id === selectedId)?.title}" unterstützt.
+                      </p>
+                      <p className="text-xs text-green-700">
+                        Ihre Willensbekundung wurde digital erfasst und an die zuständige politische Gemeinde übermittelt.
+                      </p>
+                    </div>
+
+                    <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                      <h4 className="font-semibold text-sm">Zusammenfassung Ihrer Angaben:</h4>
+                      
+                      <div className="grid gap-3 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Datum:</span>
+                          <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Uhrzeit:</span>
+                          <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Vorname:</span>
+                          <span className="font-medium">{firstName}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Nachname:</span>
+                          <span className="font-medium">{lastName}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Geburtsdatum:</span>
+                          <span className="font-medium">{birthDate}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Adresse:</span>
+                          <span className="font-medium">{street} {houseNumber}, {postalCode} {city}</span>
+                        </div>
+                        {municipalityDetails && (
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Politische Gemeinde:</span>
+                            <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    {!issuedId ? (
-                      <Button variant="secondary" onClick={() => setStep(3)} disabled={isPollingVerification} className="h-12 text-base">
-                        Zurück
-                      </Button>
-                    ) : (
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button variant="secondary" className="h-12 text-base">Neu starten</Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Neustart bestätigen</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Dadurch werden alle Eingaben gelöscht. Möchten Sie fortfahren?
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Abbrechen</AlertDialogCancel>
-                            <AlertDialogAction onClick={resetForm}>Löschen und neu starten</AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    )}
-                    {issuedId && (
-                      <Button onClick={handleShare} className="h-12 text-base font-semibold flex-1">
-                        <Share2 className="w-4 h-4 mr-2" /> Volksbegehren teilen
-                      </Button>
-                    )}
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="secondary" className="h-12 text-base">Neu starten</Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Neustart bestätigen</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Dadurch werden alle Eingaben gelöscht. Möchten Sie fortfahren?
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+                          <AlertDialogAction onClick={resetForm}>Löschen und neu starten</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                    <Button onClick={handleShare} className="h-12 text-base font-semibold flex-1">
+                      <Share2 className="w-4 h-4 mr-2" /> Volksbegehren teilen
+                    </Button>
                   </div>
                 </div>
               )}
