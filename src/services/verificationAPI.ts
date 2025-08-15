@@ -61,43 +61,51 @@ export class VerificationBusinessAPI {
 
   async createVerification(): Promise<VerificationResponse> {
     const requestData = {
-      accepted_issuer_dids: [],
-      jwt_secured_authorization_request: true,
-      presentation_definition: {
-        id: "00000000-0000-0000-0000-000000000000",
-        name: "Test Verification",
-        purpose: "We want to test a new Verifier",
-        format: {
-          "vc+sd-jwt": {
-            "sd-jwt_alg_values": ["ES256"],
-            "kb-jwt_alg_values": ["ES256"]
-          }
-        },
-        input_descriptors: [
+      "presentation_definition": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "input_descriptors": [
           {
-            id: "my-custom-vc",
-            name: "Custom VC",
-            purpose: "DEMO vc",
-            format: {
+            "id": "11111111-1111-1111-1111-111111111111",
+            "format": {
               "vc+sd-jwt": {
-                "sd-jwt_alg_values": ["ES256"],
-                "kb-jwt_alg_values": ["ES256"]
+                "sd-jwt_alg_values": [
+                  "ES256"
+                ],
+                "kb-jwt_alg_values": [
+                  "ES256"
+                ]
               }
             },
-            constraints: {
-              fields: [
+            "constraints": {
+              "fields": [
                 {
-                  path: ["$.vct"],
-                  filter: { type: "string", const: "my-test-vc" }
+                  "path": [
+                    "$.vct"
+                  ],
+                  "filter": {
+                    "type": "string",
+                    "const": "betaid-sdjwt"
+                  }
                 },
                 {
-                  path: ["$.firstName"]
+                  "path": [
+                    "$.family_name"
+                  ]
                 },
                 {
-                  path: ["$.lastName"]
+                  "path": [
+                    "$.given_name"
+                  ]
                 },
                 {
-                  path: ["$.birthDate"]
+                  "path": [
+                    "$.birth_date"  
+                  ]
+                },
+                {
+                  "path": [
+                    "$.age_over_18"
+                  ]
                 }
               ]
             }

@@ -1,15 +1,119 @@
 [
-  { "id": "8c4b9e12-1f5e-4c3b-9f2a-1a2b3c4d5e01", "title": "Ja zum Schutz vor missbräuchlichen Mieten (Mietpreis-Initiative)", "slug": "ja-zum-schutz-vor-missbraeuchlichen-mieten-mietpreis-initiative", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "1c2d3e4f-5a6b-7c8d-9e01-23456789abcd", "title": "Für bewilligungsfreie Solaranlagen", "slug": "fuer-bewilligungsfreie-solaranlagen", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "2b3c4d5e-6f70-4819-a2b3-c4d5e6f78901", "title": "Starke Gesellschaft und Wirtschaft dank Elternzeit (Familienzeit-Initiative)", "slug": "starke-gesellschaft-und-wirtschaft-dank-elternzeit-familienzeit-initiative", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "3c4d5e6f-7081-492a-b3c4-d5e6f7890123", "title": "Für eine volksorientierte Politik (No Lobbying)", "slug": "fuer-eine-volksorientierte-politik-no-lobbying", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "4d5e6f70-8192-4a3b-c4d5-e6f789012345", "title": "Für eine finanziell starke, souveräne und verantwortungsvolle Schweiz (Bitcoin-Initiative)", "slug": "fuer-eine-finanziell-starke-souveraene-und-verantwortungsvolle-schweiz-bitcoin-initiative", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "5e6f7081-92a3-4b5c-d6e7-f89012345678", "title": "Für einen nachhaltigen und zukunftsgerichteten Finanzplatz Schweiz (Finanzplatz-Initiative)", "slug": "fuer-einen-nachhaltigen-und-zukunftsgerichteten-finanzplatz-schweiz-finanzplatz-initiative", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "6f708192-a3b4-4c5d-e6f7-890123456789", "title": "Für eine direktdemokratische und wettbewerbsfähige Schweiz – keine EU-Passivmitgliedschaft (Kompass-Initiative)", "slug": "fuer-eine-direktdemokratische-und-wettbewerbsfaehige-schweiz-keine-eu-passivmitgliedschaft-kompass-initiative", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "708192a3-b4c5-4d6e-f789-0123456789ab", "title": "Für gentechnikfreie Lebensmittel (Lebensmittelschutz-Initiative)", "slug": "fuer-gentechnikfreie-lebensmittel-lebensmittelschutz-initiative", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "8192a3b4-c5d6-4e7f-8901-23456789abcd", "title": "Für den Beitritt der Schweiz zum Vertrag der Vereinten Nationen über das Verbot von Atomwaffen (Atomwaffenverbots-Initiative)", "slug": "fuer-den-beitritt-der-schweiz-zum-vertrag-der-vereinten-nationen-ueber-das-verbot-von-atomwaffen-atomwaffenverbots-initiative", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "92a3b4c5-d6e7-4f89-0123-456789abcdef", "title": "Für eine sichere Versorgung mit erneuerbaren Energien (Solarinitiative)", "slug": "fuer-eine-sichere-versorgung-mit-erneuerbaren-energien-solarinitiative", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "a3b4c5d6-e7f8-4091-2345-6789abcdef01", "title": "Asylmissbrauch stoppen! (Grenzschutzinitiative)", "slug": "asylmissbrauch-stoppen-grenzschutzinitiative", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "b4c5d6e7-f809-41a2-3456-789abcdef012", "title": "Cannabis-Legalisierung: Chancen für Wirtschaft, Gesundheit und Gleichberechtigung", "slug": "cannabis-legalisierung-chancen-fuer-wirtschaft-gesundheit-und-gleichberechtigung", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "c5d6e7f8-091a-42b3-4567-89abcdef0123", "title": "Für eine starke Schweiz in Europa (Europa-Initiative)", "slug": "fuer-eine-starke-schweiz-in-europa-europa-initiative", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" }
+  {
+    "id": "8c4b9e12-1f5e-4c3b-9f2a-1a2b3c4d5e01",
+    "title": "Ja zum Schutz vor missbräuchlichen Mieten (Mietpreis-Initiative)",
+    "slug": "ja-zum-schutz-vor-missbraeuchlichen-mieten-mietpreis-initiative",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "1c2d3e4f-5a6b-7c8d-9e01-23456789abcd",
+    "title": "Für bewilligungsfreie Solaranlagen",
+    "slug": "fuer-bewilligungsfreie-solaranlagen",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "2b3c4d5e-6f70-4819-a2b3-c4d5e6f78901",
+    "title": "Starke Gesellschaft und Wirtschaft dank Elternzeit (Familienzeit-Initiative)",
+    "slug": "starke-gesellschaft-und-wirtschaft-dank-elternzeit-familienzeit-initiative",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "3c4d5e6f-7081-492a-b3c4-d5e6f7890123",
+    "title": "Für eine volksorientierte Politik (No Lobbying)",
+    "slug": "fuer-eine-volksorientierte-politik-no-lobbying",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "4d5e6f70-8192-4a3b-c4d5-e6f789012345",
+    "title": "Für eine finanziell starke, souveräne und verantwortungsvolle Schweiz (Bitcoin-Initiative)",
+    "slug": "fuer-eine-finanziell-starke-souveraene-und-verantwortungsvolle-schweiz-bitcoin-initiative",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "5e6f7081-92a3-4b5c-d6e7-f89012345678",
+    "title": "Für einen nachhaltigen und zukunftsgerichteten Finanzplatz Schweiz (Finanzplatz-Initiative)",
+    "slug": "fuer-einen-nachhaltigen-und-zukunftsgerichteten-finanzplatz-schweiz-finanzplatz-initiative",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "6f708192-a3b4-4c5d-e6f7-890123456789",
+    "title": "Für eine direktdemokratische und wettbewerbsfähige Schweiz – keine EU-Passivmitgliedschaft (Kompass-Initiative)",
+    "slug": "fuer-eine-direktdemokratische-und-wettbewerbsfaehige-schweiz-keine-eu-passivmitgliedschaft-kompass-initiative",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "708192a3-b4c5-4d6e-f789-0123456789ab",
+    "title": "Für gentechnikfreie Lebensmittel (Lebensmittelschutz-Initiative)",
+    "slug": "fuer-gentechnikfreie-lebensmittel-lebensmittelschutz-initiative",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "8192a3b4-c5d6-4e7f-8901-23456789abcd",
+    "title": "Für den Beitritt der Schweiz zum Vertrag der Vereinten Nationen über das Verbot von Atomwaffen (Atomwaffenverbots-Initiative)",
+    "slug": "fuer-den-beitritt-der-schweiz-zum-vertrag-der-vereinten-nationen-ueber-das-verbot-von-atomwaffen-atomwaffenverbots-initiative",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "92a3b4c5-d6e7-4f89-0123-456789abcdef",
+    "title": "Für eine sichere Versorgung mit erneuerbaren Energien (Solarinitiative)",
+    "slug": "fuer-eine-sichere-versorgung-mit-erneuerbaren-energien-solarinitiative",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "a3b4c5d6-e7f8-4091-2345-6789abcdef01",
+    "title": "Asylmissbrauch stoppen! (Grenzschutzinitiative)",
+    "slug": "asylmissbrauch-stoppen-grenzschutzinitiative",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "b4c5d6e7-f809-41a2-3456-789abcdef012",
+    "title": "Cannabis-Legalisierung: Chancen für Wirtschaft, Gesundheit und Gleichberechtigung",
+    "slug": "cannabis-legalisierung-chancen-fuer-wirtschaft-gesundheit-und-gleichberechtigung",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "c5d6e7f8-091a-42b3-4567-89abcdef0123",
+    "title": "Für eine starke Schweiz in Europa (Europa-Initiative)",
+    "slug": "fuer-eine-starke-schweiz-in-europa-europa-initiative",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  }
 ]
