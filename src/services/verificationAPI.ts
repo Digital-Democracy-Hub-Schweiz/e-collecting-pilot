@@ -101,11 +101,6 @@ export class VerificationBusinessAPI {
                   "path": [
                     "$.birth_date"  
                   ]
-                },
-                {
-                  "path": [
-                    "$.age_over_18"
-                  ]
                 }
               ]
             }

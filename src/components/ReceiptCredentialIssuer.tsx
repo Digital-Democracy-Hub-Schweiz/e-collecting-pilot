@@ -200,11 +200,11 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
           setIsPollingVerification(false);
           
           // Extract data from wallet response
-          const walletData = result.wallet_response;
-          if (walletData?.credentialSubject) {
-            setFirstName(walletData.credentialSubject.firstName || "");
-            setLastName(walletData.credentialSubject.lastName || "");
-            setBirthDate(walletData.credentialSubject.birthDate || "");
+          const credentialData = result.wallet_response?.credential_subject_data;
+          if (credentialData) {
+            setFirstName(credentialData.given_name || "");
+            setLastName(credentialData.family_name || "");
+            setBirthDate(credentialData.birth_date || "");
           }
           
           toast({ title: "Identität erfolgreich verifiziert", description: "Daten wurden übernommen." });
