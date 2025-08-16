@@ -430,9 +430,9 @@ export function ReceiptCredentialIssuer({
                   </div>
                   
                   <div className="pt-4">
-                    <Button onClick={handleNextFromStep1} className="w-full h-12 text-base font-semibold">
+                    <button onClick={handleNextFromStep1} className="w-full inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base">
                       Weiter
-                    </Button>
+                    </button>
                   </div>
                 </div>}
 
@@ -465,13 +465,13 @@ export function ReceiptCredentialIssuer({
                   </div>
                   
                   <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <Button variant="secondary" onClick={() => setStep(1)} className="h-12 text-base">
+                    <button onClick={() => setStep(1)} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base">
                       Zurück
-                    </Button>
-                    <Button onClick={handleNextFromStep2} className="h-12 text-base font-semibold flex-1" disabled={isValidatingAddress}>
+                    </button>
+                    <button onClick={handleNextFromStep2} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base flex-1" disabled={isValidatingAddress}>
                       {isValidatingAddress && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} 
                       Weiter
-                    </Button>
+                    </button>
                   </div>
                 </div>}
 
@@ -514,13 +514,13 @@ export function ReceiptCredentialIssuer({
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3">
-                      <Button variant="secondary" onClick={() => setStep(2)} className="h-12 text-base">
+                      <button onClick={() => setStep(2)} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base">
                         Zurück
-                      </Button>
-                      <Button onClick={handleStartVerification} disabled={!acceptedLegalNotice || isCreatingVerification || isValidatingAddress} className="h-12 text-base font-semibold flex-1">
+                      </button>
+                      <button onClick={handleStartVerification} disabled={!acceptedLegalNotice || isCreatingVerification || isValidatingAddress} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base flex-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
                         Volksbegehren unterstützen
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 </div>}
@@ -548,9 +548,9 @@ export function ReceiptCredentialIssuer({
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <Button variant="secondary" onClick={() => setStep(3)} disabled={isPollingVerification} className="h-12 text-base">
+                    <button onClick={() => setStep(3)} disabled={isPollingVerification} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
                       Zurück
-                    </Button>
+                    </button>
                   </div>
                 </div>}
 
@@ -617,7 +617,7 @@ export function ReceiptCredentialIssuer({
           {step === 4 && issuedId && <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="secondary" className="h-12 text-base">Neu starten</Button>
+                  <button className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base">Neu starten</button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
@@ -632,9 +632,9 @@ export function ReceiptCredentialIssuer({
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-              <Button onClick={handleShare} className="h-12 text-base font-semibold flex-1">
+              <button onClick={handleShare} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base flex-1">
                 <Share2 className="w-4 h-4 mr-2" /> Volksbegehren teilen
-              </Button>
+              </button>
             </div>}
         </div>
       </div>
