@@ -307,15 +307,36 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
   };
 
   return (
-    <section aria-labelledby="issuer-section">
-      <Card className="shadow-card">
-        <CardHeader>
-          <CardTitle id="issuer-section" className="flex items-center gap-2">
+    <section aria-labelledby="issuer-section" className="bg-white border border-gray-200 rounded-lg">
+      <div className="p-8 space-y-6">
+        <div className="space-y-6">
+          <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">
             Volksbegehren elektronisch unterstützen
-          </CardTitle>
-          <CardDescription>Unterstützen Sie ein Volksbegehren sicher und einfach mit der Beta-ID des Bundes. </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+          </h1>
+          <div className="space-y-4 text-gray-700 leading-relaxed">
+            <p className="text-lg">
+              Das elektronische Sammeln von Unterschriften (E-Collecting) ermöglicht es Bürgerinnen und 
+              Bürgern, digitale Unterschriften für Volksinitiativen und Referenden zu leisten.
+            </p>
+            <p className="text-lg">
+              Unterstützen Sie ein Volksbegehren sicher und einfach mit der Beta-ID des Bundes. 
+              Dieser Pilot testet die technische Umsetzung und Sicherheit des elektronischen 
+              Sammelverfahrens für politische Rechte in der Schweiz.
+            </p>
+          </div>
+        </div>
+
+        {/* Action buttons matching screenshot style */}
+        <div className="flex flex-col sm:flex-row gap-4 pt-6">
+          <button className="inline-flex items-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium">
+            Mehr zur e-ID →
+          </button>
+          <button className="inline-flex items-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium">
+            Zu den Erklärvideos →
+          </button>
+        </div>
+
+        <div className="space-y-6 pt-8 border-t border-gray-200">
           {/* Success message spans full width */}
           {step === 4 && issuedId && (
             <div className="space-y-4">
@@ -650,8 +671,8 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
               </Button>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </section>
   );
 }
