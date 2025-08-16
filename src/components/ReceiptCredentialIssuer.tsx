@@ -5,39 +5,32 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { issuerBusinessAPI } from "@/services/issuerAPI";
 import { verificationBusinessAPI } from "@/services/verificationAPI";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
 import { ShieldCheck, QrCode, RefreshCw, Share2 } from "lucide-react";
-
 import initiatives from "@/data/initiatives.json";
 import referendums from "@/data/referendums.json";
-
-type Option = { id: string; title: string };
-
-export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "Initiative" | "Referendum"; id: string } }) {
-  const { toast } = useToast();
+type Option = {
+  id: string;
+  title: string;
+};
+export function ReceiptCredentialIssuer({
+  preselect
+}: {
+  preselect?: {
+    type: "Initiative" | "Referendum";
+    id: string;
+  };
+}) {
+  const {
+    toast
+  } = useToast();
   const [type, setType] = useState<"Initiative" | "Referendum" | "">("");
   const [selectedId, setSelectedId] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -48,9 +41,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
   const [houseNumber, setHouseNumber] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
-  const [statusListUrl, setStatusListUrl] = useState(
-    "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/3e6fc90b-bb80-4112-aa4e-940cda4616d7.jwt"
-  );
+  const [statusListUrl, setStatusListUrl] = useState("https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/3e6fc90b-bb80-4112-aa4e-940cda4616d7.jwt");
   const [isIssuing, setIsIssuing] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
   const [issuedId, setIssuedId] = useState<string | null>(null);
@@ -59,7 +50,11 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [isValidatingAddress, setIsValidatingAddress] = useState(false);
   const [municipality, setMunicipality] = useState<string | null>(null);
-  const [municipalityDetails, setMunicipalityDetails] = useState<{ town: string; canton: string; bfs: string } | null>(null);
+  const [municipalityDetails, setMunicipalityDetails] = useState<{
+    town: string;
+    canton: string;
+    bfs: string;
+  } | null>(null);
   const [verificationId, setVerificationId] = useState<string | null>(null);
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
   const [isCreatingVerification, setIsCreatingVerification] = useState(false);
@@ -73,26 +68,29 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
       if (preselect.id) setSelectedId(preselect.id);
     }
   }, [preselect]);
-
-  const options: Option[] = useMemo(() => (type === "Initiative" ? (initiatives as Option[]) : (referendums as Option[])), [type]);
-
-  const handleIssue = async (credentialData?: { given_name?: string; family_name?: string; birth_date?: string }) => {
+  const options: Option[] = useMemo(() => type === "Initiative" ? initiatives as Option[] : referendums as Option[], [type]);
+  const handleIssue = async (credentialData?: {
+    given_name?: string;
+    family_name?: string;
+    birth_date?: string;
+  }) => {
     const currentFirstName = credentialData?.given_name || firstName;
     const currentLastName = credentialData?.family_name || lastName;
     const currentBirthDate = credentialData?.birth_date || birthDate;
-    
     if (!type || !selectedId || !currentFirstName || !currentLastName) {
-      toast({ title: "Fehlende Angaben", description: "Bitte Typ, Titel, Vor- und Nachname ausfüllen.", variant: "destructive" });
+      toast({
+        title: "Fehlende Angaben",
+        description: "Bitte Typ, Titel, Vor- und Nachname ausfüllen.",
+        variant: "destructive"
+      });
       return;
     }
-
     setIsIssuing(true);
     setStatusResult(null);
     try {
-      const list = (type === "Initiative" ? (initiatives as Option[]) : (referendums as Option[]));
-      const selected = list.find((o) => o.id === selectedId);
+      const list = type === "Initiative" ? initiatives as Option[] : referendums as Option[];
+      const selected = list.find(o => o.id === selectedId);
       const selectedTitle = selected?.title || "";
-
       const payload = {
         metadata_credential_supported_id: ["e-collecting-pilot-receipt"],
         credential_subject_data: {
@@ -106,85 +104,104 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
         offer_validity_seconds: 86400,
         credential_valid_from: new Date().toISOString(),
         credential_valid_until: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-        status_lists: statusListUrl ? [statusListUrl] : undefined,
+        status_lists: statusListUrl ? [statusListUrl] : undefined
       };
-
       const res = await issuerBusinessAPI.issueCredential(payload);
       setIssuedId(res.id || (res as any).management_id || null);
       setOfferDeeplink(res.offer_deeplink || null);
-      toast({ title: "Credential erstellt", description: `ID: ${res.id || (res as any).management_id}` });
-      
+      toast({
+        title: "Credential erstellt",
+        description: `ID: ${res.id || (res as any).management_id}`
+      });
+
       // Set the verified data in state for summary display
       if (credentialData) {
         setFirstName(credentialData.given_name || firstName);
         setLastName(credentialData.family_name || lastName);
         setBirthDate(credentialData.birth_date || birthDate);
       }
-      
       if (municipalityDetails) {
-        const { town = "", canton = "", bfs = "" } = municipalityDetails;
+        const {
+          town = "",
+          canton = "",
+          bfs = ""
+        } = municipalityDetails;
         toast({
           title: "Willensbekundung gesendet",
-          description: `Die Willensbekundung wurde an ${town} ${canton} (BFS: ${bfs}) gesendet.`,
+          description: `Die Willensbekundung wurde an ${town} ${canton} (BFS: ${bfs}) gesendet.`
         });
       }
     } catch (e: any) {
-      toast({ title: "Fehler beim Ausstellen", description: e?.message ?? "Unbekannter Fehler", variant: "destructive" });
+      toast({
+        title: "Fehler beim Ausstellen",
+        description: e?.message ?? "Unbekannter Fehler",
+        variant: "destructive"
+      });
     } finally {
       setIsIssuing(false);
     }
   };
-
   const handleNextFromStep1 = () => {
     if (!type || !selectedId) {
-      toast({ title: "Fehlende Angaben", description: "Bitte Typ und Titel auswählen.", variant: "destructive" });
+      toast({
+        title: "Fehlende Angaben",
+        description: "Bitte Typ und Titel auswählen.",
+        variant: "destructive"
+      });
       return;
     }
     setStep(2);
   };
-
   const validateAddressInBackground = async () => {
     setIsValidatingAddress(true);
     try {
       if (!postalCode) throw new Error("PLZ fehlt");
-
       const resp = await fetch(`https://swisszip.api.ganti.dev/zip/${encodeURIComponent(postalCode)}`);
       if (!resp.ok) throw new Error(`PLZ-Abfrage fehlgeschlagen (${resp.status})`);
       const data = await resp.json();
-
-      const items: any[] = Array.isArray(data) ? data : (data?.results ?? data?.data ?? []);
+      const items: any[] = Array.isArray(data) ? data : data?.results ?? data?.data ?? [];
       if (!Array.isArray(items) || items.length === 0) throw new Error("Keine Treffer für diese PLZ gefunden");
-
       const best: any = items.reduce((acc: any, cur: any) => {
         const shareAcc = Number(acc?.["zip-share"] ?? acc?.zip_share ?? acc?.zipShare ?? acc?.share ?? 0);
         const shareCur = Number(cur?.["zip-share"] ?? cur?.zip_share ?? cur?.zipShare ?? cur?.share ?? 0);
         return shareCur > shareAcc ? cur : acc;
       }, items[0]);
-
       const bfs = String(best?.bfs ?? best?.["bfs-number"] ?? best?.bfsNumber ?? "");
       const town = String(best?.town ?? best?.municipality ?? best?.place ?? best?.name ?? "");
       const canton = String(best?.canton ?? best?.cantonShort ?? best?.canton_abbr ?? "");
-
-      setMunicipalityDetails({ town, canton, bfs });
+      setMunicipalityDetails({
+        town,
+        canton,
+        bfs
+      });
       setMunicipality(`${town} ${canton} ${bfs}`);
-      toast({ title: "Adresse geprüft", description: "Politische Gemeinde ermittelt." });
+      toast({
+        title: "Adresse geprüft",
+        description: "Politische Gemeinde ermittelt."
+      });
     } catch (e: any) {
-      toast({ title: "Adressprüfung fehlgeschlagen", description: e?.message ?? "Unbekannter Fehler", variant: "destructive" });
+      toast({
+        title: "Adressprüfung fehlgeschlagen",
+        description: e?.message ?? "Unbekannter Fehler",
+        variant: "destructive"
+      });
     } finally {
       setIsValidatingAddress(false);
     }
   };
-
   const handleNextFromStep2 = () => {
     if (!street || !houseNumber || !postalCode || !city) {
-      toast({ title: "Adresse unvollständig", description: "Bitte alle Adressfelder ausfüllen.", variant: "destructive" });
+      toast({
+        title: "Adresse unvollständig",
+        description: "Bitte alle Adressfelder ausfüllen.",
+        variant: "destructive"
+      });
       return;
     }
     // Prüfung im Hintergrund starten und direkt zu Schritt 3 wechseln
     validateAddressInBackground();
     setStep(3);
   };
-
   const handleStartVerification = async () => {
     setIsCreatingVerification(true);
     try {
@@ -194,14 +211,20 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
       setStep(4);
       // Start polling for verification result
       startPollingVerification(verification.id);
-      toast({ title: "Verifikation gestartet", description: "Scannen Sie den QR-Code mit Ihrer Swiyu-Wallet App." });
+      toast({
+        title: "Verifikation gestartet",
+        description: "Scannen Sie den QR-Code mit Ihrer Swiyu-Wallet App."
+      });
     } catch (e: any) {
-      toast({ title: "Verifikation fehlgeschlagen", description: e?.message ?? "Unbekannter Fehler", variant: "destructive" });
+      toast({
+        title: "Verifikation fehlgeschlagen",
+        description: e?.message ?? "Unbekannter Fehler",
+        variant: "destructive"
+      });
     } finally {
       setIsCreatingVerification(false);
     }
   };
-
   const startPollingVerification = (verificationId: string) => {
     setIsPollingVerification(true);
     const pollInterval = setInterval(async () => {
@@ -210,7 +233,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
         if (result.state === 'SUCCESS' && result.wallet_response) {
           clearInterval(pollInterval);
           setIsPollingVerification(false);
-          
+
           // Extract data from wallet response
           const credentialData = result.wallet_response?.credential_subject_data;
           if (credentialData) {
@@ -218,15 +241,21 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
             setLastName(credentialData.family_name || "");
             setBirthDate(credentialData.birth_date || "");
           }
-          
-          toast({ title: "Identität erfolgreich verifiziert", description: "Daten wurden übernommen." });
-          
+          toast({
+            title: "Identität erfolgreich verifiziert",
+            description: "Daten wurden übernommen."
+          });
+
           // Automatically issue the credential with the verified data
           handleIssue(credentialData);
         } else if (result.state === 'FAILED') {
           clearInterval(pollInterval);
           setIsPollingVerification(false);
-          toast({ title: "Verification fehlgeschlagen", description: "Bitte versuchen Sie es erneut.", variant: "destructive" });
+          toast({
+            title: "Verification fehlgeschlagen",
+            description: "Bitte versuchen Sie es erneut.",
+            variant: "destructive"
+          });
         }
       } catch (e) {
         console.error('Polling error:', e);
@@ -239,42 +268,59 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
       setIsPollingVerification(false);
     }, 300000);
   };
-
   const handleCheckStatus = async () => {
     if (!issuedId) return;
     setIsChecking(true);
     try {
       const res = await issuerBusinessAPI.checkCredentialStatus(issuedId);
       setStatusResult(res);
-      toast({ title: "Status abgefragt", description: "Statusinformationen aktualisiert." });
+      toast({
+        title: "Status abgefragt",
+        description: "Statusinformationen aktualisiert."
+      });
     } catch (e: any) {
-      toast({ title: "Statusabfrage fehlgeschlagen", description: e?.message ?? "Unbekannter Fehler", variant: "destructive" });
+      toast({
+        title: "Statusabfrage fehlgeschlagen",
+        description: e?.message ?? "Unbekannter Fehler",
+        variant: "destructive"
+      });
     } finally {
       setIsChecking(false);
     }
   };
-
   const handleShare = async () => {
     try {
       if (!type || !selectedId) return;
-      const list = (type === "Initiative" ? (initiatives as Option[]) : (referendums as Option[]));
-      const selected = list.find((o) => o.id === selectedId);
+      const list = type === "Initiative" ? initiatives as Option[] : referendums as Option[];
+      const selected = list.find(o => o.id === selectedId);
       const title = selected?.title || (type === "Initiative" ? "Initiative" : "Referendum");
       const path = `/${type === "Initiative" ? "initiative" : "referendum"}/${selectedId}`;
       const url = `${window.location.origin}${path}`;
-
       if (navigator.share) {
-        await navigator.share({ title: title, text: `Unterstütze: ${title}`, url });
-        toast({ title: "Geteilt", description: "Freigabedialog geöffnet." });
+        await navigator.share({
+          title: title,
+          text: `Unterstütze: ${title}`,
+          url
+        });
+        toast({
+          title: "Geteilt",
+          description: "Freigabedialog geöffnet."
+        });
       } else {
         await navigator.clipboard.writeText(url);
-        toast({ title: "Link kopiert", description: url });
+        toast({
+          title: "Link kopiert",
+          description: url
+        });
       }
     } catch (e: any) {
-      toast({ title: "Teilen fehlgeschlagen", description: e?.message ?? "Unbekannter Fehler", variant: "destructive" });
+      toast({
+        title: "Teilen fehlgeschlagen",
+        description: e?.message ?? "Unbekannter Fehler",
+        variant: "destructive"
+      });
     }
   };
-
   const resetForm = () => {
     setType("");
     setSelectedId("");
@@ -286,9 +332,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
     setHouseNumber("");
     setPostalCode("");
     setCity("");
-    setStatusListUrl(
-      "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/df7f2a3d-86bc-4002-aa81-9e147f340453.jwt"
-    );
+    setStatusListUrl("https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/df7f2a3d-86bc-4002-aa81-9e147f340453.jwt");
     setIsIssuing(false);
     setIsChecking(false);
     setIssuedId(null);
@@ -303,11 +347,12 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
     setIsCreatingVerification(false);
     setIsPollingVerification(false);
     setAcceptedLegalNotice(false);
-    toast({ title: "Zurückgesetzt", description: "Formular wurde geleert." });
+    toast({
+      title: "Zurückgesetzt",
+      description: "Formular wurde geleert."
+    });
   };
-
-  return (
-    <section aria-labelledby="issuer-section" className="bg-white border border-gray-200 rounded-lg">
+  return <section aria-labelledby="issuer-section" className="bg-white border border-gray-200 rounded-lg">
       <div className="p-8 space-y-6">
         <div className="space-y-6">
           <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">
@@ -318,11 +363,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
               Das elektronische Sammeln von Unterschriften (E-Collecting) ermöglicht es Bürgerinnen und 
               Bürgern, digitale Unterschriften für Volksinitiativen und Referenden zu leisten.
             </p>
-            <p className="text-lg">
-              Unterstützen Sie ein Volksbegehren sicher und einfach mit der Beta-ID des Bundes. 
-              Dieser Pilot testet die technische Umsetzung und Sicherheit des elektronischen 
-              Sammelverfahrens für politische Rechte in der Schweiz.
-            </p>
+            <p className="text-lg">Unterstützen Sie ein Volksbegehren sicher und einfach mit der Beta-ID des Bundes. </p>
           </div>
         </div>
 
@@ -338,8 +379,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
 
         <div className="space-y-6 pt-8 border-t border-gray-200">
           {/* Success message spans full width */}
-          {step === 4 && issuedId && (
-            <div className="space-y-4">
+          {step === 4 && issuedId && <div className="space-y-4">
               <div className="flex items-center gap-2 mb-4">
                 <ShieldCheck className="w-6 h-6 text-green-600" />
                 <h3 className="text-lg font-semibold text-green-600">Erfolgreich unterstützt!</h3>
@@ -353,8 +393,7 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                   Ihre Willensbekundung wurde digital erfasst und an die zuständige politische Gemeinde übermittelt.
                 </p>
               </div>
-            </div>
-          )}
+            </div>}
 
           <div className={cn("grid gap-6", issuedId ? "md:grid-cols-2" : "")}>
             <div className={cn("space-y-4", !issuedId && "md:max-w-2xl mx-auto")}>
@@ -362,11 +401,10 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                 <Badge variant="outline" className="text-xs">Schritt {step} von 4</Badge>
               </div>
 
-              {step === 1 && (
-                <div className="space-y-6">
+              {step === 1 && <div className="space-y-6">
                   <div className="space-y-4">
                     <Label className="text-base font-semibold">Typ wählen</Label>
-                    <Select value={type} onValueChange={(v) => setType(v as any)}>
+                    <Select value={type} onValueChange={v => setType(v as any)}>
                       <SelectTrigger className="h-12 text-base">
                         <SelectValue placeholder="Wählen Sie Initiative oder Referendum" />
                       </SelectTrigger>
@@ -384,11 +422,9 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                         <SelectValue placeholder={type ? "Titel auswählen" : "Zuerst Typ wählen"} />
                       </SelectTrigger>
                       <SelectContent className="max-h-[300px] overflow-auto z-50 bg-background border shadow-lg w-full min-w-[300px]">
-                        {options.map((o) => (
-                          <SelectItem key={o.id} value={o.id} className="text-sm py-3 leading-relaxed">
+                        {options.map(o => <SelectItem key={o.id} value={o.id} className="text-sm py-3 leading-relaxed">
                             {o.title}
-                          </SelectItem>
-                        ))}
+                          </SelectItem>)}
                       </SelectContent>
                     </Select>
                   </div>
@@ -398,53 +434,31 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                       Weiter
                     </Button>
                   </div>
-                </div>
-              )}
+                </div>}
 
-              {step === 2 && (
-                <div className="space-y-6">
+              {step === 2 && <div className="space-y-6">
                   <div>
                     <h3 className="text-lg font-semibold mb-4">Adresse eingeben</h3>
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label className="text-base font-medium">Strasse</Label>
-                          <Input 
-                            value={street} 
-                            onChange={(e) => setStreet(e.target.value)} 
-                            placeholder="z.B. Bahnhofstrasse" 
-                            className="h-12 text-base"
-                          />
+                          <Input value={street} onChange={e => setStreet(e.target.value)} placeholder="z.B. Bahnhofstrasse" className="h-12 text-base" />
                         </div>
                         <div className="space-y-2">
                           <Label className="text-base font-medium">Hausnummer</Label>
-                          <Input 
-                            value={houseNumber} 
-                            onChange={(e) => setHouseNumber(e.target.value)} 
-                            placeholder="z.B. 10A" 
-                            className="h-12 text-base"
-                          />
+                          <Input value={houseNumber} onChange={e => setHouseNumber(e.target.value)} placeholder="z.B. 10A" className="h-12 text-base" />
                         </div>
                       </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label className="text-base font-medium">Postleitzahl</Label>
-                          <Input 
-                            value={postalCode} 
-                            onChange={(e) => setPostalCode(e.target.value)} 
-                            placeholder="z.B. 8001" 
-                            className="h-12 text-base"
-                          />
+                          <Input value={postalCode} onChange={e => setPostalCode(e.target.value)} placeholder="z.B. 8001" className="h-12 text-base" />
                         </div>
                         <div className="space-y-2">
                           <Label className="text-base font-medium">Ort</Label>
-                          <Input 
-                            value={city} 
-                            onChange={(e) => setCity(e.target.value)} 
-                            placeholder="z.B. Zürich" 
-                            className="h-12 text-base"
-                          />
+                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder="z.B. Zürich" className="h-12 text-base" />
                         </div>
                       </div>
                     </div>
@@ -454,20 +468,14 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                     <Button variant="secondary" onClick={() => setStep(1)} className="h-12 text-base">
                       Zurück
                     </Button>
-                    <Button 
-                      onClick={handleNextFromStep2} 
-                      className="h-12 text-base font-semibold flex-1" 
-                      disabled={isValidatingAddress}
-                    >
+                    <Button onClick={handleNextFromStep2} className="h-12 text-base font-semibold flex-1" disabled={isValidatingAddress}>
                       {isValidatingAddress && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} 
                       Weiter
                     </Button>
                   </div>
-                </div>
-              )}
+                </div>}
 
-              {step === 3 && (
-                <div className="space-y-6">
+              {step === 3 && <div className="space-y-6">
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Übersicht Ihrer Angaben</h3>
                     
@@ -487,32 +495,20 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                         </p>
                       </div>
 
-                      {municipality && (
-                        <div>
+                      {municipality && <div>
                           <Label className="text-sm font-medium text-muted-foreground">Politische Gemeinde</Label>
                           <p className="text-sm text-primary font-medium">
                             {municipality}
-                            {isValidatingAddress && (
-                              <RefreshCw className="w-3 h-3 ml-2 inline animate-spin" />
-                            )}
+                            {isValidatingAddress && <RefreshCw className="w-3 h-3 ml-2 inline animate-spin" />}
                           </p>
-                        </div>
-                      )}
+                        </div>}
                     </div>
                   </div>
 
                   <div className="space-y-4 pt-4">
                     <div className="flex items-start space-x-3 p-4 border rounded-lg bg-muted/20">
-                      <Checkbox 
-                        id="legal-notice" 
-                        checked={acceptedLegalNotice}
-                        onCheckedChange={(checked) => setAcceptedLegalNotice(checked === true)}
-                        className="mt-1"
-                      />
-                      <Label 
-                        htmlFor="legal-notice" 
-                        className="text-sm leading-relaxed cursor-pointer"
-                      >
+                      <Checkbox id="legal-notice" checked={acceptedLegalNotice} onCheckedChange={checked => setAcceptedLegalNotice(checked === true)} className="mt-1" />
+                      <Label htmlFor="legal-notice" className="text-sm leading-relaxed cursor-pointer">
                         Wer bei einer Unterschriftensammlung besticht oder sich bestechen lässt oder wer das Ergebnis einer Unterschriftensammlung für eine Volksinitiative fälscht, macht sich strafbar nach Art. 281 beziehungsweise nach Art. 282 des Strafgesetzbuches.
                       </Label>
                     </div>
@@ -521,49 +517,34 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                       <Button variant="secondary" onClick={() => setStep(2)} className="h-12 text-base">
                         Zurück
                       </Button>
-                      <Button 
-                        onClick={handleStartVerification} 
-                        disabled={!acceptedLegalNotice || isCreatingVerification || isValidatingAddress}
-                        className="h-12 text-base font-semibold flex-1"
-                      >
+                      <Button onClick={handleStartVerification} disabled={!acceptedLegalNotice || isCreatingVerification || isValidatingAddress} className="h-12 text-base font-semibold flex-1">
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
                         Volksbegehren unterstützen
                       </Button>
                     </div>
                   </div>
-                </div>
-              )}
+                </div>}
 
-              {step === 4 && !issuedId && (
-                <div className="space-y-6">
+              {step === 4 && !issuedId && <div className="space-y-6">
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Verifikation mit Swiyu-Wallet</h3>
                     <p className="text-sm text-muted-foreground">
                       Scannen Sie den QR-Code mit Ihrer Swiyu-Wallet App um Ihre Identität zu verifizieren.
                     </p>
 
-                    {verificationUrl && (
-                      <div className="space-y-4">
+                    {verificationUrl && <div className="space-y-4">
                         <div className="bg-background p-6 rounded border flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={verificationUrl} size={192} />
-                          <a
-                            href={verificationUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs text-muted-foreground underline break-all"
-                          >
+                          <a href={verificationUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground underline break-all">
                             {verificationUrl}
                           </a>
                         </div>
 
-                        {isPollingVerification && (
-                          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                        {isPollingVerification && <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <RefreshCw className="w-4 h-4 animate-spin" />
                             Warten auf Verifikation der Identität mittels der Swiyu-Wallet App...
-                          </div>
-                        )}
-                      </div>
-                    )}
+                          </div>}
+                      </div>}
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3 pt-4">
@@ -571,11 +552,9 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                       Zurück
                     </Button>
                   </div>
-                </div>
-              )}
+                </div>}
 
-              {step === 4 && issuedId && (
-                <div className="space-y-6">
+              {step === 4 && issuedId && <div className="space-y-6">
                    <div className="bg-muted/50 p-4 rounded-lg space-y-3">
                      <h4 className="font-semibold text-sm">Zusammenfassung Ihrer Angaben:</h4>
                      
@@ -604,20 +583,16 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                          <span className="text-muted-foreground">Adresse:</span>
                          <span className="font-medium">{street} {houseNumber}, {postalCode} {city}</span>
                        </div>
-                       {municipalityDetails && (
-                         <div className="flex justify-between">
+                       {municipalityDetails && <div className="flex justify-between">
                            <span className="text-muted-foreground">Politische Gemeinde:</span>
                            <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
-                         </div>
-                       )}
+                         </div>}
                      </div>
                    </div>
-                 </div>
-               )}
+                 </div>}
             </div>
 
-            {issuedId && (
-              <div className="space-y-4">
+            {issuedId && <div className="space-y-4">
                 <div className="space-y-2">
                   <Label>Bestätigung:</Label>
                   <p className="text-sm text-muted-foreground mb-4">
@@ -625,30 +600,21 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
                   </p>
                   <div className="space-y-4">
                     
-                     {offerDeeplink && (
-                      <div className="space-y-4">
+                     {offerDeeplink && <div className="space-y-4">
                         <div className="bg-background p-4 rounded border flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={offerDeeplink} size={192} />
-                          <a
-                            href={offerDeeplink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary underline font-medium"
-                          >
+                          <a href={offerDeeplink} target="_blank" rel="noopener noreferrer" className="text-primary underline font-medium">
                             In App öffnen
                           </a>
                         </div>
-                      </div>
-                    )}
+                      </div>}
                   </div>
                 </div>
-              </div>
-            )}
+              </div>}
           </div>
 
           {/* Action buttons span full width below columns */}
-          {step === 4 && issuedId && (
-            <div className="flex flex-col sm:flex-row gap-3 pt-4">
+          {step === 4 && issuedId && <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="secondary" className="h-12 text-base">Neu starten</Button>
@@ -669,10 +635,8 @@ export function ReceiptCredentialIssuer({ preselect }: { preselect?: { type: "In
               <Button onClick={handleShare} className="h-12 text-base font-semibold flex-1">
                 <Share2 className="w-4 h-4 mr-2" /> Volksbegehren teilen
               </Button>
-            </div>
-          )}
+            </div>}
         </div>
       </div>
-    </section>
-  );
+    </section>;
 }
