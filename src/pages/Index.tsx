@@ -49,56 +49,55 @@ const Index = () => {
       type: "Referendum" as const,
     })),
   ];
-  return <div className="min-h-screen bg-gradient-secondary flex flex-col">
+  return <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="bg-background border-b shadow-card">
-        <div className="container mx-auto px-4 py-6">
+      <header className="header-gradient text-white shadow-elegant">
+        <div className="container mx-auto px-6 py-8">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              
+            <div className="flex items-center gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-foreground">E-Collecting Pilot</h1>
-                <p className="text-muted-foreground">🚀 Versuchsbetrieb für die elektronische Unterstützung von Volksbegehren</p>
+                <h1 className="text-3xl font-bold tracking-tight">E-Collecting Pilot</h1>
+                <p className="text-white/90 text-lg mt-2">Versuchsbetrieb für die elektronische Unterstützung von Volksbegehren</p>
               </div>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              
-              
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 flex-grow">
-        <div className="grid gap-8">
+      <main className="container mx-auto px-6 py-12 flex-grow">
+        <div className="grid gap-12">
           {/* Receipt Credential Issuer with Info Box */}
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <ReceiptCredentialIssuer preselect={preselect} />
             </div>
             <div className="lg:col-span-1">
-              <div className="bg-muted/30 border border-muted rounded-lg p-6 space-y-4">
-                <h3 className="text-lg font-semibold text-foreground">Beta-Hinweis</h3>
-                <p className="text-sm text-muted-foreground">
-                  Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die Swiyu-Wallet App erstellt werden.
-                </p>
-                <a 
-                  href="https://www.bcs.admin.ch/bcs-web/#/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4"
-                >
-                  Beta-ID ausstellen
-                </a>
-                <p className="text-sm text-muted-foreground">
-                 Alle Inhalte und Funktionen dieser Seite inklusive Services sind nur für Demonstrationszwecke gedacht.
-                </p>
-                <h3 className="text-lg font-semibold text-foreground">Initiativen und Referenden</h3>
-                <p className="text-sm text-muted-foreground">
-                Dieser Pilot verwendet die Initiativen und Referenden aus der Datenbank des Bundes und können unter umständen nicht vollständig oder aktuell sein.
-                Weitere Inforamtionen zu laufenden Referenden und Initiativen finden Sie auf der Webseite des Bundes (<a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/referenden.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline underline-offset-4">Referenden</a> und <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/volksinitiativen.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline underline-offset-4">Volksinitiativen</a>).
-                </p>
+              <div className="info-box space-y-6">
+                <div className="space-y-3">
+                  <h3 className="text-xl font-semibold text-foreground">Beta-Hinweis</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die Swiyu-Wallet App erstellt werden.
+                  </p>
+                  <a 
+                    href="https://www.bcs.admin.ch/bcs-web/#/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-primary hover:text-primary/80 underline underline-offset-4 font-medium transition-smooth"
+                  >
+                    Beta-ID ausstellen
+                  </a>
+                  <p className="text-sm text-muted-foreground">
+                   Alle Inhalte und Funktionen dieser Seite inklusive Services sind nur für Demonstrationszwecke gedacht.
+                  </p>
+                </div>
+                <div className="space-y-3 pt-4 border-t border-border">
+                  <h3 className="text-xl font-semibold text-foreground">Initiativen und Referenden</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                  Dieser Pilot verwendet die Initiativen und Referenden aus der Datenbank des Bundes und können unter umständen nicht vollständig oder aktuell sein.
+                  Weitere Inforamtionen zu laufenden Referenden und Initiativen finden Sie auf der Webseite des Bundes (<a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/referenden.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline underline-offset-4 font-medium transition-smooth">Referenden</a> und <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/volksinitiativen.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline underline-offset-4 font-medium transition-smooth">Volksinitiativen</a>).
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -107,7 +106,7 @@ const Index = () => {
       </main>
 
       {/* Initiatives and Referendums Carousel */}
-      <div className="border-t">
+      <div className="border-t border-border bg-secondary/30">
         <Gallery6 
           heading="Verfügbare Initiativen und Referenden"
           items={carouselItems}
@@ -115,64 +114,64 @@ const Index = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-background border-t mt-auto">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center space-y-3">
-            <div className="flex items-center justify-center gap-4 flex-wrap">
+      <footer className="bg-foreground text-background mt-auto">
+        <div className="container mx-auto px-6 py-12">
+          <div className="text-center space-y-6">
+            <div className="flex items-center justify-center gap-6 flex-wrap">
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Verifier-Mgmt:</span>
+                <span className="text-sm text-background/70">Verifier-Mgmt:</span>
                 {healthLoading ? (
-                  <span className="text-sm text-muted-foreground">Lädt...</span>
+                  <span className="text-sm text-background/70">Lädt...</span>
                 ) : (
                   <span className={`text-sm font-medium ${
-                    healthStatus?.verifierManagement?.status === "UP" ? "text-green-600" : "text-destructive"
+                    healthStatus?.verifierManagement?.status === "UP" ? "text-green-400" : "text-red-400"
                   }`}>
                     {healthStatus?.verifierManagement?.status || "Offline"}
                   </span>
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Issuer-Mgmt:</span>
+                <span className="text-sm text-background/70">Issuer-Mgmt:</span>
                 {healthLoading ? (
-                  <span className="text-sm text-muted-foreground">Lädt...</span>
+                  <span className="text-sm text-background/70">Lädt...</span>
                 ) : (
                   <span className={`text-sm font-medium ${
-                    healthStatus?.issuerManagement?.status === "UP" ? "text-green-600" : "text-destructive"
+                    healthStatus?.issuerManagement?.status === "UP" ? "text-green-400" : "text-red-400"
                   }`}>
                     {healthStatus?.issuerManagement?.status || "Offline"}
                   </span>
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Issuer-OID4VCI:</span>
+                <span className="text-sm text-background/70">Issuer-OID4VCI:</span>
                 {healthLoading ? (
-                  <span className="text-sm text-muted-foreground">Lädt...</span>
+                  <span className="text-sm text-background/70">Lädt...</span>
                 ) : (
                   <span className={`text-sm font-medium ${
-                    healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-600" : "text-destructive"
+                    healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-400" : "text-red-400"
                   }`}>
                     {healthStatus?.issuerOid4vci?.status || "Offline"}
                   </span>
                 )}
               </div>
             </div>
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center justify-center gap-4">
               <a 
                 href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="text-background/70 hover:text-background transition-colors"
                 aria-label="GitHub Repository"
               >
-                <Github size={20} />
+                <Github size={24} />
               </a>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-background/80">
                 made with ❤️ by{" "}
                 <a 
                   href="https://www.digitaldemocracyhub.ch/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-primary hover:text-primary/80 underline underline-offset-4"
+                  className="text-background hover:text-background/80 underline underline-offset-4 font-medium transition-smooth"
                 >
                   Digital Democracy Hub Schweiz
                 </a>{" "}
