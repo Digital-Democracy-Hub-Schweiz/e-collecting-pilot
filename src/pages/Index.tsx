@@ -118,17 +118,17 @@ const Index = () => {
       <footer className="bg-[hsl(var(--footer-background))] text-[hsl(var(--footer-text))]">
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-            {/* Über die e-ID Section */}
+            {/* Über E-Collecting Section */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">Über die e-ID</h3>
+              <h3 className="text-lg font-semibold mb-4">Über E-Collecting</h3>
               <p className="text-sm text-[hsl(var(--footer-text-muted))] leading-relaxed">
-                Die staatlich anerkannte elektronische Identität (e-ID) ermöglicht es Schweizerinnen und 
-                Schweizern sowie Personen mit Aufenthaltsberechtigung in der Schweiz mittels eines elektronischen 
-                Nachweises ihre Identität zu belegen. Der Bund betreibt die dazu erforderliche 
-                Vertrauensinfrastruktur und ist Aussteller der e-ID. Hier finden Sie wichtige Informationen dazu.
+                Das elektronische Sammeln von Unterschriften (E-Collecting) ermöglicht es Bürgerinnen und 
+                Bürgern, digitale Unterschriften für Volksinitiativen und Referenden zu leisten. Dieser Pilot 
+                testet die technische Umsetzung und Sicherheit des elektronischen Sammelverfahrens für 
+                politische Rechte in der Schweiz. Hier finden Sie wichtige Informationen zum Pilotprojekt.
               </p>
               <p className="text-sm text-[hsl(var(--footer-text-muted))] mt-6">
-                © e-ID
+                © E-Collecting Pilot
               </p>
             </div>
 
