@@ -71,50 +71,52 @@ const Index = () => {
         </div>
 
         {/* Main header */}
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              {/* Swiss Cross Logo Placeholder */}
-              <div className="w-12 h-12 bg-white rounded flex items-center justify-center">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-red-600">
-                  <path d="M12 2v8H4v4h8v8h4v-8h8V10h-8V2h-4z"/>
-                </svg>
+        <div className="bg-white">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                {/* Swiss Cross Logo Placeholder */}
+                <div className="w-12 h-12 bg-white rounded flex items-center justify-center border border-gray-200">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-red-600">
+                    <path d="M12 2v8H4v4h8v8h4v-8h8V10h-8V2h-4z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h1 className="text-xl font-medium text-[hsl(var(--gov-nav-text))]">
+                    Elektronische Identität und Vertrauensinfrastruktur
+                  </h1>
+                  <p className="text-sm text-[hsl(var(--muted-foreground))]">
+                    E-Collecting Pilot - Versuchsbetrieb für die elektronische Unterstützung von Volksbegehren
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-xl font-medium text-[hsl(var(--gov-header-text))]">
-                  Elektronische Identität und Vertrauensinfrastruktur
-                </h1>
-                <p className="text-sm text-[hsl(var(--gov-header-text-muted))]">
-                  E-Collecting Pilot - Versuchsbetrieb für die elektronische Unterstützung von Volksbegehren
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-6">
-              <nav className="hidden md:flex items-center gap-6">
-                <a href="#" className="text-sm text-[hsl(var(--gov-header-text))] hover:text-[hsl(var(--gov-header-text))]/80 transition-colors">
-                  Blog
-                </a>
-                <a href="#" className="text-sm text-[hsl(var(--gov-header-text))] hover:text-[hsl(var(--gov-header-text))]/80 transition-colors">
-                  Hilfe & FAQ
-                </a>
-                <a href="#" className="text-sm text-[hsl(var(--gov-header-text))] hover:text-[hsl(var(--gov-header-text))]/80 transition-colors">
-                  Über uns
-                </a>
-                <div className="relative">
-                  <button className="text-sm text-[hsl(var(--gov-header-text))] hover:text-[hsl(var(--gov-header-text))]/80 transition-colors flex items-center gap-1">
-                    Mehr
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-                      <path d="M6 8L2 4h8l-4 4z"/>
+              <div className="flex items-center gap-6">
+                <nav className="hidden md:flex items-center gap-6">
+                  <a href="#" className="text-sm text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                    Blog
+                  </a>
+                  <a href="#" className="text-sm text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                    Hilfe & FAQ
+                  </a>
+                  <a href="#" className="text-sm text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                    Über uns
+                  </a>
+                  <div className="relative">
+                    <button className="text-sm text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors flex items-center gap-1">
+                      Mehr
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                        <path d="M6 8L2 4h8l-4 4z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </nav>
+                <div className="flex items-center gap-2">
+                  <button className="p-2 hover:bg-gray-100 rounded transition-colors text-[hsl(var(--gov-nav-text))]">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                     </svg>
                   </button>
                 </div>
-              </nav>
-              <div className="flex items-center gap-2">
-                <button className="p-2 hover:bg-white/10 rounded transition-colors">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                  </svg>
-                </button>
               </div>
             </div>
           </div>
