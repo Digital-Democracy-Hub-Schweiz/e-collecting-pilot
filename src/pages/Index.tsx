@@ -115,69 +115,140 @@ const Index = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-background border-t mt-auto">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center space-y-3">
-            <div className="flex items-center justify-center gap-4 flex-wrap">
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Verifier-Mgmt:</span>
-                {healthLoading ? (
-                  <span className="text-sm text-muted-foreground">Lädt...</span>
-                ) : (
-                  <span className={`text-sm font-medium ${
-                    healthStatus?.verifierManagement?.status === "UP" ? "text-green-600" : "text-destructive"
-                  }`}>
-                    {healthStatus?.verifierManagement?.status || "Offline"}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Issuer-Mgmt:</span>
-                {healthLoading ? (
-                  <span className="text-sm text-muted-foreground">Lädt...</span>
-                ) : (
-                  <span className={`text-sm font-medium ${
-                    healthStatus?.issuerManagement?.status === "UP" ? "text-green-600" : "text-destructive"
-                  }`}>
-                    {healthStatus?.issuerManagement?.status || "Offline"}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Issuer-OID4VCI:</span>
-                {healthLoading ? (
-                  <span className="text-sm text-muted-foreground">Lädt...</span>
-                ) : (
-                  <span className={`text-sm font-medium ${
-                    healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-600" : "text-destructive"
-                  }`}>
-                    {healthStatus?.issuerOid4vci?.status || "Offline"}
-                  </span>
-                )}
+      <footer className="bg-[hsl(var(--footer-background))] text-[hsl(var(--footer-text))]">
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+            {/* Über die e-ID Section */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold mb-4">Über die e-ID</h3>
+              <p className="text-sm text-[hsl(var(--footer-text-muted))] leading-relaxed">
+                Die staatlich anerkannte elektronische Identität (e-ID) ermöglicht es Schweizerinnen und 
+                Schweizern sowie Personen mit Aufenthaltsberechtigung in der Schweiz mittels eines elektronischen 
+                Nachweises ihre Identität zu belegen. Der Bund betreibt die dazu erforderliche 
+                Vertrauensinfrastruktur und ist Aussteller der e-ID. Hier finden Sie wichtige Informationen dazu.
+              </p>
+              <p className="text-sm text-[hsl(var(--footer-text-muted))] mt-6">
+                © e-ID
+              </p>
+            </div>
+
+            {/* Bleiben Sie informiert Section */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold mb-4">Bleiben Sie informiert</h3>
+              <div className="space-y-3">
+                <a 
+                  href="#" 
+                  className="flex items-center text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors"
+                >
+                  📺 Youtube
+                </a>
+                <button className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-[hsl(var(--footer-text-muted))] text-[hsl(var(--footer-text))] text-sm rounded hover:bg-[hsl(var(--footer-text))]/10 transition-colors">
+                  Newsletter abonnieren
+                  <span>→</span>
+                </button>
               </div>
             </div>
-            <div className="flex items-center justify-center gap-3">
-              <a 
-                href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-                aria-label="GitHub Repository"
-              >
-                <Github size={20} />
-              </a>
-              <p className="text-sm text-muted-foreground">
-                made with ❤️ by{" "}
+
+            {/* Weitere Informationen Section */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold mb-4">Weitere Informationen</h3>
+              <div className="space-y-3">
                 <a 
-                  href="https://www.digitaldemocracyhub.ch/" 
+                  href="#" 
+                  className="flex items-center justify-between text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors border-b border-[hsl(var(--footer-text-muted))]/20 pb-2"
+                >
+                  Blog
+                  <span>→</span>
+                </a>
+                <a 
+                  href="#" 
+                  className="flex items-center justify-between text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors border-b border-[hsl(var(--footer-text-muted))]/20 pb-2"
+                >
+                  Kontakt
+                  <span>→</span>
+                </a>
+                <a 
+                  href="#" 
+                  className="flex items-center justify-between text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors border-b border-[hsl(var(--footer-text-muted))]/20 pb-2"
+                >
+                  Hilfe
+                  <span>→</span>
+                </a>
+                <a 
+                  href="#" 
+                  className="flex items-center justify-between text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors border-b border-[hsl(var(--footer-text-muted))]/20 pb-2"
+                >
+                  Stellen, Ausschreibungen und Vergaben
+                  <span>→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Status and GitHub info */}
+          <div className="border-t border-[hsl(var(--footer-text-muted))]/20 mt-8 pt-8">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-4 flex-wrap text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="text-[hsl(var(--footer-text-muted))]">Verifier-Mgmt:</span>
+                  {healthLoading ? (
+                    <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span>
+                  ) : (
+                    <span className={`font-medium ${
+                      healthStatus?.verifierManagement?.status === "UP" ? "text-green-400" : "text-red-400"
+                    }`}>
+                      {healthStatus?.verifierManagement?.status || "Offline"}
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[hsl(var(--footer-text-muted))]">Issuer-Mgmt:</span>
+                  {healthLoading ? (
+                    <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span>
+                  ) : (
+                    <span className={`font-medium ${
+                      healthStatus?.issuerManagement?.status === "UP" ? "text-green-400" : "text-red-400"
+                    }`}>
+                      {healthStatus?.issuerManagement?.status || "Offline"}
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[hsl(var(--footer-text-muted))]">Issuer-OID4VCI:</span>
+                  {healthLoading ? (
+                    <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span>
+                  ) : (
+                    <span className={`font-medium ${
+                      healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-400" : "text-red-400"
+                    }`}>
+                      {healthStatus?.issuerOid4vci?.status || "Offline"}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <a 
+                  href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-primary hover:text-primary/80 underline underline-offset-4"
+                  className="text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors"
+                  aria-label="GitHub Repository"
                 >
-                  Digital Democracy Hub Schweiz
-                </a>{" "}
-                © 2025
-              </p>
+                  <Github size={20} />
+                </a>
+                <p className="text-sm text-[hsl(var(--footer-text-muted))]">
+                  made with ❤️ by{" "}
+                  <a 
+                    href="https://www.digitaldemocracyhub.ch/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[hsl(var(--footer-text))] hover:text-[hsl(var(--footer-text))]/80 underline underline-offset-4"
+                  >
+                    Digital Democracy Hub Schweiz
+                  </a>{" "}
+                  © 2025
+                </p>
+              </div>
             </div>
           </div>
         </div>

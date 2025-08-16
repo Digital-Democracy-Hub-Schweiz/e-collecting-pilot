@@ -49,6 +49,11 @@ All colors MUST be HSL.
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-spring: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 
+    /* Footer specific colors */
+    --footer-background: 210 30% 25%;
+    --footer-text: 0 0% 100%;
+    --footer-text-muted: 210 15% 75%;
+
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
