@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Filter, Share2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Filter, Share2, Vote, FileText } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -141,49 +141,66 @@ const Gallery6 = ({
           className="relative left-[-1rem]"
         >
           <CarouselContent className="-mr-4 ml-8 2xl:ml-[max(8rem,calc(50vw-700px+1rem))] 2xl:mr-[max(0rem,calc(50vw-700px-1rem))]">
-            {filteredItems.map((item) => (
-              <CarouselItem key={item.id} className="pl-4 md:max-w-[452px]">
-                <a
-                  href={item.url}
-                  className="group flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex aspect-[3/2] overflow-clip rounded-xl">
-                      <div className="flex-1">
-                        <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-                          <img
-                            src={item.image}
-                            alt={item.title}
-                            className="h-full w-full object-cover object-center"
-                          />
+            {filteredItems.map((item) => {
+              const currentDate = new Date().toLocaleDateString('de-CH', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+              });
+              
+              return (
+                <CarouselItem key={item.id} className="pl-4 md:max-w-[452px]">
+                  <a
+                    href={item.url}
+                    className="group block"
+                  >
+                    <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#8B1538] to-[#6B1029] p-6 text-white min-h-[320px] flex flex-col">
+                      {/* Header with swiyu branding and icon */}
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="text-2xl font-light tracking-wide">swiyu</div>
+                        <div className="bg-slate-800 p-3 rounded-lg">
+                          {item.type === 'Initiative' ? (
+                            <Vote className="h-8 w-8 text-white" />
+                          ) : (
+                            <FileText className="h-8 w-8 text-white" />
+                          )}
+                        </div>
+                      </div>
+                      
+                      {/* Swiss Confederation badge */}
+                      <div className="flex items-center gap-1 mb-4">
+                        <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center">
+                          <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                        </div>
+                        <span className="text-xs text-white/80">A service of the Swiss Confederation</span>
+                      </div>
+                      
+                      {/* Date */}
+                      <div className="text-sm text-white/90 mb-4">{currentDate}</div>
+                      
+                      {/* Content */}
+                      <div className="flex-grow flex flex-col justify-between">
+                        <div>
+                          <h3 className="text-lg font-semibold mb-3 line-clamp-3 leading-tight">
+                            {item.title}
+                          </h3>
+                          <p className="text-sm text-white/90 line-clamp-3 leading-relaxed">
+                            {item.type}: {item.title.substring(0, 120)}...
+                          </p>
+                        </div>
+                        
+                        {/* Arrow button */}
+                        <div className="flex justify-end mt-6">
+                          <div className="bg-white/10 border border-white/20 rounded-lg p-2 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/30">
+                            <ArrowRight className="h-5 w-5 text-white transition-transform group-hover:translate-x-0.5" />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
-                    {item.title}
-                  </div>
-                  <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
-                    {item.summary}
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center text-sm">
-                      Details{" "}
-                      <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={(e) => handleShare(item, e)}
-                      className="flex items-center gap-1 hover:bg-accent"
-                    >
-                      <Share2 className="h-4 w-4" />
-                      Teilen
-                    </Button>
-                  </div>
-                </a>
-              </CarouselItem>
-            ))}
+                  </a>
+                </CarouselItem>
+              );
+            })}
           </CarouselContent>
         </Carousel>
       </div>
