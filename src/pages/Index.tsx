@@ -151,45 +151,9 @@ const Index = () => {
 
             {/* Weitere Informationen Section */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">Weitere Informationen</h3>
+              <h3 className="text-lg font-semibold mb-4">System Status</h3>
               <div className="space-y-3">
-                <a 
-                  href="#" 
-                  className="flex items-center justify-between text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors border-b border-[hsl(var(--footer-text-muted))]/20 pb-2"
-                >
-                  Blog
-                  <span>→</span>
-                </a>
-                <a 
-                  href="#" 
-                  className="flex items-center justify-between text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors border-b border-[hsl(var(--footer-text-muted))]/20 pb-2"
-                >
-                  Kontakt
-                  <span>→</span>
-                </a>
-                <a 
-                  href="#" 
-                  className="flex items-center justify-between text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors border-b border-[hsl(var(--footer-text-muted))]/20 pb-2"
-                >
-                  Hilfe
-                  <span>→</span>
-                </a>
-                <a 
-                  href="#" 
-                  className="flex items-center justify-between text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors border-b border-[hsl(var(--footer-text-muted))]/20 pb-2"
-                >
-                  Stellen, Ausschreibungen und Vergaben
-                  <span>→</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Status and GitHub info */}
-          <div className="border-t border-[hsl(var(--footer-text-muted))]/20 mt-8 pt-8">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-4 flex-wrap text-sm">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between text-sm border-b border-[hsl(var(--footer-text-muted))]/20 pb-2">
                   <span className="text-[hsl(var(--footer-text-muted))]">Verifier-Mgmt:</span>
                   {healthLoading ? (
                     <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span>
@@ -201,7 +165,7 @@ const Index = () => {
                     </span>
                   )}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between text-sm border-b border-[hsl(var(--footer-text-muted))]/20 pb-2">
                   <span className="text-[hsl(var(--footer-text-muted))]">Issuer-Mgmt:</span>
                   {healthLoading ? (
                     <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span>
@@ -213,7 +177,7 @@ const Index = () => {
                     </span>
                   )}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between text-sm border-b border-[hsl(var(--footer-text-muted))]/20 pb-2">
                   <span className="text-[hsl(var(--footer-text-muted))]">Issuer-OID4VCI:</span>
                   {healthLoading ? (
                     <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span>
@@ -226,29 +190,33 @@ const Index = () => {
                   )}
                 </div>
               </div>
-              <div className="flex items-center gap-3">
+            </div>
+          </div>
+
+          {/* GitHub info */}
+          <div className="border-t border-[hsl(var(--footer-text-muted))]/20 mt-8 pt-8">
+            <div className="flex items-center justify-center gap-3">
+              <a 
+                href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors"
+                aria-label="GitHub Repository"
+              >
+                <Github size={20} />
+              </a>
+              <p className="text-sm text-[hsl(var(--footer-text-muted))]">
+                made with ❤️ by{" "}
                 <a 
-                  href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" 
+                  href="https://www.digitaldemocracyhub.ch/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors"
-                  aria-label="GitHub Repository"
+                  className="text-[hsl(var(--footer-text))] hover:text-[hsl(var(--footer-text))]/80 underline underline-offset-4"
                 >
-                  <Github size={20} />
-                </a>
-                <p className="text-sm text-[hsl(var(--footer-text-muted))]">
-                  made with ❤️ by{" "}
-                  <a 
-                    href="https://www.digitaldemocracyhub.ch/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-[hsl(var(--footer-text))] hover:text-[hsl(var(--footer-text))]/80 underline underline-offset-4"
-                  >
-                    Digital Democracy Hub Schweiz
-                  </a>{" "}
-                  © 2025
-                </p>
-              </div>
+                  Digital Democracy Hub Schweiz
+                </a>{" "}
+                © 2025
+              </p>
             </div>
           </div>
         </div>
