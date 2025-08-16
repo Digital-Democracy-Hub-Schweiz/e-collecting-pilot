@@ -53,12 +53,7 @@ const Index = () => {
         {/* Top government bar */}
         <div className="border-b border-white/20">
           <div className="container mx-auto px-4 py-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <select className="bg-transparent text-[hsl(var(--gov-header-text))] text-sm border-none outline-none">
-                  <option>Alle Schweizer Bundesbehörden</option>
-                </select>
-              </div>
+            <div className="flex items-center justify-end">
               <div className="flex items-center gap-4">
                 <button className="text-[hsl(var(--gov-header-text))] text-sm px-2 py-1 rounded hover:bg-white/10 transition-colors">
                   DE
