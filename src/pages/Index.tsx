@@ -195,27 +195,18 @@ const Index = () => {
 
           {/* GitHub info */}
           <div className="border-t border-[hsl(var(--footer-text-muted))]/20 mt-8 pt-8">
-            <div className="flex items-center justify-center gap-3">
-              <a 
-                href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors"
-                aria-label="GitHub Repository"
-              >
-                <Github size={20} />
-              </a>
-              <p className="text-sm text-[hsl(var(--footer-text-muted))]">
-                made with ❤️ by{" "}
+            <div className="flex items-center justify-start gap-2">
+              <p className="text-sm text-[hsl(var(--footer-text-muted))] flex items-center gap-2">
+                made with ❤️{" "}
                 <a 
-                  href="https://www.digitaldemocracyhub.ch/" 
+                  href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-[hsl(var(--footer-text))] hover:text-[hsl(var(--footer-text))]/80 underline underline-offset-4"
+                  className="text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors"
+                  aria-label="GitHub Repository"
                 >
-                  Digital Democracy Hub Schweiz
-                </a>{" "}
-                © 2025
+                  <Github size={16} />
+                </a>
               </p>
             </div>
           </div>
