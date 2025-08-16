@@ -9,46 +9,44 @@ import referendums from "@/data/referendums.json";
 const Index = () => {
   const initiativeMatch = useMatch("/initiative/:id");
   const referendumMatch = useMatch("/referendum/:id");
-  const { data: healthStatus, isLoading: healthLoading, isError: healthError } = useHealthStatus();
+  const {
+    data: healthStatus,
+    isLoading: healthLoading,
+    isError: healthError
+  } = useHealthStatus();
   const resolveId = (list: any[], value?: string) => {
     if (!value) return undefined;
-    const found = list.find((item) => item?.id === value || item?.slug === value);
+    const found = list.find(item => item?.id === value || item?.slug === value);
     return found?.id;
   };
-
-  const preselect = initiativeMatch
-    ? {
-        type: "Initiative" as const,
-        id: (resolveId(initiatives as any[], initiativeMatch.params.id as string) || (initiativeMatch.params.id as string)),
-      }
-    : referendumMatch
-    ? {
-        type: "Referendum" as const,
-        id: (resolveId(referendums as any[], referendumMatch.params.id as string) || (referendumMatch.params.id as string)),
-      }
-    : undefined;
+  const preselect = initiativeMatch ? {
+    type: "Initiative" as const,
+    id: resolveId(initiatives as any[], initiativeMatch.params.id as string) || initiativeMatch.params.id as string
+  } : referendumMatch ? {
+    type: "Referendum" as const,
+    id: resolveId(referendums as any[], referendumMatch.params.id as string) || referendumMatch.params.id as string
+  } : undefined;
 
   // Prepare data for carousel
-  const carouselItems = [
-    ...initiatives.map((item: any) => ({
-      id: item.id,
-      title: item.title,
-      summary: `Initiative: ${item.title.substring(0, 120)}...`,
-      url: `/initiative/${item.slug}`,
-      image: "/placeholder.svg", // Using placeholder image
-      slug: item.slug,
-      type: "Initiative" as const,
-    })),
-    ...referendums.map((item: any) => ({
-      id: item.id,
-      title: item.title,
-      summary: `Referendum: ${item.title.substring(0, 120)}...`,
-      url: `/referendum/${item.slug}`,
-      image: "/placeholder.svg", // Using placeholder image
-      slug: item.slug,
-      type: "Referendum" as const,
-    })),
-  ];
+  const carouselItems = [...initiatives.map((item: any) => ({
+    id: item.id,
+    title: item.title,
+    summary: `Initiative: ${item.title.substring(0, 120)}...`,
+    url: `/initiative/${item.slug}`,
+    image: "/placeholder.svg",
+    // Using placeholder image
+    slug: item.slug,
+    type: "Initiative" as const
+  })), ...referendums.map((item: any) => ({
+    id: item.id,
+    title: item.title,
+    summary: `Referendum: ${item.title.substring(0, 120)}...`,
+    url: `/referendum/${item.slug}`,
+    image: "/placeholder.svg",
+    // Using placeholder image
+    slug: item.slug,
+    type: "Referendum" as const
+  }))];
   return <div className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Header */}
       <header className="bg-[hsl(var(--gov-header-bg))] text-[hsl(var(--gov-header-text))]">
@@ -77,17 +75,12 @@ const Index = () => {
               <div className="flex items-center gap-4">
                 {/* Swiss Cross Logo Placeholder */}
                 <div className="w-12 h-12 bg-white rounded flex items-center justify-center border border-gray-200">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-red-600">
-                    <path d="M12 2v8H4v4h8v8h4v-8h8V10h-8V2h-4z"/>
-                  </svg>
+                  
                 </div>
                 <div>
-                  <h1 className="text-xl font-medium text-[hsl(var(--gov-nav-text))]">
-                    Elektronische Identität und Vertrauensinfrastruktur
-                  </h1>
+                  <h1 className="text-xl font-medium text-[hsl(var(--gov-nav-text))]">E-Collecting Pilot</h1>
                   <p className="text-sm text-[hsl(var(--muted-foreground))]">
-                    E-Collecting Pilot - Versuchsbetrieb für die elektronische Unterstützung von Volksbegehren
-                  </p>
+                </p>
                 </div>
               </div>
               <div className="flex items-center gap-6">
@@ -105,7 +98,7 @@ const Index = () => {
                     <button className="text-sm text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors flex items-center gap-1">
                       Mehr
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-                        <path d="M6 8L2 4h8l-4 4z"/>
+                        <path d="M6 8L2 4h8l-4 4z" />
                       </svg>
                     </button>
                   </div>
@@ -113,7 +106,7 @@ const Index = () => {
                 <div className="flex items-center gap-2">
                   <button className="p-2 hover:bg-gray-100 rounded transition-colors text-[hsl(var(--gov-nav-text))]">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                     </svg>
                   </button>
                 </div>
@@ -124,28 +117,7 @@ const Index = () => {
 
         {/* Navigation bar */}
         <div className="bg-[hsl(var(--gov-nav-bg))] border-t border-gray-200">
-          <div className="container mx-auto px-4">
-            <nav className="flex items-center gap-8 py-3">
-              <a href="#" className="text-sm text-[hsl(var(--gov-nav-text))] font-medium border-b-2 border-primary pb-3">
-                Startseite
-              </a>
-              <a href="#" className="text-sm text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors pb-3">
-                e-ID
-              </a>
-              <a href="#" className="text-sm text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors pb-3">
-                Public Beta
-              </a>
-              <a href="#" className="text-sm text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors pb-3">
-                Elektronischer Lernfahrausweis
-              </a>
-              <a href="#" className="text-sm text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors pb-3">
-                Technologie
-              </a>
-              <a href="#" className="text-sm text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors pb-3">
-                Partizipation
-              </a>
-            </nav>
-          </div>
+          
         </div>
       </header>
 
@@ -163,12 +135,7 @@ const Index = () => {
                 <p className="text-sm text-muted-foreground">
                   Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die Swiyu-Wallet App erstellt werden.
                 </p>
-                <a 
-                  href="https://www.bcs.admin.ch/bcs-web/#/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4"
-                >
+                <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4">
                   Beta-ID ausstellen
                 </a>
                 <p className="text-sm text-muted-foreground">
@@ -188,10 +155,7 @@ const Index = () => {
 
       {/* Initiatives and Referendums Carousel */}
       <div className="border-t">
-        <Gallery6 
-          heading="Verfügbare Initiativen und Referenden"
-          items={carouselItems}
-        />
+        <Gallery6 heading="Verfügbare Initiativen und Referenden" items={carouselItems} />
       </div>
 
       {/* Footer */}
@@ -216,10 +180,7 @@ const Index = () => {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">Bleiben Sie informiert</h3>
               <div className="space-y-3">
-                <a 
-                  href="#" 
-                  className="flex items-center text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors"
-                >
+                <a href="#" className="flex items-center text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors">
                   📺 Youtube
                 </a>
                 <button className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-[hsl(var(--footer-text-muted))] text-[hsl(var(--footer-text))] text-sm rounded hover:bg-[hsl(var(--footer-text))]/10 transition-colors">
@@ -235,39 +196,21 @@ const Index = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm border-b border-[hsl(var(--footer-text-muted))]/20 pb-2">
                   <span className="text-[hsl(var(--footer-text-muted))]">Verifier-Mgmt:</span>
-                  {healthLoading ? (
-                    <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span>
-                  ) : (
-                    <span className={`font-medium ${
-                      healthStatus?.verifierManagement?.status === "UP" ? "text-green-400" : "text-red-400"
-                    }`}>
+                  {healthLoading ? <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span> : <span className={`font-medium ${healthStatus?.verifierManagement?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
                       {healthStatus?.verifierManagement?.status || "Offline"}
-                    </span>
-                  )}
+                    </span>}
                 </div>
                 <div className="flex items-center justify-between text-sm border-b border-[hsl(var(--footer-text-muted))]/20 pb-2">
                   <span className="text-[hsl(var(--footer-text-muted))]">Issuer-Mgmt:</span>
-                  {healthLoading ? (
-                    <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span>
-                  ) : (
-                    <span className={`font-medium ${
-                      healthStatus?.issuerManagement?.status === "UP" ? "text-green-400" : "text-red-400"
-                    }`}>
+                  {healthLoading ? <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerManagement?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
                       {healthStatus?.issuerManagement?.status || "Offline"}
-                    </span>
-                  )}
+                    </span>}
                 </div>
                 <div className="flex items-center justify-between text-sm border-b border-[hsl(var(--footer-text-muted))]/20 pb-2">
                   <span className="text-[hsl(var(--footer-text-muted))]">Issuer-OID4VCI:</span>
-                  {healthLoading ? (
-                    <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span>
-                  ) : (
-                    <span className={`font-medium ${
-                      healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-400" : "text-red-400"
-                    }`}>
+                  {healthLoading ? <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
                       {healthStatus?.issuerOid4vci?.status || "Offline"}
-                    </span>
-                  )}
+                    </span>}
                 </div>
               </div>
             </div>
@@ -278,13 +221,7 @@ const Index = () => {
             <div className="flex items-center justify-start gap-2">
               <p className="text-sm text-[hsl(var(--footer-text-muted))] flex items-center gap-2">
                 made with ❤️{" "}
-                <a 
-                  href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors"
-                  aria-label="GitHub Repository"
-                >
+                <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors" aria-label="GitHub Repository">
                   <Github size={16} />
                 </a>
               </p>
