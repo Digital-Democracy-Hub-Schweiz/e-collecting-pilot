@@ -128,7 +128,7 @@ const Index = () => {
                 politische Rechte in der Schweiz. Hier finden Sie wichtige Informationen zum Pilotprojekt.
               </p>
               <p className="text-sm text-[hsl(var(--footer-text-muted))] mt-6">
-                © E-Collecting Pilot
+                © 2025 Digital Democracy Hub Schweiz
               </p>
             </div>
 
