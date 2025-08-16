@@ -9,17 +9,17 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-primary text-primary-foreground shadow-elegant hover:shadow-glow hover:scale-[1.02] transition-smooth font-medium",
+        default: "bg-gradient-primary text-primary-foreground shadow-elegant hover:shadow-glow hover:scale-105 transition-spring",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-card hover:shadow-elegant transition-smooth",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "border-2 border-border bg-background hover:bg-secondary/50 hover:border-primary/50 transition-smooth font-medium",
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-card hover:shadow-elegant transition-smooth font-medium",
-        ghost: "hover:bg-accent hover:text-accent-foreground transition-smooth",
-        link: "text-primary underline-offset-4 hover:underline transition-smooth",
-        hero: "bg-gradient-hero text-primary-foreground shadow-glow hover:shadow-glow hover:scale-[1.02] transition-smooth text-base px-8 py-3 font-semibold",
-        professional: "bg-card border-2 border-border text-foreground shadow-card hover:shadow-elegant hover:bg-secondary/30 hover:border-primary/30 transition-smooth font-medium",
+          "bg-gradient-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+        hero: "bg-gradient-hero text-primary-foreground shadow-glow hover:shadow-glow hover:scale-105 transition-spring text-base px-8 py-3",
+        professional: "bg-background border border-border text-foreground shadow-card hover:shadow-elegant hover:bg-secondary/50 transition-smooth",
       },
       size: {
         default: "h-10 px-4 py-2",
