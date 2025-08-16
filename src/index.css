@@ -54,6 +54,13 @@ All colors MUST be HSL.
     --footer-text: 0 0% 100%;
     --footer-text-muted: 210 15% 75%;
 
+    /* Government header colors */
+    --gov-header-bg: 210 30% 18%;
+    --gov-header-text: 0 0% 100%;
+    --gov-header-text-muted: 210 15% 75%;
+    --gov-nav-bg: 0 0% 100%;
+    --gov-nav-text: 220 15% 20%;
+
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
