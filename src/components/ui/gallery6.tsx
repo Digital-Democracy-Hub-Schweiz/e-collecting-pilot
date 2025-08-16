@@ -142,46 +142,34 @@ const Gallery6 = ({
         >
           <CarouselContent className="-mr-4 ml-8 2xl:ml-[max(8rem,calc(50vw-700px+1rem))] 2xl:mr-[max(0rem,calc(50vw-700px-1rem))]">
             {filteredItems.map((item) => (
-              <CarouselItem key={item.id} className="pl-4 md:max-w-[452px]">
-                <a
-                  href={item.url}
-                  className="group flex flex-col justify-between"
-                >
+              <CarouselItem key={item.id} className="pl-4 md:max-w-[400px]">
+                <div className="bg-card border border-border rounded-lg p-6 shadow-sm h-full flex flex-col justify-between min-h-[280px]">
                   <div>
-                    <div className="flex aspect-[3/2] overflow-clip rounded-xl">
-                      <div className="flex-1">
-                        <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-                          <img
-                            src={item.image}
-                            alt={item.title}
-                            className="h-full w-full object-cover object-center"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
-                    {item.title}
-                  </div>
-                  <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
-                    {item.summary}
+                    <h3 className="text-xl font-semibold mb-4 text-foreground leading-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                      {item.summary}
+                    </p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center text-sm">
-                      Details{" "}
-                      <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
-                    </div>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={(e) => handleShare(item, e)}
-                      className="flex items-center gap-1 hover:bg-accent"
+                      className="flex items-center gap-1 hover:bg-accent text-xs"
                     >
-                      <Share2 className="h-4 w-4" />
+                      <Share2 className="h-3 w-3" />
                       Teilen
                     </Button>
+                    <a
+                      href={item.url}
+                      className="inline-flex items-center justify-center rounded-md border border-destructive w-10 h-10 hover:bg-destructive/10 transition-colors group"
+                    >
+                      <ArrowRight className="h-4 w-4 text-destructive transition-transform group-hover:translate-x-0.5" />
+                    </a>
                   </div>
-                </a>
+                </div>
               </CarouselItem>
             ))}
           </CarouselContent>
