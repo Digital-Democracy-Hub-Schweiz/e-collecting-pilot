@@ -368,14 +368,7 @@ export function ReceiptCredentialIssuer({
         </div>
 
         {/* Action buttons matching screenshot style */}
-        <div className="flex flex-col sm:flex-row gap-4 pt-6">
-          <button className="inline-flex items-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium">
-            Mehr zur e-ID →
-          </button>
-          <button className="inline-flex items-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium">
-            Zu den Erklärvideos →
-          </button>
-        </div>
+        
 
         <div className="space-y-6 pt-8 border-t border-gray-200">
           {/* Success message spans full width */}
