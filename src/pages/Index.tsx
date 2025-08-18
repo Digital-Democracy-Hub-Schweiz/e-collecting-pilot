@@ -100,7 +100,7 @@ const Index = () => {
               <div className="flex items-center gap-4">
                 {/* Swiss Cross Logo Placeholder */}
                 <div className="w-12 h-12 bg-white rounded flex items-center justify-center border border-gray-200">
-                  {/* Swiss Cross placeholder */}
+                  <img src="/lovable-uploads/2130f482-b83a-4669-a69c-8f5ba77c9619.png" alt="Digital Democracy Hub Logo" className="w-8 h-8" />
                 </div>
                 <div className="max-w-md">
                   <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilot Anwendung</h1>
