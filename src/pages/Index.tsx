@@ -60,7 +60,7 @@ const Index = () => {
           <div className="max-w-7xl mx-auto px-6 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-sm">Alle Schweizer Bundesbehörden</span>
+                <span className="text-sm">Alle Schweizer Pilotanwendungen</span>
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
@@ -108,9 +108,9 @@ const Index = () => {
               </div>
               <div className="flex items-center gap-6">
                 <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
-                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Jobs</a>
-                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Kontakt</a>
-                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Medien</a>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Github</a>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Digital Democracy Hub</a>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">How low can we go?</a>
                   <button className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
                     Mehr
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -125,12 +125,7 @@ const Index = () => {
                       <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                     </svg>
                   </button>
-                  <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
-                    <span className="text-sm">Shopping cart</span>
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
-                    </svg>
-                  </button>
+                  
                 </div>
               </div>
             </div>
@@ -143,11 +138,6 @@ const Index = () => {
             <nav aria-label="Main" className="main-navigation">
               <ul className="flex items-center gap-8 py-4">
                 <li>
-                  <a href="/" className="relative text-swiss-red font-medium text-base py-2 border-b-2 border-swiss-red hover:text-swiss-red/80 transition-colors">
-                    Pilot
-                  </a>
-                </li>
-                <li>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Initiativen</a>
                 </li>
                 <li>
@@ -158,6 +148,11 @@ const Index = () => {
                 </li>
                 <li>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Swiyu-Wallet App</a>
+                </li>
+                <li>
+                  <a href="/" className="relative text-swiss-red font-medium text-base py-2 border-b-2 border-swiss-red hover:text-swiss-red/80 transition-colors">
+                    Pilot
+                  </a>
                 </li>
                 <li>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Beta-ID</a>
