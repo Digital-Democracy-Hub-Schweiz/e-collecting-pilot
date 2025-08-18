@@ -59,7 +59,7 @@ const Index = () => {
       {/* Header following Swiss Design System structure */}
       <header id="main-header">
         {/* Top Bar - All Swiss Federal Authorities */}
-        <div className="top-bar bg-[hsl(var(--gov-header-bg))] text-[hsl(var(--gov-header-text))] border-b border-white/20">
+        <div className="top-bar text-white border-b border-white/20" style={{backgroundColor: 'var(--color-secondary-600)'}}>
           <div className="max-w-7xl mx-auto px-6 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -84,7 +84,7 @@ const Index = () => {
                     </svg>
                   </a>
                   <a href="#" className="hover:bg-white/10 px-2 py-1 rounded transition-colors">Anmelden</a>
-                  <button className="text-[hsl(var(--gov-header-text))] text-sm px-2 py-1 rounded hover:bg-white/10 transition-colors flex items-center gap-1">
+                  <button className="text-sm px-2 py-1 rounded hover:bg-white/10 transition-colors flex items-center gap-1">
                     DE
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -97,7 +97,7 @@ const Index = () => {
         </div>
 
         {/* Top Header - Main department info */}
-        <div className="top-header bg-white">
+        <div className="top-header text-white" style={{backgroundColor: 'var(--color-secondary-600)'}}>
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -106,17 +106,17 @@ const Index = () => {
                   {/* Swiss Cross placeholder */}
                 </div>
                 <div className="max-w-md">
-                  <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">
+                  <h1 className="text-base font-medium leading-tight">
                     Eidgenössisches Departement für Verteidigung, Bevölkerungsschutz und Sport
                   </h1>
                 </div>
               </div>
               <div className="flex items-center gap-6">
                 <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
-                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Jobs</a>
-                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Kontakt</a>
-                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Medien</a>
-                  <button className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                  <a href="#" className="hover:text-white/80 transition-colors">Jobs</a>
+                  <a href="#" className="hover:text-white/80 transition-colors">Kontakt</a>
+                  <a href="#" className="hover:text-white/80 transition-colors">Medien</a>
+                  <button className="flex items-center gap-1 hover:text-white/80 transition-colors">
                     Mehr
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
@@ -124,13 +124,13 @@ const Index = () => {
                   </button>
                 </nav>
                 <div className="flex items-center gap-4">
-                  <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                  <button className="flex items-center gap-2 hover:text-white/80 transition-colors">
                     <span className="text-sm">Suche</span>
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"/>
                     </svg>
                   </button>
-                  <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                  <button className="flex items-center gap-2 hover:text-white/80 transition-colors">
                     <span className="text-sm">Shopping cart</span>
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
@@ -143,7 +143,7 @@ const Index = () => {
         </div>
 
         {/* Desktop Menu - Main Navigation */}
-        <div className="desktop-menu bg-[hsl(var(--gov-nav-bg))] border-t border-gray-200">
+        <div className="desktop-menu bg-white border-t border-gray-200">
           <div className="max-w-7xl mx-auto px-6">
             <nav aria-label="Main" className="main-navigation">
               <ul className="flex items-center gap-8 py-4">
@@ -242,19 +242,19 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer id="main-footer" className="bg-[hsl(var(--footer-background))] text-[hsl(var(--footer-text))]">
+      <footer id="main-footer" className="text-white" style={{backgroundColor: 'var(--color-secondary-600)'}}>
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             {/* Über E-Collecting Section */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">Über E-Collecting</h3>
-              <p className="text-sm text-[hsl(var(--footer-text-muted))] leading-relaxed">
+              <p className="text-sm text-white/70 leading-relaxed">
                 Das elektronische Sammeln von Unterschriften (E-Collecting) ermöglicht es Bürgerinnen und 
                 Bürgern, digitale Unterschriften für Volksinitiativen und Referenden zu leisten. Dieser Pilot 
                 testet die technische Umsetzung und Sicherheit des elektronischen Sammelverfahrens für 
                 politische Rechte in der Schweiz. Hier finden Sie wichtige Informationen zum Pilotprojekt.
               </p>
-              <p className="text-sm text-[hsl(var(--footer-text-muted))] mt-6">
+              <p className="text-sm text-white/70 mt-6">
                 © 2025 Digital Democracy Hub Schweiz
               </p>
             </div>
@@ -263,10 +263,10 @@ const Index = () => {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">Bleiben Sie informiert</h3>
               <div className="space-y-3">
-                <a href="#" className="flex items-center text-sm text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors">
+                <a href="#" className="flex items-center text-sm text-white/70 hover:text-white transition-colors">
                   📺 Youtube
                 </a>
-                <button className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-[hsl(var(--footer-text-muted))] text-[hsl(var(--footer-text))] text-sm rounded hover:bg-[hsl(var(--footer-text))]/10 transition-colors">
+                <button className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-white/30 text-white text-sm rounded hover:bg-white/10 transition-colors">
                   Newsletter abonnieren
                   <span>→</span>
                 </button>
@@ -277,21 +277,21 @@ const Index = () => {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">System Status</h3>
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-sm border-b border-[hsl(var(--footer-text-muted))]/20 pb-2">
-                  <span className="text-[hsl(var(--footer-text-muted))]">Verifier-Mgmt:</span>
-                  {healthLoading ? <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span> : <span className={`font-medium ${healthStatus?.verifierManagement?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
+                <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
+                  <span className="text-white/70">Verifier-Mgmt:</span>
+                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${healthStatus?.verifierManagement?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
                       {healthStatus?.verifierManagement?.status || "Offline"}
                     </span>}
                 </div>
-                <div className="flex items-center justify-between text-sm border-b border-[hsl(var(--footer-text-muted))]/20 pb-2">
-                  <span className="text-[hsl(var(--footer-text-muted))]">Issuer-Mgmt:</span>
-                  {healthLoading ? <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerManagement?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
+                <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
+                  <span className="text-white/70">Issuer-Mgmt:</span>
+                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerManagement?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
                       {healthStatus?.issuerManagement?.status || "Offline"}
                     </span>}
                 </div>
-                <div className="flex items-center justify-between text-sm border-b border-[hsl(var(--footer-text-muted))]/20 pb-2">
-                  <span className="text-[hsl(var(--footer-text-muted))]">Issuer-OID4VCI:</span>
-                  {healthLoading ? <span className="text-[hsl(var(--footer-text-muted))]">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
+                <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
+                  <span className="text-white/70">Issuer-OID4VCI:</span>
+                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
                       {healthStatus?.issuerOid4vci?.status || "Offline"}
                     </span>}
                 </div>
@@ -300,11 +300,11 @@ const Index = () => {
           </div>
 
           {/* GitHub info */}
-          <div className="border-t border-[hsl(var(--footer-text-muted))]/20 mt-8 pt-8">
+          <div className="border-t border-white/20 mt-8 pt-8">
             <div className="flex items-center justify-start gap-2">
-              <p className="text-sm text-[hsl(var(--footer-text-muted))] flex items-center gap-2">
+              <p className="text-sm text-white/70 flex items-center gap-2">
                 made with ❤️{" "}
-                <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--footer-text-muted))] hover:text-[hsl(var(--footer-text))] transition-colors" aria-label="GitHub Repository">
+                <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="GitHub Repository">
                   <Github size={16} />
                 </a>
               </p>
