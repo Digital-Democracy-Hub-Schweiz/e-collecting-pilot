@@ -246,10 +246,10 @@ const Index = () => {
                 <a href="#" className="flex items-center text-sm text-white/70 hover:text-white transition-colors">
                   📺 Youtube
                 </a>
-                <button className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-white/30 text-white text-sm rounded hover:bg-white/10 transition-colors">
+                <a href="https://klick.typeform.com/to/UfS9J1AL" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-white/30 text-white text-sm rounded hover:bg-white/10 transition-colors">
                   Newsletter abonnieren
                   <span>→</span>
-                </button>
+                </a>
               </div>
             </div>
 
