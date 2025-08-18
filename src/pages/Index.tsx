@@ -226,7 +226,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             {/* Über E-Collecting Section */}
-            <div className="space-y-4 md:col-span-2">
+            <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">Über E-Collecting</h3>
               <p className="text-sm text-white/80 leading-relaxed">
                 Das elektronische Sammeln von Unterschriften (E-Collecting) ermöglicht es Bürgerinnen und Bürgern, digitale Unterschriften für Volksinitiativen und Referenden zu leisten. Dieser Pilot testet die technische Umsetzung und Sicherheit des elektronischen Sammelverfahrens für politische Rechte in der Schweiz. Hier finden Sie wichtige Informationen zum Pilotprojekt.
@@ -243,10 +243,10 @@ const Index = () => {
                 <a href="#" className="flex items-center text-sm text-white/70 hover:text-white transition-colors">
                   📺 Youtube
                 </a>
-                <button className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-white/30 text-white text-sm rounded hover:bg-white/10 transition-colors">
+                <a href="https://klick.typeform.com/to/UfS9J1AL" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-white/30 text-white text-sm rounded hover:bg-white/10 transition-colors">
                   Newsletter abonnieren
                   <span>→</span>
-                </button>
+                </a>
               </div>
             </div>
 
