@@ -102,7 +102,7 @@ const Index = () => {
             <nav aria-label="Main" className="main-navigation">
               <ul className="flex items-center py-4">
                 <li>
-                  <a href="/" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors font-medium">
+                  <a href="/" className="relative text-swiss-red font-medium text-base py-2 border-b-2 border-swiss-red hover:text-swiss-red/80 transition-colors">
                     Pilot
                   </a>
                 </li>
