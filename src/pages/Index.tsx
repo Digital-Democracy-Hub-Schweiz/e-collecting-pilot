@@ -138,6 +138,11 @@ const Index = () => {
             <nav aria-label="Main" className="main-navigation">
               <ul className="flex items-center gap-8 py-4">
                 <li>
+                  <a href="/" className="relative text-swiss-red font-medium text-base py-2 border-b-2 border-swiss-red hover:text-swiss-red/80 transition-colors">
+                    Pilot
+                  </a>
+                </li>
+                <li>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Initiativen</a>
                 </li>
                 <li>
@@ -148,11 +153,6 @@ const Index = () => {
                 </li>
                 <li>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Swiyu-Wallet App</a>
-                </li>
-                <li>
-                  <a href="/" className="relative text-swiss-red font-medium text-base py-2 border-b-2 border-swiss-red hover:text-swiss-red/80 transition-colors">
-                    Pilot
-                  </a>
                 </li>
                 <li>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Beta-ID</a>
