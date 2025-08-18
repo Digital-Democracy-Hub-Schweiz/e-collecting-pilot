@@ -58,20 +58,45 @@ const Index = () => {
 
       {/* Header following Swiss Design System structure */}
       <header id="main-header">
-        {/* Top Bar */}
+        {/* Top Bar - All Swiss Federal Authorities */}
         <div className="top-bar bg-[hsl(var(--gov-header-bg))] text-[hsl(var(--gov-header-text))] border-b border-white/20">
           <div className="max-w-7xl mx-auto px-6 py-3">
-            <div className="flex items-center justify-end">
-              <div className="flex items-center gap-4">
-                <button className="text-[hsl(var(--gov-header-text))] text-sm px-2 py-1 rounded hover:bg-white/10 transition-colors">
-                  DE
-                </button>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-sm">Alle Schweizer Bundesbehörden</span>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4 text-sm">
+                  <a href="#" className="flex items-center gap-1 hover:bg-white/10 px-2 py-1 rounded transition-colors">
+                    Leichte Sprache
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                      <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
+                    </svg>
+                  </a>
+                  <a href="#" className="flex items-center gap-1 hover:bg-white/10 px-2 py-1 rounded transition-colors">
+                    Gebärdensprache
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </a>
+                  <a href="#" className="hover:bg-white/10 px-2 py-1 rounded transition-colors">Anmelden</a>
+                  <button className="text-[hsl(var(--gov-header-text))] text-sm px-2 py-1 rounded hover:bg-white/10 transition-colors flex items-center gap-1">
+                    DE
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Top Header */}
+        {/* Top Header - Main department info */}
         <div className="top-header bg-white">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
@@ -80,31 +105,90 @@ const Index = () => {
                 <div className="w-12 h-12 bg-white rounded flex items-center justify-center border border-gray-200">
                   {/* Swiss Cross placeholder */}
                 </div>
-                <div>
-                  <h1 className="text-xl font-medium text-[hsl(var(--gov-nav-text))]">E-Collecting Pilot</h1>
-                  <p className="text-sm text-[hsl(var(--muted-foreground))]">
-                    Ein Versuchsbetrieb für die E-Collecting mit der Vertrauensinfrastruktur der Schweiz
-                  </p>
+                <div className="max-w-md">
+                  <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">
+                    Eidgenössisches Departement für Verteidigung, Bevölkerungsschutz und Sport
+                  </h1>
                 </div>
               </div>
               <div className="flex items-center gap-6">
-                <nav className="meta-navigation hidden md:flex items-center gap-6">
-                  {/* Meta navigation items can be added here */}
+                <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Jobs</a>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Kontakt</a>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Medien</a>
+                  <button className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                    Mehr
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                    </svg>
+                  </button>
                 </nav>
+                <div className="flex items-center gap-4">
+                  <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                    <span className="text-sm">Suche</span>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"/>
+                    </svg>
+                  </button>
+                  <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                    <span className="text-sm">Shopping cart</span>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Desktop Menu */}
+        {/* Desktop Menu - Main Navigation */}
         <div className="desktop-menu bg-[hsl(var(--gov-nav-bg))] border-t border-gray-200">
           <div className="max-w-7xl mx-auto px-6">
             <nav aria-label="Main" className="main-navigation">
-              <ul className="flex items-center py-4">
+              <ul className="flex items-center gap-8 py-4">
+                <li>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">
+                    News
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">
+                    Geodaten
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">
+                    Karten
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">
+                    Geoportale
+                  </a>
+                </li>
                 <li>
                   <a href="/" className="relative text-swiss-red font-medium text-base py-2 border-b-2 border-swiss-red hover:text-swiss-red/80 transition-colors">
                     Pilot
                   </a>
+                </li>
+                <li>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">
+                    Forschung und Lehre
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">
+                    Über geo.admin.ch
+                  </a>
+                </li>
+                <li>
+                  <button className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">
+                    Mehr
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                    </svg>
+                  </button>
                 </li>
               </ul>
             </nav>
