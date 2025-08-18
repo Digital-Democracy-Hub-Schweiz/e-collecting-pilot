@@ -138,6 +138,11 @@ const Index = () => {
             <nav aria-label="Main" className="main-navigation">
               <ul className="flex items-center gap-8 py-4">
                 <li>
+                  <a href="/" className="relative text-swiss-red font-medium text-base py-2 border-b-2 border-swiss-red hover:text-swiss-red/80 transition-colors">
+                    Pilot
+                  </a>
+                </li>
+                <li>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Initiativen</a>
                 </li>
                 <li>
@@ -148,11 +153,6 @@ const Index = () => {
                 </li>
                 <li>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Swiyu-Wallet App</a>
-                </li>
-                <li>
-                  <a href="/" className="relative text-swiss-red font-medium text-base py-2 border-b-2 border-swiss-red hover:text-swiss-red/80 transition-colors">
-                    Pilot
-                  </a>
                 </li>
                 <li>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Beta-ID</a>
@@ -223,7 +223,71 @@ const Index = () => {
       <footer id="main-footer" className="text-white" style={{
       backgroundColor: 'var(--color-secondary-600)'
     }}>
-        
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+            {/* Über E-Collecting Section */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold mb-4">Über E-Collecting</h3>
+              <p className="text-sm text-white/80 leading-relaxed">
+                Das elektronische Sammeln von Unterschriften (E-Collecting) ermöglicht es Bürgerinnen und Bürgern, digitale Unterschriften für Volksinitiativen und Referenden zu leisten. Dieser Pilot testet die technische Umsetzung und Sicherheit des elektronischen Sammelverfahrens für politische Rechte in der Schweiz. Hier finden Sie wichtige Informationen zum Pilotprojekt.
+              </p>
+              <p className="text-sm text-white/70 mt-6">
+                © 2025 Digital Democracy Hub Schweiz
+              </p>
+            </div>
+
+            {/* Bleiben Sie informiert Section */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold mb-4">Bleiben Sie informiert</h3>
+              <div className="space-y-3">
+                <a href="#" className="flex items-center text-sm text-white/70 hover:text-white transition-colors">
+                  📺 Youtube
+                </a>
+                <a href="https://klick.typeform.com/to/UfS9J1AL" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-white/30 text-white text-sm rounded hover:bg-white/10 transition-colors">
+                  Newsletter abonnieren
+                  <span>→</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Weitere Informationen Section */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold mb-4">System Status</h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
+                  <span className="text-white/70">Verifier-Mgmt:</span>
+                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${healthStatus?.verifierManagement?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
+                      {healthStatus?.verifierManagement?.status || "Offline"}
+                    </span>}
+                </div>
+                <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
+                  <span className="text-white/70">Issuer-Mgmt:</span>
+                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerManagement?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
+                      {healthStatus?.issuerManagement?.status || "Offline"}
+                    </span>}
+                </div>
+                <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
+                  <span className="text-white/70">Issuer-OID4VCI:</span>
+                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
+                      {healthStatus?.issuerOid4vci?.status || "Offline"}
+                    </span>}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* GitHub info */}
+          <div className="border-t border-white/20 mt-8 pt-8">
+            <div className="flex items-center justify-start gap-2">
+              <p className="text-sm text-white/70 flex items-center gap-2">
+                made with ❤️{" "}
+                <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="GitHub Repository">
+                  <Github size={16} />
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
       </footer>
     </body>;
 };
