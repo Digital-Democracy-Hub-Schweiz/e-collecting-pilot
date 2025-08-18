@@ -108,7 +108,7 @@ const Index = () => {
               </div>
               <div className="flex items-center gap-6">
                 <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
-                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Github</a>
+                  <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Github</a>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Digital Democracy Hub</a>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">How low can we go?</a>
                   <button className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
