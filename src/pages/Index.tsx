@@ -97,7 +97,7 @@ const Index = () => {
         </div>
 
         {/* Top Header - Main department info */}
-        <div className="top-header text-white" style={{backgroundColor: 'var(--color-secondary-600)'}}>
+        <div className="top-header bg-white">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -106,17 +106,17 @@ const Index = () => {
                   {/* Swiss Cross placeholder */}
                 </div>
                 <div className="max-w-md">
-                  <h1 className="text-base font-medium leading-tight">
+                  <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">
                     Eidgenössisches Departement für Verteidigung, Bevölkerungsschutz und Sport
                   </h1>
                 </div>
               </div>
               <div className="flex items-center gap-6">
                 <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
-                  <a href="#" className="hover:text-white/80 transition-colors">Jobs</a>
-                  <a href="#" className="hover:text-white/80 transition-colors">Kontakt</a>
-                  <a href="#" className="hover:text-white/80 transition-colors">Medien</a>
-                  <button className="flex items-center gap-1 hover:text-white/80 transition-colors">
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Jobs</a>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Kontakt</a>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Medien</a>
+                  <button className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
                     Mehr
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
@@ -124,13 +124,13 @@ const Index = () => {
                   </button>
                 </nav>
                 <div className="flex items-center gap-4">
-                  <button className="flex items-center gap-2 hover:text-white/80 transition-colors">
+                  <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
                     <span className="text-sm">Suche</span>
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"/>
                     </svg>
                   </button>
-                  <button className="flex items-center gap-2 hover:text-white/80 transition-colors">
+                  <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
                     <span className="text-sm">Shopping cart</span>
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
