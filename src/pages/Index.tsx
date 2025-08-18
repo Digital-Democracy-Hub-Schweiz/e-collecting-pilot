@@ -149,7 +149,7 @@ const Index = () => {
                   <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/referenden.html" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Referenden</a>
                 </li>
                 <li>
-                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Wahlvorschläge</a>
+                  <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/nationalratswahlen.html" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Wahlvorschläge</a>
                 </li>
                 <li>
                   <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Swiyu-Wallet App</a>
