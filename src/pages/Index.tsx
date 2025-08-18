@@ -138,7 +138,7 @@ const Index = () => {
             <nav aria-label="Main" className="main-navigation">
               <ul className="flex items-center gap-8 py-4">
                 <li>
-                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Initiativen</a>
+                  <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/volksinitiativen.html" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Initiativen</a>
                 </li>
                 <li>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Referenden</a>
