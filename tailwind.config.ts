@@ -18,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Noto Sans', 'system-ui', 'sans-serif'],
+				noto: ['Noto Sans', 'sans-serif']
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -52,6 +56,21 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				// Swiss Design System Colors
+				'swiss-red': 'hsl(var(--swiss-red))',
+				'swiss-white': 'hsl(var(--swiss-white))',
+				'swiss-black': 'hsl(var(--swiss-black))',
+				'swiss-gray': {
+					100: 'hsl(var(--swiss-gray-100))',
+					200: 'hsl(var(--swiss-gray-200))',
+					300: 'hsl(var(--swiss-gray-300))',
+					400: 'hsl(var(--swiss-gray-400))',
+					500: 'hsl(var(--swiss-gray-500))',
+					600: 'hsl(var(--swiss-gray-600))',
+					700: 'hsl(var(--swiss-gray-700))',
+					800: 'hsl(var(--swiss-gray-800))',
+					900: 'hsl(var(--swiss-gray-900))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
