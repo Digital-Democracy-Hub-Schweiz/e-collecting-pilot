@@ -6,7 +6,6 @@ import { useMatch } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
 import initiatives from "@/data/initiatives.json";
 import referendums from "@/data/referendums.json";
-
 const Index = () => {
   const initiativeMatch = useMatch("/initiative/:id");
   const referendumMatch = useMatch("/referendum/:id");
@@ -15,13 +14,11 @@ const Index = () => {
     isLoading: healthLoading,
     isError: healthError
   } = useHealthStatus();
-
   const resolveId = (list: any[], value?: string) => {
     if (!value) return undefined;
     const found = list.find(item => item?.id === value || item?.slug === value);
     return found?.id;
   };
-
   const preselect = initiativeMatch ? {
     type: "Initiative" as const,
     id: resolveId(initiatives as any[], initiativeMatch.params.id as string) || initiativeMatch.params.id as string
@@ -48,9 +45,7 @@ const Index = () => {
     slug: item.slug,
     type: "Referendum" as const
   }))];
-
-  return (
-    <body className="min-h-screen bg-gradient-secondary flex flex-col">
+  return <body className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Skip to main content - Swiss Design System requirement */}
       <a href="#main-content" className="skip-to-content sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50">
         Skip to main content
@@ -59,7 +54,9 @@ const Index = () => {
       {/* Header following Swiss Design System structure */}
       <header id="main-header">
         {/* Top Bar - All Swiss Federal Authorities */}
-        <div className="top-bar text-white border-b border-white/20" style={{backgroundColor: 'var(--color-secondary-600)'}}>
+        <div className="top-bar text-white border-b border-white/20" style={{
+        backgroundColor: 'var(--color-secondary-600)'
+      }}>
           <div className="max-w-7xl mx-auto px-6 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -73,14 +70,14 @@ const Index = () => {
                   <a href="#" className="flex items-center gap-1 hover:bg-white/10 px-2 py-1 rounded transition-colors">
                     Leichte Sprache
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                      <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
+                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                      <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
                     </svg>
                   </a>
                   <a href="#" className="flex items-center gap-1 hover:bg-white/10 px-2 py-1 rounded transition-colors">
                     Gebärdensprache
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </a>
                   <a href="#" className="hover:bg-white/10 px-2 py-1 rounded transition-colors">Anmelden</a>
@@ -106,9 +103,7 @@ const Index = () => {
                   {/* Swiss Cross placeholder */}
                 </div>
                 <div className="max-w-md">
-                  <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">
-                    Eidgenössisches Departement für Verteidigung, Bevölkerungsschutz und Sport
-                  </h1>
+                  <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilot Anwendung</h1>
                 </div>
               </div>
               <div className="flex items-center gap-6">
@@ -119,7 +114,7 @@ const Index = () => {
                   <button className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
                     Mehr
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                     </svg>
                   </button>
                 </nav>
@@ -127,13 +122,13 @@ const Index = () => {
                   <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
                     <span className="text-sm">Suche</span>
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"/>
+                      <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                     </svg>
                   </button>
                   <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
                     <span className="text-sm">Shopping cart</span>
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                      <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
                     </svg>
                   </button>
                 </div>
@@ -186,7 +181,7 @@ const Index = () => {
                   <button className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">
                     Mehr
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                     </svg>
                   </button>
                 </li>
@@ -242,7 +237,9 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer id="main-footer" className="text-white" style={{backgroundColor: 'var(--color-secondary-600)'}}>
+      <footer id="main-footer" className="text-white" style={{
+      backgroundColor: 'var(--color-secondary-600)'
+    }}>
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             {/* Über E-Collecting Section */}
@@ -312,8 +309,6 @@ const Index = () => {
           </div>
         </div>
       </footer>
-    </body>
-  );
+    </body>;
 };
-
 export default Index;
