@@ -6,6 +6,7 @@
     "startDate": "2024-09-13",
     "endDate": "2025-10-09",
     "image": "/placeholder.svg",
+    "pdf": "",
     "description": ""
   },
   {
@@ -15,6 +16,7 @@
     "startDate": "2022-08-24",
     "endDate": "2025-10-09",
     "image": "/placeholder.svg",
+    "pdf": "",
     "description": ""
   },
   {
@@ -24,6 +26,7 @@
     "startDate": "2024-11-20",
     "endDate": "2025-10-09",
     "image": "/placeholder.svg",
+    "pdf": "",
     "description": ""
   },
   {
@@ -33,6 +36,7 @@
     "startDate": "",
     "endDate": "",
     "image": "/placeholder.svg",
+    "pdf": "",
     "description": ""
   },
   {
@@ -42,6 +46,7 @@
     "startDate": "2024-08-28",
     "endDate": "2025-10-09",
     "image": "/placeholder.svg",
+    "pdf": "",
     "description": ""
   }
 ]
