@@ -62,7 +62,8 @@ const Index = () => {
       url: `/initiative/${item.slug}`,
       image: "/placeholder.svg",
       slug: item.slug,
-      type: "Initiative" as const
+      type: "Initiative" as const,
+      pdf: item.pdf
     };
   }), ...referendums.map((item: any) => {
     const dateRange = getDateRange(item.startDate, item.endDate);
@@ -74,7 +75,8 @@ const Index = () => {
       url: `/referendum/${item.slug}`,
       image: "/placeholder.svg",
       slug: item.slug,
-      type: "Referendum" as const
+      type: "Referendum" as const,
+      pdf: item.pdf
     };
   })];
   return <body className="min-h-screen bg-gradient-secondary flex flex-col">
