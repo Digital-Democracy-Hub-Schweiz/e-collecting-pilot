@@ -92,7 +92,7 @@ const Gallery6 = ({
             <div className="flex items-center gap-2">
               <Filter className="h-4 w-4 text-muted-foreground" />
               <Select value={filter} onValueChange={(value: "all" | "Initiative" | "Referendum") => setFilter(value)}>
-                <SelectTrigger className="w-48">
+                <SelectTrigger className="w-48" onClick={(e) => e.stopPropagation()}>
                   <SelectValue placeholder="Filter auswählen" />
                 </SelectTrigger>
                 <SelectContent className="bg-background border shadow-md z-50">
