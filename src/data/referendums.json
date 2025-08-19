@@ -1,18 +1,146 @@
 [
-  { "id": "0a1b2c3d-4e5f-6789-abcd-ef0123456789", "title": "Bundesgesetz über die Unfallversicherung (UVG) (Finanzierung der Stiftung Entschädigungsfonds für Asbestopfer)", "slug": "bundesgesetz-ueber-die-unfallversicherung-uvg-finanzierung-der-stiftung-entschaedigungsfonds-fuer-asbestopfer", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "1b2c3d4e-5f67-489a-bcde-f0123456789a", "title": "Bundesbeschluss über die Änderung des Bundesbeschlusses über die Genehmigung und die Umsetzung der bilateralen Abkommen zwischen der Schweiz und der EU über die Assoziierung an Schengen und an Dublin", "slug": "bundesbeschluss-ueber-die-aenderung-des-bundesbeschlusses-ueber-die-genehmigung-und-die-umsetzung-der-bilateralen-abkommen-zwischen-der-schweiz-und-der-eu-ueber-die-assoziierung-an-schengen-und-an-dublin", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "2c3d4e5f-6789-4abc-def0-1234567890ab", "title": "Bundesbeschluss über die Genehmigung eines Protokolls zur Änderung des Doppelbesteuerungsabkommens zwischen der Schweiz und Ungarn", "slug": "bundesbeschluss-ueber-die-genehmigung-eines-protokolls-zur-aenderung-des-doppelbesteuerungsabkommens-zwischen-der-schweiz-und-ungarn", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "3d4e5f67-89ab-4cde-f012-34567890abcd", "title": "Bundesgesetz über die Unfallversicherung (UVG) (Finanzierung der Stiftung Entschädigungsfonds für Asbestopfer)", "slug": "bundesgesetz-ueber-die-unfallversicherung-uvg-finanzierung-der-stiftung-entschaedigungsfonds-fuer-asbestopfer", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "4e5f6789-abcd-4def-0123-4567890abcde", "title": "Bundespersonalgesetz (BPG)", "slug": "bundespersonalgesetz-bpg", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "5f6789ab-cdef-4012-3456-7890abcdef12", "title": "Schweizerisches Zivilgesetzbuch (Besitzesschutz bei verbotener Eigenmacht an Grundstücken)", "slug": "schweizerisches-zivilgesetzbuch-besitzesschutz-bei-verbotener-eigenmacht-an-grundstuecken", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "6789abcd-ef01-4234-5678-90abcdef1234", "title": "Schweizerisches Strafgesetzbuch (Verbesserung des strafrechtlichen Schutzes vor Nachstellung)", "slug": "schweizerisches-strafgesetzbuch-verbesserung-des-strafrechtlichen-schutzes-vor-nachstellung", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "789abcde-f012-4345-6789-0abcdef12345", "title": "Bundesgesetz über die Schweizerische Nationalbibliothek (Nationalbibliotheksgesetz, NBibG)", "slug": "bundesgesetz-ueber-die-schweizerische-nationalbibliothek-nationalbibliotheksgesetz-nbibg", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "89abcdef-0123-4456-7890-abcdef123456", "title": "Bundesgesetz über die wirtschaftliche Landesversorgung (Landesversorgungsgesetz, LVG)", "slug": "bundesgesetz-ueber-die-wirtschaftliche-landesversorgung-landesversorgungsgesetz-lvg", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "9abcdef0-1234-4567-890a-bcdef1234567", "title": "Bundesgesetz über die Individualbesteuerung", "slug": "bundesgesetz-ueber-die-individualbesteuerung", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "abcdef01-2345-4678-90ab-cdef12345678", "title": "Bundesgesetz über die Zollpflicht und die Bemessung der Zollabgaben (Zollabgabengesetz, ZoG)", "slug": "bundesgesetz-ueber-die-zollpflicht-und-die-bemessung-der-zollabgaben-zollabgabengesetz-zog", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "bcdef012-3456-4789-0abc-def123456789", "title": "Bundesgesetz über den Allgemeinen Teil der Abgabenerhebung und die Kontrolle des grenzüberschreitenden Waren- und Personenverkehrs durch das Bundesamt für Zoll und Grenzsicherheit (BAZG-Vollzugsaufgabengesetz, BAZG-VG)", "slug": "bundesgesetz-ueber-den-allgemeinen-teil-der-abgabenerhebung-und-die-kontrolle-des-grenzueberschreitenden-waren-und-personenverkehrs-durch-das-bundesamt-fuer-zoll-und-grenzsicherheit-bazg-vollzugsaufgabengesetz-bazg-vg", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "cdef0123-4567-4890-abcd-ef1234567890", "title": "Bundesgesetz über die Stromversorgung (Stromversorgungsgesetz, StromVG (Stromreserve)", "slug": "bundesgesetz-ueber-die-stromversorgung-stromversorgungsgesetz-stromvg-stromreserve", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "def01234-5678-490a-bcde-f1234567890a", "title": "Bundesgesetz über die Gentechnik im Ausserhumanbereich (Gentechnikgesetz, GTG)", "slug": "bundesgesetz-ueber-die-gentechnik-im-ausserhumanbereich-gentechnikgesetz-gtg", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "ef012345-6789-4a0b-cdef-1234567890ab", "title": "Bundesgesetz über Tabakprodukte und elektronische Zigaretten (Tabakproduktegesetz, TabPG)", "slug": "bundesgesetz-ueber-tabakprodukte-und-elektronische-zigaretten-tabakproduktegesetz-tabpg", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" },
-  { "id": "f0123456-789a-4b0c-def1-234567890abc", "title": "Bundesgesetz über Ergänzungsleistungen zur Alters-, Hinterlassenen- und Invalidenversicherung (ELG)", "slug": "bundesgesetz-ueber-ergaenzungsleistungen-zur-alters-hinterlassenen-und-invalidenversicherung-elg", "startDate": "", "endDate": "", "image": "/placeholder.svg", "description": "" }
+  {
+    "id": "0a1b2c3d-4e5f-6789-abcd-ef0123456789",
+    "title": "Bundesgesetz über die Unfallversicherung (UVG) (Finanzierung der Stiftung Entschädigungsfonds für Asbestopfer)",
+    "slug": "bundesgesetz-ueber-die-unfallversicherung-uvg-finanzierung-der-stiftung-entschaedigungsfonds-fuer-asbestopfer",
+    "startDate": "2024-09-13",
+    "endDate": "2025-10-09",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "1b2c3d4e-5f67-489a-bcde-f0123456789a",
+    "title": "Bundesbeschluss über die Änderung des Bundesbeschlusses über die Genehmigung und die Umsetzung der bilateralen Abkommen zwischen der Schweiz und der EU über die Assoziierung an Schengen und an Dublin",
+    "slug": "bundesbeschluss-ueber-die-aenderung-des-bundesbeschlusses-ueber-die-genehmigung-und-die-umsetzung-der-bilateralen-abkommen-zwischen-der-schweiz-und-der-eu-ueber-die-assoziierung-an-schengen-und-an-dublin",
+    "startDate": "2022-08-24",
+    "endDate": "2025-10-09",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "2c3d4e5f-6789-4abc-def0-1234567890ab",
+    "title": "Bundesbeschluss über die Genehmigung eines Protokolls zur Änderung des Doppelbesteuerungsabkommens zwischen der Schweiz und Ungarn",
+    "slug": "bundesbeschluss-ueber-die-genehmigung-eines-protokolls-zur-aenderung-des-doppelbesteuerungsabkommens-zwischen-der-schweiz-und-ungarn",
+    "startDate": "2024-11-20",
+    "endDate": "2025-10-09",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "3d4e5f67-89ab-4cde-f012-34567890abcd",
+    "title": "Bundesgesetz über die Unfallversicherung (UVG) (Finanzierung der Stiftung Entschädigungsfonds für Asbestopfer)",
+    "slug": "bundesgesetz-ueber-die-unfallversicherung-uvg-finanzierung-der-stiftung-entschaedigungsfonds-fuer-asbestopfer",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "4e5f6789-abcd-4def-0123-4567890abcde",
+    "title": "Bundespersonalgesetz (BPG)",
+    "slug": "bundespersonalgesetz-bpg",
+    "startDate": "2024-08-28",
+    "endDate": "2025-10-09",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "5f6789ab-cdef-4012-3456-7890abcdef12",
+    "title": "Schweizerisches Zivilgesetzbuch (Besitzesschutz bei verbotener Eigenmacht an Grundstücken)",
+    "slug": "schweizerisches-zivilgesetzbuch-besitzesschutz-bei-verbotener-eigenmacht-an-grundstuecken",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "6789abcd-ef01-4234-5678-90abcdef1234",
+    "title": "Schweizerisches Strafgesetzbuch (Verbesserung des strafrechtlichen Schutzes vor Nachstellung)",
+    "slug": "schweizerisches-strafgesetzbuch-verbesserung-des-strafrechtlichen-schutzes-vor-nachstellung",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "789abcde-f012-4345-6789-0abcdef12345",
+    "title": "Bundesgesetz über die Schweizerische Nationalbibliothek (Nationalbibliotheksgesetz, NBibG)",
+    "slug": "bundesgesetz-ueber-die-schweizerische-nationalbibliothek-nationalbibliotheksgesetz-nbibg",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "89abcdef-0123-4456-7890-abcdef123456",
+    "title": "Bundesgesetz über die wirtschaftliche Landesversorgung (Landesversorgungsgesetz, LVG)",
+    "slug": "bundesgesetz-ueber-die-wirtschaftliche-landesversorgung-landesversorgungsgesetz-lvg",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "9abcdef0-1234-4567-890a-bcdef1234567",
+    "title": "Bundesgesetz über die Individualbesteuerung",
+    "slug": "bundesgesetz-ueber-die-individualbesteuerung",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "abcdef01-2345-4678-90ab-cdef12345678",
+    "title": "Bundesgesetz über die Zollpflicht und die Bemessung der Zollabgaben (Zollabgabengesetz, ZoG)",
+    "slug": "bundesgesetz-ueber-die-zollpflicht-und-die-bemessung-der-zollabgaben-zollabgabengesetz-zog",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "bcdef012-3456-4789-0abc-def123456789",
+    "title": "Bundesgesetz über den Allgemeinen Teil der Abgabenerhebung und die Kontrolle des grenzüberschreitenden Waren- und Personenverkehrs durch das Bundesamt für Zoll und Grenzsicherheit (BAZG-Vollzugsaufgabengesetz, BAZG-VG)",
+    "slug": "bundesgesetz-ueber-den-allgemeinen-teil-der-abgabenerhebung-und-die-kontrolle-des-grenzueberschreitenden-waren-und-personenverkehrs-durch-das-bundesamt-fuer-zoll-und-grenzsicherheit-bazg-vollzugsaufgabengesetz-bazg-vg",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "cdef0123-4567-4890-abcd-ef1234567890",
+    "title": "Bundesgesetz über die Stromversorgung (Stromversorgungsgesetz, StromVG (Stromreserve)",
+    "slug": "bundesgesetz-ueber-die-stromversorgung-stromversorgungsgesetz-stromvg-stromreserve",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "def01234-5678-490a-bcde-f1234567890a",
+    "title": "Bundesgesetz über die Gentechnik im Ausserhumanbereich (Gentechnikgesetz, GTG)",
+    "slug": "bundesgesetz-ueber-die-gentechnik-im-ausserhumanbereich-gentechnikgesetz-gtg",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "ef012345-6789-4a0b-cdef-1234567890ab",
+    "title": "Bundesgesetz über Tabakprodukte und elektronische Zigaretten (Tabakproduktegesetz, TabPG)",
+    "slug": "bundesgesetz-ueber-tabakprodukte-und-elektronische-zigaretten-tabakproduktegesetz-tabpg",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  },
+  {
+    "id": "f0123456-789a-4b0c-def1-234567890abc",
+    "title": "Bundesgesetz über Ergänzungsleistungen zur Alters-, Hinterlassenen- und Invalidenversicherung (ELG)",
+    "slug": "bundesgesetz-ueber-ergaenzungsleistungen-zur-alters-hinterlassenen-und-invalidenversicherung-elg",
+    "startDate": "",
+    "endDate": "",
+    "image": "/placeholder.svg",
+    "description": ""
+  }
 ]
