@@ -21,6 +21,7 @@ interface GalleryItem {
   id: string;
   title: string;
   summary: string;
+  dateRange?: string;
   url: string;
   image: string;
   slug: string;
@@ -148,6 +149,11 @@ const Gallery6 = ({
                     <h3 className="text-xl font-semibold mb-4 text-foreground leading-tight">
                       {item.title}
                     </h3>
+                    {item.dateRange && (
+                      <div className="text-xs font-medium text-muted-foreground mb-3 px-2 py-1 bg-muted/30 rounded inline-block">
+                        {item.dateRange}
+                      </div>
+                    )}
                     <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                       {item.summary}
                     </p>

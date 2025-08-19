@@ -57,7 +57,8 @@ const Index = () => {
     return {
       id: item.id,
       title: item.title,
-      summary: `Initiative: ${item.title.substring(0, 100)}${dateRange ? ` | ${dateRange}` : ''}...`,
+      summary: `Initiative: ${item.title.substring(0, 120)}...`,
+      dateRange: dateRange,
       url: `/initiative/${item.slug}`,
       image: "/placeholder.svg",
       slug: item.slug,
@@ -68,7 +69,8 @@ const Index = () => {
     return {
       id: item.id,
       title: item.title,
-      summary: `Referendum: ${item.title.substring(0, 100)}${dateRange ? ` | ${dateRange}` : ''}...`,
+      summary: `Referendum: ${item.title.substring(0, 120)}...`,
+      dateRange: dateRange,
       url: `/referendum/${item.slug}`,
       image: "/placeholder.svg",
       slug: item.slug,
