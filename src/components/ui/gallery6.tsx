@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Filter, Share2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Filter, Share2, FileText } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -13,6 +13,7 @@ interface GalleryItem {
   image: string;
   slug: string;
   type?: 'Initiative' | 'Referendum';
+  pdf?: string;
 }
 interface Gallery6Props {
   heading?: string;
@@ -124,10 +125,20 @@ const Gallery6 = ({
                     </p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <Button variant="outline" size="sm" onClick={e => handleShare(item, e)} className="flex items-center gap-1 hover:bg-accent text-xs">
-                      <Share2 className="h-3 w-3" />
-                      Teilen
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Button variant="outline" size="sm" onClick={e => handleShare(item, e)} className="flex items-center gap-1 hover:bg-accent text-xs">
+                        <Share2 className="h-3 w-3" />
+                        Teilen
+                      </Button>
+                      {item.pdf && (
+                        <Button variant="outline" size="sm" asChild className="flex items-center gap-1 hover:bg-accent text-xs">
+                          <a href={item.pdf} target="_blank" rel="noopener noreferrer">
+                            <FileText className="h-3 w-3" />
+                            PDF
+                          </a>
+                        </Button>
+                      )}
+                    </div>
                     <a href={item.url} className="inline-flex items-center justify-center rounded-md border border-destructive w-10 h-10 hover:bg-destructive/10 transition-colors group">
                       <ArrowRight className="h-4 w-4 text-destructive transition-transform group-hover:translate-x-0.5" />
                     </a>
