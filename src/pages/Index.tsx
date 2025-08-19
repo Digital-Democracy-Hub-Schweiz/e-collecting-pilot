@@ -4,6 +4,7 @@ import { Gallery6 } from "@/components/ui/gallery6";
 import { Shield, Building2, Github } from "lucide-react";
 import { useMatch } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
+import { format } from "date-fns";
 import initiatives from "@/data/initiatives.json";
 import referendums from "@/data/referendums.json";
 const Index = () => {
@@ -19,6 +20,29 @@ const Index = () => {
     const found = list.find(item => item?.id === value || item?.slug === value);
     return found?.id;
   };
+
+  const formatDate = (dateString: string) => {
+    if (!dateString) return '';
+    try {
+      return format(new Date(dateString), 'dd.MM.yyyy');
+    } catch {
+      return '';
+    }
+  };
+
+  const getDateRange = (startDate: string, endDate: string) => {
+    const start = formatDate(startDate);
+    const end = formatDate(endDate);
+    
+    if (start && end) {
+      return `${start} - ${end}`;
+    } else if (start) {
+      return `ab ${start}`;
+    } else if (end) {
+      return `bis ${end}`;
+    }
+    return '';
+  };
   const preselect = initiativeMatch ? {
     type: "Initiative" as const,
     id: resolveId(initiatives as any[], initiativeMatch.params.id as string) || initiativeMatch.params.id as string
@@ -28,23 +52,31 @@ const Index = () => {
   } : undefined;
 
   // Prepare data for carousel
-  const carouselItems = [...initiatives.map((item: any) => ({
-    id: item.id,
-    title: item.title,
-    summary: `Initiative: ${item.title.substring(0, 120)}...`,
-    url: `/initiative/${item.slug}`,
-    image: "/placeholder.svg",
-    slug: item.slug,
-    type: "Initiative" as const
-  })), ...referendums.map((item: any) => ({
-    id: item.id,
-    title: item.title,
-    summary: `Referendum: ${item.title.substring(0, 120)}...`,
-    url: `/referendum/${item.slug}`,
-    image: "/placeholder.svg",
-    slug: item.slug,
-    type: "Referendum" as const
-  }))];
+  const carouselItems = [...initiatives.map((item: any) => {
+    const dateRange = getDateRange(item.startDate, item.endDate);
+    return {
+      id: item.id,
+      title: item.title,
+      summary: `Initiative: ${item.title.substring(0, 120)}...`,
+      dateRange: dateRange,
+      url: `/initiative/${item.slug}`,
+      image: "/placeholder.svg",
+      slug: item.slug,
+      type: "Initiative" as const
+    };
+  }), ...referendums.map((item: any) => {
+    const dateRange = getDateRange(item.startDate, item.endDate);
+    return {
+      id: item.id,
+      title: item.title,
+      summary: `Referendum: ${item.title.substring(0, 120)}...`,
+      dateRange: dateRange,
+      url: `/referendum/${item.slug}`,
+      image: "/placeholder.svg",
+      slug: item.slug,
+      type: "Referendum" as const
+    };
+  })];
   return <body className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Skip to main content - Swiss Design System requirement */}
       <a href="#main-content" className="skip-to-content sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50">

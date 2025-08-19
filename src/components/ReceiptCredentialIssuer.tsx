@@ -398,10 +398,10 @@ export function ReceiptCredentialIssuer({
                   <div className="space-y-4">
                     <Label className="text-base font-semibold">Typ wählen</Label>
                     <Select value={type} onValueChange={v => setType(v as any)}>
-                      <SelectTrigger className="h-12 text-base">
+                      <SelectTrigger className="h-12 text-base" onClick={(e) => e.stopPropagation()}>
                         <SelectValue placeholder="Wählen Sie Initiative oder Referendum" />
                       </SelectTrigger>
-                      <SelectContent className="z-50 bg-background border shadow-lg">
+                      <SelectContent className="z-[100] bg-background border shadow-lg">
                         <SelectItem value="Initiative" className="text-base py-3">Initiative</SelectItem>
                         <SelectItem value="Referendum" className="text-base py-3">Referendum</SelectItem>
                       </SelectContent>
@@ -411,13 +411,13 @@ export function ReceiptCredentialIssuer({
                   <div className="space-y-4">
                     <Label className="text-base font-semibold">Titel auswählen</Label>
                     <Select value={selectedId} onValueChange={setSelectedId} disabled={!type}>
-                      <SelectTrigger className="h-12 text-base">
+                      <SelectTrigger className="h-12 text-base" onClick={(e) => e.stopPropagation()}>
                         <SelectValue placeholder={type ? "Titel auswählen" : "Zuerst Typ wählen"} />
                       </SelectTrigger>
-                      <SelectContent className="max-h-[300px] overflow-auto z-50 bg-background border shadow-lg w-full min-w-[300px]">
-                        {options.map(o => <SelectItem key={o.id} value={o.id} className="text-sm py-3 leading-relaxed">
-                            {o.title}
-                          </SelectItem>)}
+                <SelectContent className="max-h-[300px] overflow-auto z-[100] bg-background border shadow-lg w-full min-w-[300px]">
+                  {options.map(o => <SelectItem key={o.id} value={o.id} className="text-sm py-3 leading-relaxed">
+                      {o.title}
+                    </SelectItem>)}
                       </SelectContent>
                     </Select>
                   </div>
