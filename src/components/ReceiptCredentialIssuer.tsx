@@ -409,7 +409,7 @@ export function ReceiptCredentialIssuer({
                   </div>
                   
                   <div className="space-y-4">
-                    <Label className="text-base font-semibold">Titel auswählen</Label>
+                    <Label className="text-base font-semibold">Volksbegehren auswählen</Label>
                     <Select value={selectedId} onValueChange={setSelectedId} disabled={!type}>
                       <SelectTrigger className="h-12 text-base" onClick={(e) => e.stopPropagation()}>
                         <SelectValue placeholder={type ? "Titel auswählen" : "Zuerst Typ wählen"} />
