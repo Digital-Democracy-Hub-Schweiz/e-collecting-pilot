@@ -114,8 +114,8 @@ const Index = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 {/* Swiss Cross Logo Placeholder */}
-                <div className="w-12 h-12 bg-white rounded flex items-center justify-center border border-gray-200">
-                  <img src="/lovable-uploads/e6f1023d-aaa5-4e86-97b4-18c5f2f955bb.png" alt="E-Collecting Pilot Logo" className="w-8 h-8" />
+                <div className="w-12 h-12 bg-white rounded flex items-center justify-center">
+                  <img src="/lovable-uploads/e6f1023d-aaa5-4e86-97b4-18c5f2f955bb.png" alt="E-Collecting Pilot Logo" className="w-12 h-12" />
                 </div>
                 <div className="max-w-md">
                   <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilot Anwendung</h1>
