@@ -125,20 +125,8 @@ const Index = () => {
                 <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
                   <a href="https://winterkongress.ch/2025/talks/pilotprojekt_e_collecting_how_low_can_we_go/" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">How low can we go?</a>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Referenzarchitektur (in Arbeit)</a>
-                  <button className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
-                    Mehr
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                    </svg>
-                  </button>
                 </nav>
                 <div className="flex items-center gap-4">
-                  <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
-                    <span className="text-sm">Suche</span>
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                    </svg>
-                  </button>
                   
                   {/* External Links Dropdown */}
                   <div className="relative group">
