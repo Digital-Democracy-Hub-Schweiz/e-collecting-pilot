@@ -192,27 +192,27 @@ const Index = () => {
                     <DropdownMenuContent align="start" className="w-56 bg-background border border-border shadow-lg">
                       <DropdownMenuItem asChild>
                         <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/volksinitiativen.html" target="_blank" rel="noopener noreferrer" className="w-full cursor-pointer">
-                          Initiativen
+                          Initiativen (extern)
                         </a>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/referenden.html" target="_blank" rel="noopener noreferrer" className="w-full cursor-pointer">
-                          Referenden
+                          Referenden (extern)
                         </a>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/nationalratswahlen.html" target="_blank" rel="noopener noreferrer" className="w-full cursor-pointer">
-                          Wahlvorschläge
+                          Wahlvorschläge (extern)
                         </a>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="w-full cursor-pointer">
-                          Swiyu-Wallet App
+                          Swiyu-Wallet App (extern)
                         </a>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="w-full cursor-pointer">
-                          Beta-ID
+                          Beta-ID (extern)
                         </a>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
