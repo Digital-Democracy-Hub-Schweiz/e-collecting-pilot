@@ -109,12 +109,92 @@ const Index = () => {
         </div>
 
         {/* Top Header - Main department info */}
-        
+        <div className="top-header bg-white">
+          <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                {/* Swiss Cross Logo Placeholder */}
+                <div className="w-12 h-12 bg-white rounded flex items-center justify-center border border-gray-200">
+                  <img src="/lovable-uploads/2130f482-b83a-4669-a69c-8f5ba77c9619.png" alt="Digital Democracy Hub Logo" className="w-8 h-8" />
+                </div>
+                <div className="max-w-md">
+                  <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilot Anwendung</h1>
+                </div>
+              </div>
+              <div className="flex items-center gap-6">
+                <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
+                  <a href="https://winterkongress.ch/2025/talks/pilotprojekt_e_collecting_how_low_can_we_go/" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">How low can we go?</a>
+                  <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Referenzarchitektur (in Arbeit)</a>
+                  <button className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                    Mehr
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                    </svg>
+                  </button>
+                </nav>
+                <div className="flex items-center gap-4">
+                  <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                    <span className="text-sm">Suche</span>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                  
+                  {/* External Links Dropdown */}
+                  <div className="relative group">
+                    <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
+                      <span className="text-sm">Externe Links</span>
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                    
+                    {/* Dropdown Menu */}
+                    <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                      <div className="py-2">
+                        <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/volksinitiativen.html" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                          Volksinitiativen (admin.ch)
+                        </a>
+                        <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/referenden.html" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                          Referenden (admin.ch)
+                        </a>
+                        <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                          Swiyu-Wallet App
+                        </a>
+                        <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                          Beta-ID Service
+                        </a>
+                        <div className="border-t border-gray-100 my-1"></div>
+                        <a href="https://winterkongress.ch/2025/talks/pilotprojekt_e_collecting_how_low_can_we_go/" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                          How low can we go? (Winterkongress)
+                        </a>
+                        <a href="https://www.digitaldemocracyhub.ch" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                          Digital Democracy Hub
+                        </a>
+                        <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                          Stiftung für Direkte Demokratie
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Desktop Menu - Main Navigation */}
         <div className="desktop-menu bg-white border-t border-gray-200">
           <div className="max-w-7xl mx-auto px-6">
-            
+            <nav aria-label="Main" className="main-navigation">
+              <ul className="flex items-center gap-8 py-4">
+                <li>
+                  <a href="/" className="relative text-swiss-red font-medium text-base py-2 border-b-2 border-swiss-red hover:text-swiss-red/80 transition-colors">
+                    Pilot
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
 
@@ -177,7 +257,7 @@ const Index = () => {
                 Das elektronische Sammeln von Unterschriften (E-Collecting) ermöglicht es Bürgerinnen und Bürgern, digitale Unterschriften für Volksinitiativen und Referenden zu leisten. Dieser Pilot testet die technische Umsetzung und Sicherheit des elektronischen Sammelverfahrens für politische Rechte in der Schweiz. Hier finden Sie wichtige Informationen zum Pilotprojekt.
               </p>
               <p className="text-sm text-white/70 mt-6">
-                © 2025 <a href="https://www.digitaldemocracyhub.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Digital Democracy Hub Schweiz</a> in Kooperation mit <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Stiftung für Direkte Demokratie</a>
+                © 2025 ein Projekt von <a href="https://www.digitaldemocracyhub.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Digital Democracy Hub Schweiz</a> in Kooperation mit <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Stiftung für Direkte Demokratie</a>
               </p>
             </div>
 
