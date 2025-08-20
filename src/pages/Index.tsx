@@ -270,6 +270,15 @@ const Index = () => {
                   <span>→</span>
                 </a>
               </div>
+              
+              <div className="mt-6 pt-4 border-t border-white/20">
+                <h4 className="text-base font-medium mb-3">Kontakt</h4>
+                <div className="space-y-2 text-sm text-white/80">
+                  <p>Digital Democracy Hub Schweiz</p>
+                  <p>E-Mail: info@digitaldemocracyhub.ch</p>
+                  <p>Web: www.digitaldemocracyhub.ch</p>
+                </div>
+              </div>
             </div>
 
             {/* Weitere Informationen Section */}
