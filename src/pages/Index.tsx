@@ -2,12 +2,6 @@ import { VerificationDashboard } from "@/components/VerificationDashboard";
 import { ReceiptCredentialIssuer } from "@/components/ReceiptCredentialIssuer";
 import { Gallery6 } from "@/components/ui/gallery6";
 import { Shield, Building2, Github } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useMatch } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
 import { format } from "date-fns";
@@ -26,7 +20,6 @@ const Index = () => {
     const found = list.find(item => item?.id === value || item?.slug === value);
     return found?.id;
   };
-
   const formatDate = (dateString: string) => {
     if (!dateString) return '';
     try {
@@ -35,11 +28,9 @@ const Index = () => {
       return '';
     }
   };
-
   const getDateRange = (startDate: string, endDate: string) => {
     const start = formatDate(startDate);
     const end = formatDate(endDate);
-    
     if (start && end) {
       return `${start} - ${end}`;
     } else if (start) {
@@ -120,7 +111,7 @@ const Index = () => {
                       <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </a>
-                  <a href="#" className="hover:bg-white/10 px-2 py-1 rounded transition-colors">Anmelden</a>
+                  
                   <button className="text-sm px-2 py-1 rounded hover:bg-white/10 transition-colors flex items-center gap-1">
                     DE
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -182,41 +173,30 @@ const Index = () => {
                   </a>
                 </li>
                 <li>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">
-                      Mehr
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="w-56 bg-background border border-border shadow-lg">
-                      <DropdownMenuItem asChild>
-                        <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/volksinitiativen.html" target="_blank" rel="noopener noreferrer" className="w-full cursor-pointer">
-                          Initiativen (extern)
-                        </a>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/referenden.html" target="_blank" rel="noopener noreferrer" className="w-full cursor-pointer">
-                          Referenden (extern)
-                        </a>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/nationalratswahlen.html" target="_blank" rel="noopener noreferrer" className="w-full cursor-pointer">
-                          Wahlvorschläge (extern)
-                        </a>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="w-full cursor-pointer">
-                          Swiyu-Wallet App (extern)
-                        </a>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="w-full cursor-pointer">
-                          Beta-ID (extern)
-                        </a>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/volksinitiativen.html" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Initiativen</a>
+                </li>
+                <li>
+                  <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/referenden.html" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Referenden</a>
+                </li>
+                <li>
+                  <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/nationalratswahlen.html" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Wahlvorschläge</a>
+                </li>
+                <li>
+                  <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Swiyu-Wallet App</a>
+                </li>
+                <li>
+                  <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">Beta-ID</a>
+                </li>
+                <li>
+                  
+                </li>
+                <li>
+                  <button className="flex items-center gap-1 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors text-base py-2">
+                    Mehr
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                    </svg>
+                  </button>
                 </li>
               </ul>
             </nav>
