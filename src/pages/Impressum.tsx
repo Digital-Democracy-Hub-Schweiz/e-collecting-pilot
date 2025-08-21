@@ -57,20 +57,11 @@ const Impressum = () => {
               <div>
                 <h2 className="text-xl font-semibold text-foreground mb-4">Verantwortlich für den Inhalt</h2>
                 <div className="space-y-2 text-muted-foreground">
-                  <p><strong>Digital Democracy Hub Schweiz</strong></p>
+                  <p><strong>Verein Digital Democracy Hub Schweiz - Fachstelle für Demokratie und Digitalisierung (in Gründung)</strong></p>
                   <p>E-Mail: info@digitaldemocracyhub.ch</p>
-                  <p>Web: www.digitaldemocracyhub.ch</p>
+                  <p>Web: https://digitaldemocracyhub.ch</p>
                 </div>
               </div>
-
-              <div>
-                <h2 className="text-xl font-semibold text-foreground mb-4">Kooperationspartner</h2>
-                <div className="space-y-2 text-muted-foreground">
-                  <p><strong>Stiftung für Direkte Demokratie</strong></p>
-                  <p>Web: www.demokratie.ch</p>
-                </div>
-              </div>
-
               <div>
                 <h2 className="text-xl font-semibold text-foreground mb-4">Zweck der Plattform</h2>
                 <p className="text-muted-foreground">
