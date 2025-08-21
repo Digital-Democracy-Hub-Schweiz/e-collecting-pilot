@@ -29,10 +29,10 @@ const Impressum = () => {
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                {/* Swiss Cross Logo Placeholder */}
-                <div className="h-12 bg-white flex items-center justify-center">
+                {/* Swiss Cross Logo */}
+                <a href="/" className="h-12 bg-white flex items-center justify-center hover:opacity-80 transition-opacity">
                   <img src="/ddhlogo/logo blue.png" alt="E-Collecting Pilot Logo" className="h-12" />
-                </div>
+                </a>
                 <div className="max-w-md">
                   <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilotprojekt</h1>
                 </div>
