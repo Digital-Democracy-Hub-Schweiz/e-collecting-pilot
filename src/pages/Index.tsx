@@ -86,7 +86,7 @@ const Index = () => {
       <header id="main-header">
         {/* Top Bar - All Swiss Federal Authorities */}
         <div className="top-bar text-white border-b border-white/20" style={{
-        backgroundColor: 'hsl(var(--gov-header-bg))'
+        backgroundColor: 'hsl(var(--footer-background))'
       }}>
           <div className="max-w-7xl mx-auto px-6 py-3">
             <div className="flex items-center justify-between">
