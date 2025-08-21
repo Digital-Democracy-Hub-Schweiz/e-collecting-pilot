@@ -7,7 +7,7 @@ export interface IssueCredentialRequest {
     signDate?: string;
     type?: string;
     title?: string;
-    committee?: string | null;
+    commitee?: string | null;
     level?: string | null;
   };
   credential_metadata?: Record<string, string>;

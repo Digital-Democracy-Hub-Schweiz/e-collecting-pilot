@@ -84,7 +84,7 @@ export function ReceiptCredentialIssuer({
         slug,
         type,
         title,
-        committee: item?.committee ?? null,
+        commitee: item?.commitee ?? null,
         level: item?.level ?? null
       };
     });
