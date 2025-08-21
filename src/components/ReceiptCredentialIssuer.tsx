@@ -116,7 +116,7 @@ export function ReceiptCredentialIssuer({
     try {
       const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
       const selectedTitle = selectedItem?.title || "";
-      const selectedCommittee = selectedItem?.committee ?? null;
+      const selectedCommitee = selectedItem?.commitee ?? null;
       const selectedLevel = selectedItem?.level ?? null;
       const payload = {
         metadata_credential_supported_id: ["e-collecting-pilot-receipt"],
@@ -127,7 +127,7 @@ export function ReceiptCredentialIssuer({
           signDate: new Date().toISOString().slice(0, 10),
           type,
           title: selectedTitle,
-          committee: selectedCommittee,
+          commitee: selectedCommitee,
           level: selectedLevel
         },
         offer_validity_seconds: 86400,
