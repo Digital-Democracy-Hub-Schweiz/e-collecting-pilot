@@ -83,7 +83,9 @@ export function ReceiptCredentialIssuer({
         id,
         slug,
         type,
-        title
+        title,
+        committee: item?.committee ?? null,
+        level: item?.level ?? null
       };
     });
   }, []);
@@ -112,9 +114,10 @@ export function ReceiptCredentialIssuer({
     setIsIssuing(true);
     setStatusResult(null);
     try {
-      const list = normalized.filter(i => i.type === type).map(({ id, title }) => ({ id, title }));
-      const selected = list.find(o => o.id === selectedId);
-      const selectedTitle = selected?.title || "";
+      const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
+      const selectedTitle = selectedItem?.title || "";
+      const selectedCommittee = selectedItem?.committee ?? null;
+      const selectedLevel = selectedItem?.level ?? null;
       const payload = {
         metadata_credential_supported_id: ["e-collecting-pilot-receipt"],
         credential_subject_data: {
@@ -123,7 +126,9 @@ export function ReceiptCredentialIssuer({
           birthDate: currentBirthDate || "12.09.1848",
           signDate: new Date().toISOString().slice(0, 10),
           type,
-          title: selectedTitle
+          title: selectedTitle,
+          committee: selectedCommittee,
+          level: selectedLevel
         },
         offer_validity_seconds: 86400,
         credential_valid_from: new Date().toISOString(),
