@@ -157,16 +157,6 @@ const Index = () => {
                         <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
                           Beta-ID Service
                         </a>
-                        <div className="border-t border-gray-100 my-1"></div>
-                        <a href="https://winterkongress.ch/2025/talks/pilotprojekt_e_collecting_how_low_can_we_go/" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                          How low can we go? (Winterkongress)
-                        </a>
-                        <a href="https://www.digitaldemocracyhub.ch" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                          Digital Democracy Hub
-                        </a>
-                        <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                          Stiftung für Direkte Demokratie
-                        </a>
                       </div>
                     </div>
                   </div>
