@@ -119,7 +119,7 @@ const Index = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 {/* Swiss Cross Logo Placeholder */}
-                <div className="w-12 h-12 bg-white rounded flex items-center justify-center">
+                <div className="h-12 bg-white flex items-center justify-center">
                   <img src="/ddhlogo/logo blue.png" alt="E-Collecting Pilot Logo" className="w-12 h-12" />
                 </div>
                 <div className="max-w-md">
