@@ -75,7 +75,7 @@ const Index = () => {
     return {
       id: item.id,
       title: item.title,
-      summary: `${item.type}: ${item.wording.substring(0, 200)}...`,
+      summary: `${item.type}: ${item.wording}`,
       dateRange: dateRange,
       url: `/volksbegehren/${item.slug}`,
       image: "/placeholder.svg",
