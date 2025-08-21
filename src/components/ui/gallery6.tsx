@@ -131,7 +131,7 @@ const Gallery6 = ({
                         Teilen
                       </Button>
                       {item.pdf && (
-                        <Button variant="outline" size="sm" asChild className="flex items-center gap-1 hover:bg-accent text-xs">
+                        <Button variant="outline" size="sm" asChild className="flex items-center gap-1 hover:bg-[#13678A]/10 text-xs border-[#13678A] text-[#13678A]">
                           <a href={item.pdf} target="_blank" rel="noopener noreferrer">
                             <FileText className="h-3 w-3" />
                             PDF
