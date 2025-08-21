@@ -130,14 +130,6 @@ const Gallery6 = ({
                         <Share2 className="h-3 w-3" />
                         Teilen
                       </Button>
-                      {item.pdf && (
-                        <Button variant="outline" size="sm" asChild className="flex items-center gap-1 hover:bg-[#13678A]/10 text-xs border-[#13678A] text-[#13678A]">
-                          <a href={item.pdf} target="_blank" rel="noopener noreferrer">
-                            <FileText className="h-3 w-3" />
-                            PDF
-                          </a>
-                        </Button>
-                      )}
                     </div>
                      <a href={item.url} className="inline-flex items-center justify-center rounded-md border border-[#13678A] w-10 h-10 hover:bg-[#13678A]/10 transition-colors group">
                        <ArrowRight className="h-4 w-4 text-[#13678A] transition-transform group-hover:translate-x-0.5" />
