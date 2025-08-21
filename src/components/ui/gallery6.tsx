@@ -38,7 +38,7 @@ const Gallery6 = ({
     e.stopPropagation();
     try {
       const title = item.title;
-      const path = `/${item.type === "Initiative" ? "initiative" : "referendum"}/${item.slug}`;
+      const path = `/volksbegehren/${item.slug}`;
       const url = `${window.location.origin}${path}`;
       if (navigator.share) {
         await navigator.share({

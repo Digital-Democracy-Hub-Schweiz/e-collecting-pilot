@@ -14,8 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
 import { ShieldCheck, QrCode, RefreshCw, Share2 } from "lucide-react";
-import initiatives from "@/data/initiatives.json";
-import referendums from "@/data/referendums.json";
+import volksbegehren from "@/data/volksbegehren.json";
 type Option = {
   id: string;
   title: string;
@@ -68,7 +67,32 @@ export function ReceiptCredentialIssuer({
       if (preselect.id) setSelectedId(preselect.id);
     }
   }, [preselect]);
-  const options: Option[] = useMemo(() => type === "Initiative" ? initiatives as Option[] : referendums as Option[], [type]);
+  // Normalisierte Liste aus volksbegehren.json ableiten
+  const normalized = useMemo(() => {
+    return (volksbegehren as any[]).map((item, idx) => {
+      const title: string = item?.title ?? "";
+      const slug = title
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+      const id = slug || String(idx + 1);
+      const type = String(item?.type ?? "").toLowerCase() === "referendum" ? "Referendum" : "Initiative";
+      return {
+        id,
+        slug,
+        type,
+        title
+      };
+    });
+  }, []);
+  const options: Option[] = useMemo(() => {
+    if (!type) return [];
+    return normalized
+      .filter(i => i.type === type)
+      .map(({ id, title }) => ({ id, title }));
+  }, [type, normalized]);
   const handleIssue = async (credentialData?: {
     given_name?: string;
     family_name?: string;
@@ -88,7 +112,7 @@ export function ReceiptCredentialIssuer({
     setIsIssuing(true);
     setStatusResult(null);
     try {
-      const list = type === "Initiative" ? initiatives as Option[] : referendums as Option[];
+      const list = normalized.filter(i => i.type === type).map(({ id, title }) => ({ id, title }));
       const selected = list.find(o => o.id === selectedId);
       const selectedTitle = selected?.title || "";
       const payload = {
@@ -291,10 +315,9 @@ export function ReceiptCredentialIssuer({
   const handleShare = async () => {
     try {
       if (!type || !selectedId) return;
-      const list = type === "Initiative" ? initiatives as Option[] : referendums as Option[];
-      const selected = list.find(o => o.id === selectedId);
+      const selected = normalized.find(o => o.type === type && o.id === selectedId);
       const title = selected?.title || (type === "Initiative" ? "Initiative" : "Referendum");
-      const path = `/${type === "Initiative" ? "initiative" : "referendum"}/${selectedId}`;
+      const path = `/volksbegehren/${selected?.slug || selectedId}`;
       const url = `${window.location.origin}${path}`;
       if (navigator.share) {
         await navigator.share({

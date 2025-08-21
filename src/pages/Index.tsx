@@ -5,16 +5,33 @@ import { Shield, Building2, Github } from "lucide-react";
 import { useMatch } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
 import { format } from "date-fns";
-import initiatives from "@/data/initiatives.json";
-import referendums from "@/data/referendums.json";
+import volksbegehren from "@/data/volksbegehren.json";
 const Index = () => {
   const initiativeMatch = useMatch("/initiative/:id");
   const referendumMatch = useMatch("/referendum/:id");
+  const volksbegehrenMatch = useMatch("/volksbegehren/:id");
   const {
     data: healthStatus,
     isLoading: healthLoading,
     isError: healthError
   } = useHealthStatus();
+  // Normalisieren der Volksbegehren-Daten und Ableitung von id/slug
+  const normalized = (volksbegehren as any[]).map((item, idx) => {
+    const title: string = item?.title ?? "";
+    const slug = title.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const id = slug || String(idx + 1);
+    const type = String(item?.type ?? "").toLowerCase() === "referendum" ? "Referendum" : "Initiative";
+    return {
+      id,
+      slug,
+      type,
+      title,
+      startDate: item?.start_date ?? "",
+      endDate: item?.end_date ?? "",
+      pdf: item?.pdf_url ?? ""
+    };
+  });
+
   const resolveId = (list: any[], value?: string) => {
     if (!value) return undefined;
     const found = list.find(item => item?.id === value || item?.slug === value);
@@ -40,42 +57,32 @@ const Index = () => {
     }
     return '';
   };
-  const preselect = initiativeMatch ? {
-    type: "Initiative" as const,
-    id: resolveId(initiatives as any[], initiativeMatch.params.id as string) || initiativeMatch.params.id as string
+  const preselect: { type: "Initiative" | "Referendum"; id: string } | undefined = volksbegehrenMatch ? {
+    type: (normalized.find(i => i.id === volksbegehrenMatch.params.id || i.slug === volksbegehrenMatch.params.id)?.type || "Initiative") as "Initiative" | "Referendum",
+    id: resolveId(normalized as any[], volksbegehrenMatch.params.id as string) || (volksbegehrenMatch.params.id as string)
+  } : initiativeMatch ? {
+    type: "Initiative",
+    id: resolveId(normalized.filter(i => i.type === "Initiative"), initiativeMatch.params.id as string) || (initiativeMatch.params.id as string)
   } : referendumMatch ? {
-    type: "Referendum" as const,
-    id: resolveId(referendums as any[], referendumMatch.params.id as string) || referendumMatch.params.id as string
+    type: "Referendum",
+    id: resolveId(normalized.filter(i => i.type === "Referendum"), referendumMatch.params.id as string) || (referendumMatch.params.id as string)
   } : undefined;
 
   // Prepare data for carousel
-  const carouselItems = [...initiatives.map((item: any) => {
+  const carouselItems = normalized.map((item: any) => {
     const dateRange = getDateRange(item.startDate, item.endDate);
     return {
       id: item.id,
       title: item.title,
-      summary: `Initiative: ${item.title.substring(0, 120)}...`,
+      summary: `${item.type}: ${item.title.substring(0, 120)}...`,
       dateRange: dateRange,
-      url: `/initiative/${item.slug}`,
+      url: `/volksbegehren/${item.slug}`,
       image: "/placeholder.svg",
       slug: item.slug,
-      type: "Initiative" as const,
+      type: item.type as "Initiative" | "Referendum",
       pdf: item.pdf
     };
-  }), ...referendums.map((item: any) => {
-    const dateRange = getDateRange(item.startDate, item.endDate);
-    return {
-      id: item.id,
-      title: item.title,
-      summary: `Referendum: ${item.title.substring(0, 120)}...`,
-      dateRange: dateRange,
-      url: `/referendum/${item.slug}`,
-      image: "/placeholder.svg",
-      slug: item.slug,
-      type: "Referendum" as const,
-      pdf: item.pdf
-    };
-  })];
+  });
   return <body className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Skip to main content - Swiss Design System requirement */}
       <a href="#main-content" className="skip-to-content sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50">
@@ -116,7 +123,7 @@ const Index = () => {
                   <img src="/lovable-uploads/38f6cd22-5152-466e-abd5-6df1de083abc.png" alt="E-Collecting Pilot Logo" className="w-12 h-12" />
                 </div>
                 <div className="max-w-md">
-                  <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilot Anwendung</h1>
+                  <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilotprojekt</h1>
                 </div>
               </div>
               <div className="flex items-center gap-6">

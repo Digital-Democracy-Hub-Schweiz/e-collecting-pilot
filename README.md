@@ -9,13 +9,19 @@ Dieser Pilot ist ausschliesslich für Demonstrationszwecke. Funktionen, Daten un
 - **Beta Credential Service (BCS)**: `https://www.bcs.admin.ch/bcs-web/#/`
 - **Swiss Design System**: `https://swiss.github.io/designsystem/`
 
+### Dokumentationen und Repos
+- **Cookbooks**: `https://swiyu-admin-ch.github.io/cookbooks/`
+- **DID Toolbox**: https://github.com/swiyu-admin-ch/didtoolbox-java
+- ***Verifier Management**: https://github.com/swiyu-admin-ch/eidch-verifier-agent-management
+
 ## Datenquellen
 - `src/data/initiatives.json` und `src/data/referendums.json` dienen als Beispiel‑/Demodaten und können inhaltlich vom aktuellen Stand abweichen.
-
+- `src/data/volksbegehren.json` dienen als Beispiel‑/Demodaten und können inhaltlich vom aktuellen Stand abweichen.
 ## Routing & Deep‑Links
 Die Startseite (`src/pages/Index.tsx`) unterstützt Deep‑Links zur Vorbelegung:
 - `/initiative/:idOrSlug`
 - `/referendum/:idOrSlug`
+- `/volksbegehren/:idOrSlug`
 
 Beim Aufruf wird der entsprechende Eintrag gesucht und im Aussteller‑Formular vorbelegt.
 
