@@ -461,8 +461,8 @@ export function ReceiptCredentialIssuer({
           </h1>
           <div className="space-y-4 text-gray-700 leading-relaxed">
             <p className="text-lg">
-              Das elektronische Sammeln von Unterschriften (E-Collecting) ermöglicht es Bürgerinnen und 
-              Bürgern, digitale Unterschriften für Volksinitiativen und Referenden zu leisten.
+              Das elektronische Sammeln von Willensbekundungen für Volksbegehren (E-Collecting) ermöglicht es Bürgerinnen und 
+              Bürgern, zusätzlich zum Analogen Weg, über digitale Kanäle ihre demokratischen Rechte auszuüben.
             </p>
             <p className="text-lg">Probieren Sie E-Collecting aus und unterstützen Sie ein Volksbegehren mit der Beta-ID des Bundes. Dies ist ein Pilotprojekt und ihre Willensbekundung wird nicht an die zuständige politische Gemeinde übermittelt. </p>
           </div>
