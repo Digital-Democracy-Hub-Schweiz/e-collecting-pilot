@@ -86,15 +86,13 @@ const Index = () => {
       <header id="main-header">
         {/* Top Bar - All Swiss Federal Authorities */}
         <div className="top-bar text-white border-b border-white/20" style={{
-        backgroundColor: 'var(--color-secondary-600)'
+        backgroundColor: 'hsl(var(--footer-background))'
       }}>
           <div className="max-w-7xl mx-auto px-6 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-sm">Alle Schweizer Pilotanwendungen</span>
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
+                
+                
               </div>
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-4 text-sm">
@@ -115,7 +113,7 @@ const Index = () => {
               <div className="flex items-center gap-4">
                 {/* Swiss Cross Logo Placeholder */}
                 <div className="w-12 h-12 bg-white rounded flex items-center justify-center">
-                  <img src="/lovable-uploads/e6f1023d-aaa5-4e86-97b4-18c5f2f955bb.png" alt="E-Collecting Pilot Logo" className="w-12 h-12" />
+                  <img src="/lovable-uploads/38f6cd22-5152-466e-abd5-6df1de083abc.png" alt="E-Collecting Pilot Logo" className="w-12 h-12" />
                 </div>
                 <div className="max-w-md">
                   <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilot Anwendung</h1>
@@ -172,19 +170,7 @@ const Index = () => {
         </div>
 
         {/* Desktop Menu - Main Navigation */}
-        <div className="desktop-menu bg-white border-t border-gray-200">
-          <div className="max-w-7xl mx-auto px-6">
-            <nav aria-label="Main" className="main-navigation">
-              <ul className="flex items-center gap-8 py-4">
-                <li>
-                  <a href="/" className="relative text-swiss-red font-medium text-base py-2 border-b-2 border-swiss-red hover:text-swiss-red/80 transition-colors">
-                    Pilot
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
+        
 
         {/* Mobile Menu - Hidden by default, shown on mobile */}
         <div className="mobile-menu hidden">
@@ -234,7 +220,7 @@ const Index = () => {
 
       {/* Footer */}
       <footer id="main-footer" className="text-white" style={{
-      backgroundColor: 'var(--color-secondary-600)'
+      backgroundColor: 'hsl(var(--footer-background))'
     }}>
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
@@ -263,7 +249,7 @@ const Index = () => {
                 <h4 className="text-base font-medium mb-3">Kontakt</h4>
                 <div className="space-y-2 text-sm text-white/80">
                   <p>Digital Democracy Hub Schweiz</p>
-                  <p>Projektleiter: Sandro Scalco</p>
+                  
                   <p>E-Mail: info@digitaldemocracyhub.ch</p>
                   <p>Web: www.digitaldemocracyhub.ch</p>
                 </div>

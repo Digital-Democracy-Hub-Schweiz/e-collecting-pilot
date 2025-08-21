@@ -18,10 +18,10 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
 
-    /* Swiss Red */
-    --primary: 0 100% 50%;
+    /* Primary Color - changed to #13678A */
+    --primary: 194 76% 31%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 0 100% 65%;
+    --primary-glow: 194 76% 45%;
 
     /* Swiss Gray */
     --secondary: 0 0% 95%;
@@ -38,10 +38,10 @@ All colors MUST be HSL.
 
     --border: 0 0% 89%;
     --input: 0 0% 96%;
-    --ring: 0 100% 50%;
+    --ring: 194 76% 31%;
 
     /* Swiss Government Colors */
-    --swiss-red: 0 100% 50%;
+    --swiss-red: 194 76% 31%;
     --swiss-white: 0 0% 100%;
     --swiss-black: 0 0% 0%;
     --swiss-gray-100: 0 0% 96%;
@@ -55,24 +55,24 @@ All colors MUST be HSL.
     --swiss-gray-900: 0 0% 9%;
 
     /* Custom design tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--swiss-red)), hsl(0 100% 45%));
+    --gradient-primary: linear-gradient(135deg, hsl(194 76% 31%), hsl(194 76% 25%));
     --gradient-secondary: linear-gradient(135deg, hsl(var(--swiss-gray-100)), hsl(var(--swiss-white)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--swiss-red)), hsl(0 100% 40%));
+    --gradient-hero: linear-gradient(135deg, hsl(194 76% 31%), hsl(194 76% 20%));
     
     --shadow-elegant: 0 2px 8px -2px hsl(var(--swiss-gray-900) / 0.1);
     --shadow-card: 0 1px 3px 0 hsl(var(--swiss-gray-900) / 0.1);
-    --shadow-glow: 0 0 20px hsl(var(--swiss-red) / 0.1);
+    --shadow-glow: 0 0 20px hsl(194 76% 31% / 0.1);
     
     --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-spring: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 
     /* Footer specific colors */
-    --footer-background: 0 0% 15%;
+    --footer-background: 194 76% 31%;
     --footer-text: 0 0% 100%;
     --footer-text-muted: 0 0% 70%;
 
     /* Government header colors */
-    --gov-header-bg: 0 0% 15%;
+    --gov-header-bg: 174 48% 52%;
     --gov-header-text: 0 0% 100%;
     --gov-header-text-muted: 0 0% 70%;
     --gov-nav-bg: 0 0% 100%;
