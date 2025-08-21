@@ -417,7 +417,7 @@ export function ReceiptCredentialIssuer({
             </div>}
 
           <div className={cn("grid gap-6", issuedId ? "md:grid-cols-2" : "")}>
-            <div className={cn("space-y-4", !issuedId && "md:max-w-2xl mx-auto")}>
+            <div className={cn("space-y-4", !issuedId && "lg:max-w-2xl lg:mx-auto")}>
               <div className="flex items-center justify-between">
                 <Badge variant="outline" className="text-xs">Schritt {step} von 4</Badge>
               </div>
