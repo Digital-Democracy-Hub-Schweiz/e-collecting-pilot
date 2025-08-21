@@ -249,7 +249,7 @@ const Index = () => {
                 <h4 className="text-base font-medium mb-3">Kontakt</h4>
                 <div className="space-y-2 text-sm text-white/80">
                   <p>Digital Democracy Hub Schweiz</p>
-                  <p>Projektleiter: Sandro Scalco</p>
+                  
                   <p>E-Mail: info@digitaldemocracyhub.ch</p>
                   <p>Web: www.digitaldemocracyhub.ch</p>
                 </div>
