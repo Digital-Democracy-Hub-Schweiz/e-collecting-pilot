@@ -1,4 +1,18 @@
+import { useHealthStatus } from "@/hooks/use-health-status";
+
 const Impressum = () => {
+  const { data: healthStatus } = useHealthStatus();
+
+  const getServiceStatus = (serviceHealth: any) => {
+    if (!serviceHealth) return "Offline";
+    return serviceHealth.status === "UP" ? "Online" : "Offline";
+  };
+
+  const getStatusColor = (serviceHealth: any) => {
+    if (!serviceHealth) return "text-red-400";
+    return serviceHealth.status === "UP" ? "text-green-400" : "text-red-400";
+  };
+
   return (
     <body className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Skip to main content - Swiss Design System requirement */}
@@ -147,15 +161,21 @@ const Impressum = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
                   <span className="text-white/70">Verifier-Mgmt:</span>
-                  <span className="text-white/70">Offline</span>
+                  <span className={getStatusColor(healthStatus?.verifierManagement)}>
+                    {getServiceStatus(healthStatus?.verifierManagement)}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
                   <span className="text-white/70">Issuer-Mgmt:</span>
-                  <span className="text-white/70">Offline</span>
+                  <span className={getStatusColor(healthStatus?.issuerManagement)}>
+                    {getServiceStatus(healthStatus?.issuerManagement)}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
                   <span className="text-white/70">Issuer-OID4VCI:</span>
-                  <span className="text-white/70">Offline</span>
+                  <span className={getStatusColor(healthStatus?.issuerOid4vci)}>
+                    {getServiceStatus(healthStatus?.issuerOid4vci)}
+                  </span>
                 </div>
               </div>
             </div>
