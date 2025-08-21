@@ -26,6 +26,7 @@ const Index = () => {
       slug,
       type,
       title,
+      wording: item?.wording ?? "",
       startDate: item?.start_date ?? "",
       endDate: item?.end_date ?? "",
       pdf: item?.pdf_url ?? ""
