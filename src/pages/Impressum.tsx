@@ -85,7 +85,7 @@ const Impressum = () => {
               <div>
                 <h2 className="text-xl font-semibold text-foreground mb-4">Datenschutz</h2>
                 <p className="text-muted-foreground">
-                  Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Personenbezogene Daten werden 
+                  Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Daten werden 
                   nur im Rahmen der technischen Demonstration verarbeitet und nicht zu anderen Zwecken verwendet. 
                   Für die Erstellung einer Beta-ID gelten die Datenschutzbestimmungen des entsprechenden Services.
                 </p>
