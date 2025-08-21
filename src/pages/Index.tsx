@@ -120,7 +120,7 @@ const Index = () => {
               <div className="flex items-center gap-4">
                 {/* Swiss Cross Logo Placeholder */}
                 <div className="h-12 bg-white flex items-center justify-center">
-                  <img src="/ddhlogo/logo blue.png" alt="E-Collecting Pilot Logo" className="w-12 h-12" />
+                  <img src="/ddhlogo/logo blue.png" alt="E-Collecting Pilot Logo" className="h-12" />
                 </div>
                 <div className="max-w-md">
                   <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilotprojekt</h1>
