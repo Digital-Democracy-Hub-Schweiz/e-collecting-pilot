@@ -59,9 +59,6 @@ All colors MUST be HSL.
     --gradient-secondary: linear-gradient(135deg, hsl(var(--swiss-gray-100)), hsl(var(--swiss-white)));
     --gradient-hero: linear-gradient(135deg, hsl(var(--swiss-red)), hsl(0 100% 40%));
     
-    /* Secondary color used for header/footer */
-    --color-secondary-600: 171 50% 53%;
-    
     --shadow-elegant: 0 2px 8px -2px hsl(var(--swiss-gray-900) / 0.1);
     --shadow-card: 0 1px 3px 0 hsl(var(--swiss-gray-900) / 0.1);
     --shadow-glow: 0 0 20px hsl(var(--swiss-red) / 0.1);
@@ -70,12 +67,12 @@ All colors MUST be HSL.
     --transition-spring: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 
     /* Footer specific colors */
-    --footer-background: 171 50% 53%;
+    --footer-background: 0 0% 15%;
     --footer-text: 0 0% 100%;
     --footer-text-muted: 0 0% 70%;
 
     /* Government header colors */
-    --gov-header-bg: 171 50% 53%;
+    --gov-header-bg: 0 0% 15%;
     --gov-header-text: 0 0% 100%;
     --gov-header-text-muted: 0 0% 70%;
     --gov-nav-bg: 0 0% 100%;
