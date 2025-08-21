@@ -59,6 +59,9 @@ export function ReceiptCredentialIssuer({
   const [isCreatingVerification, setIsCreatingVerification] = useState(false);
   const [isPollingVerification, setIsPollingVerification] = useState(false);
   const [acceptedLegalNotice, setAcceptedLegalNotice] = useState(false);
+  const [postalSuggestions, setPostalSuggestions] = useState<Array<{label: string, detail: string}>>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
   // Vorbelegung via URL
   useEffect(() => {
@@ -375,10 +378,63 @@ export function ReceiptCredentialIssuer({
     setIsCreatingVerification(false);
     setIsPollingVerification(false);
     setAcceptedLegalNotice(false);
+    setPostalSuggestions([]);
+    setShowSuggestions(false);
+    setIsLoadingSuggestions(false);
     toast({
       title: "Zurückgesetzt",
       description: "Formular wurde geleert."
     });
+  };
+
+  const searchPostalCodes = async (searchText: string) => {
+    if (searchText.length < 3) {
+      setPostalSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    setIsLoadingSuggestions(true);
+    try {
+      const response = await fetch(
+        `https://api3.geo.admin.ch/rest/services/ech/SearchServer?sr=2056&searchText=${encodeURIComponent(searchText)}&lang=de&type=featuresearch&features=ch.swisstopo-vd.ortschaftenverzeichnis_plz&timeEnabled=false`
+      );
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch postal codes');
+      }
+
+      const data = await response.json();
+      const suggestions = data.results?.map((result: any) => ({
+        label: result.attrs.label,
+        detail: result.attrs.detail
+      })) || [];
+      
+      setPostalSuggestions(suggestions);
+      setShowSuggestions(suggestions.length > 0);
+    } catch (error) {
+      console.error('Error fetching postal codes:', error);
+      setPostalSuggestions([]);
+      setShowSuggestions(false);
+    } finally {
+      setIsLoadingSuggestions(false);
+    }
+  };
+
+  const handlePostalCodeChange = (value: string) => {
+    setPostalCode(value);
+    searchPostalCodes(value);
+  };
+
+  const handleSuggestionClick = (suggestion: {label: string, detail: string}) => {
+    setPostalCode(suggestion.label);
+    setShowSuggestions(false);
+    
+    // Extract city from detail (format: "8200 schaffhausen")
+    const cityFromDetail = suggestion.detail.split(' ').slice(1).join(' ');
+    if (cityFromDetail) {
+      setCity(cityFromDetail.charAt(0).toUpperCase() + cityFromDetail.slice(1));
+    }
   };
   return <section aria-labelledby="issuer-section" className="bg-white border border-gray-200 rounded-lg">
       <div className="p-8 space-y-6">
@@ -473,9 +529,36 @@ export function ReceiptCredentialIssuer({
                       </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="space-y-2">
+                        <div className="space-y-2 relative">
                           <Label className="text-base font-medium">Postleitzahl</Label>
-                          <Input value={postalCode} onChange={e => setPostalCode(e.target.value)} placeholder="z.B. 8001" className="h-12 text-base" />
+                          <Input 
+                            value={postalCode} 
+                            onChange={e => handlePostalCodeChange(e.target.value)} 
+                            placeholder="z.B. 8001" 
+                            className="h-12 text-base" 
+                            onFocus={() => postalSuggestions.length > 0 && setShowSuggestions(true)}
+                            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                          />
+                          {isLoadingSuggestions && (
+                            <div className="absolute right-3 top-10 text-muted-foreground">
+                              <RefreshCw className="w-4 h-4 animate-spin" />
+                            </div>
+                          )}
+                          {showSuggestions && postalSuggestions.length > 0 && (
+                            <div className="absolute z-50 w-full bg-background border border-input rounded-md shadow-lg mt-1 max-h-60 overflow-auto">
+                              {postalSuggestions.map((suggestion, index) => (
+                                <button
+                                  key={index}
+                                  type="button"
+                                  className="w-full px-3 py-2 text-left hover:bg-muted transition-colors border-b border-border last:border-b-0"
+                                  onClick={() => handleSuggestionClick(suggestion)}
+                                >
+                                  <div className="font-medium">{suggestion.label}</div>
+                                  <div className="text-sm text-muted-foreground">{suggestion.detail}</div>
+                                </button>
+                              ))}
+                            </div>
+                          )}
                         </div>
                         <div className="space-y-2">
                           <Label className="text-base font-medium">Ort</Label>
