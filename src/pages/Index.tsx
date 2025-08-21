@@ -284,15 +284,18 @@ const Index = () => {
             </div>
           </div>
 
-          {/* GitHub info */}
+          {/* Footer links */}
           <div className="border-t border-white/20 mt-8 pt-8">
-            <div className="flex items-center justify-start gap-2">
+            <div className="flex items-center justify-between">
               <p className="text-sm text-white/70 flex items-center gap-2">
                 made with ❤️{" "}
                 <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="GitHub Repository">
                   <Github size={16} />
                 </a>
               </p>
+              <a href="/impressum" className="text-sm text-white/70 hover:text-white transition-colors underline underline-offset-4">
+                Impressum
+              </a>
             </div>
           </div>
         </div>
