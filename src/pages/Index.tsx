@@ -172,19 +172,7 @@ const Index = () => {
         </div>
 
         {/* Desktop Menu - Main Navigation */}
-        <div className="desktop-menu bg-white border-t border-gray-200">
-          <div className="max-w-7xl mx-auto px-6">
-            <nav aria-label="Main" className="main-navigation">
-              <ul className="flex items-center gap-8 py-4">
-                <li>
-                  <a href="/" className="relative text-swiss-red font-medium text-base py-2 border-b-2 border-swiss-red hover:text-swiss-red/80 transition-colors">
-                    Pilot
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
+        
 
         {/* Mobile Menu - Hidden by default, shown on mobile */}
         <div className="mobile-menu hidden">
