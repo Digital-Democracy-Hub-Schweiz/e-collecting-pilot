@@ -1,12 +1,7 @@
 import { useHealthStatus } from "@/hooks/use-health-status";
 
 const Impressum = () => {
-  const { data: healthStatus } = useHealthStatus();
-
-  const getServiceStatus = (serviceHealth: any) => {
-    if (!serviceHealth) return "Offline";
-    return serviceHealth.status === "UP" ? "Online" : "Offline";
-  };
+  const { data: healthStatus, isLoading: healthLoading } = useHealthStatus();
 
   const getStatusColor = (serviceHealth: any) => {
     if (!serviceHealth) return "text-red-400";
@@ -161,21 +156,21 @@ const Impressum = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
                   <span className="text-white/70">Verifier-Mgmt:</span>
-                  <span className={getStatusColor(healthStatus?.verifierManagement)}>
-                    {getServiceStatus(healthStatus?.verifierManagement)}
-                  </span>
+                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${getStatusColor(healthStatus?.verifierManagement)}`}>
+                    {healthStatus?.verifierManagement?.status || "Offline"}
+                  </span>}
                 </div>
                 <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
                   <span className="text-white/70">Issuer-Mgmt:</span>
-                  <span className={getStatusColor(healthStatus?.issuerManagement)}>
-                    {getServiceStatus(healthStatus?.issuerManagement)}
-                  </span>
+                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${getStatusColor(healthStatus?.issuerManagement)}`}>
+                    {healthStatus?.issuerManagement?.status || "Offline"}
+                  </span>}
                 </div>
                 <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
                   <span className="text-white/70">Issuer-OID4VCI:</span>
-                  <span className={getStatusColor(healthStatus?.issuerOid4vci)}>
-                    {getServiceStatus(healthStatus?.issuerOid4vci)}
-                  </span>
+                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${getStatusColor(healthStatus?.issuerOid4vci)}`}>
+                    {healthStatus?.issuerOid4vci?.status || "Offline"}
+                  </span>}
                 </div>
               </div>
             </div>
