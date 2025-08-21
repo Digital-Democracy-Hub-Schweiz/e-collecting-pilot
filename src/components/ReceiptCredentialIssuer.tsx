@@ -59,7 +59,7 @@ export function ReceiptCredentialIssuer({
   const [isCreatingVerification, setIsCreatingVerification] = useState(false);
   const [isPollingVerification, setIsPollingVerification] = useState(false);
   const [acceptedLegalNotice, setAcceptedLegalNotice] = useState(false);
-  const [postalSuggestions, setPostalSuggestions] = useState<Array<{label: string, detail: string}>>([]);
+  const [postalSuggestions, setPostalSuggestions] = useState<Array<{label: string, detail: string, featureId: string}>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
@@ -407,7 +407,8 @@ export function ReceiptCredentialIssuer({
       const data = await response.json();
       const suggestions = data.results?.map((result: any) => ({
         label: result.attrs.label,
-        detail: result.attrs.detail
+        detail: result.attrs.detail,
+        featureId: result.attrs.featureId
       })) || [];
       
       setPostalSuggestions(suggestions);
@@ -426,14 +427,30 @@ export function ReceiptCredentialIssuer({
     searchPostalCodes(value);
   };
 
-  const handleSuggestionClick = (suggestion: {label: string, detail: string}) => {
+  const handleSuggestionClick = async (suggestion: {label: string, detail: string, featureId: string}) => {
     setPostalCode(suggestion.label);
     setShowSuggestions(false);
     
-    // Extract city from detail (format: "8200 schaffhausen")
-    const cityFromDetail = suggestion.detail.split(' ').slice(1).join(' ');
-    if (cityFromDetail) {
-      setCity(cityFromDetail.charAt(0).toUpperCase() + cityFromDetail.slice(1));
+    // Fetch detailed location information using feature ID
+    try {
+      const response = await fetch(
+        `https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo-vd.ortschaftenverzeichnis_plz/${suggestion.featureId}`
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        const langtext = data.feature?.attributes?.langtext;
+        if (langtext) {
+          setCity(langtext);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching detailed location:', error);
+      // Fallback to extracting city from detail as before
+      const cityFromDetail = suggestion.detail.split(' ').slice(1).join(' ');
+      if (cityFromDetail) {
+        setCity(cityFromDetail.charAt(0).toUpperCase() + cityFromDetail.slice(1));
+      }
     }
   };
   return <section aria-labelledby="issuer-section" className="bg-white border border-gray-200 rounded-lg">
