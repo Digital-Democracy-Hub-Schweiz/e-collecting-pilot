@@ -379,14 +379,14 @@ export function ReceiptCredentialIssuer({
       <div className="p-8 space-y-6">
         <div className="space-y-6">
           <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">
-            Volksbegehren elektronisch unterstützen
+            Volksbegehren elektronisch unterstützen (Pilot)
           </h1>
           <div className="space-y-4 text-gray-700 leading-relaxed">
             <p className="text-lg">
               Das elektronische Sammeln von Unterschriften (E-Collecting) ermöglicht es Bürgerinnen und 
               Bürgern, digitale Unterschriften für Volksinitiativen und Referenden zu leisten.
             </p>
-            <p className="text-lg">Unterstützen Sie ein Volksbegehren sicher und einfach mit der Beta-ID des Bundes. </p>
+            <p className="text-lg">Probieren Sie E-Collecting aus und unterstützen Sie ein Volksbegehren mit der Beta-ID des Bundes. Dies ist ein Pilotprojekt und ihre Willensbekundung wird nicht an die zuständige politische Gemeinde übermittelt. </p>
           </div>
         </div>
 
@@ -403,10 +403,10 @@ export function ReceiptCredentialIssuer({
               
               <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
                 <p className="text-sm font-medium text-green-800 mb-2">
-                  Sie haben erfolgreich die {type} "{options.find(o => o.id === selectedId)?.title}" unterstützt.
+                  Sie haben erfolgreich {type === "Initiative" ? "die Initiative" : "das Referendum"} "{options.find(o => o.id === selectedId)?.title}" unterstützt. Dies ist ein Pilotprojekt und ihre Willensbekundung wird nicht an die zuständige politische Gemeinde übermittelt.
                 </p>
                 <p className="text-xs text-green-700">
-                  Ihre Willensbekundung wurde digital erfasst und an die zuständige politische Gemeinde übermittelt.
+                  So könnte ein E-Collecting Prozess in Zukunft aussehen. 
                 </p>
               </div>
             </div>}
@@ -535,7 +535,7 @@ export function ReceiptCredentialIssuer({
                       </button>
                       <button onClick={handleStartVerification} disabled={!acceptedLegalNotice || isCreatingVerification || isValidatingAddress} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base flex-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
-                        Volksbegehren unterstützen
+                        Volksbegehren unterstützen (Pilotprojekt)
                       </button>
                     </div>
                   </div>
@@ -610,9 +610,9 @@ export function ReceiptCredentialIssuer({
 
             {issuedId && <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label>Bestätigung:</Label>
+                  <Label>Quittung:</Label>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Eine Bestätigung kann mit der Swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere Swiyu-Wallet App.
+                    Eine Quittung kann mit der Swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere Swiyu-Wallet App.
                   </p>
                   <div className="space-y-4">
                     
