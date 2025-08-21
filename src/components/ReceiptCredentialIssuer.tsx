@@ -463,7 +463,6 @@ export function ReceiptCredentialIssuer({
             <p className="text-lg">
             Das elektronische Sammeln von Willensbekundungen für Volksbegehren (E-Collecting) ermöglicht es Bürgerinnen und Bürgern, zusätzlich zum analogen Weg, Initiativen und Referenden auch digital zu unterstützen.
             </p>
-            <p className="text-lg">Probieren Sie E-Collecting aus und unterstützen Sie ein Volksbegehren mit der Beta-ID des Bundes. Dies ist ein Pilotprojekt und ihre Willensbekundung wird nicht an die zuständige politische Gemeinde übermittelt. </p>
           </div>
         </div>
 
