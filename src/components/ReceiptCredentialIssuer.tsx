@@ -423,7 +423,7 @@ export function ReceiptCredentialIssuer({
                   </div>
                   
                   <div className="pt-4">
-                    <button onClick={handleNextFromStep1} className="w-full inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base">
+                    <button onClick={handleNextFromStep1} className="w-full inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
                       Weiter
                     </button>
                   </div>
@@ -458,10 +458,10 @@ export function ReceiptCredentialIssuer({
                   </div>
                   
                   <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <button onClick={() => setStep(1)} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base">
+                    <button onClick={() => setStep(1)} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
                       Zurück
                     </button>
-                    <button onClick={handleNextFromStep2} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base flex-1" disabled={isValidatingAddress}>
+                    <button onClick={handleNextFromStep2} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base flex-1" disabled={isValidatingAddress}>
                       {isValidatingAddress && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} 
                       Weiter
                     </button>
@@ -507,10 +507,10 @@ export function ReceiptCredentialIssuer({
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3">
-                      <button onClick={() => setStep(2)} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base">
+                      <button onClick={() => setStep(2)} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
                         Zurück
                       </button>
-                      <button onClick={handleStartVerification} disabled={!acceptedLegalNotice || isCreatingVerification || isValidatingAddress} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base flex-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+                      <button onClick={handleStartVerification} disabled={!acceptedLegalNotice || isCreatingVerification || isValidatingAddress} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base flex-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
                         Volksbegehren unterstützen
                       </button>
@@ -541,7 +541,7 @@ export function ReceiptCredentialIssuer({
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <button onClick={() => setStep(3)} disabled={isPollingVerification} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+                    <button onClick={() => setStep(3)} disabled={isPollingVerification} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
                       Zurück
                     </button>
                   </div>
@@ -610,7 +610,7 @@ export function ReceiptCredentialIssuer({
           {step === 4 && issuedId && <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <button className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base">Neu starten</button>
+                  <button className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">Neu starten</button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
@@ -625,7 +625,7 @@ export function ReceiptCredentialIssuer({
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-              <button onClick={handleShare} className="inline-flex items-center justify-center px-6 py-3 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors font-medium h-12 text-base flex-1">
+              <button onClick={handleShare} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base flex-1">
                 <Share2 className="w-4 h-4 mr-2" /> Volksbegehren teilen
               </button>
             </div>}
