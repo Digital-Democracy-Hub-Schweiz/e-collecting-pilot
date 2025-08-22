@@ -14,19 +14,14 @@ interface GalleryItem {
   slug: string;
   type?: 'Initiative' | 'Referendum';
   pdf?: string;
-  wording?: string;
-  startDate?: string;
-  endDate?: string;
 }
 interface Gallery6Props {
   heading?: string;
   items?: GalleryItem[];
-  onItemSelect?: (item: GalleryItem) => void;
 }
 const Gallery6 = ({
   heading = "Gallery",
-  items = [],
-  onItemSelect
+  items = []
 }: Gallery6Props) => {
   const {
     toast
@@ -136,14 +131,9 @@ const Gallery6 = ({
                         Teilen
                       </Button>
                     </div>
-                     <Button 
-                       onClick={() => onItemSelect?.(item)}
-                       className="inline-flex items-center justify-center rounded-md border border-[#13678A] w-10 h-10 hover:bg-[#13678A]/10 transition-colors group bg-transparent"
-                       variant="ghost"
-                       size="sm"
-                     >
+                     <a href={item.url} className="inline-flex items-center justify-center rounded-md border border-[#13678A] w-10 h-10 hover:bg-[#13678A]/10 transition-colors group">
                        <ArrowRight className="h-4 w-4 text-[#13678A] transition-transform group-hover:translate-x-0.5" />
-                     </Button>
+                     </a>
                   </div>
                 </div>
               </CarouselItem>)}

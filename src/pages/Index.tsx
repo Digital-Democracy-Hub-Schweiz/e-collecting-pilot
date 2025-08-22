@@ -5,13 +5,11 @@ import { Shield, Building2, Github } from "lucide-react";
 import { useMatch } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
 import { format } from "date-fns";
-import { useState } from "react";
 import volksbegehren from "@/data/volksbegehren.json";
 const Index = () => {
   const initiativeMatch = useMatch("/initiative/:id");
   const referendumMatch = useMatch("/referendum/:id");
   const volksbegehrenMatch = useMatch("/volksbegehren/:id");
-  const [selectedItem, setSelectedItem] = useState<any>(null);
   const {
     data: healthStatus,
     isLoading: healthLoading,
@@ -83,16 +81,9 @@ const Index = () => {
       image: "/placeholder.svg",
       slug: item.slug,
       type: item.type as "Initiative" | "Referendum",
-      pdf: item.pdf,
-      wording: item.wording,
-      startDate: item.startDate,
-      endDate: item.endDate
+      pdf: item.pdf
     };
   });
-
-  const handleItemSelect = (item: any) => {
-    setSelectedItem(item);
-  };
   return <body className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Skip to main content - Swiss Design System requirement */}
       <a href="#main-content" className="skip-to-content sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50">
@@ -192,31 +183,8 @@ const Index = () => {
           <div className="grid gap-8">
             {/* Receipt Credential Issuer with Info Box */}
             <div className="grid lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 space-y-6">
+              <div className="lg:col-span-2">
                 <ReceiptCredentialIssuer preselect={preselect} />
-                
-                {/* Selected Item Details */}
-                {selectedItem && (
-                  <div className="bg-muted/30 border border-muted rounded-lg p-6 space-y-4">
-                    <h3 className="text-lg font-semibold text-foreground">Ausgewählte {selectedItem.type}</h3>
-                    <div className="space-y-3">
-                      <div>
-                        <h4 className="text-sm font-medium text-foreground mb-1">Titel:</h4>
-                        <p className="text-sm text-muted-foreground">{selectedItem.title}</p>
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-medium text-foreground mb-1">Wortlaut:</h4>
-                        <p className="text-sm text-muted-foreground">{selectedItem.wording}</p>
-                      </div>
-                      {selectedItem.dateRange && (
-                        <div>
-                          <h4 className="text-sm font-medium text-foreground mb-1">Sammeldatum:</h4>
-                          <p className="text-sm text-muted-foreground">{selectedItem.dateRange}</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
               </div>
               <div className="lg:col-span-1">
                 <div className="bg-muted/30 border border-muted rounded-lg p-6 space-y-4">
@@ -248,7 +216,7 @@ const Index = () => {
 
         {/* Full width section */}
         <section className="border-t">
-          <Gallery6 heading="Verfügbare Initiativen und Referenden" items={carouselItems} onItemSelect={handleItemSelect} />
+          <Gallery6 heading="Verfügbare Initiativen und Referenden" items={carouselItems} />
         </section>
       </main>
 
