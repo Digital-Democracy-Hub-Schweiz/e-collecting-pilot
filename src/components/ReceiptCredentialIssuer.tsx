@@ -654,13 +654,10 @@ export function ReceiptCredentialIssuer({
                      {verificationUrl && <div className="space-y-4">
                         <div className="bg-background p-6 rounded border flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={verificationUrl} size={192} />
-                          <a href={verificationUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground underline break-all">
-                            {verificationUrl}
-                          </a>
                           <div className="mt-4 pt-4 border-t">
                             <a 
                               href={`swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`}
-                              className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-[#13678A] rounded-md hover:bg-[#0f5a7a] transition-colors"
+                              className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base"
                             >
                               Mit Swiyu-Wallet öffnen
                             </a>
@@ -730,9 +727,14 @@ export function ReceiptCredentialIssuer({
                      {offerDeeplink && <div className="space-y-4">
                         <div className="bg-background p-4 rounded border flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={offerDeeplink} size={192} />
-                          <a href={offerDeeplink} target="_blank" rel="noopener noreferrer" className="text-primary underline font-medium">
-                            In App öffnen
-                          </a>
+                          <div className="mt-4 pt-4 border-t">
+                            <a 
+                              href={offerDeeplink}
+                              className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base"
+                            >
+                              Mit Swiyu-Wallet öffnen
+                            </a>
+                          </div>
                         </div>
                       </div>}
                   </div>
