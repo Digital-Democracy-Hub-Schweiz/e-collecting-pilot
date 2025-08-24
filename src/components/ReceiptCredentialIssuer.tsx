@@ -59,7 +59,11 @@ export function ReceiptCredentialIssuer({
   const [isCreatingVerification, setIsCreatingVerification] = useState(false);
   const [isPollingVerification, setIsPollingVerification] = useState(false);
   const [acceptedLegalNotice, setAcceptedLegalNotice] = useState(false);
-  const [postalSuggestions, setPostalSuggestions] = useState<Array<{label: string, detail: string, featureId: string}>>([]);
+  const [postalSuggestions, setPostalSuggestions] = useState<Array<{
+    label: string;
+    detail: string;
+    featureId: string;
+  }>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
@@ -74,12 +78,7 @@ export function ReceiptCredentialIssuer({
   const normalized = useMemo(() => {
     return (volksbegehren as any[]).map((item, idx) => {
       const title: string = item?.title ?? "";
-      const slug = title
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/\p{Diacritic}/gu, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
+      const slug = title.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
       const id = slug || String(idx + 1);
       const type = String(item?.type ?? "").toLowerCase() === "referendum" ? "Referendum" : "Initiative";
       return {
@@ -94,9 +93,13 @@ export function ReceiptCredentialIssuer({
   }, []);
   const options: Option[] = useMemo(() => {
     if (!type) return [];
-    return normalized
-      .filter(i => i.type === type)
-      .map(({ id, title }) => ({ id, title }));
+    return normalized.filter(i => i.type === type).map(({
+      id,
+      title
+    }) => ({
+      id,
+      title
+    }));
   }, [type, normalized]);
   const handleIssue = async (credentialData?: {
     given_name?: string;
@@ -386,31 +389,24 @@ export function ReceiptCredentialIssuer({
       description: "Formular wurde geleert."
     });
   };
-
   const searchPostalCodes = async (searchText: string) => {
     if (searchText.length < 3) {
       setPostalSuggestions([]);
       setShowSuggestions(false);
       return;
     }
-
     setIsLoadingSuggestions(true);
     try {
-      const response = await fetch(
-        `https://api3.geo.admin.ch/rest/services/ech/SearchServer?sr=2056&searchText=${encodeURIComponent(searchText)}&lang=de&type=featuresearch&features=ch.swisstopo-vd.ortschaftenverzeichnis_plz&timeEnabled=false`
-      );
-      
+      const response = await fetch(`https://api3.geo.admin.ch/rest/services/ech/SearchServer?sr=2056&searchText=${encodeURIComponent(searchText)}&lang=de&type=featuresearch&features=ch.swisstopo-vd.ortschaftenverzeichnis_plz&timeEnabled=false`);
       if (!response.ok) {
         throw new Error('Failed to fetch postal codes');
       }
-
       const data = await response.json();
       const suggestions = data.results?.map((result: any) => ({
         label: result.attrs.label,
         detail: result.attrs.detail,
         featureId: result.attrs.featureId
       })) || [];
-      
       setPostalSuggestions(suggestions);
       setShowSuggestions(suggestions.length > 0);
     } catch (error) {
@@ -421,22 +417,21 @@ export function ReceiptCredentialIssuer({
       setIsLoadingSuggestions(false);
     }
   };
-
   const handlePostalCodeChange = (value: string) => {
     setPostalCode(value);
     searchPostalCodes(value);
   };
-
-  const handleSuggestionClick = async (suggestion: {label: string, detail: string, featureId: string}) => {
+  const handleSuggestionClick = async (suggestion: {
+    label: string;
+    detail: string;
+    featureId: string;
+  }) => {
     setPostalCode(suggestion.label);
     setShowSuggestions(false);
-    
+
     // Fetch detailed location information using feature ID
     try {
-      const response = await fetch(
-        `https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo-vd.ortschaftenverzeichnis_plz/${suggestion.featureId}`
-      );
-      
+      const response = await fetch(`https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo-vd.ortschaftenverzeichnis_plz/${suggestion.featureId}`);
       if (response.ok) {
         const data = await response.json();
         const langtext = data.feature?.attributes?.langtext;
@@ -460,9 +455,7 @@ export function ReceiptCredentialIssuer({
             Volksbegehren elektronisch unterstützen (Pilot)
           </h1>
           <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p className="text-lg">
-            Das elektronische Sammeln von Willensbekundungen für Volksbegehren (E-Collecting) ermöglicht es Bürgerinnen und Bürgern, zusätzlich zum analogen Weg, Initiativen und Referenden auch digital zu unterstützen.
-            </p>
+            <p className="text-lg">Das elektronische Sammeln von Willensbekundungen für Volksbegehren (E-Collecting) könnte es zukünftig Bürgerinnen und Bürgern ermöglichen, zusätzlich zum analogen Weg, Initiativen und Referenden auch digital zu unterstützen.</p>
           </div>
         </div>
 
@@ -497,7 +490,7 @@ export function ReceiptCredentialIssuer({
                   <div className="space-y-4">
                     <Label className="text-base font-semibold">Typ wählen</Label>
                     <Select value={type} onValueChange={v => setType(v as any)}>
-                      <SelectTrigger className="h-12 text-base" onClick={(e) => e.stopPropagation()}>
+                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()}>
                         <SelectValue placeholder="Wählen Sie Initiative oder Referendum" />
                       </SelectTrigger>
                       <SelectContent className="z-[100] bg-background border shadow-lg">
@@ -510,7 +503,7 @@ export function ReceiptCredentialIssuer({
                   <div className="space-y-4">
                     <Label className="text-base font-semibold">Volksbegehren auswählen</Label>
                     <Select value={selectedId} onValueChange={setSelectedId} disabled={!type}>
-                      <SelectTrigger className="h-12 text-base" onClick={(e) => e.stopPropagation()}>
+                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()}>
                         <SelectValue placeholder={type ? "Titel auswählen" : "Zuerst Typ wählen"} />
                       </SelectTrigger>
                 <SelectContent className="max-h-[300px] overflow-auto z-[100] bg-background border shadow-lg w-full min-w-[300px]">
@@ -546,34 +539,16 @@ export function ReceiptCredentialIssuer({
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2 relative">
                           <Label className="text-base font-medium">Postleitzahl</Label>
-                          <Input 
-                            value={postalCode} 
-                            onChange={e => handlePostalCodeChange(e.target.value)} 
-                            placeholder="z.B. 8001" 
-                            className="h-12 text-base" 
-                            onFocus={() => postalSuggestions.length > 0 && setShowSuggestions(true)}
-                            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                          />
-                          {isLoadingSuggestions && (
-                            <div className="absolute right-3 top-10 text-muted-foreground">
+                          <Input value={postalCode} onChange={e => handlePostalCodeChange(e.target.value)} placeholder="z.B. 8001" className="h-12 text-base" onFocus={() => postalSuggestions.length > 0 && setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} />
+                          {isLoadingSuggestions && <div className="absolute right-3 top-10 text-muted-foreground">
                               <RefreshCw className="w-4 h-4 animate-spin" />
-                            </div>
-                          )}
-                          {showSuggestions && postalSuggestions.length > 0 && (
-                            <div className="absolute z-50 w-full bg-background border border-input rounded-md shadow-lg mt-1 max-h-60 overflow-auto">
-                              {postalSuggestions.map((suggestion, index) => (
-                                <button
-                                  key={index}
-                                  type="button"
-                                  className="w-full px-3 py-2 text-left hover:bg-muted transition-colors border-b border-border last:border-b-0"
-                                  onClick={() => handleSuggestionClick(suggestion)}
-                                >
+                            </div>}
+                          {showSuggestions && postalSuggestions.length > 0 && <div className="absolute z-50 w-full bg-background border border-input rounded-md shadow-lg mt-1 max-h-60 overflow-auto">
+                              {postalSuggestions.map((suggestion, index) => <button key={index} type="button" className="w-full px-3 py-2 text-left hover:bg-muted transition-colors border-b border-border last:border-b-0" onClick={() => handleSuggestionClick(suggestion)}>
                                   <div className="font-medium">{suggestion.label}</div>
                                   <div className="text-sm text-muted-foreground">{suggestion.detail}</div>
-                                </button>
-                              ))}
-                            </div>
-                          )}
+                                </button>)}
+                            </div>}
                         </div>
                         <div className="space-y-2">
                           <Label className="text-base font-medium">Ort</Label>
@@ -655,10 +630,7 @@ export function ReceiptCredentialIssuer({
                         <div className="bg-background p-6 rounded border flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={verificationUrl} size={192} />
                           <div className="mt-4 pt-4 border-t">
-                            <a 
-                              href={`swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`}
-                              className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base"
-                            >
+                            <a href={`swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
                               Mit Swiyu-Wallet öffnen
                             </a>
                           </div>
@@ -728,10 +700,7 @@ export function ReceiptCredentialIssuer({
                         <div className="bg-background p-4 rounded border flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={offerDeeplink} size={192} />
                           <div className="mt-4 pt-4 border-t">
-                            <a 
-                              href={offerDeeplink}
-                              className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base"
-                            >
+                            <a href={offerDeeplink} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
                               Mit Swiyu-Wallet öffnen
                             </a>
                           </div>
