@@ -32,7 +32,6 @@ const Index = () => {
       pdf: item?.pdf_url ?? ""
     };
   });
-
   const resolveId = (list: any[], value?: string) => {
     if (!value) return undefined;
     const found = list.find(item => item?.id === value || item?.slug === value);
@@ -58,15 +57,18 @@ const Index = () => {
     }
     return '';
   };
-  const preselect: { type: "Initiative" | "Referendum"; id: string } | undefined = volksbegehrenMatch ? {
+  const preselect: {
+    type: "Initiative" | "Referendum";
+    id: string;
+  } | undefined = volksbegehrenMatch ? {
     type: (normalized.find(i => i.id === volksbegehrenMatch.params.id || i.slug === volksbegehrenMatch.params.id)?.type || "Initiative") as "Initiative" | "Referendum",
-    id: resolveId(normalized as any[], volksbegehrenMatch.params.id as string) || (volksbegehrenMatch.params.id as string)
+    id: resolveId(normalized as any[], volksbegehrenMatch.params.id as string) || volksbegehrenMatch.params.id as string
   } : initiativeMatch ? {
     type: "Initiative",
-    id: resolveId(normalized.filter(i => i.type === "Initiative"), initiativeMatch.params.id as string) || (initiativeMatch.params.id as string)
+    id: resolveId(normalized.filter(i => i.type === "Initiative"), initiativeMatch.params.id as string) || initiativeMatch.params.id as string
   } : referendumMatch ? {
     type: "Referendum",
-    id: resolveId(normalized.filter(i => i.type === "Referendum"), referendumMatch.params.id as string) || (referendumMatch.params.id as string)
+    id: resolveId(normalized.filter(i => i.type === "Referendum"), referendumMatch.params.id as string) || referendumMatch.params.id as string
   } : undefined;
 
   // Prepare data for carousel
@@ -129,7 +131,7 @@ const Index = () => {
               </div>
               <div className="flex items-center gap-6">
                 <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
-                  <a href="https://winterkongress.ch/2025/talks/pilotprojekt_e_collecting_how_low_can_we_go/" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">How low can we go?</a>
+                  <a href="https://winterkongress.ch/2025/talks/pilotprojekt_e_collecting_how_low_can_we_go/" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Konzeptpapier &quot;How low can we go&quot;</a>
                   <a href="#" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Referenzarchitektur (in Arbeit)</a>
                 </nav>
                 <div className="flex items-center gap-4">
