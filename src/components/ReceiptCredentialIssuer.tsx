@@ -488,7 +488,7 @@ export function ReceiptCredentialIssuer({
 
               {step === 1 && <div className="space-y-6">
                   <div className="space-y-4">
-                    <Label className="text-base font-semibold">Typ wählen</Label>
+                    <Label className="text-base font-semibold">Art des Volksbegehrens wählen</Label>
                     <Select value={type} onValueChange={v => setType(v as any)}>
                       <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()}>
                         <SelectValue placeholder="Wählen Sie Initiative oder Referendum" />
