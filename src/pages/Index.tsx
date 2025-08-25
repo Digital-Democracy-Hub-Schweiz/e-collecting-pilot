@@ -234,7 +234,7 @@ const Index = () => {
         <section className="bg-gradient-to-br from-blue-50 to-indigo-50 border-t">
           <div className="max-w-7xl mx-auto px-6 py-12">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-foreground mb-4">Schritt für Schritt Anleitung</h2>
+              <h2 className="text-3xl font-bold text-foreground mb-4">Die swiyu App mit einer Testversion der e-ID ausprobieren</h2>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
                 So können Sie Initiativen und Referenden in diesem Pilotprojekt unterstützen
               </p>
@@ -243,38 +243,59 @@ const Index = () => {
             <div className="max-w-6xl mx-auto">
               <div className="bg-white rounded-xl p-8 shadow-sm border border-blue-200">
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {/* Step 1 */}
+                  {/* Step 1 - Download */}
                   <div className="text-center">
                     <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
                       <span className="text-2xl font-bold text-blue-600">1</span>
                     </div>
-                    <h3 className="text-lg font-semibold mb-3">Swiyu App herunterladen</h3>
+                    <h3 className="text-lg font-semibold mb-3">Download</h3>
                     <p className="text-muted-foreground mb-4 text-sm">
-                      Laden Sie die Swiyu-Wallet App aus dem App Store oder Google Play Store herunter.
+                      Laden Sie die swiyu App kostenlos im Google Play Store oder Apple Store herunter.
                     </p>
-                    <p className="text-xs text-blue-600 font-medium">
-                      Verfügbar für iOS und Android
-                    </p>
+                    <div className="flex flex-col gap-2">
+                      <a href="https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-700 font-medium">
+                        Google Play Store →
+                      </a>
+                      <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-700 font-medium">
+                        Apple App Store →
+                      </a>
+                    </div>
                   </div>
 
-                  {/* Step 2 */}
+                  {/* Step 2 - Beta-ID ausstellen */}
                   <div className="text-center">
                     <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
                       <span className="text-2xl font-bold text-blue-600">2</span>
                     </div>
-                    <h3 className="text-lg font-semibold mb-3">Beta-ID Credential erstellen</h3>
+                    <h3 className="text-lg font-semibold mb-3">Beta-ID ausstellen</h3>
                     <p className="text-muted-foreground mb-4 text-sm">
-                      Erstellen Sie eine Beta-ID über den Beta Credential Service des Bundes.
+                      1. Starten Sie den Beantragungsprozess für die Beta-ID.<br/>
+                      2. Wählen Sie die fiktiven Attribute Ihrer Beta-ID aus.<br/>
+                      3. Fügen Sie die Beta-ID zu Ihrer swiyu App hinzu.
                     </p>
                     <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium text-sm">
-                      Beta-ID erstellen →
+                      Beta-ID erstellen und verifizieren →
                     </a>
                   </div>
 
-                  {/* Step 3 */}
+                  {/* Step 3 - Beta-ID prüfen */}
                   <div className="text-center">
                     <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
                       <span className="text-2xl font-bold text-blue-600">3</span>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3">Beta-ID prüfen</h3>
+                    <p className="text-muted-foreground mb-4 text-sm">
+                      Inhalt und Gültigkeit einer Beta-ID können überprüft werden. Dazu wird ein zweiter Bildschirm - eines zweiten Smartphones oder eines anderen Geräts - benötigt.
+                    </p>
+                    <p className="text-xs text-blue-600 font-medium">
+                      Anleitung für Beta-ID
+                    </p>
+                  </div>
+
+                  {/* Step 4 - Volksbegehren unterstützen */}
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                      <span className="text-2xl font-bold text-blue-600">4</span>
                     </div>
                     <h3 className="text-lg font-semibold mb-3">Volksbegehren unterstützen</h3>
                     <p className="text-muted-foreground mb-4 text-sm">
@@ -282,20 +303,6 @@ const Index = () => {
                     </p>
                     <p className="text-xs text-blue-600 font-medium">
                       Formular oben auf dieser Seite nutzen
-                    </p>
-                  </div>
-
-                  {/* Step 4 */}
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
-                      <span className="text-2xl font-bold text-blue-600">4</span>
-                    </div>
-                    <h3 className="text-lg font-semibold mb-3">Pilot und Initiative teilen</h3>
-                    <p className="text-muted-foreground mb-4 text-sm">
-                      Teilen Sie Ihre Erfahrungen und helfen Sie dabei, das Pilotprojekt bekannt zu machen.
-                    </p>
-                    <p className="text-xs text-blue-600 font-medium">
-                      Gemeinsam die Zukunft gestalten
                     </p>
                   </div>
                 </div>
