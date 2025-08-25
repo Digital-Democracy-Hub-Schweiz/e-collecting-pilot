@@ -220,6 +220,72 @@ const Index = () => {
         <section className="border-t">
           <Gallery6 heading="Verfügbare Initiativen und Referenden" items={carouselItems} />
         </section>
+
+        {/* Support Section */}
+        <section className="bg-muted/10 border-t">
+          <div className="max-w-7xl mx-auto px-6 py-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-foreground mb-4">Unterstützen</h2>
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                So können Sie Initiativen und Referenden in diesem Pilotprojekt unterstützen
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Step 1 */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-muted">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-xl font-bold text-primary">1</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Beta-ID erstellen</h3>
+                <p className="text-muted-foreground mb-4">
+                  Laden Sie die Swiyu-Wallet App herunter und erstellen Sie eine Beta-ID über den Beta Credential Service des Bundes.
+                </p>
+                <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-primary hover:text-primary/80 font-medium">
+                  Beta-ID erstellen →
+                </a>
+              </div>
+
+              {/* Step 2 */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-muted">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-xl font-bold text-primary">2</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Volksbegehren wählen</h3>
+                <p className="text-muted-foreground mb-4">
+                  Wählen Sie aus den verfügbaren Initiativen und Referenden das Volksbegehren aus, das Sie unterstützen möchten.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Nutzen Sie das Formular oben auf dieser Seite
+                </p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-muted">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-xl font-bold text-primary">3</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Digital unterschreiben</h3>
+                <p className="text-muted-foreground mb-4">
+                  Verwenden Sie Ihre Beta-ID, um das Volksbegehren digital zu unterzeichnen und erhalten Sie eine Unterstützungsbestätigung.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Ihre Unterschrift wird sicher verschlüsselt
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-12 bg-blue-50 rounded-lg p-6 border border-blue-200">
+              <h3 className="text-lg font-semibold text-blue-900 mb-3">Wichtiger Hinweis</h3>
+              <p className="text-blue-800 mb-2">
+                Dies ist ein Pilotprojekt für Demonstrationszwecke. Alle Inhalte und Funktionen sind fiktiv und haben keine rechtliche Wirksamkeit.
+              </p>
+              <p className="text-blue-700 text-sm">
+                Offizielle Initiativen und Referenden finden Sie auf <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte.html" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">admin.ch</a>.
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
