@@ -230,7 +230,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             {/* Über E-Collecting Section */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">Über E-Collecting</h3>
+              <h3 className="text-lg font-semibold mb-4">Über Pilotprojekt</h3>
               <p className="text-sm text-white/80 leading-relaxed">
                 Das elektronische Sammeln von Unterschriften (E-Collecting) ermöglicht es den Stimmbürgerinnen und -Bürgern, digitale Willensbekundungen für Volksinitiativen und Referenden zu leisten. Dieser Pilot testet eine mögliche Umsetzung mittels der kommenden E-ID des Bundes.
               </p>
