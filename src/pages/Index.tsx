@@ -256,7 +256,7 @@ const Index = () => {
                       <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="block text-red-600 hover:text-red-700 underline">
                         Beta-ID erstellen und verifizieren
                       </a>
-                      <a href="#" className="block text-red-600 hover:text-red-700 underline">
+                      <a href="https://backend.eid.admin.ch/fileservice/sdweb-docs-prod-eidch-files/files/2025/03/25/509a3b49-1305-4838-be91-9985e3182adf.pdf" target="_blank" rel="noopener noreferrer" className="block text-red-600 hover:text-red-700 underline">
                         Anleitung für Beta-ID
                       </a>
                     </div>
