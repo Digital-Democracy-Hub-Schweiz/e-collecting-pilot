@@ -225,7 +225,7 @@ const Index = () => {
         <section className="bg-muted/10 border-t">
           <div className="max-w-7xl mx-auto px-6 py-12">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-foreground mb-4">Unterstützen</h2>
+              <h2 className="text-3xl font-bold text-foreground mb-4">Schritt für Schritt Anleitung</h2>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
                 So können Sie Initiativen und Referenden in diesem Pilotprojekt unterstützen
               </p>
