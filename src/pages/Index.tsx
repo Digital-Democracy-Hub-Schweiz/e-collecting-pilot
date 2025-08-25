@@ -131,14 +131,14 @@ const Index = () => {
               </div>
               <div className="flex items-center gap-6 ml-auto">
                 <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
-                  <a href="https://winterkongress.ch/2025/talks/pilotprojekt_e_collecting_how_low_can_we_go/" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Konzeptpapier &quot;How low can we go&quot;</a>
+                  
                   
                 </nav>
                 <div className="flex items-center gap-4">
                   {/* External Links Dropdown */}
                   <div className="relative group">
                     <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
-                      <span className="text-sm">Externe Links</span>
+                      
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                       </svg>
@@ -163,12 +163,7 @@ const Index = () => {
                     </div>
                   </div>
                   
-                  <a 
-                    href="https://buymeacoffee.com/digitaldemocracyhub" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
-                  >
+                  <a href="https://buymeacoffee.com/digitaldemocracyhub" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                     <Coffee className="h-4 w-4" />
                     <span>Buy me a coffee</span>
                   </a>
@@ -273,11 +268,7 @@ const Index = () => {
               
               <div className="flex justify-center lg:justify-end">
                 <div className="relative">
-                  <img 
-                    src="/lovable-uploads/eb258128-0369-489c-ab30-9eda22c5f2ba.png" 
-                    alt="E-Collecting Pilotprojekt - Quittung in der swiyu App" 
-                    className="max-w-md w-full h-auto"
-                  />
+                  <img src="/lovable-uploads/eb258128-0369-489c-ab30-9eda22c5f2ba.png" alt="E-Collecting Pilotprojekt - Quittung in der swiyu App" className="max-w-md w-full h-auto" />
                 </div>
               </div>
             </div>
@@ -295,11 +286,7 @@ const Index = () => {
               <h2 className="text-3xl font-bold text-foreground mb-8">Projekt unterstützen</h2>
               
               <div className="bg-white p-6 rounded-lg border-2 border-orange-200 inline-block">
-                <img 
-                  src="/lovable-uploads/6e9a00d8-dcc7-4702-9136-0183efba338a.png" 
-                  alt="QR Code für Buy me a coffee" 
-                  className="w-48 h-48"
-                />
+                <img src="/lovable-uploads/6e9a00d8-dcc7-4702-9136-0183efba338a.png" alt="QR Code für Buy me a coffee" className="w-48 h-48" />
               </div>
               <p className="text-sm text-muted-foreground mt-4">
                 QR-Code scannen für Spende
