@@ -231,9 +231,8 @@ const Index = () => {
             {/* Über E-Collecting Section */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">Über Pilotprojekt</h3>
-              <p className="text-sm text-white/80 leading-relaxed">
-                Das elektronische Sammeln von Unterschriften (E-Collecting) ermöglicht es den Stimmbürgerinnen und -Bürgern, digitale Willensbekundungen für Volksinitiativen und Referenden zu leisten. Dieser Pilot testet eine mögliche Umsetzung mittels der kommenden E-ID des Bundes.
-              </p>
+              <p className="text-sm text-white/80 leading-relaxed">Dieser Pilot testet eine mögliche Variante von E-Collecting mittels der Beta-ID des Bundes.
+Das elektronische Sammeln von Willensbekundungen für Volksbegehren (E-Collecting) könnte es zukünftig Bürgerinnen und Bürgern ermöglichen, zusätzlich zum analogen Weg, Initiativen und Referenden auch digital zu unterstützen.</p>
               <p className="text-sm text-white/70 mt-6">
                 © 2025 ein Projekt von <a href="https://www.digitaldemocracyhub.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Digital Democracy Hub Schweiz</a> in Kooperation mit <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Stiftung für Direkte Demokratie</a>
               </p>
