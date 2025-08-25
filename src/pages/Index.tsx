@@ -129,7 +129,7 @@ const Index = () => {
                   <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilotprojekt</h1>
                 </div>
               </div>
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 ml-auto">
                 <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
                   <a href="https://winterkongress.ch/2025/talks/pilotprojekt_e_collecting_how_low_can_we_go/" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Konzeptpapier &quot;How low can we go&quot;</a>
                   
