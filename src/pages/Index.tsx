@@ -231,94 +231,65 @@ const Index = () => {
         </section>
 
         {/* Support Section */}
-        <section className="bg-gradient-to-br from-blue-50 to-indigo-50 border-t">
-          <div className="max-w-7xl mx-auto px-6 py-12">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-foreground mb-4">Die swiyu App mit einer Testversion der e-ID ausprobieren</h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                So können Sie Initiativen und Referenden in diesem Pilotprojekt unterstützen
-              </p>
-            </div>
-            
-            <div className="max-w-6xl mx-auto">
-              <div className="bg-white rounded-xl p-8 shadow-sm border border-blue-200">
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {/* Step 1 - Download */}
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
-                      <span className="text-2xl font-bold text-blue-600">1</span>
-                    </div>
-                    <h3 className="text-lg font-semibold mb-3">Download</h3>
-                    <p className="text-muted-foreground mb-4 text-sm">
-                      Laden Sie die swiyu App kostenlos im Google Play Store oder Apple Store herunter.
-                    </p>
-                    <div className="flex flex-col gap-2">
-                      <a href="https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-700 font-medium">
-                        Google Play Store →
-                      </a>
-                      <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-700 font-medium">
-                        Apple App Store →
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Step 2 - Beta-ID ausstellen */}
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
-                      <span className="text-2xl font-bold text-blue-600">2</span>
-                    </div>
-                    <h3 className="text-lg font-semibold mb-3">Beta-ID ausstellen</h3>
-                    <p className="text-muted-foreground mb-4 text-sm">
-                      1. Starten Sie den Beantragungsprozess für die Beta-ID.<br/>
-                      2. Wählen Sie die fiktiven Attribute Ihrer Beta-ID aus.<br/>
-                      3. Fügen Sie die Beta-ID zu Ihrer swiyu App hinzu.
-                    </p>
-                    <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium text-sm">
-                      Beta-ID erstellen und verifizieren →
-                    </a>
-                  </div>
-
-                  {/* Step 3 - Beta-ID prüfen */}
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
-                      <span className="text-2xl font-bold text-blue-600">3</span>
-                    </div>
-                    <h3 className="text-lg font-semibold mb-3">Beta-ID prüfen</h3>
-                    <p className="text-muted-foreground mb-4 text-sm">
-                      Inhalt und Gültigkeit einer Beta-ID können überprüft werden. Dazu wird ein zweiter Bildschirm - eines zweiten Smartphones oder eines anderen Geräts - benötigt.
-                    </p>
-                    <p className="text-xs text-blue-600 font-medium">
-                      Anleitung für Beta-ID
-                    </p>
-                  </div>
-
-                  {/* Step 4 - Volksbegehren unterstützen */}
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
-                      <span className="text-2xl font-bold text-blue-600">4</span>
-                    </div>
-                    <h3 className="text-lg font-semibold mb-3">Volksbegehren unterstützen</h3>
-                    <p className="text-muted-foreground mb-4 text-sm">
-                      Wählen Sie ein Volksbegehren aus und unterzeichnen Sie es digital mit Ihrer Beta-ID.
-                    </p>
-                    <p className="text-xs text-blue-600 font-medium">
-                      Formular oben auf dieser Seite nutzen
-                    </p>
-                  </div>
-                </div>
+        <section className="bg-white border-t">
+          <div className="max-w-7xl mx-auto px-6 py-16">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-8">
+                <h2 className="text-4xl font-bold text-foreground">Die swiyu App mit einer Testversion der e-ID ausprobieren</h2>
                 
-                <div className="mt-8 pt-6 border-t border-blue-100 text-center">
-                  <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
-                    <h3 className="text-lg font-semibold text-blue-900 mb-3">Wichtiger Hinweis</h3>
-                    <p className="text-blue-800 mb-2">
-                      Dies ist ein Pilotprojekt für Demonstrationszwecke. Alle Inhalte und Funktionen sind fiktiv und haben keine rechtliche Wirksamkeit.
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground mb-3">Download</h3>
+                    <p className="text-muted-foreground mb-4">
+                      Laden Sie die <strong>swiyu</strong> App kostenlos im <a href="https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-700 underline">Google Play Store</a> oder <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-700 underline">Apple Store</a> herunter.
                     </p>
-                    <p className="text-blue-700 text-sm">
-                      Offizielle Initiativen und Referenden finden Sie auf <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte.html" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">admin.ch</a>.
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground mb-3">Beta-ID ausstellen</h3>
+                    <div className="space-y-2 text-muted-foreground">
+                      <p>1. Starten Sie den Beantragungsprozess für die Beta-ID.</p>
+                      <p>2. Wählen Sie die fiktiven Attribute Ihrer Beta-ID aus.</p>
+                      <p>3. Fügen Sie die Beta-ID zu Ihrer <strong>swiyu</strong> App hinzu.</p>
+                    </div>
+                    <div className="mt-4 space-y-2">
+                      <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="block text-red-600 hover:text-red-700 underline">
+                        Beta-ID erstellen und verifizieren
+                      </a>
+                      <a href="#" className="block text-red-600 hover:text-red-700 underline">
+                        Anleitung für Beta-ID
+                      </a>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground mb-3">Beta-ID prüfen</h3>
+                    <p className="text-muted-foreground">
+                      Inhalt und Gültigkeit einer Beta-ID können überprüft werden. Dazu wird ein zweiter Bildschirm - eines zweiten Smartphones oder eines anderen Geräts - benötigt.
                     </p>
                   </div>
                 </div>
               </div>
+              
+              <div className="flex justify-center lg:justify-end">
+                <div className="relative">
+                  <img 
+                    src="/lovable-uploads/416368b8-e279-46eb-a3b9-16b4e31a2b7a.png" 
+                    alt="Swiyu App Beta-ID Mockup" 
+                    className="max-w-md w-full h-auto"
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-16 bg-blue-50 rounded-lg p-6 border border-blue-200">
+              <h3 className="text-lg font-semibold text-blue-900 mb-3">Wichtiger Hinweis</h3>
+              <p className="text-blue-800 mb-2">
+                Dies ist ein Pilotprojekt für Demonstrationszwecke. Alle Inhalte und Funktionen sind fiktiv und haben keine rechtliche Wirksamkeit.
+              </p>
+              <p className="text-blue-700 text-sm">
+                Offizielle Initiativen und Referenden finden Sie auf <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte.html" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">admin.ch</a>.
+              </p>
             </div>
           </div>
         </section>
