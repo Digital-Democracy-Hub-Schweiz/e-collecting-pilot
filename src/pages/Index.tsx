@@ -1,7 +1,7 @@
 import { VerificationDashboard } from "@/components/VerificationDashboard";
 import { ReceiptCredentialIssuer } from "@/components/ReceiptCredentialIssuer";
 import { Gallery6 } from "@/components/ui/gallery6";
-import { Shield, Building2, Github } from "lucide-react";
+import { Shield, Building2, Github, Coffee, Heart } from "lucide-react";
 import { useMatch } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
 import { format } from "date-fns";
@@ -135,6 +135,15 @@ const Index = () => {
                   
                 </nav>
                 <div className="flex items-center gap-4">
+                  <a 
+                    href="https://www.buymeacoffee.com/digitaldemocracy" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    <Coffee className="h-4 w-4" />
+                    <span>Buy me a coffee</span>
+                  </a>
                   
                   {/* External Links Dropdown */}
                   <div className="relative group">
@@ -297,6 +306,84 @@ const Index = () => {
               <p className="text-blue-700 text-sm">
                 Offizielle Initiativen und Referenden finden Sie auf <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte.html" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">admin.ch</a>.
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Financial Support Section */}
+        <section className="bg-gradient-to-br from-orange-50 to-yellow-50 border-t">
+          <div className="max-w-7xl mx-auto px-6 py-12">
+            <div className="text-center mb-8">
+              <div className="flex justify-center mb-4">
+                <Heart className="h-12 w-12 text-orange-500" />
+              </div>
+              <h2 className="text-3xl font-bold text-foreground mb-4">Projekt unterstützen</h2>
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                Helfen Sie uns, die digitale Demokratie in der Schweiz voranzutreiben
+              </p>
+            </div>
+            
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white rounded-xl p-8 shadow-sm border border-orange-200">
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                  <div>
+                    <h3 className="text-2xl font-semibold mb-4">Warum spenden?</h3>
+                    <ul className="space-y-3 text-muted-foreground">
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span>Entwicklung innovativer digitaler Demokratie-Tools</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span>Wartung und Verbesserung der Plattform</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span>Forschung und Entwicklung neuer Features</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span>Community-Aufbau und Bildungsarbeit</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="mb-6">
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Bereits <span className="font-semibold text-orange-600">42 Unterstützer</span> helfen uns!
+                      </p>
+                      <div className="bg-orange-100 rounded-full h-3 mb-2">
+                        <div className="bg-orange-500 h-3 rounded-full" style={{width: '34%'}}></div>
+                      </div>
+                      <p className="text-xs text-muted-foreground">CHF 3,400 von CHF 10,000 Ziel</p>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <a 
+                        href="https://www.buymeacoffee.com/digitaldemocracy" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="flex items-center justify-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors w-full"
+                      >
+                        <Coffee className="h-5 w-5" />
+                        <span>Einen Kaffee spendieren</span>
+                      </a>
+                      
+                      <p className="text-xs text-muted-foreground">
+                        Oder unterstützen Sie uns via TWINT: +41 79 XXX XX XX
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-8 pt-6 border-t border-orange-100">
+                  <p className="text-sm text-muted-foreground text-center">
+                    <span className="font-medium">100% transparent:</span> Alle Spenden fließen direkt in die Entwicklung und den Betrieb der Plattform. 
+                    Regelmäßige Updates über die Verwendung der Mittel erhalten Sie in unserem Newsletter.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
