@@ -135,16 +135,6 @@ const Index = () => {
                   
                 </nav>
                 <div className="flex items-center gap-4">
-                  <a 
-                    href="https://buymeacoffee.com/digitaldemocracyhub" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
-                  >
-                    <Coffee className="h-4 w-4" />
-                    <span>Buy me a coffee</span>
-                  </a>
-                  
                   {/* External Links Dropdown */}
                   <div className="relative group">
                     <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
@@ -172,6 +162,16 @@ const Index = () => {
                       </div>
                     </div>
                   </div>
+                  
+                  <a 
+                    href="https://buymeacoffee.com/digitaldemocracyhub" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    <Coffee className="h-4 w-4" />
+                    <span>Buy me a coffee</span>
+                  </a>
                 </div>
               </div>
             </div>
