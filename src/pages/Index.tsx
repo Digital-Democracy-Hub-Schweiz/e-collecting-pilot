@@ -231,19 +231,19 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Step 1 */}
               <div className="bg-white rounded-lg p-6 shadow-sm border border-muted">
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                   <span className="text-xl font-bold text-primary">1</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Beta-ID erstellen</h3>
+                <h3 className="text-lg font-semibold mb-3">Swiyu App herunterladen</h3>
                 <p className="text-muted-foreground mb-4">
-                  Laden Sie die Swiyu-Wallet App herunter und erstellen Sie eine Beta-ID über den Beta Credential Service des Bundes.
+                  Laden Sie die Swiyu-Wallet App aus dem App Store oder Google Play Store herunter.
                 </p>
-                <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-primary hover:text-primary/80 font-medium">
-                  Beta-ID erstellen →
-                </a>
+                <p className="text-sm text-muted-foreground">
+                  Verfügbar für iOS und Android
+                </p>
               </div>
 
               {/* Step 2 */}
@@ -251,13 +251,13 @@ const Index = () => {
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                   <span className="text-xl font-bold text-primary">2</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Volksbegehren wählen</h3>
+                <h3 className="text-lg font-semibold mb-3">Beta-ID Credential erstellen</h3>
                 <p className="text-muted-foreground mb-4">
-                  Wählen Sie aus den verfügbaren Initiativen und Referenden das Volksbegehren aus, das Sie unterstützen möchten.
+                  Erstellen Sie eine Beta-ID über den Beta Credential Service des Bundes.
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  Nutzen Sie das Formular oben auf dieser Seite
-                </p>
+                <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm">
+                  Beta-ID erstellen →
+                </a>
               </div>
 
               {/* Step 3 */}
@@ -265,12 +265,26 @@ const Index = () => {
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                   <span className="text-xl font-bold text-primary">3</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Digital unterschreiben</h3>
+                <h3 className="text-lg font-semibold mb-3">Volksbegehren unterstützen</h3>
                 <p className="text-muted-foreground mb-4">
-                  Verwenden Sie Ihre Beta-ID, um das Volksbegehren digital zu unterzeichnen und erhalten Sie eine Unterstützungsbestätigung.
+                  Wählen Sie ein Volksbegehren aus und unterzeichnen Sie es digital mit Ihrer Beta-ID.
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Ihre Unterschrift wird sicher verschlüsselt
+                  Formular oben auf dieser Seite nutzen
+                </p>
+              </div>
+
+              {/* Step 4 */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-muted">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-xl font-bold text-primary">4</span>
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Pilot und Initiative teilen</h3>
+                <p className="text-muted-foreground mb-4">
+                  Teilen Sie Ihre Erfahrungen und helfen Sie dabei, das Pilotprojekt bekannt zu machen.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Gemeinsam die Zukunft gestalten
                 </p>
               </div>
             </div>
