@@ -282,15 +282,6 @@ const Index = () => {
               </div>
             </div>
             
-            <div className="mt-16 bg-blue-50 rounded-lg p-6 border border-blue-200">
-              <h3 className="text-lg font-semibold text-blue-900 mb-3">Wichtiger Hinweis</h3>
-              <p className="text-blue-800 mb-2">
-                Dies ist ein Pilotprojekt für Demonstrationszwecke. Alle Inhalte und Funktionen sind fiktiv und haben keine rechtliche Wirksamkeit.
-              </p>
-              <p className="text-blue-700 text-sm">
-                Offizielle Initiativen und Referenden finden Sie auf <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte.html" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">admin.ch</a>.
-              </p>
-            </div>
           </div>
         </section>
 
