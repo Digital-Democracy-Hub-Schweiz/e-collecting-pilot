@@ -274,8 +274,8 @@ const Index = () => {
               <div className="flex justify-center lg:justify-end">
                 <div className="relative">
                   <img 
-                    src="/lovable-uploads/416368b8-e279-46eb-a3b9-16b4e31a2b7a.png" 
-                    alt="Swiyu App Beta-ID Mockup" 
+                    src="/lovable-uploads/eb258128-0369-489c-ab30-9eda22c5f2ba.png" 
+                    alt="E-Collecting Pilotprojekt - Quittung in der swiyu App" 
                     className="max-w-md w-full h-auto"
                   />
                 </div>
