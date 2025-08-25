@@ -231,7 +231,7 @@ const Index = () => {
         </section>
 
         {/* Support Section */}
-        <section className="bg-muted/10 border-t">
+        <section className="bg-gradient-to-br from-blue-50 to-indigo-50 border-t">
           <div className="max-w-7xl mx-auto px-6 py-12">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-foreground mb-4">Schritt für Schritt Anleitung</h2>
@@ -240,72 +240,78 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Step 1 */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border border-muted">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-xl font-bold text-primary">1</span>
-                </div>
-                <h3 className="text-lg font-semibold mb-3">Swiyu App herunterladen</h3>
-                <p className="text-muted-foreground mb-4">
-                  Laden Sie die Swiyu-Wallet App aus dem App Store oder Google Play Store herunter.
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Verfügbar für iOS und Android
-                </p>
-              </div>
+            <div className="max-w-6xl mx-auto">
+              <div className="bg-white rounded-xl p-8 shadow-sm border border-blue-200">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {/* Step 1 */}
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                      <span className="text-2xl font-bold text-blue-600">1</span>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3">Swiyu App herunterladen</h3>
+                    <p className="text-muted-foreground mb-4 text-sm">
+                      Laden Sie die Swiyu-Wallet App aus dem App Store oder Google Play Store herunter.
+                    </p>
+                    <p className="text-xs text-blue-600 font-medium">
+                      Verfügbar für iOS und Android
+                    </p>
+                  </div>
 
-              {/* Step 2 */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border border-muted">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-xl font-bold text-primary">2</span>
-                </div>
-                <h3 className="text-lg font-semibold mb-3">Beta-ID Credential erstellen</h3>
-                <p className="text-muted-foreground mb-4">
-                  Erstellen Sie eine Beta-ID über den Beta Credential Service des Bundes.
-                </p>
-                <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm">
-                  Beta-ID erstellen →
-                </a>
-              </div>
+                  {/* Step 2 */}
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                      <span className="text-2xl font-bold text-blue-600">2</span>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3">Beta-ID Credential erstellen</h3>
+                    <p className="text-muted-foreground mb-4 text-sm">
+                      Erstellen Sie eine Beta-ID über den Beta Credential Service des Bundes.
+                    </p>
+                    <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium text-sm">
+                      Beta-ID erstellen →
+                    </a>
+                  </div>
 
-              {/* Step 3 */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border border-muted">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-xl font-bold text-primary">3</span>
-                </div>
-                <h3 className="text-lg font-semibold mb-3">Volksbegehren unterstützen</h3>
-                <p className="text-muted-foreground mb-4">
-                  Wählen Sie ein Volksbegehren aus und unterzeichnen Sie es digital mit Ihrer Beta-ID.
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Formular oben auf dieser Seite nutzen
-                </p>
-              </div>
+                  {/* Step 3 */}
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                      <span className="text-2xl font-bold text-blue-600">3</span>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3">Volksbegehren unterstützen</h3>
+                    <p className="text-muted-foreground mb-4 text-sm">
+                      Wählen Sie ein Volksbegehren aus und unterzeichnen Sie es digital mit Ihrer Beta-ID.
+                    </p>
+                    <p className="text-xs text-blue-600 font-medium">
+                      Formular oben auf dieser Seite nutzen
+                    </p>
+                  </div>
 
-              {/* Step 4 */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border border-muted">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-xl font-bold text-primary">4</span>
+                  {/* Step 4 */}
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                      <span className="text-2xl font-bold text-blue-600">4</span>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3">Pilot und Initiative teilen</h3>
+                    <p className="text-muted-foreground mb-4 text-sm">
+                      Teilen Sie Ihre Erfahrungen und helfen Sie dabei, das Pilotprojekt bekannt zu machen.
+                    </p>
+                    <p className="text-xs text-blue-600 font-medium">
+                      Gemeinsam die Zukunft gestalten
+                    </p>
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold mb-3">Pilot und Initiative teilen</h3>
-                <p className="text-muted-foreground mb-4">
-                  Teilen Sie Ihre Erfahrungen und helfen Sie dabei, das Pilotprojekt bekannt zu machen.
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Gemeinsam die Zukunft gestalten
-                </p>
+                
+                <div className="mt-8 pt-6 border-t border-blue-100 text-center">
+                  <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
+                    <h3 className="text-lg font-semibold text-blue-900 mb-3">Wichtiger Hinweis</h3>
+                    <p className="text-blue-800 mb-2">
+                      Dies ist ein Pilotprojekt für Demonstrationszwecke. Alle Inhalte und Funktionen sind fiktiv und haben keine rechtliche Wirksamkeit.
+                    </p>
+                    <p className="text-blue-700 text-sm">
+                      Offizielle Initiativen und Referenden finden Sie auf <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte.html" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">admin.ch</a>.
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-
-            <div className="mt-12 bg-blue-50 rounded-lg p-6 border border-blue-200">
-              <h3 className="text-lg font-semibold text-blue-900 mb-3">Wichtiger Hinweis</h3>
-              <p className="text-blue-800 mb-2">
-                Dies ist ein Pilotprojekt für Demonstrationszwecke. Alle Inhalte und Funktionen sind fiktiv und haben keine rechtliche Wirksamkeit.
-              </p>
-              <p className="text-blue-700 text-sm">
-                Offizielle Initiativen und Referenden finden Sie auf <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte.html" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">admin.ch</a>.
-              </p>
             </div>
           </div>
         </section>
