@@ -325,7 +325,7 @@ const Index = () => {
             
             <div className="max-w-4xl mx-auto">
               <div className="bg-white rounded-xl p-8 shadow-sm border border-orange-200">
-                <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div className="grid md:grid-cols-3 gap-8 items-center">
                   <div>
                     <h3 className="text-2xl font-semibold mb-4">Warum spenden?</h3>
                     <ul className="space-y-3 text-muted-foreground">
@@ -349,19 +349,32 @@ const Index = () => {
                   </div>
                   
                   <div className="text-center">
+                    <div className="bg-white p-4 rounded-lg border-2 border-orange-200 inline-block mb-4">
+                      <img 
+                        src="/lovable-uploads/6e9a00d8-dcc7-4702-9136-0183efba338a.png" 
+                        alt="QR Code für Buy me a coffee" 
+                        className="w-32 h-32"
+                      />
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      QR-Code scannen für schnelle Spende
+                    </p>
+                  </div>
+                  
+                  <div className="text-center">
                     <div className="mb-6">
                       <p className="text-sm text-muted-foreground mb-4">
                         Bereits <span className="font-semibold text-orange-600">42 Unterstützer</span> helfen uns!
                       </p>
                       <div className="bg-orange-100 rounded-full h-3 mb-2">
-                        <div className="bg-orange-500 h-3 rounded-full" style={{width: '34%'}}></div>
+                        <div className="bg-orange-500 h-3 rounded-full" style={{width: "34%"}}></div>
                       </div>
                       <p className="text-xs text-muted-foreground">CHF 3,400 von CHF 10,000 Ziel</p>
                     </div>
                     
                     <div className="space-y-3">
                       <a 
-                        href="https://www.buymeacoffee.com/digitaldemocracy" 
+                        href="https://buymeacoffee.com/digitaldemocracyhub" 
                         target="_blank" 
                         rel="noopener noreferrer" 
                         className="flex items-center justify-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors w-full"
