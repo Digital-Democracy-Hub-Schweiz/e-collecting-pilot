@@ -362,12 +362,17 @@ Das elektronische Sammeln von Willensbekundungen für Volksbegehren (E-Collectin
           {/* Footer links */}
           <div className="border-t border-white/20 mt-8 pt-8">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-white/70 flex items-center gap-2">
-                made with ❤️{" "}
-                <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="GitHub Repository">
-                  <Github size={16} />
+              <div className="flex items-center gap-4">
+                <p className="text-sm text-white/70 flex items-center gap-2">
+                  made with ❤️{" "}
+                  <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="GitHub Repository">
+                    <Github size={16} />
+                  </a>
+                </p>
+                <a href="https://www.buymeacoffee.com/ddhschweiz" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-3 py-1 bg-yellow-500 hover:bg-yellow-400 text-black text-sm font-medium rounded-full transition-colors">
+                  ☕ Buy me a coffee
                 </a>
-              </p>
+              </div>
               <a href="/impressum" className="text-sm text-white/70 hover:text-white transition-colors underline underline-offset-4">
                 Impressum
               </a>
