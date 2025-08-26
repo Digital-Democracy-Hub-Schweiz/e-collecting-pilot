@@ -175,18 +175,18 @@ const Index = () => {
               <div className="lg:col-span-1">
                 <div className="bg-muted/30 border border-muted rounded-lg p-6 space-y-4">
                 <h3 className="text-lg font-semibold text-foreground">E-Collecting Pilotprojekt</h3>
-                  <p className="text-sm text-muted-foreground">Diese Webseite ist ein gemeinnütziges Projekt der Zivilgesellschaft. Unser Ziel ist es, Initiativen und Referenden mit der neuen E-ID sicher, digital und barrierefrei zu unterstützen.</p>
+                  <p className="text-sm text-muted-foreground">Diese Website ist ein gemeinnütziges Projekt der Zivilgesellschaft. Unser Ziel ist es, Initiativen und Referenden mithilfe der neuen E-ID sicher, digital und barrierefrei zu unterstützen.</p>
 
 
                   <h3 className="text-lg font-semibold text-foreground">e-ID</h3>
                   <p className="text-sm text-muted-foreground">
-                  Die e-ID wird vom Staat herausgegeben. Sie ergänzt die physische Identitätskarte und ist kostenlos. Am 28. September entscheidet die Stimmbevölkerung über die Vorlage.
+                  Die e-ID wird vom Staat herausgegeben. Sie ergänzt die physische Identitätskarte und ist kostenlos. Am 28. September stimmt die Bevölkerung über die Vorlage ab.
                   </p>
 
           
                   <h3 className="text-lg font-semibold text-foreground">swiyu-Wallet App</h3>
                   <p className="text-sm text-muted-foreground">
-                    Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die swiyu-Wallet App erstellt werden. Im Pilotprojekt werden nur fiktive Vorlagen und die Beta-ID des Bundesgenutzt. Es werden keine Daten gespeichert.
+                  Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Für die Teilnahme muss eine Beta-ID über die swiyu-Wallet App erstellt werden. Im Rahmen des Projekts werden ausschliesslich fiktive Vorlagen und die Beta-ID des Bundes genutzt. Es werden keine persönlichen Daten gespeichert.
                   </p>
                   <div className="space-y-2">
                     <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="block text-sm text-primary hover:text-primary/80 underline underline-offset-4">

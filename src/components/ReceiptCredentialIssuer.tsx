@@ -469,9 +469,9 @@ export function ReceiptCredentialIssuer({
   return <section aria-labelledby="issuer-section" className="bg-white border border-gray-200 rounded-lg">
       <div className="p-8 space-y-6">
         <div className="space-y-6">
-          <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">Initiative und Referendum unterstützen</h1>
+          <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">Initiativen und Referenden unterstützen</h1>
           <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p className="text-lg">Testen Sie jetzt E-Collecting, um Initiativen und Referenden digital zu unterstützen. Nutzen Sie die Beta-ID des Bundes für Volksbegehren. Es werden keine Daten gespeichert.</p>
+            <p className="text-lg">Testen Sie jetzt E-Collecting, um Initiativen und Referenden digital zu unterstützen. Verwenden Sie dafür die Beta-ID des Bundes für Volksbegehren. Es werden keine persönlichen Daten gespeichert.</p>
           </div>
         </div>
 
