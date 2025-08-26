@@ -233,7 +233,7 @@ export function ReceiptCredentialIssuer({
       
       let description = "Politische Gemeinde ermittelt.";
       if (cantonFromBfs && cantonFromBfs !== canton && !cantonFromBfs.includes("Fehler") && !cantonFromBfs.includes("gefunden")) {
-        description += ` Kanton via BFS: ${cantonFromBfs}`;
+        description += ` Kanton via politische Gemeinde: ${cantonFromBfs} ermittelt`;
       }
       
       toast({
