@@ -184,7 +184,7 @@ const Index = () => {
                   <p className="text-sm text-muted-foreground">
                     Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die swiyu-Wallet App erstellt werden. Im Pilotprojekt werden nur fiktive Vorlagen und die Beta-ID des Bundesgenutzt. Es werden keine Daten gespeichert.
                   </p>
-                  <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4">
+                  <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4">
                     Beta-ID ausstellen
                   </a>
 
@@ -211,7 +211,7 @@ const Index = () => {
                   <div>
                     <h3 className="text-xl font-semibold text-foreground mb-3">Download</h3>
                     <p className="text-muted-foreground mb-4">
-                      Laden Sie die <strong>swiyu</strong> App kostenlos im <a href="https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline underline-offset-4">Google Play Store</a> oder <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline underline-offset-4">Apple Store</a> herunter.
+                      Laden Sie die <strong>swiyu</strong> App kostenlos im <a href="https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pli=1" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline underline-offset-4">Google Play Store</a> oder <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline underline-offset-4">Apple Store</a> herunter.
                     </p>
                   </div>
 
@@ -223,7 +223,7 @@ const Index = () => {
                       <p>3. Fügen Sie die Beta-ID zu Ihrer <strong>swiyu</strong> App hinzu.</p>
                     </div>
                     <div className="mt-4 space-y-2">
-                      <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">
+                      <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">
                         Beta-ID erstellen und verifizieren
                       </a>
                       <a href="https://backend.eid.admin.ch/fileservice/sdweb-docs-prod-eidch-files/files/2025/03/25/509a3b49-1305-4838-be91-9985e3182adf.pdf" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">
@@ -297,7 +297,7 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
                 <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
                   swiyu-Wallet App
                 </a>
-                <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
+                <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
                   Beta-ID Service
                 </a>
               </div>
