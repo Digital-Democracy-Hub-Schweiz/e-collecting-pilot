@@ -338,8 +338,8 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
 
           {/* Footer links */}
           <div className="border-t border-white/20 mt-8 pt-8">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <p className="text-sm text-white/70 flex items-center gap-2">
                   made with ❤️{" "}
                   <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="GitHub Repository">
