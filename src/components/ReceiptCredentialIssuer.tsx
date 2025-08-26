@@ -601,9 +601,9 @@ export function ReceiptCredentialIssuer({
                       <button onClick={() => setStep(2)} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
                         Zurück
                       </button>
-                      <button onClick={handleStartVerification} disabled={!acceptedLegalNotice || isCreatingVerification || isValidatingAddress} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base flex-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+                      <button onClick={handleStartVerification} disabled={!acceptedLegalNotice || isCreatingVerification || isValidatingAddress} className="inline-flex items-center justify-center px-6 py-3 bg-swiss-gray-900 text-swiss-white border border-swiss-gray-900 rounded hover:bg-swiss-gray-800 transition-colors font-medium h-12 text-base flex-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-swiss-gray-900">
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
-                        Volksbegehren unterstützen (Pilotprojekt)
+                        Jetzt Volksbegehren unterstützen
                       </button>
                     </div>
                   </div>
