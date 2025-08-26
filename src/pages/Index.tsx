@@ -180,7 +180,7 @@ const Index = () => {
           
                   <h3 className="text-lg font-semibold text-foreground">swiyu-Wallet App</h3>
                   <p className="text-sm text-muted-foreground">
-                    Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die swiyu-Wallet App erstellt werden. Im Pilotprojekt werden nur fiktive Vorlagen genutzt. Es werden keine Daten gespeichert.
+                    Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die swiyu-Wallet App erstellt werden. Im Pilotprojekt werden nur fiktive Vorlagen und die Beta-ID des Bundesgenutzt. Es werden keine Daten gespeichert.
                   </p>
                   <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4">
                     Beta-ID ausstellen
