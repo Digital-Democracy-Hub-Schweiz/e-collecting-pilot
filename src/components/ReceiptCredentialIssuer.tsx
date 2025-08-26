@@ -498,7 +498,7 @@ export function ReceiptCredentialIssuer({
                     <Label className="text-base font-semibold">Typ wählen</Label>
                     <Select value={type} onValueChange={v => setType(v as any)}>
                       <SelectTrigger className="h-12 text-base" onClick={(e) => e.stopPropagation()}>
-                        <SelectValue placeholder="Wählen Sie Initiative oder Referendum" />
+                        <SelectValue placeholder="Initiative oder Referendum?" />
                       </SelectTrigger>
                       <SelectContent className="z-[100] bg-background border shadow-lg">
                         <SelectItem value="Initiative" className="text-base py-3">Initiative</SelectItem>
@@ -511,7 +511,7 @@ export function ReceiptCredentialIssuer({
                     <Label className="text-base font-semibold">Volksbegehren auswählen</Label>
                     <Select value={selectedId} onValueChange={setSelectedId} disabled={!type}>
                       <SelectTrigger className="h-12 text-base" onClick={(e) => e.stopPropagation()}>
-                        <SelectValue placeholder={type ? "Titel auswählen" : "Zuerst Typ wählen"} />
+                        <SelectValue placeholder={type ? "Inhalte wöhlen" : "Zuerst Kategorie wählen"} />
                       </SelectTrigger>
                 <SelectContent className="max-h-[300px] overflow-auto z-[100] bg-background border shadow-lg w-full min-w-[300px]">
                   {options.map(o => <SelectItem key={o.id} value={o.id} className="text-sm py-3 leading-relaxed">
