@@ -36,8 +36,7 @@ export function ReceiptCredentialIssuer({
   const [lastName, setLastName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [signDate, setSignDate] = useState<string>(new Date().toISOString().slice(0, 10));
-  const [street, setStreet] = useState("");
-  const [houseNumber, setHouseNumber] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [statusListUrl, setStatusListUrl] = useState("https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/3e6fc90b-bb80-4112-aa4e-940cda4616d7.jwt");
@@ -225,7 +224,7 @@ export function ReceiptCredentialIssuer({
     }
   };
   const handleNextFromStep2 = () => {
-    if (!street || !houseNumber || !postalCode || !city) {
+    if (!streetAddress || !postalCode || !city) {
       toast({
         title: "Adresse unvollständig",
         description: "Bitte alle Adressfelder ausfüllen.",
@@ -362,8 +361,7 @@ export function ReceiptCredentialIssuer({
     setLastName("");
     setBirthDate("");
     setSignDate(new Date().toISOString().slice(0, 10));
-    setStreet("");
-    setHouseNumber("");
+    setStreetAddress("");
     setPostalCode("");
     setCity("");
     setStatusListUrl("https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/df7f2a3d-86bc-4002-aa81-9e147f340453.jwt");
@@ -523,15 +521,9 @@ export function ReceiptCredentialIssuer({
                   <div>
                     <h3 className="text-lg font-semibold mb-4">Adresse eingeben</h3>
                     <div className="space-y-4">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label className="text-base font-medium">Strasse</Label>
-                          <Input value={street} onChange={e => setStreet(e.target.value)} placeholder="z.B. Bahnhofstrasse" className="h-12 text-base" />
-                        </div>
-                        <div className="space-y-2">
-                          <Label className="text-base font-medium">Hausnummer</Label>
-                          <Input value={houseNumber} onChange={e => setHouseNumber(e.target.value)} placeholder="z.B. 10A" className="h-12 text-base" />
-                        </div>
+                      <div className="space-y-2">
+                        <Label className="text-base font-medium">Strasse und Hausnummer</Label>
+                        <Input value={streetAddress} onChange={e => setStreetAddress(e.target.value)} placeholder="z.B. Bahnhofstrasse 10A" className="h-12 text-base" />
                       </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -582,7 +574,7 @@ export function ReceiptCredentialIssuer({
                       <div>
                         <Label className="text-sm font-medium text-muted-foreground">Adresse</Label>
                         <p className="text-sm">
-                          {street} {houseNumber}<br />
+                          {streetAddress}<br />
                           {postalCode} {city}
                         </p>
                       </div>
@@ -675,7 +667,7 @@ export function ReceiptCredentialIssuer({
                        </div>
                        <div className="flex justify-between">
                          <span className="text-muted-foreground">Adresse:</span>
-                         <span className="font-medium">{street} {houseNumber}, {postalCode} {city}</span>
+                         <span className="font-medium">{streetAddress}, {postalCode} {city}</span>
                        </div>
                        {municipalityDetails && <div className="flex justify-between">
                            <span className="text-muted-foreground">Politische Gemeinde:</span>
