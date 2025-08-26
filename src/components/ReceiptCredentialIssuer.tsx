@@ -608,6 +608,36 @@ export function ReceiptCredentialIssuer({
                   </div>
 
                   <div className="space-y-4 pt-4">
+                    {/* Canton validation for non-federal initiatives */}
+                    {(() => {
+                      const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
+                      const selectedLevel = selectedItem?.level;
+                      const userCanton = municipalityDetails?.cantonFromBfs;
+                      
+                      // Check if initiative level is not "Bund" and we have canton data
+                      if (selectedLevel && selectedLevel !== "Bund" && userCanton) {
+                        const isCantonMatch = selectedLevel.includes(userCanton) || userCanton.includes(selectedLevel.replace("Kanton ", ""));
+                        
+                        if (!isCantonMatch) {
+                          return (
+                            <div className="p-4 border border-red-200 rounded-lg bg-red-50">
+                              <div className="flex items-start space-x-3">
+                                <div className="text-red-600 mt-1">⚠️</div>
+                                <div>
+                                  <h4 className="text-sm font-medium text-red-800">Kantonskonflikt</h4>
+                                  <p className="text-sm text-red-700 mt-1">
+                                    Diese Initiative ist für <strong>{selectedLevel}</strong> bestimmt, aber Sie wohnen in <strong>{userCanton}</strong>. 
+                                    Sie können nur Initiativen Ihres eigenen Kantons unterstützen.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        }
+                      }
+                      return null;
+                    })()}
+
                     <div className="flex items-start space-x-3 p-4 border rounded-lg bg-muted/20">
                       <Checkbox id="legal-notice" checked={acceptedLegalNotice} onCheckedChange={checked => setAcceptedLegalNotice(checked === true)} className="mt-1" />
                       <Label htmlFor="legal-notice" className="text-sm leading-relaxed cursor-pointer">
@@ -619,7 +649,27 @@ export function ReceiptCredentialIssuer({
                       <button onClick={() => setStep(2)} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
                         Zurück
                       </button>
-                      <button onClick={handleStartVerification} disabled={!acceptedLegalNotice || isCreatingVerification || isValidatingAddress} className="inline-flex items-center justify-center px-6 py-3 bg-swiss-gray-900 text-swiss-white border border-swiss-gray-900 rounded hover:bg-swiss-gray-800 transition-colors font-medium h-12 text-base flex-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-swiss-gray-900">
+                      <button 
+                        onClick={handleStartVerification} 
+                        disabled={
+                          !acceptedLegalNotice || 
+                          isCreatingVerification || 
+                          isValidatingAddress ||
+                          (() => {
+                            const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
+                            const selectedLevel = selectedItem?.level;
+                            const userCanton = municipalityDetails?.cantonFromBfs;
+                            
+                            // Disable if there's a canton mismatch
+                            if (selectedLevel && selectedLevel !== "Bund" && userCanton) {
+                              const isCantonMatch = selectedLevel.includes(userCanton) || userCanton.includes(selectedLevel.replace("Kanton ", ""));
+                              return !isCantonMatch;
+                            }
+                            return false;
+                          })()
+                        } 
+                        className="inline-flex items-center justify-center px-6 py-3 bg-swiss-gray-900 text-swiss-white border border-swiss-gray-900 rounded hover:bg-swiss-gray-800 transition-colors font-medium h-12 text-base flex-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-swiss-gray-900"
+                      >
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
                         Jetzt Volksbegehren unterstützen
                       </button>
