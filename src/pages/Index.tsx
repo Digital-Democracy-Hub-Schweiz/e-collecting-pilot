@@ -120,11 +120,11 @@ const Index = () => {
         <div className="top-header bg-white">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
+              <a href="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
                 {/* Swiss Cross Logo */}
-                <a href="/" className="h-12 bg-white flex items-center justify-center hover:opacity-80 transition-opacity">
+                <div className="h-12 bg-white flex items-center justify-center">
                   
-                </a>
+                </div>
                 {/* Beta Logo */}
                 <div className="flex items-center">
                   <img src="/lovable-uploads/e75dd54e-b28f-48bc-8d17-683d07664c09.png" alt="Beta" className="h-8 w-8" />
@@ -132,7 +132,7 @@ const Index = () => {
                 <div className="max-w-md">
                   <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilotprojekt</h1>
                 </div>
-              </div>
+              </a>
               <div className="flex items-center gap-6 ml-auto">
                 <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
                   
