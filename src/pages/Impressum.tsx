@@ -132,9 +132,7 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
               <p className="text-sm text-white/70 mt-6">
                 © 2025 ein Projekt von <a href="https://www.digitaldemocracyhub.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Digital Democracy Hub Schweiz</a> in Kooperation mit <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Stiftung für Direkte Demokratie</a>
               </p>
-              <p className="text-sm text-white/70 mt-2">
-                © Data: swisstopo & swissZIP
-              </p>
+              <p className="text-sm text-white/70 mt-2">© Data: swisstopo</p>
             </div>
 
             {/* Bleiben Sie informiert Section */}
