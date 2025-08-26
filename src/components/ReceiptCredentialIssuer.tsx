@@ -611,7 +611,7 @@ export function ReceiptCredentialIssuer({
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Verifikation mit swiyu-Wallet</h3>
                     <p className="text-sm text-muted-foreground">
-                      Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App, um sich auszuweisen.
+                      Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App, um sich auszuweisen. Nach dem erfolgreichen Identifizieren wird Ihre Willensbekundung erstellt.
                     </p>
 
                      {verificationUrl && <div className="space-y-4">
@@ -689,7 +689,7 @@ export function ReceiptCredentialIssuer({
                           <QRCode value={offerDeeplink} size={192} />
                           <div className="mt-4 pt-4 border-t">
                             <a href={offerDeeplink} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
-                              Mit swiyu-Wallet öffnen
+                             Quittung herunterladen
                             </a>
                           </div>
                         </div>
