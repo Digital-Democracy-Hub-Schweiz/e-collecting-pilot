@@ -29,6 +29,7 @@ const Index = () => {
       wording: item?.wording ?? "",
       startDate: item?.start_date ?? "",
       endDate: item?.end_date ?? "",
+      level: item?.level ?? "",
       pdf: item?.pdf_url ?? ""
     };
   });
@@ -83,6 +84,7 @@ const Index = () => {
       image: "/placeholder.svg",
       slug: item.slug,
       type: item.type as "Initiative" | "Referendum",
+      level: item.level,
       pdf: item.pdf
     };
   });
