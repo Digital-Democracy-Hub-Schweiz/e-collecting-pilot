@@ -14,6 +14,11 @@ Dieser Pilot ist ausschliesslich für Demonstrationszwecke. Funktionen, Daten un
 - **DID Toolbox**: https://github.com/swiyu-admin-ch/didtoolbox-java
 - ***Verifier Management**: https://github.com/swiyu-admin-ch/eidch-verifier-agent-management
 
+### swissZIP
+Dieses Projekt nutzt die [swissZIP API](https://github.com/ganti/swissZIP)  
+Datenquelle: [Bundesamt für Landestopografie swisstopo](https://data.geo.admin.ch/)  
+Lizenz: [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
+
 ## Datenquellen
 - `src/data/initiatives.json` und `src/data/referendums.json` dienen als Beispiel‑/Demodaten und können inhaltlich vom aktuellen Stand abweichen.
 - `src/data/volksbegehren.json` dienen als Beispiel‑/Demodaten und können inhaltlich vom aktuellen Stand abweichen.
