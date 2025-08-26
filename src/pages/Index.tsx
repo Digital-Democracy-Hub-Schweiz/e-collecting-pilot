@@ -238,7 +238,7 @@ const Index = () => {
               
               <div className="flex justify-center lg:justify-end">
                 <div className="relative">
-                  <img src="/lovable-uploads/dd47c1c4-cc2f-4aa3-a452-321b68cc1acd.png" alt="E-Collecting Pilotprojekt - Digital Democracy Hub Schweiz App Interface" className="max-w-md w-full h-auto" />
+                  <img src="/lovable-uploads/f29ac8cf-3603-4085-b35e-af7ed0bee35b.png" alt="E-Collecting Pilotprojekt - Digital Democracy Hub Schweiz App Interface" className="max-w-md w-full h-auto" />
                 </div>
               </div>
             </div>
