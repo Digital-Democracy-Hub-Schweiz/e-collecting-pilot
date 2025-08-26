@@ -250,21 +250,7 @@ const Index = () => {
 
         {/* Financial Support Section */}
         <section className="bg-gradient-to-br from-orange-50 to-yellow-50 border-t">
-          <div className="max-w-7xl mx-auto px-6 py-12">
-            <div className="text-center">
-              <div className="flex justify-center mb-4">
-                <Heart className="h-12 w-12 text-orange-500" />
-              </div>
-              <h2 className="text-3xl font-bold text-foreground mb-8">Projekt unterstützen</h2>
-              
-              <div className="bg-white p-6 rounded-lg border-2 border-orange-200 inline-block">
-                <img src="/lovable-uploads/6e9a00d8-dcc7-4702-9136-0183efba338a.png" alt="QR Code für Buy me a coffee" className="w-48 h-48" />
-              </div>
-              <p className="text-sm text-muted-foreground mt-4">
-                QR-Code scannen für Spende
-              </p>
-            </div>
-          </div>
+          
         </section>
       </main>
 
