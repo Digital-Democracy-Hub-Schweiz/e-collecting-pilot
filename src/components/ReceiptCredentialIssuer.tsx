@@ -561,7 +561,7 @@ export function ReceiptCredentialIssuer({
 
               {step === 3 && <div className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Übersicht Ihrer Angaben</h3>
+                    <h3 className="text-lg font-semibold">Ihre Angaben</h3>
                     
                     <div className="bg-muted/50 p-4 rounded-lg space-y-3">
                       <div>
