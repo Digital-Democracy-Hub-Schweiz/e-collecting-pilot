@@ -123,7 +123,7 @@ const Index = () => {
               <div className="flex items-center gap-4">
                 {/* Swiss Cross Logo */}
                 <a href="/" className="h-12 bg-white flex items-center justify-center hover:opacity-80 transition-opacity">
-                  <img src="/new-logo.png" alt="E-Collecting Pilot Logo" className="h-12" />
+                  
                 </a>
                 <div className="max-w-md">
                   <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilotprojekt</h1>
