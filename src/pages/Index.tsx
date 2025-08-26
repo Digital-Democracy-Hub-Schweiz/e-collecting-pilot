@@ -19,12 +19,7 @@ const Index = () => {
   const normalized = (volksbegehren as any[]).map((item, idx) => {
     const title: string = item?.title ?? "";
     const providedSlug: string = String(item?.slug || "").trim();
-    const computedSlug = title
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/\p{Diacritic}/gu, "")
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
+    const computedSlug = title.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
     const slug = providedSlug || computedSlug;
     const id = slug || String(idx + 1);
     const type = String(item?.type ?? "").toLowerCase() === "referendum" ? "Referendum" : "Initiative";
@@ -80,9 +75,7 @@ const Index = () => {
   } : undefined;
 
   // Prepare data for carousel - only show items with show: true
-  const carouselItems = normalized
-    .filter((item: any) => volksbegehren.find((vb: any) => vb.title === item.title)?.show === true)
-    .map((item: any) => {
+  const carouselItems = normalized.filter((item: any) => volksbegehren.find((vb: any) => vb.title === item.title)?.show === true).map((item: any) => {
     const dateRange = getDateRange(item.startDate, item.endDate);
     return {
       id: item.id,
@@ -286,9 +279,7 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
               <p className="text-sm text-white/70 mt-6">
                 © 2025 ein Projekt von <a href="https://www.digitaldemocracyhub.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Digital Democracy Hub Schweiz</a> in Kooperation mit <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Stiftung für Direkte Demokratie</a>
               </p>
-              <p className="text-sm text-white/70 mt-2">
-                © Data: swisstopo & swissZIP
-              </p>
+              <p className="text-sm text-white/70 mt-2">© Data: swisstopo</p>
             </div>
 
             {/* Bleiben Sie informiert Section */}
