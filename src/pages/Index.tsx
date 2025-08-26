@@ -296,12 +296,6 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">Externe Links</h3>
               <div className="space-y-3">
-                <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/volksinitiativen.html" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
-                  Volksinitiativen (admin.ch)
-                </a>
-                <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/referenden.html" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
-                  Referenden (admin.ch)
-                </a>
                 <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
                   swiyu-Wallet App
                 </a>
