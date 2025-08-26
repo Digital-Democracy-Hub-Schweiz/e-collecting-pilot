@@ -196,7 +196,7 @@ const Index = () => {
                       🤖 swiyu App (Android)
                     </a>
                     <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="block text-sm text-primary hover:text-primary/80 underline underline-offset-4">
-                      🆔 Beta-ID ausstellen
+                      👉 Beta-ID ausstellen
                     </a>
                   </div>
 
