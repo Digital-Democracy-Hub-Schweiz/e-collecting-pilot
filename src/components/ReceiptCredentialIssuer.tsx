@@ -451,9 +451,7 @@ export function ReceiptCredentialIssuer({
   return <section aria-labelledby="issuer-section" className="bg-white border border-gray-200 rounded-lg">
       <div className="p-8 space-y-6">
         <div className="space-y-6">
-          <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">
-            Volksbegehren elektronisch unterstützen (Pilot)
-          </h1>
+          <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">Initiative und Referendum unterstützen</h1>
           <div className="space-y-4 text-gray-700 leading-relaxed">
             <p className="text-lg">Das elektronische Sammeln von Willensbekundungen für Volksbegehren (E-Collecting) könnte es zukünftig Bürgerinnen und Bürgern ermöglichen, zusätzlich zum analogen Weg, Initiativen und Referenden auch digital zu unterstützen.</p>
           </div>
