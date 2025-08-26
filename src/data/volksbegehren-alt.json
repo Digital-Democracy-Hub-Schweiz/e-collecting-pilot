@@ -1,0 +1,62 @@
+[
+    {
+      "type": "initiative",
+      "level": "Bund",
+      "title": "Für mehr Kaffeepausen bei Abstimmungen (Café-Initiative)",
+      "comitee": "Verein 'Doppio für die Demokratie'",
+      "wording": "Änderung von Art. 34 BV: Stimmbürgerinnen und Stimmbürger haben Anspruch auf einen gratis Espresso oder Rivella im Abstimmungslokal, um die Demokratie munter zu halten.",
+      "start_date": "2025-08-01",
+      "end_date": "2027-02-01",
+      "pdf_url": "https://example.com/cafe-initiative.pdf"
+    },
+    {
+      "type": "initiative",
+      "level": "Bund",
+      "title": "Volksinitiative 'Ja zum Fonduezwang an Gemeindeversammlungen'",
+      "comitee": "Komitee 'Fondue ist Politik'",
+      "wording": "Neuer Art. 75ter BV: Jede Gemeindeversammlung muss mit einem Caquelon Fondue eröffnet werden. Vegetarische und laktosefreie Optionen sind zu gewährleisten.",
+      "start_date": "2025-07-15",
+      "end_date": "2027-01-15",
+      "pdf_url": "https://example.com/fondue-initiative.pdf"
+    },
+    {
+      "type": "initiative",
+      "level": "Bund",
+      "title": "Initiative für eine demokratische Kuhglocken-Abstimmung",
+      "comitee": "IG 'Bimmeln statt Simmen'",
+      "wording": "Neuer Art. 2 Abs. 4 BV: Wichtige Entscheidungen können auch per Kuhglocke getroffen werden. Die lauteste Seite gewinnt.",
+      "start_date": "2025-09-01",
+      "end_date": "2027-03-01",
+      "pdf_url": "https://example.com/kuhglocke-initiative.pdf"
+    },
+    {
+      "type": "referendum",
+      "level": "Bund",
+      "title": "Referendum gegen zu komplizierte Stimmzettel",
+      "comitee": null,
+      "wording": "Das Volk stimmt darüber ab, ob Stimmzettel künftig nur noch in den Farben Rot, Weiss und Ovomaltine-Braun gedruckt werden dürfen.",
+      "start_date": "2025-07-01",
+      "end_date": "2025-10-09",
+      "pdf_url": "https://example.com/stimmzettel-referendum.pdf"
+    },
+    {
+      "type": "referendum",
+      "level": "Bund",
+      "title": "Referendum über die Länge der Reden am Bundesplatz",
+      "comitee": null,
+      "wording": "Obligatorische Zeitbeschränkung: Politikerinnen und Politiker dürfen maximal 1 Minute reden, danach ertönt eine Alphorntröte.",
+      "start_date": "2025-07-01",
+      "end_date": "2025-10-09",
+      "pdf_url": "https://example.com/alphorn-referendum.pdf"
+    },
+    {
+      "type": "referendum",
+      "level": "Bund",
+      "title": "Referendum zum Jass-Obligatorium im Bundeshaus",
+      "comitee": null,
+      "wording": "Parlamentsdebatten dürfen erst nach einer Jassrunde gestartet werden. Ständerat und Nationalrat müssen Schieber gegeneinander spielen.",
+      "start_date": "2025-07-01",
+      "end_date": "2025-10-09",
+      "pdf_url": "https://example.com/jass-referendum.pdf"
+    }
+  ]
