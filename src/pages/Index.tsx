@@ -163,10 +163,9 @@ const Index = () => {
                     </div>
                   </div>
                   
-                  <a href="https://buymeacoffee.com/digitaldemocracyhub" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors">
-                    <Coffee className="h-4 w-4" />
-                    <span>Buy me a coffee</span>
-                  </a>
+                  <button className="bg-background border border-border text-foreground shadow-card hover:shadow-elegant hover:bg-secondary/50 transition-smooth px-4 py-2 rounded-md text-sm font-medium">
+                    Projekt unterstützen
+                  </button>
                 </div>
               </div>
             </div>
