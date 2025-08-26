@@ -175,7 +175,7 @@ const Index = () => {
                   </p>
                   <h3 className="text-lg font-semibold text-foreground">Beta-Hinweis</h3>
                   <p className="text-sm text-muted-foreground">
-                    Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die Swiyu-Wallet App erstellt werden.
+                    Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die swiyu-Wallet App erstellt werden.
                   </p>
                   <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4">
                     Beta-ID ausstellen
@@ -298,7 +298,7 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
                   Referenden (admin.ch)
                 </a>
                 <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
-                  Swiyu-Wallet App
+                  swiyu-Wallet App
                 </a>
                 <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
                   Beta-ID Service

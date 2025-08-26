@@ -247,7 +247,7 @@ export function ReceiptCredentialIssuer({
       startPollingVerification(verification.id);
       toast({
         title: "Verifikation gestartet",
-        description: "Scannen Sie den QR-Code mit Ihrer Swiyu-Wallet App."
+        description: "Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App."
       });
     } catch (e: any) {
       toast({
@@ -611,9 +611,9 @@ export function ReceiptCredentialIssuer({
 
               {step === 4 && !issuedId && <div className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Verifikation mit Swiyu-Wallet</h3>
+                    <h3 className="text-lg font-semibold">Verifikation mit swiyu-Wallet</h3>
                     <p className="text-sm text-muted-foreground">
-                      Scannen Sie den QR-Code mit Ihrer Swiyu-Wallet App um Ihre Identität zu verifizieren.
+                      Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App um Ihre Identität zu verifizieren.
                     </p>
 
                      {verificationUrl && <div className="space-y-4">
@@ -621,14 +621,14 @@ export function ReceiptCredentialIssuer({
                           <QRCode value={verificationUrl} size={192} />
                           <div className="mt-4 pt-4 border-t">
                             <a href={`swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
-                              Mit Swiyu-Wallet öffnen
+                              Mit swiyu-Wallet öffnen
                             </a>
                           </div>
                         </div>
 
                         {isPollingVerification && <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <RefreshCw className="w-4 h-4 animate-spin" />
-                            Warten auf Verifikation der Identität mittels der Swiyu-Wallet App...
+                            Warten auf Verifikation der Identität mittels der swiyu-Wallet App...
                           </div>}
                       </div>}
                   </div>
@@ -682,7 +682,7 @@ export function ReceiptCredentialIssuer({
                 <div className="space-y-2">
                   <Label>Quittung:</Label>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Eine Quittung kann mit der Swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere Swiyu-Wallet App.
+                    Eine Quittung kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere swiyu-Wallet App.
                   </p>
                   <div className="space-y-4">
                     
@@ -691,7 +691,7 @@ export function ReceiptCredentialIssuer({
                           <QRCode value={offerDeeplink} size={192} />
                           <div className="mt-4 pt-4 border-t">
                             <a href={offerDeeplink} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
-                              Mit Swiyu-Wallet öffnen
+                              Mit swiyu-Wallet öffnen
                             </a>
                           </div>
                         </div>
