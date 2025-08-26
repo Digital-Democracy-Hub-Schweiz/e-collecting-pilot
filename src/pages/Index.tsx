@@ -262,7 +262,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             {/* Über E-Collecting Section */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">Über Pilotprojekt</h3>
+              <h3 className="text-lg font-semibold mb-4">Das E-Collecting Pilotprojekt</h3>
               <p className="text-sm text-white/80 leading-relaxed">Dieser Pilot testet eine mögliche Variante von E-Collecting mittels der Beta-ID des Bundes.
 Das elektronische Sammeln von Willensbekundungen für Volksbegehren (E-Collecting) könnte es zukünftig Bürgerinnen und Bürgern ermöglichen, zusätzlich zum analogen Weg, Initiativen und Referenden auch digital zu unterstützen.</p>
               <p className="text-sm text-white/70 mt-6">
