@@ -185,13 +185,13 @@ const Index = () => {
                     Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die swiyu-Wallet App erstellt werden. Im Pilotprojekt werden nur fiktive Vorlagen und die Beta-ID des Bundesgenutzt. Es werden keine Daten gespeichert.
                   </p>
                   <div className="space-y-2">
-                    <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 underline underline-offset-4">
+                    <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="block text-sm text-primary hover:text-primary/80 underline underline-offset-4">
                       📱 swiyu App (iOS)
                     </a>
-                    <a href="https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pli=1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 underline underline-offset-4">
+                    <a href="https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pli=1" target="_blank" rel="noopener noreferrer" className="block text-sm text-primary hover:text-primary/80 underline underline-offset-4">
                       🤖 swiyu App (Android)
                     </a>
-                    <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 underline underline-offset-4">
+                    <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="block text-sm text-primary hover:text-primary/80 underline underline-offset-4">
                       🆔 Beta-ID ausstellen
                     </a>
                   </div>
