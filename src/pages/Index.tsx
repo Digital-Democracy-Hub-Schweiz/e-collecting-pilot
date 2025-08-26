@@ -284,8 +284,8 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
                 <div className="space-y-2 text-sm text-white/80">
                   <p>Digital Democracy Hub Schweiz</p>
                   
-                  <p>E-Mail: info@digitaldemocracyhub.ch</p>
-                  <p>Web: www.digitaldemocracyhub.ch</p>
+                  <p>E-Mail: <a href="mailto:info@digitaldemocracyhub.ch" className="text-white hover:text-white/80 underline underline-offset-4">info@digitaldemocracyhub.ch</a></p>
+                  <p>Web: <a href="https://www.digitaldemocracyhub.ch" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 underline underline-offset-4">www.digitaldemocracyhub.ch</a></p>
                 </div>
               </div>
             </div>
