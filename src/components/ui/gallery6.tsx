@@ -1,6 +1,7 @@
 import { ArrowLeft, ArrowRight, Filter, Share2, FileText } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
@@ -120,9 +121,9 @@ const Gallery6 = ({
                         {item.title}
                       </h3>
                       {item.level && (
-                        <span className="ml-3 px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20 whitespace-nowrap">
+                        <Badge variant="outline" className="ml-3 whitespace-nowrap">
                           {item.level}
-                        </span>
+                        </Badge>
                       )}
                     </div>
                     {item.dateRange && <div className="text-xs font-medium text-muted-foreground mb-3 px-2 py-1 bg-muted/30 rounded inline-block">
