@@ -680,7 +680,7 @@ export function ReceiptCredentialIssuer({
                 <div className="space-y-2">
                   <Label>Quittung:</Label>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Eine Quittung kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere swiyu-Wallet App.
+                    Eine Quittung kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere swiyu-Wallet App. Oder klicken Sie auf Ihrem Smartphone auf den Button.
                   </p>
                   <div className="space-y-4">
                     
