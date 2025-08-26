@@ -135,33 +135,6 @@ const Index = () => {
                   
                 </nav>
                 <div className="flex items-center gap-4">
-                  {/* External Links Dropdown */}
-                  <div className="relative group">
-                    <button className="flex items-center gap-2 text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">
-                      
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    </button>
-                    
-                    {/* Dropdown Menu */}
-                    <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                      <div className="py-2">
-                        <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/volksinitiativen.html" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                          Volksinitiativen (admin.ch)
-                        </a>
-                        <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/referenden.html" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                          Referenden (admin.ch)
-                        </a>
-                        <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                          Swiyu-Wallet App
-                        </a>
-                        <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                          Beta-ID Service
-                        </a>
-                      </div>
-                    </div>
-                  </div>
                   
                   <button className="bg-background border border-border text-foreground shadow-card hover:shadow-elegant hover:bg-secondary/50 transition-smooth px-4 py-2 rounded-md text-sm font-medium">
                     Projekt unterstützen
@@ -334,7 +307,24 @@ Das elektronische Sammeln von Willensbekundungen für Volksbegehren (E-Collectin
 
             {/* Weitere Informationen Section */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">System Status</h3>
+              <h3 className="text-lg font-semibold mb-4">Externe Links</h3>
+              <div className="space-y-3">
+                <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/volksinitiativen.html" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
+                  Volksinitiativen (admin.ch)
+                </a>
+                <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/referenden.html" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
+                  Referenden (admin.ch)
+                </a>
+                <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
+                  Swiyu-Wallet App
+                </a>
+                <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
+                  Beta-ID Service
+                </a>
+              </div>
+              
+              <div className="mt-6 pt-4 border-t border-white/20">
+                <h4 className="text-base font-medium mb-3">System Status</h4>
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
                   <span className="text-white/70">Verifier-Mgmt:</span>
@@ -356,6 +346,7 @@ Das elektronische Sammeln von Willensbekundungen für Volksbegehren (E-Collectin
                 </div>
               </div>
             </div>
+          </div>
           </div>
 
           {/* Footer links */}
