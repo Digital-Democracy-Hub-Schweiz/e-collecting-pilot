@@ -52,5 +52,14 @@
         "wording": "Alle Primarschüler:innen sollen gratis Früchte erhalten. Das fördert gesunde Ernährung, beugt Krankheiten vor und stärkt die Chancengleichheit.",
         "start_date": "2025-08-11",
         "end_date": "2026-12-11"
+      },
+      {
+        "type": "initiative",
+        "level": "Kanton Schaffhausen",
+        "title": "Mehr Veloparkplätze am Bahnhof (Veloplatz-Initiative)",
+        "comitee": "IG Velo Schweiz",
+        "wording": "Pendler:innen brauchen sichere Abstellplätze für ihre Velos. Diese Initiative verlangt, dass bei allen Bahnhöfen genügend moderne und gedeckte Veloparkplätze eingerichtet werden.",
+        "start_date": "2025-08-24",
+        "end_date": "2026-12-24"
       }      
 ]
