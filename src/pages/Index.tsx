@@ -125,6 +125,10 @@ const Index = () => {
                 <a href="/" className="h-12 bg-white flex items-center justify-center hover:opacity-80 transition-opacity">
                   
                 </a>
+                {/* Beta Logo */}
+                <div className="flex items-center">
+                  <img src="/lovable-uploads/e75dd54e-b28f-48bc-8d17-683d07664c09.png" alt="Beta" className="h-8 w-8" />
+                </div>
                 <div className="max-w-md">
                   <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilotprojekt</h1>
                 </div>
