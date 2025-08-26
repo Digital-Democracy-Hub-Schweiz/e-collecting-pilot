@@ -72,8 +72,10 @@ const Index = () => {
     id: resolveId(normalized.filter(i => i.type === "Referendum"), referendumMatch.params.id as string) || referendumMatch.params.id as string
   } : undefined;
 
-  // Prepare data for carousel
-  const carouselItems = normalized.map((item: any) => {
+  // Prepare data for carousel - only show items with show: true
+  const carouselItems = normalized
+    .filter((item: any) => volksbegehren.find((vb: any) => vb.title === item.title)?.show === true)
+    .map((item: any) => {
     const dateRange = getDateRange(item.startDate, item.endDate);
     return {
       id: item.id,
