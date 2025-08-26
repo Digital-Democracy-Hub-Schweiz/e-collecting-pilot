@@ -155,15 +155,15 @@ export function ReceiptCredentialIssuer({
         setBirthDate(credentialData.birth_date || birthDate);
       }
       if (municipalityDetails) {
-        const {
+       /* const {
           town = "",
           canton = "",
           bfs = ""
         } = municipalityDetails;
         toast({
-          title: "Willensbekundung gesendet",
+          title: "Willensbekundung unterstützt",
           description: `Die Willensbekundung wurde an ${town} ${canton} (BFS: ${bfs}) gesendet.`
-        });
+        });*/
       }
     } catch (e: any) {
       toast({
@@ -468,11 +468,9 @@ export function ReceiptCredentialIssuer({
               
               <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
                 <p className="text-sm font-medium text-green-800 mb-2">
-                  Sie haben erfolgreich {type === "Initiative" ? "die Initiative" : "das Referendum"} "{options.find(o => o.id === selectedId)?.title}" unterstützt. Dies ist ein Pilotprojekt und ihre Willensbekundung wird nicht an die zuständige politische Gemeinde übermittelt.
+                  Sie haben {type === "Initiative" ? "die Initiative" : "das Referendum"} "{options.find(o => o.id === selectedId)?.title}" unterstützt. Wichtiger Hinweis: Dies ist ein Pilotprojekt für E-Collecting mit der Beta-ID des Bundes. Ihre Willensbekundung wird nicht an die zuständige Gemeinde übermittelt. Vielen Dank fürs Ausprobieren!
                 </p>
-                <p className="text-xs text-green-700">
-                  So könnte ein E-Collecting Prozess in Zukunft aussehen. 
-                </p>
+  
               </div>
             </div>}
 
@@ -613,7 +611,7 @@ export function ReceiptCredentialIssuer({
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Verifikation mit swiyu-Wallet</h3>
                     <p className="text-sm text-muted-foreground">
-                      Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App um Ihre Identität zu verifizieren.
+                      Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App, um sich auszuweisen.
                     </p>
 
                      {verificationUrl && <div className="space-y-4">
