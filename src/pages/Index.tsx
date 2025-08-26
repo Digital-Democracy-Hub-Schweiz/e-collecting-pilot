@@ -229,12 +229,7 @@ const Index = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-3">Beta-ID prüfen</h3>
-                    <p className="text-muted-foreground">
-                      Inhalt und Gültigkeit einer Beta-ID können überprüft werden. Dazu wird ein zweiter Bildschirm - eines zweiten Smartphones oder eines anderen Geräts - benötigt.
-                    </p>
-                  </div>
+                  
                 </div>
               </div>
               
