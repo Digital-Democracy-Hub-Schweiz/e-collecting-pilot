@@ -453,7 +453,7 @@ export function ReceiptCredentialIssuer({
         <div className="space-y-6">
           <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">Initiative und Referendum unterstützen</h1>
           <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p className="text-lg">Das elektronische Sammeln von Willensbekundungen für Volksbegehren (E-Collecting) könnte es zukünftig Bürgerinnen und Bürgern ermöglichen, zusätzlich zum analogen Weg, Initiativen und Referenden auch digital zu unterstützen.</p>
+            <p className="text-lg">Nutzen Sie Ihre neue e-ID für Volksbegehren. Test Sie jetzt E-Collecting, um Initiativen und Referenden zu unterzeichnen. Es werden keine Daten gespeichert.</p>
           </div>
         </div>
 
