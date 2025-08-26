@@ -66,6 +66,7 @@ const Impressum = () => {
                 <h2 className="text-xl font-semibold text-foreground mb-4">Verantwortlich für den Inhalt</h2>
                 <div className="space-y-2 text-muted-foreground">
                   <p><strong>Verein Digital Democracy Hub Schweiz - Fachstelle für Demokratie und Digitalisierung (in Gründung)</strong></p>
+                  <p>Ansprechsperson: Sandro Scalco</p>
                   <p>E-Mail: info@digitaldemocracyhub.ch</p>
                   <p>Web: https://digitaldemocracyhub.ch</p>
                 </div>
