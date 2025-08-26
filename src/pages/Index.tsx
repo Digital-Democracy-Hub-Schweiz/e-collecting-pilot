@@ -170,7 +170,7 @@ const Index = () => {
               </div>
               <div className="lg:col-span-1">
                 <div className="bg-muted/30 border border-muted rounded-lg p-6 space-y-4">
-                <h3 className="text-lg font-semibold text-foreground">E-Collecting</h3>
+                <h3 className="text-lg font-semibold text-foreground">E-Collecting Pilotprojekt</h3>
                   <p className="text-sm text-muted-foreground">
                   Der E-Collecting Pilot ist ein Projekt aus der Zivilgesellschaft. Das Ziel: Initiativen und Referenden sicher, digital und barrierefrei mit der e-ID unterstützen.
                   </p>
