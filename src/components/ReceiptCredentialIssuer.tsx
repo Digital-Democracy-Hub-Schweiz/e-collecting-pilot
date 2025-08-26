@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
 import { ShieldCheck, QrCode, RefreshCw, Share2 } from "lucide-react";
 import volksbegehren from "@/data/volksbegehren.json";
+import { determineCantonFromBfs } from "@/utils/cantonUtils";
 type Option = {
   id: string;
   title: string;
@@ -52,6 +53,7 @@ export function ReceiptCredentialIssuer({
     town: string;
     canton: string;
     bfs: string;
+    cantonFromBfs?: string;
   } | null>(null);
   const [verificationId, setVerificationId] = useState<string | null>(null);
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
@@ -203,15 +205,33 @@ export function ReceiptCredentialIssuer({
       const bfs = String(best?.bfs ?? best?.["bfs-number"] ?? best?.bfsNumber ?? "");
       const town = String(best?.town ?? best?.municipality ?? best?.place ?? best?.name ?? "");
       const canton = String(best?.canton ?? best?.cantonShort ?? best?.canton_abbr ?? "");
+      
+      // Second optional check: Determine canton from BFS code
+      let cantonFromBfs = "";
+      if (bfs && !isNaN(Number(bfs))) {
+        try {
+          cantonFromBfs = await determineCantonFromBfs(Number(bfs));
+        } catch (error) {
+          console.warn("Canton determination from BFS failed:", error);
+        }
+      }
+      
       setMunicipalityDetails({
         town,
         canton,
-        bfs
+        bfs,
+        cantonFromBfs
       });
-      setMunicipality(`${town} ${canton} ${bfs}`);
+      setMunicipality(`${town} ${canton} ${bfs}${cantonFromBfs ? ` (Kanton: ${cantonFromBfs})` : ""}`);
+      
+      let description = "Politische Gemeinde ermittelt.";
+      if (cantonFromBfs && cantonFromBfs !== canton && !cantonFromBfs.includes("Fehler") && !cantonFromBfs.includes("gefunden")) {
+        description += ` Kanton via BFS: ${cantonFromBfs}`;
+      }
+      
       toast({
         title: "Adresse geprüft",
-        description: "Politische Gemeinde ermittelt."
+        description
       });
     } catch (e: any) {
       toast({
