@@ -14,6 +14,7 @@ interface GalleryItem {
   slug: string;
   type?: 'Initiative' | 'Referendum';
   pdf?: string;
+  level?: string;
 }
 interface Gallery6Props {
   heading?: string;
@@ -114,9 +115,16 @@ const Gallery6 = ({
             {filteredItems.map(item => <CarouselItem key={item.id} className="pl-4 md:max-w-[400px]">
                 <div className="bg-card border border-border rounded-lg p-6 shadow-sm h-full flex flex-col justify-between min-h-[280px]">
                   <div>
-                    <h3 className="text-xl font-semibold mb-4 text-foreground leading-tight">
-                      {item.title}
-                    </h3>
+                    <div className="flex items-start justify-between mb-4">
+                      <h3 className="text-xl font-semibold text-foreground leading-tight flex-1">
+                        {item.title}
+                      </h3>
+                      {item.level && (
+                        <span className="ml-3 px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20 whitespace-nowrap">
+                          {item.level}
+                        </span>
+                      )}
+                    </div>
                     {item.dateRange && <div className="text-xs font-medium text-muted-foreground mb-3 px-2 py-1 bg-muted/30 rounded inline-block">
                         {item.dateRange}
                       </div>}
