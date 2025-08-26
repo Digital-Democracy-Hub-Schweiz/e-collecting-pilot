@@ -79,7 +79,14 @@ export function ReceiptCredentialIssuer({
   const normalized = useMemo(() => {
     return (volksbegehren as any[]).map((item, idx) => {
       const title: string = item?.title ?? "";
-      const slug = title.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      const providedSlug: string = String(item?.slug || "").trim();
+      const computedSlug = title
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+      const slug = providedSlug || computedSlug;
       const id = slug || String(idx + 1);
       const type = String(item?.type ?? "").toLowerCase() === "referendum" ? "Referendum" : "Initiative";
       return {
