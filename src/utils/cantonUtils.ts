@@ -73,7 +73,7 @@ export async function loadAdministrativeUnits(): Promise<AdministrativeUnit[]> {
   }
 
   try {
-    const response = await fetch('/src/data/swiss-administrative-units.csv');
+    const response = await fetch('/swiss-administrative-units.csv');
     const csvText = await response.text();
     administrativeUnitsCache = parseAdministrativeUnits(csvText);
     return administrativeUnitsCache;
