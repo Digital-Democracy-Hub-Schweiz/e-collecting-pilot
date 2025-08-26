@@ -166,25 +166,26 @@ const Index = () => {
               </div>
               <div className="lg:col-span-1">
                 <div className="bg-muted/30 border border-muted rounded-lg p-6 space-y-4">
-                <h3 className="text-lg font-semibold text-foreground">Pilotprojekt</h3>
+                <h3 className="text-lg font-semibold text-foreground">E-Collecting</h3>
                   <p className="text-sm text-muted-foreground">
-                    Hierbei handelt es sich um ein fiktives Pilotprojekt für das elektronische Sammeln von Willensbekundungen für Volksbegehren. 
+                  Das E-Collecting Pilotprojekt ist ein Pilotprojekt aus der Zivilgesellschaft. Das Ziel: Initiativen und Referenden sicher, digital und barrierefrei mit der e-ID unterstützen.
                   </p>
+
+
+                  <h3 className="text-lg font-semibold text-foreground">e-ID</h3>
                   <p className="text-sm text-muted-foreground">
-                   Alle Inhalte und Funktionen dieser Seite inklusive Services sind nur für Demonstrationszwecke gedacht.
+                  Die e-ID wird vom Staat herausgegeben. Sie ergänzt die physische Identitätskarte und ist kostenlos. Am 28. September entscheidet die Stimmbevölkerung über die Vorlage.
                   </p>
-                  <h3 className="text-lg font-semibold text-foreground">Beta-Hinweis</h3>
+
+          
+                  <h3 className="text-lg font-semibold text-foreground">swiyu-Wallet App</h3>
                   <p className="text-sm text-muted-foreground">
-                    Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die swiyu-Wallet App erstellt werden.
+                    Dieser Pilot verwendet den Beta Credential Service des Bundes. Um den Pilot zu nutzen, muss eine Beta-ID über die swiyu-Wallet App erstellt werden. Im Pilotprojekt werden nur fiktive Vorlagen genutzt. Es werden keine Daten gespeichert.
                   </p>
                   <a href="https://www.bcs.admin.ch/bcs-web/#/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm text-primary hover:text-primary/80 underline underline-offset-4">
                     Beta-ID ausstellen
                   </a>
 
-                  <h3 className="text-lg font-semibold text-foreground">Initiativen und Referenden</h3>
-                  <p className="text-sm text-muted-foreground">
-                  Dieser Pilot verwendet zufällig generierte Initiativen und Referenden. Offizielle Initiativen und Referenden finden Sie auf der Webseite des Bundes: (<a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/referenden.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline underline-offset-4">Referenden</a> / <a href="https://www.bk.admin.ch/bk/de/home/politische-rechte/volksinitiativen.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline underline-offset-4">Volksinitiativen</a>).
-                  </p>
                 </div>
               </div>
             </div>
