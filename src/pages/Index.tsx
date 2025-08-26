@@ -90,6 +90,9 @@ const Index = () => {
       pdf: item.pdf
     };
   });
+
+  // Extract unique levels from the displayed items
+  const availableLevels = Array.from(new Set(carouselItems.map(item => item.level).filter(Boolean))).sort();
   return <body className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Skip to main content - Swiss Design System requirement */}
       <a href="#main-content" className="skip-to-content sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50">
@@ -209,7 +212,7 @@ const Index = () => {
 
         {/* Full width section */}
         <section className="border-t">
-          <Gallery6 heading="Verfügbare Initiativen und Referenden" items={carouselItems} />
+          <Gallery6 heading="Verfügbare Initiativen und Referenden" items={carouselItems} availableLevels={availableLevels} />
         </section>
 
         {/* Support Section */}

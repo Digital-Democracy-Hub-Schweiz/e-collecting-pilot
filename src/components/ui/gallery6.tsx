@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Filter, Share2, FileText } from "lucide-react";
+import { ArrowLeft, ArrowRight, Filter, Share2, FileText, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,10 +20,12 @@ interface GalleryItem {
 interface Gallery6Props {
   heading?: string;
   items?: GalleryItem[];
+  availableLevels?: string[];
 }
 const Gallery6 = ({
   heading = "Gallery",
-  items = []
+  items = [],
+  availableLevels = []
 }: Gallery6Props) => {
   const {
     toast
@@ -32,9 +34,28 @@ const Gallery6 = ({
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
   const [filter, setFilter] = useState<"all" | "Initiative" | "Referendum">("all");
+  const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
 
-  // Filter items based on selected filter
-  const filteredItems = filter === "all" ? items : items.filter(item => item.type === filter);
+  // Filter items based on selected filter and levels
+  const filteredItems = items.filter(item => {
+    const typeMatch = filter === "all" || item.type === filter;
+    const levelMatch = selectedLevels.length === 0 || selectedLevels.includes(item.level || "");
+    return typeMatch && levelMatch;
+  });
+  
+  const toggleLevel = (level: string) => {
+    setSelectedLevels(prev => 
+      prev.includes(level) 
+        ? prev.filter(l => l !== level)
+        : [...prev, level]
+    );
+  };
+
+  const clearAllFilters = () => {
+    setSelectedLevels([]);
+    setFilter("all");
+  };
+
   const handleShare = async (item: GalleryItem, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -89,6 +110,40 @@ const Gallery6 = ({
               {heading}
             </h2>
             
+            {/* Level Tags Filter */}
+            {availableLevels.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex flex-wrap gap-2">
+                  {availableLevels.map(level => (
+                    <Badge
+                      key={level}
+                      variant={selectedLevels.includes(level) ? "default" : "outline"}
+                      className="cursor-pointer hover:bg-accent text-sm px-3 py-1"
+                      onClick={() => toggleLevel(level)}
+                    >
+                      {level}
+                    </Badge>
+                  ))}
+                </div>
+                
+                {(selectedLevels.length > 0 || filter !== "all") && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">
+                      {filteredItems.length} von {items.length} Einträgen
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearAllFilters}
+                      className="h-6 px-2 text-xs"
+                    >
+                      <X className="h-3 w-3 mr-1" />
+                      Filter zurücksetzen
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
             <Button size="icon" variant="outline" onClick={() => {
