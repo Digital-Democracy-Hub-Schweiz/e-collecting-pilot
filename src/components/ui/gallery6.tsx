@@ -127,7 +127,7 @@ const Gallery6 = ({
                       )}
                     </div>
                     {item.dateRange && <div className="text-xs font-medium text-muted-foreground mb-3 px-2 py-1 bg-muted/30 rounded inline-block">
-                        {item.dateRange}
+                        {item.dateRange}{item.level && ` • ${item.level}`}
                       </div>}
                     <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                       {item.summary}
