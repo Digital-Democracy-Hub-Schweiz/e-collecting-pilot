@@ -140,9 +140,9 @@ const Index = () => {
                 </nav>
                 <div className="flex items-center gap-4">
                   
-                  <button className="bg-background border border-border text-foreground shadow-card hover:shadow-elegant hover:bg-secondary/50 transition-smooth px-4 py-2 rounded-md text-sm font-medium">
+                  <a href="https://buymeacoffee.com/digitaldemocracyhub" target="_blank" rel="noopener noreferrer" className="bg-background border border-border text-foreground shadow-card hover:shadow-elegant hover:bg-secondary/50 transition-smooth px-4 py-2 rounded-md text-sm font-medium">
                     Projekt unterstützen
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
