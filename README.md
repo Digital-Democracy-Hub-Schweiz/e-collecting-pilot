@@ -11,8 +11,8 @@ Dieser Pilot ist ausschliesslich für Demonstrationszwecke. Funktionen, Daten un
 
 ### Dokumentationen und Repos
 - **Cookbooks**: `https://swiyu-admin-ch.github.io/cookbooks/`
-- **DID Toolbox**: https://github.com/swiyu-admin-ch/didtoolbox-java
-- ***Verifier Management**: https://github.com/swiyu-admin-ch/eidch-verifier-agent-management
+- **DID Toolbox**: `https://github.com/swiyu-admin-ch/didtoolbox-java`
+- **Verifier Management**: `https://github.com/swiyu-admin-ch/eidch-verifier-agent-management`
 
 ### swissZIP
 Dieses Projekt nutzt die [swissZIP API](https://github.com/ganti/swissZIP)  
@@ -27,6 +27,9 @@ Die Startseite (`src/pages/Index.tsx`) unterstützt Deep‑Links zur Vorbelegung
 - `/initiative/:idOrSlug`
 - `/referendum/:idOrSlug`
 - `/volksbegehren/:idOrSlug`
+
+### Gemeindedaten
+- **BFS-Gemeinde, Bezirk, Kanton**:  `https://www.agvchapp.bfs.admin.ch/api/communes/snapshot?date=01-01-2025`
 
 Beim Aufruf wird der entsprechende Eintrag gesucht und im Aussteller‑Formular vorbelegt.
 
