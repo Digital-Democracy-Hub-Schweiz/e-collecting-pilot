@@ -208,12 +208,12 @@ const Index = () => {
         </section>
 
         {/* Full width section */}
-        <section className="border-t">
+        <section id="verfuegbare-initiativen-referenden" className="border-t">
           <Gallery6 heading="Verfügbare Initiativen und Referenden" items={carouselItems} availableLevels={availableLevels} />
         </section>
 
         {/* Support Section */}
-        <section className="bg-white border-t">
+        <section id="e-collecting-ausprobieren" className="bg-white border-t">
           <div className="max-w-7xl mx-auto px-6 py-16">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-8">
