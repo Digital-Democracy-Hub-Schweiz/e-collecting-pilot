@@ -148,12 +148,12 @@ const Gallery6 = ({
           <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
             <Button size="icon" variant="outline" onClick={() => {
             carouselApi?.scrollPrev();
-          }} disabled={!canScrollPrev} className="disabled:pointer-events-auto">
+          }} disabled={!canScrollPrev} className="disabled:pointer-events-auto" aria-label="Previous page">
               <ArrowLeft className="size-5" />
             </Button>
             <Button size="icon" variant="outline" onClick={() => {
             carouselApi?.scrollNext();
-          }} disabled={!canScrollNext} className="disabled:pointer-events-auto">
+          }} disabled={!canScrollNext} className="disabled:pointer-events-auto" aria-label="Next page">
               <ArrowRight className="size-5" />
             </Button>
           </div>
@@ -195,7 +195,7 @@ const Gallery6 = ({
                         Teilen
                       </Button>
                     </div>
-                     <a href={item.url} className="inline-flex items-center justify-center rounded-md border border-[#13678A] w-10 h-10 hover:bg-[#13678A]/10 transition-colors group">
+                     <a href={item.url} className="inline-flex items-center justify-center rounded-md border border-[#13678A] w-10 h-10 hover:bg-[#13678A]/10 transition-colors group" aria-label={`View details for ${item.title}`}>
                        <ArrowRight className="h-4 w-4 text-[#13678A] transition-transform group-hover:translate-x-0.5" />
                      </a>
                   </div>

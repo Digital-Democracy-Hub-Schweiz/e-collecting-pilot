@@ -137,7 +137,7 @@ const Index = () => {
                   <img src="/lovable-uploads/e75dd54e-b28f-48bc-8d17-683d07664c09.png" alt="Beta" className="h-8 w-8" />
                 </div>
                 <div className="max-w-md">
-                  <h1 className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilotprojekt</h1>
+                  <div className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilotprojekt</div>
                 </div>
               </a>
               <div className="flex items-center gap-6 ml-auto">
@@ -174,10 +174,10 @@ const Index = () => {
               </div>
               <div className="lg:col-span-1">
                 <div className="bg-muted/30 border border-muted rounded-lg p-6 space-y-4">
-                <h3 className="text-lg font-semibold text-foreground">E-Collecting Pilotprojekt</h3>
+                <h1 className="text-lg font-semibold text-foreground">E-Collecting Pilotprojekt</h1>
                   <p className="text-sm text-muted-foreground">Diese Website ist ein gemeinnütziges Projekt der Zivilgesellschaft. Unser Ziel ist es, Initiativen und Referenden mithilfe der neuen E-ID sicher, digital und barrierefrei zu unterstützen.</p>
 
-
+                  <h2 className="text-lg font-semibold text-foreground">Informationen zur Teilnahme</h2>
                   <h3 className="text-lg font-semibold text-foreground">e-ID</h3>
                   <p className="text-sm text-muted-foreground">
                   Die e-ID wird vom Staat herausgegeben. Sie ergänzt die physische Identitätskarte und ist kostenlos. Am 28. September stimmt die Bevölkerung über die Vorlage ab.
@@ -272,19 +272,19 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             {/* Über E-Collecting Section */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">Das E-Collecting Pilotprojekt</h3>
+              <h2 className="text-lg font-semibold mb-4">Das E-Collecting Pilotprojekt</h2>
               <p className="text-sm text-white/80 leading-relaxed">Das Pilotprojekt startete im Dezember 2024. Es will das Sammeln von Unterschriften für Volksbegehren digital, sicher und barrierefrei machen – als Ergänzung zum Papier. 
 Dieser Pilot testet eine mögliche Variante von E-Collecting mittels der Beta-ID des Bundes. 
 Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Schweiz und die Stiftung für direkte Demokratie.</p>
-              <p className="text-sm text-white/70 mt-6">
+              <p className="text-sm text-white mt-6">
                 © 2025 ein Projekt von <a href="https://www.digitaldemocracyhub.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Digital Democracy Hub Schweiz</a> in Kooperation mit <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4">Stiftung für Direkte Demokratie</a>
               </p>
-              <p className="text-sm text-white/70 mt-2">© Data: swisstopo</p>
+              <p className="text-sm text-white mt-2">© Data: swisstopo</p>
             </div>
 
             {/* Bleiben Sie informiert Section */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">Bleiben Sie informiert</h3>
+              <h2 className="text-lg font-semibold mb-4">Bleiben Sie informiert</h2>
               <div className="space-y-3">
                 <a href="https://links.ecollecting.ch/newsletter" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-white/30 text-white text-sm rounded hover:bg-white/10 transition-colors">
                   Newsletter abonnieren
@@ -293,8 +293,8 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
               </div>
               
               <div className="mt-6 pt-4 border-t border-white/20">
-                <h4 className="text-base font-medium mb-3">Kontakt</h4>
-                <div className="space-y-2 text-sm text-white/80">
+                <h3 className="text-base font-medium mb-3">Kontakt</h3>
+                <div className="space-y-2 text-sm text-white">
                   <p>Digital Democracy Hub Schweiz</p>
                   
                   <p>E-Mail: <a href="mailto:info@digitaldemocracyhub.ch" className="text-white hover:text-white/80 underline underline-offset-4">info@digitaldemocracyhub.ch</a></p>
@@ -305,34 +305,34 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
 
             {/* Weitere Informationen Section */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">Externe Links</h3>
+              <h2 className="text-lg font-semibold mb-4">Externe Links</h2>
               <div className="space-y-3">
-                <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
+                <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="block text-sm text-white hover:text-white/80 transition-colors underline underline-offset-4">
                   swiyu-Wallet App
                 </a>
-                <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="block text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
+                <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="block text-sm text-white hover:text-white/80 transition-colors underline underline-offset-4">
                   Beta-ID Service
                 </a>
               </div>
               
               <div className="mt-6 pt-4 border-t border-white/20">
-                <h4 className="text-base font-medium mb-3">System Status</h4>
+                <h3 className="text-base font-medium mb-3">System Status</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
-                  <span className="text-white/70">Verifier-Mgmt:</span>
-                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${healthStatus?.verifierManagement?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
+                  <span className="text-white">Verifier-Mgmt:</span>
+                  {healthLoading ? <span className="text-white">Lädt...</span> : <span className={`font-medium ${healthStatus?.verifierManagement?.status === "UP" ? "text-green-100" : "text-red-100"}`}>
                       {healthStatus?.verifierManagement?.status || "Offline"}
                     </span>}
                 </div>
                 <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
-                  <span className="text-white/70">Issuer-Mgmt:</span>
-                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerManagement?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
+                  <span className="text-white">Issuer-Mgmt:</span>
+                  {healthLoading ? <span className="text-white">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerManagement?.status === "UP" ? "text-green-100" : "text-red-100"}`}>
                       {healthStatus?.issuerManagement?.status || "Offline"}
                     </span>}
                 </div>
                 <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
-                  <span className="text-white/70">Issuer-OID4VCI:</span>
-                  {healthLoading ? <span className="text-white/70">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-400" : "text-red-400"}`}>
+                  <span className="text-white">Issuer-OID4VCI:</span>
+                  {healthLoading ? <span className="text-white">Lädt...</span> : <span className={`font-medium ${healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-100" : "text-red-100"}`}>
                       {healthStatus?.issuerOid4vci?.status || "Offline"}
                     </span>}
                 </div>
@@ -345,9 +345,9 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
           <div className="border-t border-white/20 mt-8 pt-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                <p className="text-sm text-white/70 flex items-center gap-2">
+                <p className="text-sm text-white flex items-center gap-2">
                   made with ❤️{" "}
-                  <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="GitHub Repository">
+                  <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-colors" aria-label="GitHub Repository">
                     <Github size={16} />
                   </a>
                 </p>
@@ -355,7 +355,7 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
                   ☕ Buy me a coffee
                 </a>
               </div>
-              <a href="/impressum" className="text-sm text-white/70 hover:text-white transition-colors underline underline-offset-4">
+              <a href="/impressum" className="text-sm text-white hover:text-white/80 transition-colors underline underline-offset-4">
                 Impressum
               </a>
             </div>
