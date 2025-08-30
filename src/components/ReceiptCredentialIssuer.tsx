@@ -511,7 +511,7 @@ export function ReceiptCredentialIssuer({
                   <div className="space-y-4">
                     <Label className="text-base font-semibold">Kategorie und Inhalt auswählen</Label>
                     <Select value={type} onValueChange={v => setType(v as any)}>
-                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()}>
+                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()} aria-label="Wählen Sie Initiative oder Referendum">
                         <SelectValue placeholder="Wählen Sie Initiative oder Referendum" />
                       </SelectTrigger>
                       <SelectContent className="z-[100] bg-background border shadow-lg">
@@ -524,7 +524,7 @@ export function ReceiptCredentialIssuer({
                   <div className="space-y-4">
                     <Label className="text-base font-semibold">Volksbegehren auswählen</Label>
                     <Select value={selectedId} onValueChange={setSelectedId} disabled={!type}>
-                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()}>
+                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()} aria-label={type ? "Titel auswählen" : "Zuerst Typ wählen"}>
                         <SelectValue placeholder={type ? "Titel auswählen" : "Zuerst Typ wählen"} />
                       </SelectTrigger>
                 <SelectContent className="max-h-[300px] overflow-auto z-[100] bg-background border shadow-lg w-full min-w-[300px]">
@@ -631,7 +631,7 @@ export function ReceiptCredentialIssuer({
                               <div className="flex items-start space-x-3">
                                 <div className="text-red-600 mt-1">⚠️</div>
                                 <div>
-                                  <h4 className="text-sm font-medium text-red-800">Kantonskonflikt</h4>
+                                  <div className="text-sm font-medium text-red-800" role="heading" aria-level="4">Kantonskonflikt</div>
                                   <p className="text-sm text-red-700 mt-1">
                                     Diese Initiative ist für <strong>{selectedLevel}</strong> bestimmt, aber Sie wohnen in <strong>{userCanton}</strong>. 
                                     Sie können nur Initiativen Ihres eigenen Kantons unterstützen.
@@ -735,7 +735,7 @@ export function ReceiptCredentialIssuer({
 
               {step === 4 && issuedId && <div className="space-y-6">
                    <div className="bg-muted/50 p-4 rounded-lg space-y-3">
-                     <h4 className="font-semibold text-sm">Zusammenfassung Ihrer Angaben:</h4>
+                     <div className="font-semibold text-sm" role="heading" aria-level="4">Zusammenfassung Ihrer Angaben:</div>
                      
                      <div className="grid gap-3 text-sm">
                        <div className="flex justify-between">

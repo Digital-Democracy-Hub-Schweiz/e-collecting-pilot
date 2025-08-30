@@ -69,7 +69,7 @@ All colors MUST be HSL.
     /* Footer specific colors */
     --footer-background: 194 76% 31%;
     --footer-text: 0 0% 100%;
-    --footer-text-muted: 0 0% 70%;
+    --footer-text-muted: 0 0% 85%;
 
     /* Government header colors */
     --gov-header-bg: 194 76% 31%;
