@@ -351,7 +351,7 @@ Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Sch
                     <Github size={16} />
                   </a>
                 </p>
-                <a href="https://links.ecollecting.ch/support-us" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-3 py-1 bg-yellow-500 hover:bg-yellow-400 text-black text-sm font-medium rounded-full transition-colors">
+                <a href="https://links.ecollecting.ch/buy-me-a-coffee" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-3 py-1 bg-yellow-500 hover:bg-yellow-400 text-black text-sm font-medium rounded-full transition-colors">
                   ☕ Buy me a coffee
                 </a>
               </div>
