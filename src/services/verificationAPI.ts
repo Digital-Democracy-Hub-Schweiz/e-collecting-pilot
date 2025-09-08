@@ -57,7 +57,7 @@ export interface VerificationResponse {
 }
 
 export class VerificationBusinessAPI {
-  private baseUrl = 'https://verifier-management.e-collecting.com/api/v1';
+  private baseUrl = 'https://verifier-management.ecollecting.ch/api/v1';
 
   async createVerification(): Promise<VerificationResponse> {
     const requestData = {
