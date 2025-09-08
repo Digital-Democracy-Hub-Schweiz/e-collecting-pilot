@@ -26,7 +26,7 @@ export interface IssueCredentialResponse {
 
 class IssuerBusinessAPI {
   // Adjust this base URL to your deployment. For production, this points to the issuer management API.
-  private baseUrl = "https://issuer-management.e-collecting.com/api/v1";
+  private baseUrl = "https://issuer-management.ecollecting.ch/api/v1";
 
   async issueCredential(payload: IssueCredentialRequest): Promise<IssueCredentialResponse> {
     try {
