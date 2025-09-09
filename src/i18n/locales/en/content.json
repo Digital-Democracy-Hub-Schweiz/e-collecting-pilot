@@ -1,0 +1,83 @@
+{
+  "header": {
+    "title": "E-Collecting Pilot Project"
+  },
+  "homepage": {
+    "infoBox": {
+      "title": "E-Collecting Pilot Project",
+      "description": "This website is a non-profit project of civil society. Our goal is to support initiatives and referendums safely, digitally and accessibly with the new e-ID.",
+      "participationTitle": "Participation information",
+      "eidTitle": "e-ID",
+      "eidDescription": "The e-ID is issued by the state. It complements the physical identity card and is free. On September 28, the population votes on the proposal.",
+      "swiyuTitle": "swiyu-Wallet App",
+      "swiyuDescription": "This pilot project uses the Confederation's Beta Credential Service. To participate, a Beta-ID must be created via the swiyu-Wallet app. The project exclusively uses fictional templates and the Confederation's Beta-ID. No personal data is stored.",
+      "links": {
+        "ios": "📱 swiyu App (iOS)",
+        "android": "🤖 swiyu App (Android)",
+        "betaId": "👉 Issue Beta-ID"
+      }
+    },
+    "carousel": {
+      "title": "Available initiatives and referendums"
+    },
+    "tryECollecting": {
+      "title": "Try E-Collecting with the Beta-ID",
+      "download": {
+        "title": "Download",
+        "description": "Download the <strong>swiyu</strong> app for free from the <a href=\"https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pli=1\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary hover:text-primary/80 underline underline-offset-4\">Google Play Store</a> or <a href=\"https://apps.apple.com/ch/app/swiyu/id6737259614\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary hover:text-primary/80 underline underline-offset-4\">Apple Store</a>."
+      },
+      "betaId": {
+        "title": "Issue Beta-ID",
+        "steps": {
+          "1": "1. Start the application process for the Beta-ID.",
+          "2": "2. Select the fictional attributes of your Beta-ID.",
+          "3": "3. Add the Beta-ID to your <strong>swiyu</strong> app."
+        },
+        "links": {
+          "create": "Create and verify Beta-ID",
+          "guide": "Guide for Beta-ID"
+        }
+      }
+    }
+  },
+  "footer": {
+    "projectDescription": "The pilot project started in December 2024. It aims to make signature collection for popular votes digital, secure and accessible - as a complement to paper. This pilot tests a possible variant of E-Collecting via the Confederation's Beta-ID. Behind the non-profit project are the Digital Democracy Hub Switzerland and the Foundation for Direct Democracy.",
+    "copyright": "© 2025 a project by <a href=\"https://www.digitaldemocracyhub.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Digital Democracy Hub Switzerland</a> in cooperation with the <a href=\"https://www.demokratie.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Foundation for Direct Democracy</a>",
+    "dataCredit": "© Data: swisstopo",
+    "contact": {
+      "organization": "Digital Democracy Hub Switzerland",
+      "email": "Email: <a href=\"mailto:info@digitaldemocracyhub.ch\" class=\"text-white hover:text-white/80 underline underline-offset-4\">info@digitaldemocracyhub.ch</a>",
+      "web": "Web: <a href=\"https://www.digitaldemocracyhub.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-white hover:text-white/80 underline underline-offset-4\">www.digitaldemocracyhub.ch</a>"
+    },
+    "externalLinks": {
+      "swiyuWallet": "swiyu-Wallet App",
+      "betaIdService": "Beta-ID Service"
+    }
+  },
+  "impressum": {
+    "title": "Imprint",
+    "responsible": {
+      "title": "Responsible for content",
+      "organization": "Association Digital Democracy Hub Switzerland - Center of Excellence for Democracy and Digitalization (in formation)",
+      "contact": "Contact person: Sandro Scalco",
+      "email": "Email: info@digitaldemocracyhub.ch",
+      "web": "Web: https://digitaldemocracyhub.ch"
+    },
+    "purpose": {
+      "title": "Purpose of the platform",
+      "description": "This platform is a fictional pilot project for the electronic collection of declarations of intent for popular votes. All contents and functions of this site, including services, are intended for demonstration purposes only and have no legal validity."
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "description": "The operators of this website provide no warranty for the completeness, accuracy and timeliness of the information provided. Liability claims against the operators relating to material or immaterial damage caused by the use or non-use of the information presented or by the use of incorrect and incomplete information are excluded in principle."
+    },
+    "privacy": {
+      "title": "Privacy",
+      "description": "This pilot project uses the Confederation's Beta Credential Service. Data is only processed within the framework of the technical demonstration and is not used for other purposes. The privacy provisions of the corresponding service apply to the creation of a Beta-ID."
+    },
+    "copyright": {
+      "title": "Copyright",
+      "description": "All contents of this website, insofar as they are not provided by third parties, are subject to Swiss copyright. Any use without the consent of the operators is prohibited."
+    }
+  }
+}

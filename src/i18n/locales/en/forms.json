@@ -1,0 +1,80 @@
+{
+  "supportTitle": "Support initiatives and referendums",
+  "supportDescription": "Test E-Collecting now to digitally support initiatives and referendums. Use the Confederation's Beta-ID for popular votes. No personal data is stored.",
+  "step": "Step {{current}} of {{total}}",
+  "step1": {
+    "title": "Select category and content",
+    "selectType": "Choose Initiative or Referendum",
+    "selectTitle": "Select popular vote",
+    "selectTitlePlaceholder": "Select title",
+    "selectTypeFirst": "Choose type first",
+    "types": {
+      "initiative": "Initiative",
+      "referendum": "Referendum"
+    }
+  },
+  "step2": {
+    "title": "Enter address",
+    "street": "Street and house number",
+    "streetPlaceholder": "e.g. Bahnhofstrasse 10A",
+    "postalCode": "Postal code",
+    "postalCodePlaceholder": "e.g. 8001",
+    "city": "City",
+    "cityPlaceholder": "e.g. Zurich"
+  },
+  "step3": {
+    "title": "Your data",
+    "volksbegehren": "Popular vote",
+    "address": "Address",
+    "municipality": "Political municipality",
+    "cantonConflict": {
+      "title": "Canton conflict",
+      "message": "This initiative is intended for <strong>{{level}}</strong>, but you live in <strong>{{canton}}</strong>. You can only support initiatives from your own canton."
+    },
+    "legalNotice": "Anyone who bribes or allows themselves to be bribed during signature collection or falsifies the result of signature collection for a popular initiative commits a criminal offense according to Art. 281 or Art. 282 of the Criminal Code.",
+    "supportButton": "Support popular vote now"
+  },
+  "step4": {
+    "verification": {
+      "title": "Verification with swiyu-Wallet",
+      "description": "Scan the QR code with your swiyu-Wallet app to identify yourself. After successful identification, your declaration of intent will be created.",
+      "openWallet": "Open with swiyu-Wallet",
+      "waitingMessage": "Waiting for identity verification via swiyu-Wallet app...",
+      "dialogTitle": "Open swiyu-Wallet",
+      "dialogDescription": "Please return to this page afterwards."
+    },
+    "success": {
+      "title": "Successfully supported!",
+      "message": "You have supported {{type}} \"{{title}}\". Important note: This is a pilot project for E-Collecting with the Confederation's Beta-ID. Your declaration of intent will not be transmitted to the responsible municipality. Thank you for testing!",
+      "typeInitiative": "the initiative",
+      "typeReferendum": "the referendum"
+    },
+    "receipt": {
+      "title": "Receipt:",
+      "description": "A receipt can be downloaded with the swiyu-Wallet app. To do this, scan the QR code with your swiyu-Wallet app. Or click the button on your smartphone.",
+      "downloadButton": "Download receipt"
+    },
+    "summary": {
+      "title": "Summary of your data:",
+      "date": "Date:",
+      "time": "Time:",
+      "firstName": "First name:",
+      "lastName": "Last name:",
+      "birthDate": "Date of birth:",
+      "address": "Address:",
+      "municipality": "Political municipality:"
+    }
+  },
+  "actions": {
+    "shareVolksbegehren": "Share popular vote",
+    "restartConfirm": "Confirm restart",
+    "restartDescription": "This will delete all entries. Do you want to continue?",
+    "deleteAndRestart": "Delete and restart"
+  },
+  "open": "Open",
+  "restart": "Restart",
+  "confirmRestart": "Confirm restart",
+  "confirmRestartDescription": "This will delete all entries. Do you want to continue?",
+  "shareVolksbegehren": "Share popular vote",
+  "cancel": "Cancel"
+}

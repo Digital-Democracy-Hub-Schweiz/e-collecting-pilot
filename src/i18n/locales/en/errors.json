@@ -1,0 +1,44 @@
+{
+  "validation": {
+    "required": "This field is required",
+    "missingFields": "Missing data",
+    "selectTypeAndTitle": "Please select type and title.",
+    "fillNameFields": "Please fill in type, title, first and last name.",
+    "addressIncomplete": "Address incomplete",
+    "fillAllAddressFields": "Please fill in all address fields."
+  },
+  "api": {
+    "credentialCreated": "Credential created",
+    "credentialError": "Error issuing",
+    "unknownError": "Unknown error",
+    "addressValidationFailed": "Address validation failed",
+    "addressValidated": "Address validated",
+    "municipalityDetermined": "Political municipality determined.",
+    "cantonDetermined": "Canton determined via political municipality: {{canton}}",
+    "verificationStarted": "Verification started",
+    "scanQrCode": "Scan the QR code with your swiyu-Wallet app.",
+    "verificationFailed": "Verification failed",
+    "tryAgain": "Please try again.",
+    "identityVerified": "Identity successfully verified",
+    "dataTransferred": "Data transferred.",
+    "verificationError": "Verification failed",
+    "statusQueried": "Status queried",
+    "statusUpdated": "Status information updated.",
+    "statusQueryFailed": "Status query failed",
+    "shared": "Shared",
+    "shareDialogOpened": "Share dialog opened.",
+    "linkCopied": "Link copied",
+    "shareFailed": "Sharing failed",
+    "formReset": "Reset",
+    "formCleared": "Form cleared.",
+    "postalCodeMissing": "Postal code missing",
+    "postalCodeQueryFailed": "Postal code query failed ({{status}})",
+    "noPostalCodeResults": "No results found for this postal code"
+  },
+  "verification": {
+    "sessionCreated": "Verification created",
+    "sessionCreatedDescription": "Verification session {{id}} has been created successfully.",
+    "creationFailed": "Error",
+    "creationFailedDescription": "Failed to create verification session. Please try again."
+  }
+}

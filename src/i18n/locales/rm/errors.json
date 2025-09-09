@@ -1,0 +1,44 @@
+{
+  "validation": {
+    "required": "Quest champ è obligatori",
+    "missingFields": "Datas mancantass",
+    "selectTypeAndTitle": "Tscherna per plaschair tip e titel.",
+    "fillNameFields": "Tschaina per plaschair tip, titel, prenum e num.",
+    "addressIncomplete": "Adressa incumpleta",
+    "fillAllAddressFields": "Tschaina per plaschair tut ils champs da l'adressa."
+  },
+  "api": {
+    "credentialCreated": "Credential creà",
+    "credentialError": "Errur tar l'ediziun",
+    "unknownError": "Errur nunenconuschent",
+    "addressValidationFailed": "Verificaziun da l'adressa betg reussida",
+    "addressValidated": "Adressa verifitgada",
+    "municipalityDetermined": "Vischnanca politica determinada.",
+    "cantonDetermined": "Chantun determinà tras la vischnanca politica: {{canton}}",
+    "verificationStarted": "Verificaziun cumenzada",
+    "scanQrCode": "Scannescha il code QR cun tia app swiyu-Wallet.",
+    "verificationFailed": "Verificaziun betg reussida",
+    "tryAgain": "Emprova anc ina giada.",
+    "identityVerified": "Identitad verifitgada cun success",
+    "dataTransferred": "Datas transferidas.",
+    "verificationError": "Verificaziun betg reussida",
+    "statusQueried": "Status dumandat",
+    "statusUpdated": "Infurmaziuns dal status actualisadas.",
+    "statusQueryFailed": "Dumonda dal status betg reussida",
+    "shared": "Cundividì",
+    "shareDialogOpened": "Dialog da cundivisiun avert.",
+    "linkCopied": "Link copià",
+    "shareFailed": "Cundivisiun betg reussida",
+    "formReset": "Reinizialisà",
+    "formCleared": "Formular stizzà.",
+    "postalCodeMissing": "Numer postal manca",
+    "postalCodeQueryFailed": "Dumonda dal numer postal betg reussida ({{status}})",
+    "noPostalCodeResults": "Nagins resultats chattads per quest numer postal"
+  },
+  "verification": {
+    "sessionCreated": "Verificaziun creada",
+    "sessionCreatedDescription": "La sesida da verificaziun {{id}} è vegnida creada cun success.",
+    "creationFailed": "Errur",
+    "creationFailedDescription": "Creaziun da la sesida da verificaziun betg reussida. Emprova anc ina giada."
+  }
+}

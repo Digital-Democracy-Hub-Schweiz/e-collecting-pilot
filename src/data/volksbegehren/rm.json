@@ -1,0 +1,57 @@
+[
+  {
+    "type": "referendum",
+    "level": "Confederaziun",
+    "title": "Referendum cunter la reducziun da sendas da viandar",
+    "slug": "referendum-cunter-reducziun-sendas-viandar",
+    "comitee": "Uniun Amitgs dal viandar Svizra",
+    "wording": "Sendas da viandar èn in bain cultural. La reducziun planisada da la manutanziun da sendas duess vegnir fermada. Viandaders dumondan che tut las sendas existentas cuntinueschan dad esser mantenidas.",
+    "start_date": "2025-08-01",
+    "end_date": "2025-11-09",
+    "show": true
+  },
+  {
+    "type": "initiative",
+    "level": "Confederaziun",
+    "title": "Iniziativa per internet accessibel (Iniziativa d'access)",
+    "slug": "iniziativa-per-internet-accessibel",
+    "comitee": "Inclusiun Digitala Svizra",
+    "wording": "Websites da las autoritads sco er d'acturs sustegnids u subvenziun ads da l'administraziun publica duessan esser accessiblas senza barrieras. Tut las persunas duessan pudair utilisar infurmaziuns e servetschs.",
+    "start_date": "2025-08-05",
+    "end_date": "2026-12-05",
+    "show": true
+  },
+  {
+    "type": "initiative",
+    "level": "Confederaziun",
+    "title": "Per dapli spatgis d'ombriva en il spazi public (Iniziativa protecziun dal sulegl)",
+    "slug": "per-dapli-spatgis-ombriva-spazi-public",
+    "comitee": "Amitgs da las citads verdas Svizra",
+    "wording": "En il spazi public duessan vegnir creads arbuls e tetgs supplementars. Uschia vegnan dis chalds pli suppurtabels per uffants, persunas anziaras e tuts quels che èn ora.",
+    "start_date": "2025-08-10",
+    "end_date": "2026-02-10",
+    "show": true
+  },
+  {
+    "type": "initiative",
+    "level": "Chantun Turitg",
+    "title": "Iniziativa per abitaziuns cun pretschs accessibels a Turitg",
+    "slug": "iniziativa-abitaziuns-accessibels-turitg",
+    "comitee": "Allianza per l'abitar Turitg",
+    "wording": "En il chantun Turitg duessan vegnir creadas dapli abitaziuns cun pretschs accessibels. Almain 30% da tut las novas abitaziuns duessan esser abitaziuns d'utilitad publica.",
+    "start_date": "2025-09-01",
+    "end_date": "2026-03-01",
+    "show": true
+  },
+  {
+    "type": "referendum",
+    "level": "Chantun Berna",
+    "title": "Referendum cunter la reducziun da traffic public",
+    "slug": "referendum-cunter-reducziun-traffic-public-berna",
+    "comitee": "Pro Traffic Public Berna",
+    "wording": "La reducziun planisada da colliaziuns da traffic public en regiuns rurealas duess vegnir impedida. Tut las regiuns duessan restar bain servridas.",
+    "start_date": "2025-07-15",
+    "end_date": "2025-10-15",
+    "show": false
+  }
+]

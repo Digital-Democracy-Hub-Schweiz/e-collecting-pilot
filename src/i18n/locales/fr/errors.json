@@ -1,0 +1,44 @@
+{
+  "validation": {
+    "required": "Ce champ est obligatoire",
+    "missingFields": "Données manquantes",
+    "selectTypeAndTitle": "Veuillez sélectionner le type et le titre.",
+    "fillNameFields": "Veuillez remplir le type, le titre, le prénom et le nom.",
+    "addressIncomplete": "Adresse incomplète",
+    "fillAllAddressFields": "Veuillez remplir tous les champs d'adresse."
+  },
+  "api": {
+    "credentialCreated": "Credential créé",
+    "credentialError": "Erreur lors de l'émission",
+    "unknownError": "Erreur inconnue",
+    "addressValidationFailed": "Échec de la vérification de l'adresse",
+    "addressValidated": "Adresse vérifiée",
+    "municipalityDetermined": "Commune politique déterminée.",
+    "cantonDetermined": "Canton déterminé via la commune politique: {{canton}}",
+    "verificationStarted": "Vérification démarrée",
+    "scanQrCode": "Scannez le code QR avec votre application swiyu-Wallet.",
+    "verificationFailed": "Échec de la vérification",
+    "tryAgain": "Veuillez réessayer.",
+    "identityVerified": "Identité vérifiée avec succès",
+    "dataTransferred": "Données transférées.",
+    "verificationError": "Échec de la vérification",
+    "statusQueried": "Statut interrogé",
+    "statusUpdated": "Informations de statut mises à jour.",
+    "statusQueryFailed": "Échec de l'interrogation du statut",
+    "shared": "Partagé",
+    "shareDialogOpened": "Dialogue de partage ouvert.",
+    "linkCopied": "Lien copié",
+    "shareFailed": "Échec du partage",
+    "formReset": "Réinitialisé",
+    "formCleared": "Formulaire vidé.",
+    "postalCodeMissing": "Code postal manquant",
+    "postalCodeQueryFailed": "Échec de la requête de code postal ({{status}})",
+    "noPostalCodeResults": "Aucun résultat trouvé pour ce code postal"
+  },
+  "verification": {
+    "sessionCreated": "Vérification créée",
+    "sessionCreatedDescription": "La session de vérification {{id}} a été créée avec succès.",
+    "creationFailed": "Erreur",
+    "creationFailedDescription": "Échec de la création de la session de vérification. Veuillez réessayer."
+  }
+}

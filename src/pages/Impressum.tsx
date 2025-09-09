@@ -1,6 +1,9 @@
 import { useHealthStatus } from "@/hooks/use-health-status";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Github } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 const Impressum = () => {
+  const { t } = useTranslation(['common', 'content']);
   const {
     data: healthStatus,
     isLoading: healthLoading
@@ -12,7 +15,7 @@ const Impressum = () => {
   return <body className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Skip to main content - Swiss Design System requirement */}
       <a href="#main-content" className="skip-to-content sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50">
-        Skip to main content
+        {t('common:skipToMain')}
       </a>
 
       {/* Header following Swiss Design System structure */}
@@ -47,13 +50,14 @@ const Impressum = () => {
                   <img src="/lovable-uploads/e75dd54e-b28f-48bc-8d17-683d07664c09.png" alt="Beta" className="h-8 w-8" />
                 </div>
                 <div className="max-w-md">
-                  <div className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">E-Collecting Pilotprojekt</div>
+                  <div className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">{t('content:header.title')}</div>
                 </div>
               </a>
               <div className="flex items-center gap-6">
                 <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
-                  <a href="/" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">Zurück zur Hauptseite</a>
+                  <a href="/" className="text-[hsl(var(--gov-nav-text))] hover:text-primary transition-colors">{t('common:navigation.backToMain')}</a>
                 </nav>
+                <LanguageSwitcher />
               </div>
             </div>
           </div>
@@ -63,53 +67,44 @@ const Impressum = () => {
       {/* Main Content */}
       <main id="main-content" className="flex-1">
         <section className="max-w-4xl mx-auto px-6 py-12">
-          <h1 className="text-3xl font-bold text-foreground mb-8">Impressum</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-8">{t('content:impressum.title')}</h1>
           
           <div className="prose prose-lg max-w-none">
             <div className="bg-white rounded-lg border border-muted p-8 space-y-6">
               <div>
-                <h2 className="text-xl font-semibold text-foreground mb-4">Verantwortlich für den Inhalt</h2>
+                <h2 className="text-xl font-semibold text-foreground mb-4">{t('content:impressum.responsible.title')}</h2>
                 <div className="space-y-2 text-muted-foreground">
-                  <p><strong>Verein Digital Democracy Hub Schweiz - Fachstelle für Demokratie und Digitalisierung (in Gründung)</strong></p>
-                  <p>Ansprechsperson: Sandro Scalco</p>
-                  <p>E-Mail: info@digitaldemocracyhub.ch</p>
-                  <p>Web: https://digitaldemocracyhub.ch</p>
+                  <p><strong>{t('content:impressum.responsible.organization')}</strong></p>
+                  <p>{t('content:impressum.responsible.contact')}</p>
+                  <p>{t('content:impressum.responsible.email')}</p>
+                  <p>{t('content:impressum.responsible.web')}</p>
                 </div>
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-foreground mb-4">Zweck der Plattform</h2>
+                <h2 className="text-xl font-semibold text-foreground mb-4">{t('content:impressum.purpose.title')}</h2>
                 <p className="text-muted-foreground">
-                  Diese Plattform ist ein fiktives Pilotprojekt für das elektronische Sammeln von Willensbekundungen 
-                  für Volksbegehren. Alle Inhalte und Funktionen dieser Seite inklusive Services sind nur für 
-                  Demonstrationszwecke gedacht und haben keine rechtliche Gültigkeit.
+                  {t('content:impressum.purpose.description')}
                 </p>
               </div>
 
               <div>
-                <h2 className="text-xl font-semibold text-foreground mb-4">Haftungsausschluss</h2>
+                <h2 className="text-xl font-semibold text-foreground mb-4">{t('content:impressum.disclaimer.title')}</h2>
                 <p className="text-muted-foreground">
-                  Die Betreiber dieser Website übernehmen keine Gewähr für die Vollständigkeit, Richtigkeit und 
-                  Aktualität der bereitgestellten Informationen. Haftungsansprüche gegen die Betreiber, die sich 
-                  auf Schäden materieller oder ideeller Art beziehen, welche durch die Nutzung oder Nichtnutzung 
-                  der dargebotenen Informationen bzw. durch die Nutzung fehlerhafter und unvollständiger 
-                  Informationen verursacht wurden, sind grundsätzlich ausgeschlossen.
+                  {t('content:impressum.disclaimer.description')}
                 </p>
               </div>
 
               <div>
-                <h2 className="text-xl font-semibold text-foreground mb-4">Datenschutz</h2>
+                <h2 className="text-xl font-semibold text-foreground mb-4">{t('content:impressum.privacy.title')}</h2>
                 <p className="text-muted-foreground">
-                  Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Daten werden 
-                  nur im Rahmen der technischen Demonstration verarbeitet und nicht zu anderen Zwecken verwendet. 
-                  Für die Erstellung einer Beta-ID gelten die Datenschutzbestimmungen des entsprechenden Services.
+                  {t('content:impressum.privacy.description')}
                 </p>
               </div>
 
               <div>
-                <h2 className="text-xl font-semibold text-foreground mb-4">Urheberrecht</h2>
+                <h2 className="text-xl font-semibold text-foreground mb-4">{t('content:impressum.copyright.title')}</h2>
                 <p className="text-muted-foreground">
-                  Alle Inhalte dieser Website, soweit sie nicht von Dritten bereitgestellt wurden, unterliegen dem 
-                  schweizerischen Urheberrecht. Jede Verwertung ohne Zustimmung der Betreiber ist unzulässig.
+                  {t('content:impressum.copyright.description')}
                 </p>
               </div>
             </div>

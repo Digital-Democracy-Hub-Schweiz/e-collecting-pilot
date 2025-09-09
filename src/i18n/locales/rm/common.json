@@ -1,0 +1,44 @@
+{
+  "skipToMain": "Siglir al cuntegn principal",
+  "loading": "Chargiar...",
+  "offline": "Offline",
+  "up": "UP",
+  "back": "Turnar",
+  "next": "Vinavant",
+  "cancel": "Annullar",
+  "confirm": "Confermar",
+  "close": "Serrar",
+  "open": "Avrir",
+  "share": "Cundivider",
+  "copy": "Copiar",
+  "reset": "Reinizialisar",
+  "restart": "Nov cumenzament",
+  "download": "Telechargiar",
+  "languages": {
+    "de": "Deutsch",
+    "fr": "Français",
+    "it": "Italiano",
+    "rm": "Rumantsch",
+    "en": "English"
+  },
+  "navigation": {
+    "home": "Pagina principala",
+    "backToMain": "Turnar a la pagina principala",
+    "impressum": "Impressum"
+  },
+  "footer": {
+    "madeWith": "fatg cun ❤️",
+    "buyMeCoffee": "☕ Cumpar in caffè",
+    "project": "Il project pilot E-Collecting",
+    "stayInformed": "Restar infurmà",
+    "newsletter": "Abunar la newsletter",
+    "contact": "Contact",
+    "externalLinks": "Colliaziuns externas",
+    "systemStatus": "Status dal sistem",
+    "services": {
+      "verifierMgmt": "Verifier-Mgmt",
+      "issuerMgmt": "Issuer-Mgmt",
+      "issuerOid4vci": "Issuer-OID4VCI"
+    }
+  }
+}

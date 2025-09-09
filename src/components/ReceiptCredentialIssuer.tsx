@@ -11,11 +11,12 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { issuerBusinessAPI } from "@/services/issuerAPI";
 import { verificationBusinessAPI } from "@/services/verificationAPI";
 import { useToast } from "@/hooks/use-toast";
+import { useVolksbegehren } from "@/hooks/use-volksbegehren";
 import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
 import { ShieldCheck, QrCode, RefreshCw, Share2 } from "lucide-react";
-import volksbegehren from "@/data/volksbegehren.json";
 import { determineCantonFromBfs } from "@/utils/cantonUtils";
+import { useTranslation } from 'react-i18next';
 type Option = {
   id: string;
   title: string;
@@ -28,9 +29,9 @@ export function ReceiptCredentialIssuer({
     id: string;
   };
 }) {
-  const {
-    toast
-  } = useToast();
+  const { t } = useTranslation(['forms', 'errors', 'common']);
+  const { toast } = useToast();
+  const volksbegehren = useVolksbegehren();
   const [type, setType] = useState<"Initiative" | "Referendum" | "">("");
   const [selectedId, setSelectedId] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -119,8 +120,8 @@ export function ReceiptCredentialIssuer({
     const currentBirthDate = credentialData?.birth_date || birthDate;
     if (!type || !selectedId || !currentFirstName || !currentLastName) {
       toast({
-        title: "Fehlende Angaben",
-        description: "Bitte Typ, Titel, Vor- und Nachname ausfüllen.",
+        title: t('errors:validation.missingFields'),
+        description: t('errors:validation.fillNameFields'),
         variant: "destructive"
       });
       return;
@@ -153,7 +154,7 @@ export function ReceiptCredentialIssuer({
       setIssuedId(res.id || (res as any).management_id || null);
       setOfferDeeplink(res.offer_deeplink || null);
       toast({
-        title: "Credential erstellt",
+        title: t('errors:api.credentialCreated'),
         description: `ID: ${res.id || (res as any).management_id}`
       });
 
@@ -176,8 +177,8 @@ export function ReceiptCredentialIssuer({
       }
     } catch (e: any) {
       toast({
-        title: "Fehler beim Ausstellen",
-        description: e?.message ?? "Unbekannter Fehler",
+        title: t('errors:api.credentialError'),
+        description: e?.message ?? t('errors:api.unknownError'),
         variant: "destructive"
       });
     } finally {
@@ -187,8 +188,8 @@ export function ReceiptCredentialIssuer({
   const handleNextFromStep1 = () => {
     if (!type || !selectedId) {
       toast({
-        title: "Fehlende Angaben",
-        description: "Bitte Typ und Titel auswählen.",
+        title: t('errors:validation.missingFields'),
+        description: t('errors:validation.selectTypeAndTitle'),
         variant: "destructive"
       });
       return;
@@ -253,8 +254,8 @@ export function ReceiptCredentialIssuer({
   const handleNextFromStep2 = () => {
     if (!streetAddress || !postalCode || !city) {
       toast({
-        title: "Adresse unvollständig",
-        description: "Bitte alle Adressfelder ausfüllen.",
+        title: t('errors:validation.addressIncomplete'),
+        description: t('errors:validation.fillAllAddressFields'),
         variant: "destructive"
       });
       return;
@@ -476,9 +477,9 @@ export function ReceiptCredentialIssuer({
   return <section aria-labelledby="issuer-section" className="bg-white border border-gray-200 rounded-lg">
       <div className="p-8 space-y-6">
         <div className="space-y-6">
-          <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">Initiativen und Referenden unterstützen</h1>
+          <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">{t('forms:supportTitle')}</h1>
           <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p className="text-lg">Testen Sie jetzt E-Collecting, um Initiativen und Referenden digital zu unterstützen. Verwenden Sie dafür die Beta-ID des Bundes für Volksbegehren. Es werden keine persönlichen Daten gespeichert.</p>
+            <p className="text-lg">{t('forms:supportDescription')}</p>
           </div>
         </div>
 
@@ -504,28 +505,28 @@ export function ReceiptCredentialIssuer({
           <div className={cn("grid gap-6", issuedId ? "md:grid-cols-2" : "")}>
             <div className={cn("space-y-4", !issuedId && "lg:max-w-2xl lg:mx-auto")}>
               <div className="flex items-center justify-between">
-                <Badge variant="outline" className="text-xs">Schritt {step} von 4</Badge>
+                <Badge variant="outline" className="text-xs">{t('forms:step', { current: step, total: 4 })}</Badge>
               </div>
 
               {step === 1 && <div className="space-y-6">
                   <div className="space-y-4">
-                    <Label className="text-base font-semibold">Kategorie und Inhalt auswählen</Label>
+                    <Label className="text-base font-semibold">{t('forms:step1.title')}</Label>
                     <Select value={type} onValueChange={v => setType(v as any)}>
-                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()} aria-label="Wählen Sie Initiative oder Referendum">
-                        <SelectValue placeholder="Wählen Sie Initiative oder Referendum" />
+                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()} aria-label={t('forms:step1.selectType')}>
+                        <SelectValue placeholder={t('forms:step1.selectType')} />
                       </SelectTrigger>
                       <SelectContent className="z-[100] bg-background border shadow-lg">
-                        <SelectItem value="Initiative" className="text-base py-3">Initiative</SelectItem>
-                        <SelectItem value="Referendum" className="text-base py-3">Referendum</SelectItem>
+                        <SelectItem value="Initiative" className="text-base py-3">{t('forms:step1.types.initiative')}</SelectItem>
+                        <SelectItem value="Referendum" className="text-base py-3">{t('forms:step1.types.referendum')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   
                   <div className="space-y-4">
-                    <Label className="text-base font-semibold">Volksbegehren auswählen</Label>
+                    <Label className="text-base font-semibold">{t('forms:step1.selectTitle')}</Label>
                     <Select value={selectedId} onValueChange={setSelectedId} disabled={!type}>
-                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()} aria-label={type ? "Titel auswählen" : "Zuerst Typ wählen"}>
-                        <SelectValue placeholder={type ? "Titel auswählen" : "Zuerst Typ wählen"} />
+                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()} aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}>
+                        <SelectValue placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')} />
                       </SelectTrigger>
                 <SelectContent className="max-h-[300px] overflow-auto z-[100] bg-background border shadow-lg w-full min-w-[300px]">
                   {options.map(o => <SelectItem key={o.id} value={o.id} className="text-sm py-3 leading-relaxed">
@@ -537,24 +538,24 @@ export function ReceiptCredentialIssuer({
                   
                   <div className="pt-4">
                     <button onClick={handleNextFromStep1} className="w-full inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
-                      Weiter
+                      {t('common:next')}
                     </button>
                   </div>
                 </div>}
 
               {step === 2 && <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-semibold mb-4">Adresse eingeben</h3>
+                    <h3 className="text-lg font-semibold mb-4">{t('forms:step2.title')}</h3>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label className="text-base font-medium">Strasse und Hausnummer</Label>
-                        <Input value={streetAddress} onChange={e => setStreetAddress(e.target.value)} placeholder="z.B. Bahnhofstrasse 10A" className="h-12 text-base" />
+                        <Label className="text-base font-medium">{t('forms:step2.street')}</Label>
+                        <Input value={streetAddress} onChange={e => setStreetAddress(e.target.value)} placeholder={t('forms:step2.streetPlaceholder')} className="h-12 text-base" />
                       </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2 relative">
-                          <Label className="text-base font-medium">Postleitzahl</Label>
-                          <Input value={postalCode} onChange={e => handlePostalCodeChange(e.target.value)} placeholder="z.B. 8001" className="h-12 text-base" onFocus={() => postalSuggestions.length > 0 && setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} />
+                          <Label className="text-base font-medium">{t('forms:step2.postalCode')}</Label>
+                          <Input value={postalCode} onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-base" onFocus={() => postalSuggestions.length > 0 && setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} />
                           {isLoadingSuggestions && <div className="absolute right-3 top-10 text-muted-foreground">
                               <RefreshCw className="w-4 h-4 animate-spin" />
                             </div>}
@@ -566,8 +567,8 @@ export function ReceiptCredentialIssuer({
                             </div>}
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-base font-medium">Ort</Label>
-                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder="z.B. Zürich" className="h-12 text-base" />
+                          <Label className="text-base font-medium">{t('forms:step2.city')}</Label>
+                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-base" />
                         </div>
                       </div>
                     </div>
@@ -575,29 +576,29 @@ export function ReceiptCredentialIssuer({
                   
                   <div className="flex flex-col sm:flex-row gap-3 pt-4">
                     <button onClick={() => setStep(1)} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
-                      Zurück
+                      {t('common:back')}
                     </button>
                     <button onClick={handleNextFromStep2} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base flex-1" disabled={isValidatingAddress}>
                       {isValidatingAddress && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} 
-                      Weiter
+                      {t('common:next')}
                     </button>
                   </div>
                 </div>}
 
               {step === 3 && <div className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Ihre Angaben</h3>
+                    <h3 className="text-lg font-semibold">{t('forms:step3.title')}</h3>
                     
                     <div className="bg-muted/50 p-4 rounded-lg space-y-3">
                       <div>
-                        <Label className="text-sm font-medium text-muted-foreground">Volksbegehren</Label>
+                        <Label className="text-sm font-medium text-muted-foreground">{t('forms:step3.volksbegehren')}</Label>
                         <p className="text-sm">
                           {type} - {options.find(o => o.id === selectedId)?.title}
                         </p>
                       </div>
                       
                       <div>
-                        <Label className="text-sm font-medium text-muted-foreground">Adresse</Label>
+                        <Label className="text-sm font-medium text-muted-foreground">{t('forms:step3.address')}</Label>
                         <p className="text-sm">
                           {streetAddress}<br />
                           {postalCode} {city}
@@ -605,7 +606,7 @@ export function ReceiptCredentialIssuer({
                       </div>
 
                       {municipality && <div>
-                          <Label className="text-sm font-medium text-muted-foreground">Politische Gemeinde</Label>
+                          <Label className="text-sm font-medium text-muted-foreground">{t('forms:step3.municipality')}</Label>
                           <p className="text-sm text-primary font-medium">
                             {municipality}
                             {isValidatingAddress && <RefreshCw className="w-3 h-3 ml-2 inline animate-spin" />}
@@ -631,10 +632,8 @@ export function ReceiptCredentialIssuer({
                               <div className="flex items-start space-x-3">
                                 <div className="text-red-600 mt-1">⚠️</div>
                                 <div>
-                                  <div className="text-sm font-medium text-red-800" role="heading" aria-level="4">Kantonskonflikt</div>
-                                  <p className="text-sm text-red-700 mt-1">
-                                    Diese Initiative ist für <strong>{selectedLevel}</strong> bestimmt, aber Sie wohnen in <strong>{userCanton}</strong>. 
-                                    Sie können nur Initiativen Ihres eigenen Kantons unterstützen.
+                                  <div className="text-sm font-medium text-red-800" role="heading" aria-level="4">{t('forms:step3.cantonConflict.title')}</div>
+                                  <p className="text-sm text-red-700 mt-1" dangerouslySetInnerHTML={{ __html: t('forms:step3.cantonConflict.message', { level: selectedLevel, canton: userCanton }) }}>
                                   </p>
                                 </div>
                               </div>
@@ -648,13 +647,13 @@ export function ReceiptCredentialIssuer({
                     <div className="flex items-start space-x-3 p-4 border rounded-lg bg-muted/20">
                       <Checkbox id="legal-notice" checked={acceptedLegalNotice} onCheckedChange={checked => setAcceptedLegalNotice(checked === true)} className="mt-1" />
                       <Label htmlFor="legal-notice" className="text-sm leading-relaxed cursor-pointer">
-                        Wer bei einer Unterschriftensammlung besticht oder sich bestechen lässt oder wer das Ergebnis einer Unterschriftensammlung für eine Volksinitiative fälscht, macht sich strafbar nach Art. 281 beziehungsweise nach Art. 282 des Strafgesetzbuches.
+                        {t('forms:step3.legalNotice')}
                       </Label>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3">
                       <button onClick={() => setStep(2)} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
-                        Zurück
+                        {t('common:back')}
                       </button>
                       <button 
                         onClick={handleStartVerification} 
@@ -678,7 +677,7 @@ export function ReceiptCredentialIssuer({
                         className="inline-flex items-center justify-center px-6 py-3 bg-swiss-gray-900 text-swiss-white border border-swiss-gray-900 rounded hover:bg-swiss-gray-800 transition-colors font-medium h-12 text-base flex-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-swiss-gray-900"
                       >
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
-                        Jetzt Volksbegehren unterstützen
+                        {t('forms:step3.supportButton')}
                       </button>
                     </div>
                   </div>
@@ -686,9 +685,9 @@ export function ReceiptCredentialIssuer({
 
               {step === 4 && !issuedId && <div className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Verifikation mit swiyu-Wallet</h3>
+                    <h3 className="text-lg font-semibold">{t('forms:step4.verification.title')}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App, um sich auszuweisen. Nach dem erfolgreichen Identifizieren wird Ihre Willensbekundung erstellt.
+                      {t('forms:step4.verification.description')}
                     </p>
 
                      {verificationUrl && <div className="space-y-4">
@@ -698,20 +697,20 @@ export function ReceiptCredentialIssuer({
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
                                 <button className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base no-underline">
-                                  Mit swiyu-Wallet öffnen
+                                  {t('forms:step4.verification.openWallet')}
                                 </button>
                               </AlertDialogTrigger>
                               <AlertDialogContent>
                                 <AlertDialogHeader>
-                                  <AlertDialogTitle>swiyu-Wallet öffnen</AlertDialogTitle>
+                                  <AlertDialogTitle>{t('forms:step4.verification.dialogTitle')}</AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    Bitte anschliessend wieder auf diese Seite zurückkehren.
+                                    {t('forms:step4.verification.dialogDescription')}
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+                                  <AlertDialogCancel>{t('common:cancel')}</AlertDialogCancel>
                                   <AlertDialogAction onClick={() => window.location.href = `swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`}>
-                                    Öffnen
+                                    {t('common:open')}
                                   </AlertDialogAction>
                                 </AlertDialogFooter>
                               </AlertDialogContent>
@@ -721,49 +720,49 @@ export function ReceiptCredentialIssuer({
 
                         {isPollingVerification && <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <RefreshCw className="w-4 h-4 animate-spin" />
-                            Warten auf Verifikation der Identität mittels der swiyu-Wallet App...
+                            {t('forms:step4.verification.waitingMessage')}
                           </div>}
                       </div>}
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3 pt-4">
                     <button onClick={() => setStep(3)} disabled={isPollingVerification} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
-                      Zurück
+                      {t('common:back')}
                     </button>
                   </div>
                 </div>}
 
               {step === 4 && issuedId && <div className="space-y-6">
                    <div className="bg-muted/50 p-4 rounded-lg space-y-3">
-                     <div className="font-semibold text-sm" role="heading" aria-level="4">Zusammenfassung Ihrer Angaben:</div>
+                     <div className="font-semibold text-sm" role="heading" aria-level="4">{t('forms:step4.summary.title')}</div>
                      
                      <div className="grid gap-3 text-sm">
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">Datum:</span>
+                         <span className="text-muted-foreground">{t('forms:step4.summary.date')}</span>
                          <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">Uhrzeit:</span>
+                         <span className="text-muted-foreground">{t('forms:step4.summary.time')}</span>
                          <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">Vorname:</span>
+                         <span className="text-muted-foreground">{t('forms:step4.summary.firstName')}</span>
                          <span className="font-medium">{firstName}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">Nachname:</span>
+                         <span className="text-muted-foreground">{t('forms:step4.summary.lastName')}</span>
                          <span className="font-medium">{lastName}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">Geburtsdatum:</span>
+                         <span className="text-muted-foreground">{t('forms:step4.summary.birthDate')}</span>
                          <span className="font-medium">{birthDate}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">Adresse:</span>
+                         <span className="text-muted-foreground">{t('forms:step4.summary.address')}</span>
                          <span className="font-medium">{streetAddress}, {postalCode} {city}</span>
                        </div>
                        {municipalityDetails && <div className="flex justify-between">
-                           <span className="text-muted-foreground">Politische Gemeinde:</span>
+                           <span className="text-muted-foreground">{t('forms:step4.summary.municipality')}</span>
                            <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
                          </div>}
                      </div>
@@ -799,7 +798,7 @@ export function ReceiptCredentialIssuer({
                                 <AlertDialogFooter>
                                   <AlertDialogCancel>Abbrechen</AlertDialogCancel>
                                   <AlertDialogAction onClick={() => window.location.href = offerDeeplink}>
-                                    Öffnen
+                                    {t('forms.open', 'Öffnen')}
                                   </AlertDialogAction>
                                 </AlertDialogFooter>
                               </AlertDialogContent>
@@ -816,23 +815,23 @@ export function ReceiptCredentialIssuer({
           {step === 4 && issuedId && <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <button className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">Neu starten</button>
+                  <button className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">{t('forms.restart', 'Neu starten')}</button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Neustart bestätigen</AlertDialogTitle>
+                    <AlertDialogTitle>{t('forms.confirmRestart', 'Neustart bestätigen')}</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Dadurch werden alle Eingaben gelöscht. Möchten Sie fortfahren?
+                      {t('forms.confirmRestartDescription', 'Dadurch werden alle Eingaben gelöscht. Möchten Sie fortfahren?')}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Abbrechen</AlertDialogCancel>
-                    <AlertDialogAction onClick={resetForm}>Löschen und neu starten</AlertDialogAction>
+                    <AlertDialogCancel>{t('forms.cancel', 'Abbrechen')}</AlertDialogCancel>
+                    <AlertDialogAction onClick={resetForm}>{t('forms.deleteAndRestart', 'Löschen und neu starten')}</AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
               <button onClick={handleShare} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base flex-1">
-                <Share2 className="w-4 h-4 mr-2" /> Volksbegehren teilen
+                <Share2 className="w-4 h-4 mr-2" /> {t('forms.shareVolksbegehren', 'Volksbegehren teilen')}
               </button>
             </div>}
         </div>

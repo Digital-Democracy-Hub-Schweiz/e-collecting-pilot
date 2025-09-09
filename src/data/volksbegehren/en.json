@@ -1,0 +1,57 @@
+[
+  {
+    "type": "referendum",
+    "level": "Federal",
+    "title": "Referendum against reduction of hiking trails",
+    "slug": "referendum-against-reduction-hiking-trails",
+    "comitee": "Association Friends of Hiking Switzerland",
+    "wording": "Hiking trails are a cultural asset. The planned reduction in trail maintenance should be stopped. Hikers demand that all existing trails continue to be maintained.",
+    "start_date": "2025-08-01",
+    "end_date": "2025-11-09",
+    "show": true
+  },
+  {
+    "type": "initiative",
+    "level": "Federal",
+    "title": "Initiative for accessible internet (Access initiative)",
+    "slug": "initiative-for-accessible-internet",
+    "comitee": "Digital Inclusion Switzerland",
+    "wording": "Websites of authorities as well as publicly supported or subsidized actors should be accessible without barriers. All people should be able to use information and services.",
+    "start_date": "2025-08-05",
+    "end_date": "2026-12-05",
+    "show": true
+  },
+  {
+    "type": "initiative",
+    "level": "Federal",
+    "title": "For more shaded spaces in public areas (Sun protection initiative)",
+    "slug": "for-more-shaded-spaces-public-areas",
+    "comitee": "Friends of Green Cities Switzerland",
+    "wording": "Additional trees and canopies should be created in public spaces. This makes hot days more bearable for children, seniors and everyone who is outdoors.",
+    "start_date": "2025-08-10",
+    "end_date": "2026-02-10",
+    "show": true
+  },
+  {
+    "type": "initiative",
+    "level": "Canton Zurich",
+    "title": "Initiative for affordable housing in Zurich",
+    "slug": "initiative-affordable-housing-zurich",
+    "comitee": "Housing Alliance Zurich",
+    "wording": "More affordable housing must be created in Canton Zurich. At least 30% of all new housing must be public utility housing.",
+    "start_date": "2025-09-01",
+    "end_date": "2026-03-01",
+    "show": true
+  },
+  {
+    "type": "referendum",
+    "level": "Canton Bern",
+    "title": "Referendum against reduction of public transport",
+    "slug": "referendum-against-reduction-public-transport-bern",
+    "comitee": "Pro Public Transport Bern",
+    "wording": "The planned reduction of public transport connections in rural areas must be prevented. All regions must remain well served.",
+    "start_date": "2025-07-15",
+    "end_date": "2025-10-15",
+    "show": false
+  }
+]
