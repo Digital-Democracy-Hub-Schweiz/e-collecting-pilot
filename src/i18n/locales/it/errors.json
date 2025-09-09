@@ -1,0 +1,44 @@
+{
+  "validation": {
+    "required": "Questo campo è obbligatorio",
+    "missingFields": "Dati mancanti",
+    "selectTypeAndTitle": "Seleziona tipo e titolo.",
+    "fillNameFields": "Compila tipo, titolo, nome e cognome.",
+    "addressIncomplete": "Indirizzo incompleto",
+    "fillAllAddressFields": "Compila tutti i campi dell'indirizzo."
+  },
+  "api": {
+    "credentialCreated": "Credential creato",
+    "credentialError": "Errore nel rilascio",
+    "unknownError": "Errore sconosciuto",
+    "addressValidationFailed": "Verifica indirizzo fallita",
+    "addressValidated": "Indirizzo verificato",
+    "municipalityDetermined": "Comune politico determinato.",
+    "cantonDetermined": "Cantone determinato tramite comune politico: {{canton}}",
+    "verificationStarted": "Verifica avviata",
+    "scanQrCode": "Scansiona il codice QR con la tua app swiyu-Wallet.",
+    "verificationFailed": "Verifica fallita",
+    "tryAgain": "Riprova.",
+    "identityVerified": "Identità verificata con successo",
+    "dataTransferred": "Dati trasferiti.",
+    "verificationError": "Verifica fallita",
+    "statusQueried": "Stato interrogato",
+    "statusUpdated": "Informazioni di stato aggiornate.",
+    "statusQueryFailed": "Interrogazione stato fallita",
+    "shared": "Condiviso",
+    "shareDialogOpened": "Dialogo di condivisione aperto.",
+    "linkCopied": "Link copiato",
+    "shareFailed": "Condivisione fallita",
+    "formReset": "Ripristinato",
+    "formCleared": "Modulo svuotato.",
+    "postalCodeMissing": "Codice postale mancante",
+    "postalCodeQueryFailed": "Interrogazione codice postale fallita ({{status}})",
+    "noPostalCodeResults": "Nessun risultato trovato per questo codice postale"
+  },
+  "verification": {
+    "sessionCreated": "Verifica creata",
+    "sessionCreatedDescription": "La sessione di verifica {{id}} è stata creata con successo.",
+    "creationFailed": "Errore",
+    "creationFailedDescription": "Creazione sessione di verifica fallita. Riprova."
+  }
+}

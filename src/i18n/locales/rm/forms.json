@@ -1,0 +1,80 @@
+{
+  "supportTitle": "Sustegnair iniziativas e referendums",
+  "supportDescription": "Prova uss E-Collecting per sustegnair digitalmain iniziativas e referendums. Dovra per quest'intent la Beta-ID da la Confederaziun per dumondas popularas. Naginas datas persunalas vegnan memorisadas.",
+  "step": "Pass {{current}} da {{total}}",
+  "step1": {
+    "title": "Tscherner categoria e cuntegn",
+    "selectType": "Tscherna Iniziativa u Referendum",
+    "selectTitle": "Tscherner dumonda populara",
+    "selectTitlePlaceholder": "Tscherner titel",
+    "selectTypeFirst": "Tscherner emprim il tip",
+    "types": {
+      "initiative": "Iniziativa",
+      "referendum": "Referendum"
+    }
+  },
+  "step2": {
+    "title": "Endatar l'adressa",
+    "street": "Via e numer da chasa",
+    "streetPlaceholder": "p.ex. Bahnhofstrasse 10A",
+    "postalCode": "Numer postal",
+    "postalCodePlaceholder": "p.ex. 8001",
+    "city": "Lieu",
+    "cityPlaceholder": "p.ex. Turitg"
+  },
+  "step3": {
+    "title": "Tias datas",
+    "volksbegehren": "Dumonda populara",
+    "address": "Adressa",
+    "municipality": "Vischnanca politica",
+    "cantonConflict": {
+      "title": "Conflict dal chantun",
+      "message": "Questa iniziativa è destinada per <strong>{{level}}</strong>, ma ti stas en <strong>{{canton}}</strong>. Ti pos mo sustegnair iniziativas dal tes agen chantun."
+    },
+    "legalNotice": "Tgi che corrumpa u sa lascha corrumper durant ina collecziun da suttascripziuns u falsifitgescha il resultat d'ina collecziun da suttascripziuns per ina iniziativa populara commetta in crim tenor l'art. 281 respectivamain tenor l'art. 282 dal Cudesch penal.",
+    "supportButton": "Sustegnair uss la dumonda populara"
+  },
+  "step4": {
+    "verification": {
+      "title": "Verificaziun cun swiyu-Wallet",
+      "description": "Scannescha il code QR cun tia app swiyu-Wallet per t'identifitgar. Suenter l'identificaziun reussida vegn creada tia declaraziun da voluntad.",
+      "openWallet": "Avrir cun swiyu-Wallet",
+      "waitingMessage": "Spetgar per la verificaziun da l'identitad tras l'app swiyu-Wallet...",
+      "dialogTitle": "Avrir swiyu-Wallet",
+      "dialogDescription": "Turna per plaschair suenter sin questa pagina."
+    },
+    "success": {
+      "title": "Sustegnà cun success!",
+      "message": "Ti has sustegnà {{type}} \"{{title}}\". Remartga impurtanta: Quai è in project pilot per E-Collecting cun la Beta-ID da la Confederaziun. Tia declaraziun da voluntad na vegn betg tramessa a la vischnanca cumpetenta. Grazia fitg per il test!",
+      "typeInitiative": "l'iniziativa",
+      "typeReferendum": "il referendum"
+    },
+    "receipt": {
+      "title": "Quitanza:",
+      "description": "Ina quitanza po vegnir telechargada cun l'app swiyu-Wallet. Scannescha per quai il code QR cun tia app swiyu-Wallet. U clicca sin il buttun sin tes smartphone.",
+      "downloadButton": "Telechargiar quitanza"
+    },
+    "summary": {
+      "title": "Resumaziun da tias datas:",
+      "date": "Data:",
+      "time": "Ura:",
+      "firstName": "Prenum:",
+      "lastName": "Num:",
+      "birthDate": "Data da naschientscha:",
+      "address": "Adressa:",
+      "municipality": "Vischnanca politica:"
+    }
+  },
+  "actions": {
+    "shareVolksbegehren": "Cundivider dumonda populara",
+    "restartConfirm": "Confermar nov cumenzament",
+    "restartDescription": "Quai stizzà tut las endataziuns. Vuls ti cuntinuar?",
+    "deleteAndRestart": "Stizzar e recumenzar"
+  },
+  "open": "Avrir",
+  "restart": "Recumenzar",
+  "confirmRestart": "Confermar nov cumenzament",
+  "confirmRestartDescription": "Quai stizzà tut las endataziuns. Vuls ti cuntinuar?",
+  "shareVolksbegehren": "Cundivider dumonda populara",
+  "cancel": "Interrumper"
+}

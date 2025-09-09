@@ -1,0 +1,83 @@
+{
+  "header": {
+    "title": "E-Collecting Pilotprojekt"
+  },
+  "homepage": {
+    "infoBox": {
+      "title": "E-Collecting Pilotprojekt",
+      "description": "Diese Website ist ein gemeinnütziges Projekt der Zivilgesellschaft. Unser Ziel ist es, Initiativen und Referenden mithilfe der neuen E-ID sicher, digital und barrierefrei zu unterstützen.",
+      "participationTitle": "Informationen zur Teilnahme",
+      "eidTitle": "e-ID",
+      "eidDescription": "Die e-ID wird vom Staat herausgegeben. Sie ergänzt die physische Identitätskarte und ist kostenlos. Am 28. September stimmt die Bevölkerung über die Vorlage ab.",
+      "swiyuTitle": "swiyu-Wallet App",
+      "swiyuDescription": "Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Für die Teilnahme muss eine Beta-ID über die swiyu-Wallet App erstellt werden. Im Rahmen des Projekts werden ausschliesslich fiktive Vorlagen und die Beta-ID des Bundes genutzt. Es werden keine persönlichen Daten gespeichert.",
+      "links": {
+        "ios": "📱 swiyu App (iOS)",
+        "android": "🤖 swiyu App (Android)",
+        "betaId": "👉 Beta-ID ausstellen"
+      }
+    },
+    "carousel": {
+      "title": "Verfügbare Initiativen und Referenden"
+    },
+    "tryECollecting": {
+      "title": "E-Collecting mit der Beta-ID ausprobieren",
+      "download": {
+        "title": "Download",
+        "description": "Laden Sie die <strong>swiyu</strong> App kostenlos im <a href=\"https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pli=1\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary hover:text-primary/80 underline underline-offset-4\">Google Play Store</a> oder <a href=\"https://apps.apple.com/ch/app/swiyu/id6737259614\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary hover:text-primary/80 underline underline-offset-4\">Apple Store</a> herunter."
+      },
+      "betaId": {
+        "title": "Beta-ID ausstellen",
+        "steps": {
+          "1": "1. Starten Sie den Beantragungsprozess für die Beta-ID.",
+          "2": "2. Wählen Sie die fiktiven Attribute Ihrer Beta-ID aus.",
+          "3": "3. Fügen Sie die Beta-ID zu Ihrer <strong>swiyu</strong> App hinzu."
+        },
+        "links": {
+          "create": "Beta-ID erstellen und verifizieren",
+          "guide": "Anleitung für Beta-ID"
+        }
+      }
+    }
+  },
+  "footer": {
+    "projectDescription": "Das Pilotprojekt startete im Dezember 2024. Es will das Sammeln von Unterschriften für Volksbegehren digital, sicher und barrierefrei machen – als Ergänzung zum Papier. Dieser Pilot testet eine mögliche Variante von E-Collecting mittels der Beta-ID des Bundes. Hinter dem nicht profitorientierten Projekt stehen der Digital Democracy Hub Schweiz und die Stiftung für direkte Demokratie.",
+    "copyright": "© 2025 ein Projekt von <a href=\"https://www.digitaldemocracyhub.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Digital Democracy Hub Schweiz</a> in Kooperation mit <a href=\"https://www.demokratie.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Stiftung für Direkte Demokratie</a>",
+    "dataCredit": "© Data: swisstopo",
+    "contact": {
+      "organization": "Digital Democracy Hub Schweiz",
+      "email": "E-Mail: <a href=\"mailto:info@digitaldemocracyhub.ch\" class=\"text-white hover:text-white/80 underline underline-offset-4\">info@digitaldemocracyhub.ch</a>",
+      "web": "Web: <a href=\"https://www.digitaldemocracyhub.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-white hover:text-white/80 underline underline-offset-4\">www.digitaldemocracyhub.ch</a>"
+    },
+    "externalLinks": {
+      "swiyuWallet": "swiyu-Wallet App",
+      "betaIdService": "Beta-ID Service"
+    }
+  },
+  "impressum": {
+    "title": "Impressum",
+    "responsible": {
+      "title": "Verantwortlich für den Inhalt",
+      "organization": "Verein Digital Democracy Hub Schweiz - Fachstelle für Demokratie und Digitalisierung (in Gründung)",
+      "contact": "Ansprechsperson: Sandro Scalco",
+      "email": "E-Mail: info@digitaldemocracyhub.ch",
+      "web": "Web: https://digitaldemocracyhub.ch"
+    },
+    "purpose": {
+      "title": "Zweck der Plattform",
+      "description": "Diese Plattform ist ein fiktives Pilotprojekt für das elektronische Sammeln von Willensbekundungen für Volksbegehren. Alle Inhalte und Funktionen dieser Seite inklusive Services sind nur für Demonstrationszwecke gedacht und haben keine rechtliche Gültigkeit."
+    },
+    "disclaimer": {
+      "title": "Haftungsausschluss",
+      "description": "Die Betreiber dieser Website übernehmen keine Gewähr für die Vollständigkeit, Richtigkeit und Aktualität der bereitgestellten Informationen. Haftungsansprüche gegen die Betreiber, die sich auf Schäden materieller oder ideeller Art beziehen, welche durch die Nutzung oder Nichtnutzung der dargebotenen Informationen bzw. durch die Nutzung fehlerhafter und unvollständiger Informationen verursacht wurden, sind grundsätzlich ausgeschlossen."
+    },
+    "privacy": {
+      "title": "Datenschutz",
+      "description": "Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Daten werden nur im Rahmen der technischen Demonstration verarbeitet und nicht zu anderen Zwecken verwendet. Für die Erstellung einer Beta-ID gelten die Datenschutzbestimmungen des entsprechenden Services."
+    },
+    "copyright": {
+      "title": "Urheberrecht",
+      "description": "Alle Inhalte dieser Website, soweit sie nicht von Dritten bereitgestellt wurden, unterliegen dem schweizerischen Urheberrecht. Jede Verwertung ohne Zustimmung der Betreiber ist unzulässig."
+    }
+  }
+}

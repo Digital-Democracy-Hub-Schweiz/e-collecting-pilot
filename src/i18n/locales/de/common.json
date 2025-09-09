@@ -1,0 +1,43 @@
+{
+  "skipToMain": "Skip to main content",
+  "loading": "Lädt...",
+  "offline": "Offline",
+  "up": "UP",
+  "back": "Zurück",
+  "next": "Weiter",
+  "cancel": "Abbrechen",
+  "confirm": "Bestätigen",
+  "close": "Schliessen",
+  "open": "Öffnen",
+  "share": "Teilen",
+  "copy": "Kopieren",
+  "reset": "Zurücksetzen",
+  "restart": "Neu starten",
+  "download": "Download",
+  "languages": {
+    "de": "Deutsch",
+    "fr": "Français",
+    "it": "Italiano",
+    "en": "English"
+  },
+  "navigation": {
+    "home": "Hauptseite",
+    "backToMain": "Zurück zur Hauptseite",
+    "impressum": "Impressum"
+  },
+  "footer": {
+    "madeWith": "made with ❤️",
+    "buyMeCoffee": "☕ Buy me a coffee",
+    "project": "Das E-Collecting Pilotprojekt",
+    "stayInformed": "Bleiben Sie informiert",
+    "newsletter": "Newsletter abonnieren",
+    "contact": "Kontakt",
+    "externalLinks": "Externe Links",
+    "systemStatus": "System Status",
+    "services": {
+      "verifierMgmt": "Verifier-Mgmt",
+      "issuerMgmt": "Issuer-Mgmt",
+      "issuerOid4vci": "Issuer-OID4VCI"
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "header": {
+    "title": "Project pilot E-Collecting"
+  },
+  "homepage": {
+    "infoBox": {
+      "title": "Project pilot E-Collecting",
+      "description": "Questa website è in project senza finamira da profit da la societad civila. Noss finamira è da sustegnair iniziativas e referendums segur, digital e accessibel cun la nova e-ID.",
+      "participationTitle": "Infurmaziuns davart la participaziun",
+      "eidTitle": "e-ID",
+      "eidDescription": "La e-ID vegn edita dal stadi. Ella cumplettescha la carta d'identitad fisica ed è gratuita. Il 28 da settember vota la populaziun davart la proposta.",
+      "swiyuTitle": "App swiyu-Wallet",
+      "swiyuDescription": "Quest project pilot dovra il servetsch Beta Credential da la Confederaziun. Per la participaziun sto vegnir creada ina Beta-ID tras l'app swiyu-Wallet. En il rom dal project vegnan duvradas mo patras fictivas e la Beta-ID da la Confederaziun. Naginas datas persunalas vegnan memorisadas.",
+      "links": {
+        "ios": "📱 App swiyu (iOS)",
+        "android": "🤖 App swiyu (Android)",
+        "betaId": "👉 Dar ora Beta-ID"
+      }
+    },
+    "carousel": {
+      "title": "Iniziativas e referendums disponibels"
+    },
+    "tryECollecting": {
+      "title": "Provar E-Collecting cun la Beta-ID",
+      "download": {
+        "title": "Telechargiar",
+        "description": "Telechargiescha l'app <strong>swiyu</strong> gratuitamain dal <a href=\"https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pli=1\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary hover:text-primary/80 underline underline-offset-4\">Google Play Store</a> u da l'<a href=\"https://apps.apple.com/ch/app/swiyu/id6737259614\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary hover:text-primary/80 underline underline-offset-4\">Apple Store</a>."
+      },
+      "betaId": {
+        "title": "Dar ora Beta-ID",
+        "steps": {
+          "1": "1. Cumenzar il process da dumonda per la Beta-ID.",
+          "2": "2. Tscherner ils attributs fictivs da tia Beta-ID.",
+          "3": "3. Agiuntar la Beta-ID a tia app <strong>swiyu</strong>."
+        },
+        "links": {
+          "create": "Crear e verifitgar Beta-ID",
+          "guide": "Instrucziuns per Beta-ID"
+        }
+      }
+    }
+  },
+  "footer": {
+    "projectDescription": "Il project pilot ha cumenzà en december 2024. El vul render la collecziun da suttascripziuns per dumondas popularas digitala, segira ed accessibla - sco cumplementaziun al palpiri. Quest pilot testa ina varianta pussaivla d'E-Collecting tras la Beta-ID da la Confederaziun. Davos il project senza finamira da profit stan il Digital Democracy Hub Svizra e la Fundaziun per la democrazia directa.",
+    "copyright": "© 2025 in project dal <a href=\"https://www.digitaldemocracyhub.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Digital Democracy Hub Svizra</a> en cooperaziun cun la <a href=\"https://www.demokratie.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Fundaziun per la democrazia directa</a>",
+    "dataCredit": "© Datas: swisstopo",
+    "contact": {
+      "organization": "Digital Democracy Hub Svizra",
+      "email": "E-mail: <a href=\"mailto:info@digitaldemocracyhub.ch\" class=\"text-white hover:text-white/80 underline underline-offset-4\">info@digitaldemocracyhub.ch</a>",
+      "web": "Web: <a href=\"https://www.digitaldemocracyhub.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-white hover:text-white/80 underline underline-offset-4\">www.digitaldemocracyhub.ch</a>"
+    },
+    "externalLinks": {
+      "swiyuWallet": "App swiyu-Wallet",
+      "betaIdService": "Servetsch Beta-ID"
+    }
+  },
+  "impressum": {
+    "title": "Impressum",
+    "responsible": {
+      "title": "Responsabel per il cuntegn",
+      "organization": "Uniun Digital Democracy Hub Svizra - Center da cumpetenza per democrazia e digitalisaziun (en constituziun)",
+      "contact": "Persuna da contact: Sandro Scalco",
+      "email": "E-mail: info@digitaldemocracyhub.ch",
+      "web": "Web: https://digitaldemocracyhub.ch"
+    },
+    "purpose": {
+      "title": "Intenziun da la plattafurma",
+      "description": "Questa plattafurma è in project pilot fictiv per la collecziun electronica da declaraziuns da voluntad per dumondas popularas. Tut ils cuntegns e las funcziuns da questa pagina inclusiv ils servetschs han mo l'intenziun da demonstraziun e n'han nagina validitad giuridica."
+    },
+    "disclaimer": {
+      "title": "Exclusiun da responsabladad",
+      "description": "Ils gestiners da questa website n'offereschan nagina garanzia per la cumpletezza, la correctadad e l'actualitad da las infurmaziuns furnidas. Pretensiuns da responsabladad vers ils gestiners che sa refereschan a donns materials u ideals chaschunads tras l'utilisaziun u la nun-utilisaziun da las infurmaziuns preschentadas u tras l'utilisaziun dad infurmaziuns sbagliadas e nuncomplainas vegnan en princip excludidas."
+    },
+    "privacy": {
+      "title": "Protecziun da datas",
+      "description": "Quest project pilot dovra il servetsch Beta Credential da la Confederaziun. Datas vegnan elavuradas mo en il rom da la demonstraziun tecnica e na vegnan betg duvradas per auters finamirs. Per la creaziun d'ina Beta-ID valan las disposiziuns davart la protecziun da datas dal servetsch correspundent."
+    },
+    "copyright": {
+      "title": "Dretg d'autur",
+      "description": "Tut ils cuntegns da questa website, uschè lunsch ch'els na vegnan betg furnids da terzas persunas, suttastan al dretg d'autur svizzer. Mintga utilisaziun senza il consentiment dals gestiners è scumandada."
+    }
+  }
+}

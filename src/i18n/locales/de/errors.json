@@ -1,0 +1,44 @@
+{
+  "validation": {
+    "required": "Dieses Feld ist erforderlich",
+    "missingFields": "Fehlende Angaben",
+    "selectTypeAndTitle": "Bitte Typ und Titel auswählen.",
+    "fillNameFields": "Bitte Typ, Titel, Vor- und Nachname ausfüllen.",
+    "addressIncomplete": "Adresse unvollständig",
+    "fillAllAddressFields": "Bitte alle Adressfelder ausfüllen."
+  },
+  "api": {
+    "credentialCreated": "Credential erstellt",
+    "credentialError": "Fehler beim Ausstellen",
+    "unknownError": "Unbekannter Fehler",
+    "addressValidationFailed": "Adressprüfung fehlgeschlagen",
+    "addressValidated": "Adresse geprüft",
+    "municipalityDetermined": "Politische Gemeinde ermittelt.",
+    "cantonDetermined": "Kanton via politische Gemeinde: {{canton}} ermittelt",
+    "verificationStarted": "Verifikation gestartet",
+    "scanQrCode": "Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App.",
+    "verificationFailed": "Verifikation fehlgeschlagen",
+    "tryAgain": "Bitte versuchen Sie es erneut.",
+    "identityVerified": "Identität erfolgreich verifiziert",
+    "dataTransferred": "Daten wurden übernommen.",
+    "verificationError": "Verification fehlgeschlagen",
+    "statusQueried": "Status abgefragt",
+    "statusUpdated": "Statusinformationen aktualisiert.",
+    "statusQueryFailed": "Statusabfrage fehlgeschlagen",
+    "shared": "Geteilt",
+    "shareDialogOpened": "Freigabedialog geöffnet.",
+    "linkCopied": "Link kopiert",
+    "shareFailed": "Teilen fehlgeschlagen",
+    "formReset": "Zurückgesetzt",
+    "formCleared": "Formular wurde geleert.",
+    "postalCodeMissing": "PLZ fehlt",
+    "postalCodeQueryFailed": "PLZ-Abfrage fehlgeschlagen ({{status}})",
+    "noPostalCodeResults": "Keine Treffer für diese PLZ gefunden"
+  },
+  "verification": {
+    "sessionCreated": "Verification Created",
+    "sessionCreatedDescription": "Verification session {{id}} has been created successfully.",
+    "creationFailed": "Error",
+    "creationFailedDescription": "Failed to create verification session. Please try again."
+  }
+}

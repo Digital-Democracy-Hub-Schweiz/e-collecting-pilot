@@ -1,0 +1,57 @@
+[
+  {
+    "type": "referendum",
+    "level": "Confederazione",
+    "title": "Referendum contro la riduzione dei sentieri escursionistici",
+    "slug": "referendum-contro-riduzione-sentieri-escursionistici",
+    "comitee": "Associazione Amici dell'Escursionismo Svizzera",
+    "wording": "I sentieri escursionistici sono un bene culturale. La prevista riduzione della manutenzione dei sentieri deve essere fermata. Gli escursionisti chiedono che tutti i sentieri esistenti continuino ad essere mantenuti.",
+    "start_date": "2025-08-01",
+    "end_date": "2025-11-09",
+    "show": true
+  },
+  {
+    "type": "initiative",
+    "level": "Confederazione",
+    "title": "Iniziativa per Internet accessibile (Iniziativa accesso)",
+    "slug": "iniziativa-per-internet-accessibile",
+    "comitee": "Inclusione Digitale Svizzera",
+    "wording": "I siti web delle autorità e degli attori sostenuti o sovvenzionati pubblicamente devono essere accessibili senza barriere. Tutte le persone devono poter utilizzare informazioni e servizi.",
+    "start_date": "2025-08-05",
+    "end_date": "2026-12-05",
+    "show": true
+  },
+  {
+    "type": "initiative",
+    "level": "Confederazione",
+    "title": "Per più spazi ombreggiati nello spazio pubblico (Iniziativa protezione solare)",
+    "slug": "per-piu-spazi-ombreggiati-spazio-pubblico",
+    "comitee": "Amici delle Città Verdi Svizzera",
+    "wording": "Nello spazio pubblico devono essere creati alberi e tettoie aggiuntivi. Così le giornate calde diventano più sopportabili per bambini, anziani e tutti coloro che sono all'aperto.",
+    "start_date": "2025-08-10",
+    "end_date": "2026-02-10",
+    "show": true
+  },
+  {
+    "type": "initiative",
+    "level": "Cantone Zurigo",
+    "title": "Iniziativa per alloggi a prezzi accessibili a Zurigo",
+    "slug": "iniziativa-alloggi-accessibili-zurigo",
+    "comitee": "Alleanza per l'Abitare Zurigo",
+    "wording": "Nel cantone di Zurigo devono essere creati più alloggi a prezzi accessibili. Almeno il 30% di tutti i nuovi alloggi deve essere di utilità pubblica.",
+    "start_date": "2025-09-01",
+    "end_date": "2026-03-01",
+    "show": true
+  },
+  {
+    "type": "referendum",
+    "level": "Cantone Berna",
+    "title": "Referendum contro la riduzione dei trasporti pubblici",
+    "slug": "referendum-contro-riduzione-trasporti-pubblici-berna",
+    "comitee": "Pro Trasporti Pubblici Berna",
+    "wording": "La prevista riduzione delle connessioni di trasporto pubblico nelle zone rurali deve essere impedita. Tutte le regioni devono rimanere ben servite.",
+    "start_date": "2025-07-15",
+    "end_date": "2025-10-15",
+    "show": false
+  }
+]

@@ -1,0 +1,80 @@
+{
+  "supportTitle": "Sostenere iniziative e referendum",
+  "supportDescription": "Prova ora l'E-Collecting per sostenere digitalmente iniziative e referendum. Usa per questo la Beta-ID della Confederazione per gli oggetti di votazione popolare. Non vengono memorizzati dati personali.",
+  "step": "Passo {{current}} di {{total}}",
+  "step1": {
+    "title": "Seleziona categoria e contenuto",
+    "selectType": "Scegli Iniziativa o Referendum",
+    "selectTitle": "Seleziona oggetto di votazione popolare",
+    "selectTitlePlaceholder": "Seleziona titolo",
+    "selectTypeFirst": "Scegli prima il tipo",
+    "types": {
+      "initiative": "Iniziativa",
+      "referendum": "Referendum"
+    }
+  },
+  "step2": {
+    "title": "Inserisci indirizzo",
+    "street": "Via e numero civico",
+    "streetPlaceholder": "es. Bahnhofstrasse 10A",
+    "postalCode": "Codice postale",
+    "postalCodePlaceholder": "es. 8001",
+    "city": "Località",
+    "cityPlaceholder": "es. Zurigo"
+  },
+  "step3": {
+    "title": "I tuoi dati",
+    "volksbegehren": "Oggetto di votazione popolare",
+    "address": "Indirizzo",
+    "municipality": "Comune politico",
+    "cantonConflict": {
+      "title": "Conflitto cantonale",
+      "message": "Questa iniziativa è destinata al <strong>{{level}}</strong>, ma tu abiti nel <strong>{{canton}}</strong>. Puoi sostenere solo le iniziative del tuo cantone."
+    },
+    "legalNotice": "Chiunque corrompe o si lascia corrompere durante una raccolta di firme o falsifica il risultato di una raccolta di firme per un'iniziativa popolare commette un reato secondo l'art. 281 rispettivamente l'art. 282 del Codice penale.",
+    "supportButton": "Sostieni ora l'oggetto di votazione popolare"
+  },
+  "step4": {
+    "verification": {
+      "title": "Verifica con swiyu-Wallet",
+      "description": "Scansiona il codice QR con la tua app swiyu-Wallet per identificarti. Dopo l'identificazione riuscita, verrà creata la tua dichiarazione di volontà.",
+      "openWallet": "Apri con swiyu-Wallet",
+      "waitingMessage": "In attesa di verifica dell'identità tramite l'app swiyu-Wallet...",
+      "dialogTitle": "Apri swiyu-Wallet",
+      "dialogDescription": "Poi torna su questa pagina."
+    },
+    "success": {
+      "title": "Sostegno riuscito!",
+      "message": "Hai sostenuto {{type}} \"{{title}}\". Nota importante: Questo è un progetto pilota per l'E-Collecting con la Beta-ID della Confederazione. La tua dichiarazione di volontà non verrà trasmessa al comune competente. Grazie per aver provato!",
+      "typeInitiative": "l'iniziativa",
+      "typeReferendum": "il referendum"
+    },
+    "receipt": {
+      "title": "Ricevuta:",
+      "description": "Una ricevuta può essere scaricata con l'app swiyu-Wallet. Per questo, scansiona il codice QR con la tua app swiyu-Wallet. O clicca sul pulsante sul tuo smartphone.",
+      "downloadButton": "Scarica ricevuta"
+    },
+    "summary": {
+      "title": "Riassunto dei tuoi dati:",
+      "date": "Data:",
+      "time": "Ora:",
+      "firstName": "Nome:",
+      "lastName": "Cognome:",
+      "birthDate": "Data di nascita:",
+      "address": "Indirizzo:",
+      "municipality": "Comune politico:"
+    }
+  },
+  "actions": {
+    "shareVolksbegehren": "Condividi oggetto di votazione popolare",
+    "restartConfirm": "Conferma nuovo inizio",
+    "restartDescription": "Questo cancellerà tutti gli inserimenti. Vuoi continuare?",
+    "deleteAndRestart": "Cancella e riavvia"
+  },
+  "open": "Apri",
+  "restart": "Riavvia",
+  "confirmRestart": "Conferma nuovo inizio",
+  "confirmRestartDescription": "Questo cancellerà tutti gli inserimenti. Vuoi continuare?",
+  "shareVolksbegehren": "Condividi oggetto di votazione popolare",
+  "cancel": "Annulla"
+}

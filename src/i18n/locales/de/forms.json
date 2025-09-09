@@ -1,0 +1,80 @@
+{
+  "supportTitle": "Initiativen und Referenden unterstützen",
+  "supportDescription": "Testen Sie jetzt E-Collecting, um Initiativen und Referenden digital zu unterstützen. Verwenden Sie dafür die Beta-ID des Bundes für Volksbegehren. Es werden keine persönlichen Daten gespeichert.",
+  "step": "Schritt {{current}} von {{total}}",
+  "step1": {
+    "title": "Kategorie und Inhalt auswählen",
+    "selectType": "Wählen Sie Initiative oder Referendum",
+    "selectTitle": "Volksbegehren auswählen",
+    "selectTitlePlaceholder": "Titel auswählen",
+    "selectTypeFirst": "Zuerst Typ wählen",
+    "types": {
+      "initiative": "Initiative",
+      "referendum": "Referendum"
+    }
+  },
+  "step2": {
+    "title": "Adresse eingeben",
+    "street": "Strasse und Hausnummer",
+    "streetPlaceholder": "z.B. Bahnhofstrasse 10A",
+    "postalCode": "Postleitzahl",
+    "postalCodePlaceholder": "z.B. 8001",
+    "city": "Ort",
+    "cityPlaceholder": "z.B. Zürich"
+  },
+  "step3": {
+    "title": "Ihre Angaben",
+    "volksbegehren": "Volksbegehren",
+    "address": "Adresse",
+    "municipality": "Politische Gemeinde",
+    "cantonConflict": {
+      "title": "Kantonskonflikt",
+      "message": "Diese Initiative ist für <strong>{{level}}</strong> bestimmt, aber Sie wohnen in <strong>{{canton}}</strong>. Sie können nur Initiativen Ihres eigenen Kantons unterstützen."
+    },
+    "legalNotice": "Wer bei einer Unterschriftensammlung besticht oder sich bestechen lässt oder wer das Ergebnis einer Unterschriftensammlung für eine Volksinitiative fälscht, macht sich strafbar nach Art. 281 beziehungsweise nach Art. 282 des Strafgesetzbuches.",
+    "supportButton": "Jetzt Volksbegehren unterstützen"
+  },
+  "step4": {
+    "verification": {
+      "title": "Verifikation mit swiyu-Wallet",
+      "description": "Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App, um sich auszuweisen. Nach dem erfolgreichen Identifizieren wird Ihre Willensbekundung erstellt.",
+      "openWallet": "Mit swiyu-Wallet öffnen",
+      "waitingMessage": "Warten auf Verifikation der Identität mittels der swiyu-Wallet App...",
+      "dialogTitle": "swiyu-Wallet öffnen",
+      "dialogDescription": "Bitte anschliessend wieder auf diese Seite zurückkehren."
+    },
+    "success": {
+      "title": "Erfolgreich unterstützt!",
+      "message": "Sie haben {{type}} \"{{title}}\" unterstützt. Wichtiger Hinweis: Dies ist ein Pilotprojekt für E-Collecting mit der Beta-ID des Bundes. Ihre Willensbekundung wird nicht an die zuständige Gemeinde übermittelt. Vielen Dank fürs Ausprobieren!",
+      "typeInitiative": "die Initiative",
+      "typeReferendum": "das Referendum"
+    },
+    "receipt": {
+      "title": "Quittung:",
+      "description": "Eine Quittung kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere swiyu-Wallet App. Oder klicken Sie auf Ihrem Smartphone auf den Button.",
+      "downloadButton": "Quittung herunterladen"
+    },
+    "summary": {
+      "title": "Zusammenfassung Ihrer Angaben:",
+      "date": "Datum:",
+      "time": "Uhrzeit:",
+      "firstName": "Vorname:",
+      "lastName": "Nachname:",
+      "birthDate": "Geburtsdatum:",
+      "address": "Adresse:",
+      "municipality": "Politische Gemeinde:"
+    }
+  },
+  "actions": {
+    "shareVolksbegehren": "Volksbegehren teilen",
+    "restartConfirm": "Neustart bestätigen",
+    "restartDescription": "Dadurch werden alle Eingaben gelöscht. Möchten Sie fortfahren?",
+    "deleteAndRestart": "Löschen und neu starten"
+  },
+  "open": "Öffnen",
+  "restart": "Neu starten",
+  "confirmRestart": "Neustart bestätigen",
+  "confirmRestartDescription": "Dadurch werden alle Eingaben gelöscht. Möchten Sie fortfahren?",
+  "shareVolksbegehren": "Volksbegehren teilen",
+  "cancel": "Abbrechen"
+}
