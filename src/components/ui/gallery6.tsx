@@ -61,8 +61,7 @@ const Gallery6 = ({
     e.stopPropagation();
     try {
       const title = item.title;
-      const path = `/volksbegehren/${item.slug}`;
-      const url = `${window.location.origin}${path}`;
+      const url = `${window.location.origin}${item.url}`;
       if (navigator.share) {
         await navigator.share({
           title: title,
