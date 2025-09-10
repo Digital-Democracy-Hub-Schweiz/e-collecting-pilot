@@ -20,6 +20,9 @@
     "it": "Italiano",
     "en": "English"
   },
+  "routes": {
+    "volksbegehren": "volksbegehren"
+  },
   "navigation": {
     "home": "Hauptseite",
     "backToMain": "Zurück zur Hauptseite",

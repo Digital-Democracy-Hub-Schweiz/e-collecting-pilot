@@ -3,16 +3,32 @@ import { ReceiptCredentialIssuer } from "@/components/ReceiptCredentialIssuer";
 import { Gallery6 } from "@/components/ui/gallery6";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Shield, Building2, Github, Coffee, Heart } from "lucide-react";
-import { useMatch } from "react-router-dom";
+import { useMatch, useLocation } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
 import { format } from "date-fns";
 import { useTranslation } from 'react-i18next';
+import { parseRouteFromPath, getLocalizedPath, useCurrentLanguage } from "@/utils/routing";
 const Index = () => {
   const { t } = useTranslation(['common', 'content']);
+  const location = useLocation();
+  const currentLang = useCurrentLanguage();
+  const routeInfo = parseRouteFromPath(location.pathname);
+  
+  // Legacy route matching for backwards compatibility
   const initiativeMatch = useMatch("/initiative/:id");
   const referendumMatch = useMatch("/referendum/:id");
   const volksbegehrenMatch = useMatch("/volksbegehren/:id");
+  
+  // New localized route matching - use actual route translations
+  const routeTranslations = {
+    de: 'volksbegehren',
+    fr: 'objet-votation-populaire',
+    it: 'oggetto-votazione-popolare',
+    rm: 'dumonda-populara',
+    en: 'popular-vote'
+  };
+  const localizedVolksbegehrenMatch = useMatch(`/${currentLang}/${routeTranslations[currentLang as keyof typeof routeTranslations]}/:id`);
   const {
     data: healthStatus,
     isLoading: healthLoading,
@@ -20,13 +36,14 @@ const Index = () => {
   } = useHealthStatus();
   const volksbegehren = useVolksbegehren();
   
-  // Normalisieren der Volksbegehren-Daten und Ableitung von id/slug
+  // Normalisieren der Volksbegehren-Daten unter Verwendung der sprachspezifischen IDs
   const normalized = (volksbegehren as any[]).map((item, idx) => {
     const title: string = item?.title ?? "";
     const providedSlug: string = String(item?.slug || "").trim();
     const computedSlug = title.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
     const slug = providedSlug || computedSlug;
-    const id = slug || String(idx + 1);
+    // Use the id from the JSON data, fallback to slug or computed id for backward compatibility
+    const id = item?.id || slug || String(idx + 1);
     const type = String(item?.type ?? "").toLowerCase() === "referendum" ? "Referendum" : "Initiative";
     return {
       id,
@@ -68,16 +85,47 @@ const Index = () => {
   const preselect: {
     type: "Initiative" | "Referendum";
     id: string;
-  } | undefined = volksbegehrenMatch ? {
-    type: (normalized.find(i => i.id === volksbegehrenMatch.params.id || i.slug === volksbegehrenMatch.params.id)?.type || "Initiative") as "Initiative" | "Referendum",
-    id: resolveId(normalized as any[], volksbegehrenMatch.params.id as string) || volksbegehrenMatch.params.id as string
-  } : initiativeMatch ? {
-    type: "Initiative",
-    id: resolveId(normalized.filter(i => i.type === "Initiative"), initiativeMatch.params.id as string) || initiativeMatch.params.id as string
-  } : referendumMatch ? {
-    type: "Referendum",
-    id: resolveId(normalized.filter(i => i.type === "Referendum"), referendumMatch.params.id as string) || referendumMatch.params.id as string
-  } : undefined;
+  } | undefined = (() => {
+    // Priority 1: New localized routes (works for all languages)
+    if (routeInfo.route === 'volksbegehren' && routeInfo.params.id) {
+      return {
+        type: (normalized.find(i => i.id === routeInfo.params.id || i.slug === routeInfo.params.id)?.type || "Initiative") as "Initiative" | "Referendum",
+        id: resolveId(normalized as any[], routeInfo.params.id) || routeInfo.params.id
+      };
+    }
+    
+    // Priority 2: Localized match (backup for direct route matching)
+    if (localizedVolksbegehrenMatch) {
+      return {
+        type: (normalized.find(i => i.id === localizedVolksbegehrenMatch.params.id || i.slug === localizedVolksbegehrenMatch.params.id)?.type || "Initiative") as "Initiative" | "Referendum",
+        id: resolveId(normalized as any[], localizedVolksbegehrenMatch.params.id as string) || localizedVolksbegehrenMatch.params.id as string
+      };
+    }
+    
+    // Priority 3: Legacy routes (backwards compatibility)
+    if (volksbegehrenMatch) {
+      return {
+        type: (normalized.find(i => i.id === volksbegehrenMatch.params.id || i.slug === volksbegehrenMatch.params.id)?.type || "Initiative") as "Initiative" | "Referendum",
+        id: resolveId(normalized as any[], volksbegehrenMatch.params.id as string) || volksbegehrenMatch.params.id as string
+      };
+    }
+    
+    if (initiativeMatch) {
+      return {
+        type: "Initiative",
+        id: resolveId(normalized.filter(i => i.type === "Initiative"), initiativeMatch.params.id as string) || initiativeMatch.params.id as string
+      };
+    }
+    
+    if (referendumMatch) {
+      return {
+        type: "Referendum",
+        id: resolveId(normalized.filter(i => i.type === "Referendum"), referendumMatch.params.id as string) || referendumMatch.params.id as string
+      };
+    }
+    
+    return undefined;
+  })();
 
   // Prepare data for carousel - only show items with show: true
   const carouselItems = normalized.filter((item: any) => volksbegehren.find((vb: any) => vb.title === item.title)?.show === true).map((item: any) => {
@@ -87,7 +135,7 @@ const Index = () => {
       title: item.title,
       summary: `${item.type}: ${item.wording}`,
       dateRange: dateRange,
-      url: `/volksbegehren/${item.slug}`,
+      url: getLocalizedPath(currentLang, 'volksbegehren', { id: item.slug }),
       image: "/placeholder.svg",
       slug: item.slug,
       type: item.type as "Initiative" | "Referendum",
@@ -132,7 +180,7 @@ const Index = () => {
         <div className="top-header bg-white">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
-              <a href="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
+              <a href={`/${currentLang}`} className="flex items-center gap-4 hover:opacity-80 transition-opacity">
                 {/* Swiss Cross Logo */}
                 <div className="h-12 bg-white flex items-center justify-center">
                   
@@ -356,7 +404,7 @@ const Index = () => {
                   {t('common:footer.buyMeCoffee')}
                 </a>
               </div>
-              <a href="/impressum" className="text-sm text-white hover:text-white/80 transition-colors underline underline-offset-4">
+              <a href={`/${currentLang}/impressum`} className="text-sm text-white hover:text-white/80 transition-colors underline underline-offset-4">
                 {t('common:navigation.impressum')}
               </a>
             </div>

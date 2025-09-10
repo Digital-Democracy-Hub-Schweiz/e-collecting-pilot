@@ -1,5 +1,6 @@
 [
   {
+    "id": "wanderwege-referendum",
     "type": "referendum",
     "level": "Confederazione",
     "title": "Referendum contro la riduzione dei sentieri escursionistici",
@@ -11,6 +12,7 @@
     "show": true
   },
   {
+    "id": "barrierefreies-internet-initiative",
     "type": "initiative",
     "level": "Confederazione",
     "title": "Iniziativa per Internet accessibile (Iniziativa accesso)",
@@ -22,36 +24,63 @@
     "show": true
   },
   {
+    "id": "schattenplaetze-initiative",
     "type": "initiative",
     "level": "Confederazione",
     "title": "Per più spazi ombreggiati nello spazio pubblico (Iniziativa protezione solare)",
     "slug": "per-piu-spazi-ombreggiati-spazio-pubblico",
-    "comitee": "Amici delle Città Verdi Svizzera",
-    "wording": "Nello spazio pubblico devono essere creati alberi e tettoie aggiuntivi. Così le giornate calde diventano più sopportabili per bambini, anziani e tutti coloro che sono all'aperto.",
-    "start_date": "2025-08-10",
-    "end_date": "2026-02-10",
+    "comitee": "Amici/e delle Città Verdi Svizzera",
+    "wording": "Nello spazio pubblico devono essere creati alberi e tettoie aggiuntivi. Così le giornate calde diventano più sopportabili per bambini, anziani e tutti coloro che sono fuori.",
+    "start_date": "2025-08-12",
+    "end_date": "2026-12-12",
     "show": true
   },
   {
+    "id": "trinkwasserbrunnen-initiative",
     "type": "initiative",
-    "level": "Cantone Zurigo",
-    "title": "Iniziativa per alloggi a prezzi accessibili a Zurigo",
-    "slug": "iniziativa-alloggi-accessibili-zurigo",
-    "comitee": "Alleanza per l'Abitare Zurigo",
-    "wording": "Nel cantone di Zurigo devono essere creati più alloggi a prezzi accessibili. Almeno il 30% di tutti i nuovi alloggi deve essere di utilità pubblica.",
-    "start_date": "2025-09-01",
-    "end_date": "2026-03-01",
+    "level": "Confederazione",
+    "title": "Iniziativa per più fontane di acqua potabile (Iniziativa fontane)",
+    "slug": "iniziativa-per-piu-fontane-acqua-potabile",
+    "comitee": "Rete Dissetatori Svizzera",
+    "wording": "Nelle città e nei villaggi devono essere installate più fontane pubbliche di acqua potabile. Così l'accesso all'acqua fresca è facilitato per tutti – sano, sostenibile e gratuito.",
+    "start_date": "2025-08-22",
+    "end_date": "2026-12-22",
     "show": true
   },
   {
+    "id": "lesefoerderung-referendum",
     "type": "referendum",
-    "level": "Cantone Berna",
-    "title": "Referendum contro la riduzione dei trasporti pubblici",
-    "slug": "referendum-contro-riduzione-trasporti-pubblici-berna",
-    "comitee": "Pro Trasporti Pubblici Berna",
-    "wording": "La prevista riduzione delle connessioni di trasporto pubblico nelle zone rurali deve essere impedita. Tutte le regioni devono rimanere ben servite.",
-    "start_date": "2025-07-15",
-    "end_date": "2025-10-15",
+    "level": "Confederazione",
+    "title": "Nessun taglio drastico nella promozione della lettura",
+    "slug": "nessun-taglio-drastico-promozione-lettura",
+    "comitee": "IG Lettura e Formazione",
+    "wording": "I tagli previsti nella promozione della lettura devono essere fermati. Colpiscono particolarmente le biblioteche: importanti luoghi di incontro per conoscenza, cultura e scambio.",
+    "start_date": "2025-08-16",
+    "end_date": "2025-11-24",
+    "show": true
+  },
+  {
+    "id": "schulfruechte-initiative",
+    "type": "initiative",
+    "level": "Confederazione",
+    "title": "Iniziativa per frutta gratuita a scuola (Iniziativa merenda)",
+    "slug": "iniziativa-per-frutta-gratuita-scuola",
+    "comitee": "Salute e Scuola Svizzera",
+    "wording": "Tutti gli alunni della scuola primaria devono ricevere frutta gratuita. Questo favorisce un'alimentazione sana, previene le malattie e rafforza la parità di opportunità.",
+    "start_date": "2025-08-11",
+    "end_date": "2026-12-11",
+    "show": true
+  },
+  {
+    "id": "veloparkplaetze-initiative",
+    "type": "initiative",
+    "level": "Canton Sciaffusa",
+    "title": "Più parcheggi per biciclette alla stazione (Iniziativa parcheggio bici)",
+    "slug": "piu-parcheggi-biciclette-stazione",
+    "comitee": "IG Bici Svizzera",
+    "wording": "I pendolari hanno bisogno di posti sicuri per le loro biciclette. Questa iniziativa richiede che in tutte le stazioni vengano allestiti sufficienti parcheggi per biciclette moderni e coperti.",
+    "start_date": "2025-08-24",
+    "end_date": "2026-12-24",
     "show": false
   }
 ]

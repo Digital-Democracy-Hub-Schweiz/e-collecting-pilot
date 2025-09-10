@@ -76,5 +76,10 @@
   "confirmRestart": "Confirm restart",
   "confirmRestartDescription": "This will delete all entries. Do you want to continue?",
   "shareVolksbegehren": "Share popular vote",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "shareText": "Support",
+  "shared": "Shared",
+  "shareDialogOpened": "Share dialog opened.",
+  "linkCopied": "Link copied",
+  "shareFailed": "Sharing failed"
 }

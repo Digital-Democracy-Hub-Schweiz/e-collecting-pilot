@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Globe } from "lucide-react";
+import { parseRouteFromPath, getLocalizedPath, type SupportedLanguage } from "@/utils/routing";
 
 const languages = [
   { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
@@ -12,9 +14,27 @@ const languages = [
 
 export const LanguageSwitcher = () => {
   const { i18n, t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLanguageChange = (languageCode: string) => {
+    const newLang = languageCode as SupportedLanguage;
+    const routeInfo = parseRouteFromPath(location.pathname);
+    
+    // Generate the new URL for the selected language
+    let newPath = `/${newLang}`;
+    
+    if (routeInfo.route && routeInfo.params.id) {
+      // If we're on a specific route with parameters (like volksbegehren detail)
+      newPath = getLocalizedPath(newLang, routeInfo.route, routeInfo.params);
+    } else if (routeInfo.route === 'impressum') {
+      // For impressum page
+      newPath = `/${newLang}/impressum`;
+    }
+    
+    // Change language and navigate
     i18n.changeLanguage(languageCode);
+    navigate(newPath);
   };
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];

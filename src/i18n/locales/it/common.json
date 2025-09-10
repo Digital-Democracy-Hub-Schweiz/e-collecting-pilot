@@ -20,6 +20,9 @@
     "it": "Italiano",
     "en": "English"
   },
+  "routes": {
+    "volksbegehren": "oggetto-votazione-popolare"
+  },
   "navigation": {
     "home": "Pagina principale",
     "backToMain": "Torna alla pagina principale",

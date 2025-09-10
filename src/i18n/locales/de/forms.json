@@ -76,5 +76,10 @@
   "confirmRestart": "Neustart bestätigen",
   "confirmRestartDescription": "Dadurch werden alle Eingaben gelöscht. Möchten Sie fortfahren?",
   "shareVolksbegehren": "Volksbegehren teilen",
-  "cancel": "Abbrechen"
+  "cancel": "Abbrechen",
+  "shareText": "Unterstütze",
+  "shared": "Geteilt",
+  "shareDialogOpened": "Freigabedialog geöffnet.",
+  "linkCopied": "Link kopiert",
+  "shareFailed": "Teilen fehlgeschlagen"
 }
