@@ -2,6 +2,7 @@ import { VerificationDashboard } from "@/components/VerificationDashboard";
 import { ReceiptCredentialIssuer } from "@/components/ReceiptCredentialIssuer";
 import { Gallery6 } from "@/components/ui/gallery6";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { VersionSwitcher } from "@/components/VersionSwitcher";
 import { Shield, Building2, Github, Coffee, Heart } from "lucide-react";
 import { useMatch, useLocation } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
@@ -400,6 +401,7 @@ const Index = () => {
                     <Github size={16} />
                   </a>
                 </p>
+                <VersionSwitcher />
                 <a href="https://links.ecollecting.ch/buy-me-a-coffee" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-3 py-1 bg-yellow-500 hover:bg-yellow-400 text-black text-sm font-medium rounded-full transition-colors">
                   {t('common:footer.buyMeCoffee')}
                 </a>
