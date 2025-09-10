@@ -1,5 +1,6 @@
 [
   {
+    "id": "wanderwege-referendum",
     "type": "referendum",
     "level": "Confédération",
     "title": "Référendum contre la suppression des sentiers pédestres",
@@ -11,6 +12,7 @@
     "show": true
   },
   {
+    "id": "barrierefreies-internet-initiative",
     "type": "initiative",
     "level": "Confédération",
     "title": "Initiative pour un Internet accessible (Initiative d'accès)",
@@ -22,36 +24,63 @@
     "show": true
   },
   {
+    "id": "schattenplaetze-initiative",
     "type": "initiative",
     "level": "Confédération",
     "title": "Pour plus d'espaces ombragés dans l'espace public (Initiative protection solaire)",
     "slug": "pour-plus-espaces-ombrages-espace-public",
     "comitee": "Ami·e·s des Villes Vertes Suisse",
     "wording": "Dans l'espace public, des arbres et des auvents supplémentaires doivent être créés. Ainsi, les journées de chaleur deviennent plus supportables pour les enfants, les personnes âgées et tous ceux qui sont dehors.",
-    "start_date": "2025-08-10",
-    "end_date": "2026-02-10",
+    "start_date": "2025-08-12",
+    "end_date": "2026-12-12",
     "show": true
   },
   {
+    "id": "trinkwasserbrunnen-initiative",
     "type": "initiative",
-    "level": "Canton Zurich",
-    "title": "Initiative pour des logements abordables à Zurich",
-    "slug": "initiative-logements-abordables-zurich",
-    "comitee": "Alliance pour le Logement Zurich",
-    "wording": "Plus de logements abordables doivent être créés dans le canton de Zurich. Au moins 30% de tous les nouveaux logements doivent être des logements d'utilité publique.",
-    "start_date": "2025-09-01",
-    "end_date": "2026-03-01",
+    "level": "Confédération",
+    "title": "Initiative pour plus de fontaines d'eau potable (Initiative fontaines)",
+    "slug": "initiative-pour-plus-fontaines-eau-potable",
+    "comitee": "Réseau Etancher la Soif Suisse",
+    "wording": "Dans les villes et villages, plus de fontaines publiques d'eau potable doivent être installées. Ainsi, l'accès à l'eau fraîche est facilité pour tous – sain, durable et gratuit.",
+    "start_date": "2025-08-22",
+    "end_date": "2026-12-22",
     "show": true
   },
   {
+    "id": "lesefoerderung-referendum",
     "type": "referendum",
-    "level": "Canton Berne",
-    "title": "Référendum contre la réduction des transports publics",
-    "slug": "referendum-contre-reduction-transports-publics-berne",
-    "comitee": "Pro Transports Publics Berne",
-    "wording": "La réduction prévue des connexions de transports publics dans les zones rurales doit être empêchée. Toutes les régions doivent rester bien desservies.",
-    "start_date": "2025-07-15",
-    "end_date": "2025-10-15",
+    "level": "Confédération",
+    "title": "Pas de coupe claire dans la promotion de la lecture",
+    "slug": "pas-de-coupe-claire-promotion-lecture",
+    "comitee": "IG Lecture et Formation",
+    "wording": "Les coupes prévues dans la promotion de la lecture doivent être arrêtées. Elles touchent particulièrement les bibliothèques : des lieux de rencontre importants pour le savoir, la culture et l'échange.",
+    "start_date": "2025-08-16",
+    "end_date": "2025-11-24",
+    "show": true
+  },
+  {
+    "id": "schulfruechte-initiative",
+    "type": "initiative",
+    "level": "Confédération",
+    "title": "Initiative pour des fruits gratuits à l'école (Initiative collation)",
+    "slug": "initiative-pour-fruits-gratuits-ecole",
+    "comitee": "Santé et École Suisse",
+    "wording": "Tous les élèves du primaire doivent recevoir des fruits gratuits. Cela favorise une alimentation saine, prévient les maladies et renforce l'égalité des chances.",
+    "start_date": "2025-08-11",
+    "end_date": "2026-12-11",
+    "show": true
+  },
+  {
+    "id": "veloparkplaetze-initiative",
+    "type": "initiative",
+    "level": "Canton Schaffhouse",
+    "title": "Plus de places de parking vélo à la gare (Initiative parking vélo)",
+    "slug": "plus-places-parking-velo-gare",
+    "comitee": "IG Vélo Suisse",
+    "wording": "Les pendulaires ont besoin de places sécurisées pour leurs vélos. Cette initiative exige qu'à toutes les gares, suffisamment de places de parking vélo modernes et couvertes soient aménagées.",
+    "start_date": "2025-08-24",
+    "end_date": "2026-12-24",
     "show": false
   }
 ]

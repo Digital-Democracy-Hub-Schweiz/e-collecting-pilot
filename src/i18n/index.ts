@@ -78,6 +78,7 @@ i18n
       escapeValue: false, // React already escapes values
     },
     
+    // Enable language detection for routes without language prefix
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
       lookupLocalStorage: 'i18nextLng',

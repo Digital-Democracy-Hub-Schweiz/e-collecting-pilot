@@ -76,5 +76,10 @@
   "confirmRestart": "Conferma nuovo inizio",
   "confirmRestartDescription": "Questo cancellerà tutti gli inserimenti. Vuoi continuare?",
   "shareVolksbegehren": "Condividi oggetto di votazione popolare",
-  "cancel": "Annulla"
+  "cancel": "Annulla",
+  "shareText": "Sostieni",
+  "shared": "Condiviso",
+  "shareDialogOpened": "Finestra di dialogo di condivisione aperta.",
+  "linkCopied": "Link copiato",
+  "shareFailed": "Condivisione fallita"
 }

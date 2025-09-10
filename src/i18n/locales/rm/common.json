@@ -21,6 +21,9 @@
     "rm": "Rumantsch",
     "en": "English"
   },
+  "routes": {
+    "volksbegehren": "dumonda-populara"
+  },
   "navigation": {
     "home": "Pagina principala",
     "backToMain": "Turnar a la pagina principala",

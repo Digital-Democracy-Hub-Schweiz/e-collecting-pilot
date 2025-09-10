@@ -1,5 +1,6 @@
 [
     {
+        "id": "wanderwege-referendum",
         "type": "referendum",
         "level": "Bund",
         "title": "Referendum gegen Abbau bei Wanderwegen",
@@ -11,6 +12,7 @@
         "show": true
       },
       {
+        "id": "barrierefreies-internet-initiative",
         "type": "initiative",
         "level": "Bund",
         "title": "Initiative für barrierefreies Internet (Zugang-Initiative)",
@@ -22,6 +24,7 @@
         "show": true
       },
       {
+        "id": "schattenplaetze-initiative",
         "type": "initiative",
         "level": "Bund",
         "title": "Für mehr Schattenplätze im öffentlichen Raum (Sonnenschutz-Initiative)",
@@ -33,6 +36,7 @@
         "show": true
       },
       {
+        "id": "trinkwasserbrunnen-initiative",
         "type": "initiative",
         "level": "Bund",
         "title": "Initiative für mehr Trinkwasserbrunnen (Brunnen-Initiative)",
@@ -44,6 +48,7 @@
         "show": true
       },
       {
+        "id": "lesefoerderung-referendum",
         "type": "referendum",
         "level": "Bund",
         "title": "Kein Kahlschlag bei der Leseförderung",
@@ -55,6 +60,7 @@
         "show": true
       },
       {
+        "id": "schulfruechte-initiative",
         "type": "initiative",
         "level": "Bund",
         "title": "Initiative für Gratis-Schulfrüchte (Znüni-Initiative)",
@@ -66,6 +72,7 @@
         "show": true
       },
       {
+        "id": "veloparkplaetze-initiative",
         "type": "initiative",
         "level": "Kanton Schaffhausen",
         "title": "Mehr Veloparkplätze am Bahnhof (Veloplatz-Initiative)",

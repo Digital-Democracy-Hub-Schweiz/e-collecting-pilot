@@ -17,6 +17,7 @@ import QRCode from "react-qr-code";
 import { ShieldCheck, QrCode, RefreshCw, Share2 } from "lucide-react";
 import { determineCantonFromBfs } from "@/utils/cantonUtils";
 import { useTranslation } from 'react-i18next';
+import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
 type Option = {
   id: string;
   title: string;
@@ -31,6 +32,7 @@ export function ReceiptCredentialIssuer({
 }) {
   const { t } = useTranslation(['forms', 'errors', 'common']);
   const { toast } = useToast();
+  const currentLang = useCurrentLanguage();
   const volksbegehren = useVolksbegehren();
   const [type, setType] = useState<"Initiative" | "Referendum" | "">("");
   const [selectedId, setSelectedId] = useState("");
@@ -69,13 +71,6 @@ export function ReceiptCredentialIssuer({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
-  // Vorbelegung via URL
-  useEffect(() => {
-    if (preselect?.type) {
-      setType(preselect.type);
-      if (preselect.id) setSelectedId(preselect.id);
-    }
-  }, [preselect]);
   // Normalisierte Liste aus volksbegehren.json ableiten
   const normalized = useMemo(() => {
     return (volksbegehren as any[]).map((item, idx) => {
@@ -88,7 +83,8 @@ export function ReceiptCredentialIssuer({
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "");
       const slug = providedSlug || computedSlug;
-      const id = slug || String(idx + 1);
+      // Use the id from the JSON data, fallback to slug or computed id for backward compatibility
+      const id = item?.id || slug || String(idx + 1);
       const type = String(item?.type ?? "").toLowerCase() === "referendum" ? "Referendum" : "Initiative";
       return {
         id,
@@ -99,7 +95,7 @@ export function ReceiptCredentialIssuer({
         level: item?.level ?? null
       };
     });
-  }, []);
+  }, [volksbegehren]);
   const options: Option[] = useMemo(() => {
     if (!type) return [];
     return normalized.filter(i => i.type === type).map(({
@@ -110,6 +106,30 @@ export function ReceiptCredentialIssuer({
       title
     }));
   }, [type, normalized]);
+
+  // Vorbelegung via URL
+  useEffect(() => {
+    console.log('Preselect data:', preselect);
+    console.log('Normalized array:', normalized.map(n => ({ id: n.id, slug: n.slug, type: n.type })));
+    if (preselect?.type) {
+      setType(preselect.type);
+      if (preselect.id) {
+        // Find the matching item by both id and slug
+        const matchingItem = normalized.find(item => 
+          item.id === preselect.id || item.slug === preselect.id
+        );
+        console.log('Matching item found:', matchingItem);
+        if (matchingItem) {
+          setSelectedId(matchingItem.id);
+          console.log('Set selectedId to:', matchingItem.id);
+        } else {
+          setSelectedId(preselect.id);
+          console.log('No match found, set selectedId to preselect.id:', preselect.id);
+        }
+      }
+    }
+  }, [preselect, normalized]);
+
   const handleIssue = async (credentialData?: {
     given_name?: string;
     family_name?: string;
@@ -355,29 +375,30 @@ export function ReceiptCredentialIssuer({
       if (!type || !selectedId) return;
       const selected = normalized.find(o => o.type === type && o.id === selectedId);
       const title = selected?.title || (type === "Initiative" ? "Initiative" : "Referendum");
-      const path = `/volksbegehren/${selected?.slug || selectedId}`;
+      // Use localized path instead of hardcoded German path
+      const path = getLocalizedPath(currentLang, 'volksbegehren', { id: selected?.slug || selectedId });
       const url = `${window.location.origin}${path}`;
       if (navigator.share) {
         await navigator.share({
           title: title,
-          text: `Unterstütze: ${title}`,
+          text: `${t('forms:shareText', 'Unterstütze')}: ${title}`,
           url
         });
         toast({
-          title: "Geteilt",
-          description: "Freigabedialog geöffnet."
+          title: t('forms:shared', 'Geteilt'),
+          description: t('forms:shareDialogOpened', 'Freigabedialog geöffnet.')
         });
       } else {
         await navigator.clipboard.writeText(url);
         toast({
-          title: "Link kopiert",
+          title: t('forms:linkCopied', 'Link kopiert'),
           description: url
         });
       }
     } catch (e: any) {
       toast({
-        title: "Teilen fehlgeschlagen",
-        description: e?.message ?? "Unbekannter Fehler",
+        title: t('forms:shareFailed', 'Teilen fehlgeschlagen'),
+        description: e?.message ?? t('errors:unknownError', 'Unbekannter Fehler'),
         variant: "destructive"
       });
     }

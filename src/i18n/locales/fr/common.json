@@ -20,6 +20,9 @@
     "it": "Italiano",
     "en": "English"
   },
+  "routes": {
+    "volksbegehren": "objet-votation-populaire"
+  },
   "navigation": {
     "home": "Page principale",
     "backToMain": "Retour à la page principale",

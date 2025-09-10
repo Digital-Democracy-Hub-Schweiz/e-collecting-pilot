@@ -76,5 +76,10 @@
   "confirmRestart": "Confermar nov cumenzament",
   "confirmRestartDescription": "Quai stizzà tut las endataziuns. Vuls ti cuntinuar?",
   "shareVolksbegehren": "Cundivider dumonda populara",
-  "cancel": "Interrumper"
+  "cancel": "Interrumper",
+  "shareText": "Sustegnair",
+  "shared": "Partì",
+  "shareDialogOpened": "Dialog da partir avert.",
+  "linkCopied": "Link copià",
+  "shareFailed": "Partir betg reussì"
 }

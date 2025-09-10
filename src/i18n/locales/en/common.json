@@ -20,6 +20,9 @@
     "it": "Italiano",
     "en": "English"
   },
+  "routes": {
+    "volksbegehren": "popular-vote"
+  },
   "navigation": {
     "home": "Home page",
     "backToMain": "Back to main page",
