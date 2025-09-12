@@ -40,11 +40,8 @@ export const searchAddresses = async (
     minScore: minScore.toString(),
   });
 
-  // Use local proxy to avoid CORS issues in development
-  const isDevelopment = import.meta.env.DEV;
-  const baseUrl = isDevelopment 
-    ? '/api/address-search' 
-    : 'https://osbapi.liip.ch/address-search';
+  // Always use our reverse proxy to avoid CORS in any environment
+  const baseUrl = '/api/address-search';
     
   const url = `${baseUrl}/find?${params}`;
   console.log('Fetching URL:', url);
