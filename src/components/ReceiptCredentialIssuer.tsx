@@ -223,6 +223,7 @@ export function ReceiptCredentialIssuer({
         title: t('forms:submissionSuccess', 'Volksbegehren erfolgreich eingereicht.'),
         description: undefined
       });
+      setStep(5);
 
       // Set the verified data in state for summary display
       if (credentialData) {
@@ -756,7 +757,7 @@ export function ReceiptCredentialIssuer({
                 </div>
               )}
 
-              {step === 4 && issuedId && (
+              {step === 5 && issuedId && (
                 <div className="space-y-6 w-full md:w-[806px]">
                   <div className="space-y-4">
                     <div className="bg-white px-12 py-6">
@@ -770,18 +771,18 @@ export function ReceiptCredentialIssuer({
                       )}
                       <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
                         <button
+                          onClick={handleShare}
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]"
+                        >
+                          <Share2 className="w-4 h-4 mr-2" /> {t('forms:shareVolksbegehren', 'Volksbegehren teilen')}
+                        </button>
+                        <button
                           onClick={() => offerDeeplink && (window.location.href = offerDeeplink)}
                           disabled={!offerDeeplink}
                           className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           Quittung herunterladen
                           <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                        </button>
-                        <button
-                          onClick={handleShare}
-                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]"
-                        >
-                          <Share2 className="w-4 h-4 mr-2" /> {t('forms:shareVolksbegehren', 'Volksbegehren teilen')}
                         </button>
                       </div>
                     </div>
