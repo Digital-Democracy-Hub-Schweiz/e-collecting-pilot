@@ -458,7 +458,7 @@ export function ReceiptCredentialIssuer({
       <div className="space-y-6 w-full max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="w-full md:w-[806px] mx-auto">
           <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">
-            {t('forms:step', { current: step, total: 4 })}
+            {t('forms:step', { current: step, total: 5 })}
           </div>
         </div>
 
