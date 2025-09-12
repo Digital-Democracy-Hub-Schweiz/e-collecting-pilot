@@ -49,7 +49,7 @@ export function ReceiptCredentialIssuer({
   const [issuedId, setIssuedId] = useState<string | null>(null);
   const [offerDeeplink, setOfferDeeplink] = useState<string | null>(null);
   const [statusResult, setStatusResult] = useState<any>(null);
-  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [isValidatingAddress, setIsValidatingAddress] = useState(false);
   const [municipality, setMunicipality] = useState<string | null>(null);
   const [municipalityDetails, setMunicipalityDetails] = useState<{
