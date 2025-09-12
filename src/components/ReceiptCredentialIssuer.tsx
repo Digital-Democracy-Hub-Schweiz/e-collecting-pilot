@@ -49,7 +49,7 @@ export function ReceiptCredentialIssuer({
   const [issuedId, setIssuedId] = useState<string | null>(null);
   const [offerDeeplink, setOfferDeeplink] = useState<string | null>(null);
   const [statusResult, setStatusResult] = useState<any>(null);
-  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [isValidatingAddress, setIsValidatingAddress] = useState(false);
   const [municipality, setMunicipality] = useState<string | null>(null);
   const [municipalityDetails, setMunicipalityDetails] = useState<{
@@ -220,8 +220,8 @@ export function ReceiptCredentialIssuer({
       setOfferDeeplink(res.offer_deeplink || null);
       setBanner({
         type: 'success',
-        title: t('errors:api.credentialCreated'),
-        description: `ID: ${res.id || (res as any).management_id}`
+        title: t('forms:submissionSuccess', 'Volksbegehren erfolgreich eingereicht.'),
+        description: undefined
       });
 
       // Set the verified data in state for summary display
@@ -458,7 +458,7 @@ export function ReceiptCredentialIssuer({
       <div className="space-y-6 w-full max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="w-full md:w-[806px] mx-auto">
           <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">
-            {t('forms:step', { current: step, total: 4 })}
+            {t('forms:step', { current: step, total: 5 })}
           </div>
         </div>
 
@@ -768,6 +768,22 @@ export function ReceiptCredentialIssuer({
                           <QRCode value={offerDeeplink} size={192} />
                         </div>
                       )}
+                      <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                        <button
+                          onClick={() => offerDeeplink && (window.location.href = offerDeeplink)}
+                          disabled={!offerDeeplink}
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          Quittung herunterladen
+                          <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                        </button>
+                        <button
+                          onClick={handleShare}
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]"
+                        >
+                          <Share2 className="w-4 h-4 mr-2" /> {t('forms:shareVolksbegehren', 'Volksbegehren teilen')}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
