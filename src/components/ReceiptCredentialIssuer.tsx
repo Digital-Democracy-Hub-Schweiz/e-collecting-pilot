@@ -223,6 +223,7 @@ export function ReceiptCredentialIssuer({
         title: t('forms:submissionSuccess', 'Volksbegehren erfolgreich eingereicht.'),
         description: undefined
       });
+      setStep(5);
 
       // Set the verified data in state for summary display
       if (credentialData) {
@@ -756,7 +757,7 @@ export function ReceiptCredentialIssuer({
                 </div>
               )}
 
-              {step === 4 && issuedId && (
+              {step === 5 && issuedId && (
                 <div className="space-y-6 w-full md:w-[806px]">
                   <div className="space-y-4">
                     <div className="bg-white px-12 py-6">
