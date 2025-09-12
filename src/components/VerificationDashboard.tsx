@@ -3,29 +3,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, CheckCircle, XCircle, Clock, Shield } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+// import { useToast } from "@/hooks/use-toast";
 import { verificationBusinessAPI, type VerificationResponse } from "@/services/verificationAPI";
 export const VerificationDashboard = () => {
   const [verification, setVerification] = useState<VerificationResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    toast
-  } = useToast();
+  // const { toast } = useToast();
   const handleCreateVerification = async () => {
     setIsLoading(true);
     try {
       const result = await verificationBusinessAPI.createVerification();
       setVerification(result);
-      toast({
-        title: "Verification Created",
-        description: `Verification session ${result.id} has been created successfully.`
-      });
+      // Entfernt: Toast (keine Benachrichtigung unten rechts)
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to create verification session. Please try again.",
-        variant: "destructive"
-      });
+      // Entfernt: Toast (Fehleranzeige über UI-Komponenten realisieren, falls nötig)
       console.error('Verification creation failed:', error);
     } finally {
       setIsLoading(false);

@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CustomSelect } from "@/components/ui/custom-select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { issuerBusinessAPI } from "@/services/issuerAPI";
 import { verificationBusinessAPI } from "@/services/verificationAPI";
-import { useToast } from "@/hooks/use-toast";
+// import { useToast } from "@/hooks/use-toast";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
 import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
@@ -30,7 +30,7 @@ export function ReceiptCredentialIssuer({
   };
 }) {
   const { t } = useTranslation(['forms', 'errors', 'common']);
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const currentLang = useCurrentLanguage();
   const volksbegehren = useVolksbegehren();
   const [type, setType] = useState<"Initiative" | "Referendum" | "">("");
@@ -111,6 +111,7 @@ export function ReceiptCredentialIssuer({
     }));
   }, [type, normalized]);
 
+
   // Vorbelegung via URL
   useEffect(() => {
     console.log('Preselect data:', preselect);
@@ -143,10 +144,10 @@ export function ReceiptCredentialIssuer({
     const currentLastName = credentialData?.family_name || lastName;
     const currentBirthDate = credentialData?.birth_date || birthDate;
     if (!type || !selectedId || !currentFirstName || !currentLastName) {
-      toast({
+      setBanner({
+        type: 'error',
         title: t('errors:validation.missingFields'),
-        description: t('errors:validation.fillNameFields'),
-        variant: "destructive"
+        description: t('errors:validation.fillNameFields')
       });
       return;
     }
@@ -177,7 +178,8 @@ export function ReceiptCredentialIssuer({
       const res = await issuerBusinessAPI.issueCredential(payload);
       setIssuedId(res.id || (res as any).management_id || null);
       setOfferDeeplink(res.offer_deeplink || null);
-      toast({
+      setBanner({
+        type: 'success',
         title: t('errors:api.credentialCreated'),
         description: `ID: ${res.id || (res as any).management_id}`
       });
@@ -200,10 +202,10 @@ export function ReceiptCredentialIssuer({
         });*/
       }
     } catch (e: any) {
-      toast({
+      setBanner({
+        type: 'error',
         title: t('errors:api.credentialError'),
-        description: e?.message ?? t('errors:api.unknownError'),
-        variant: "destructive"
+        description: e?.message ?? t('errors:api.unknownError')
       });
     } finally {
       setIsIssuing(false);
@@ -216,10 +218,10 @@ export function ReceiptCredentialIssuer({
         title: t('errors:validation.missingFields'),
         description: t('errors:validation.selectTypeAndTitle')
       });
-      toast({
+      setBanner({
+        type: 'error',
         title: t('errors:validation.missingFields'),
-        description: t('errors:validation.selectTypeAndTitle'),
-        variant: "destructive"
+        description: t('errors:validation.selectTypeAndTitle')
       });
       return;
     }
@@ -267,15 +269,16 @@ export function ReceiptCredentialIssuer({
         description += ` Kanton via politische Gemeinde: ${cantonFromBfs} ermittelt`;
       }
       
-      toast({
-        title: "Adresse geprüft",
+      setBanner({
+        type: 'info',
+        title: t('forms:addressCheck.title', 'Adresse wird geprüft'),
         description
       });
     } catch (e: any) {
-      toast({
-        title: "Adressprüfung fehlgeschlagen",
-        description: e?.message ?? "Unbekannter Fehler",
-        variant: "destructive"
+      setBanner({
+        type: 'error',
+        title: t('common:error', 'Fehler'),
+        description: e?.message ?? t('errors:api.unknownError')
       });
     } finally {
       setIsValidatingAddress(false);
@@ -288,10 +291,10 @@ export function ReceiptCredentialIssuer({
         title: t('errors:validation.addressIncomplete'),
         description: t('errors:validation.fillAllAddressFields')
       });
-      toast({
+      setBanner({
+        type: 'error',
         title: t('errors:validation.addressIncomplete'),
-        description: t('errors:validation.fillAllAddressFields'),
-        variant: "destructive"
+        description: t('errors:validation.fillAllAddressFields')
       });
       return;
     }
@@ -318,20 +321,17 @@ export function ReceiptCredentialIssuer({
       });
       // Start polling for verification result
       startPollingVerification(verification.id);
-      toast({
-        title: "Verifikation gestartet",
-        description: "Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App."
-      });
+      // Entfernt: Toast
     } catch (e: any) {
       setBanner({
         type: 'error',
         title: t('common:error', 'Fehler'),
         description: e?.message ?? t('errors:api.unknownError')
       });
-      toast({
-        title: "Verifikation fehlgeschlagen",
-        description: e?.message ?? "Unbekannter Fehler",
-        variant: "destructive"
+      setBanner({
+        type: 'error',
+        title: t('common:error', 'Fehler'),
+        description: e?.message ?? t('errors:api.unknownError')
       });
     } finally {
       setIsCreatingVerification(false);
@@ -353,9 +353,10 @@ export function ReceiptCredentialIssuer({
             setLastName(credentialData.family_name || "");
             setBirthDate(credentialData.birth_date || "");
           }
-          toast({
-            title: "Identität erfolgreich verifiziert",
-            description: "Daten wurden übernommen."
+          setBanner({
+            type: 'success',
+            title: t('forms:step4.verification.title'),
+            description: t('forms:step4.verification.description')
           });
 
           // Automatically issue the credential with the verified data
@@ -363,10 +364,10 @@ export function ReceiptCredentialIssuer({
         } else if (result.state === 'FAILED') {
           clearInterval(pollInterval);
           setIsPollingVerification(false);
-          toast({
-            title: "Verification fehlgeschlagen",
-            description: "Bitte versuchen Sie es erneut.",
-            variant: "destructive"
+          setBanner({
+            type: 'error',
+            title: t('common:error', 'Fehler'),
+            description: t('errors:api.unknownError')
           });
         }
       } catch (e) {
@@ -391,20 +392,17 @@ export function ReceiptCredentialIssuer({
         title: t('forms:statusChecked', 'Status abgefragt'),
         description: t('forms:statusUpdated', 'Statusinformationen aktualisiert.')
       });
-      toast({
-        title: "Status abgefragt",
-        description: "Statusinformationen aktualisiert."
-      });
+      // Entfernt: Toast
     } catch (e: any) {
       setBanner({
         type: 'error',
         title: t('common:error', 'Fehler'),
         description: e?.message ?? t('errors:api.unknownError')
       });
-      toast({
-        title: "Statusabfrage fehlgeschlagen",
-        description: e?.message ?? "Unbekannter Fehler",
-        variant: "destructive"
+      setBanner({
+        type: 'error',
+        title: t('common:error', 'Fehler'),
+        description: e?.message ?? t('errors:api.unknownError')
       });
     } finally {
       setIsChecking(false);
@@ -424,22 +422,16 @@ export function ReceiptCredentialIssuer({
           text: `${t('forms:shareText', 'Unterstütze')}: ${title}`,
           url
         });
-        toast({
-          title: t('forms:shared', 'Geteilt'),
-          description: t('forms:shareDialogOpened', 'Freigabedialog geöffnet.')
-        });
+        // Entfernt: Toast
       } else {
         await navigator.clipboard.writeText(url);
-        toast({
-          title: t('forms:linkCopied', 'Link kopiert'),
-          description: url
-        });
+        // Entfernt: Toast
       }
     } catch (e: any) {
-      toast({
-        title: t('forms:shareFailed', 'Teilen fehlgeschlagen'),
-        description: e?.message ?? t('errors:unknownError', 'Unbekannter Fehler'),
-        variant: "destructive"
+      setBanner({
+        type: 'error',
+        title: t('common:error', 'Fehler'),
+        description: e?.message ?? t('errors:api.unknownError')
       });
     }
   };
@@ -471,9 +463,10 @@ export function ReceiptCredentialIssuer({
     setPostalSuggestions([]);
     setShowSuggestions(false);
     setIsLoadingSuggestions(false);
-    toast({
-      title: "Zurückgesetzt",
-      description: "Formular wurde geleert."
+    setBanner({
+      type: 'info',
+      title: t('forms.restart', 'Neu starten'),
+      description: t('forms.confirmRestartDescription', 'Dadurch werden alle Eingaben gelöscht.')
     });
   };
   const searchPostalCodes = async (searchText: string) => {
@@ -536,9 +529,11 @@ export function ReceiptCredentialIssuer({
     }
   };
   return <section aria-labelledby="issuer-section">
-      <div className="space-y-6 w-full max-w-[805px] mx-auto">
-        <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">
-          {t('forms:step', { current: step, total: 4 })}
+      <div className="space-y-6 w-full max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full md:w-[806px] mx-auto">
+          <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">
+            {t('forms:step', { current: step, total: 4 })}
+          </div>
         </div>
 
 
@@ -590,57 +585,58 @@ export function ReceiptCredentialIssuer({
               </div>
             </div>}
 
-          <div className={cn("grid gap-6", issuedId ? "md:grid-cols-2" : "")}> 
-            <div className={cn("space-y-4")}> 
+          <div className={cn("grid gap-6 md:gap-8", issuedId ? "md:grid-cols-2" : "")}> 
+            <div className={cn("space-y-4 w-full md:w-[806px]", !issuedId && "mx-auto")}> 
 
-              {step === 1 && <div className="space-y-6">
-                  <div className="space-y-2">
+              {step === 1 && <div className="space-y-6 w-full md:w-[806px]">
+                  <div className="space-y-4">
                     <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.title')}</Label>
-                    <Select value={type} onValueChange={v => setType(v as any)}>
-                      <SelectTrigger className="h-12 w-full text-[18px] border-[#6b7280] focus:ring-0 focus:border-[#d8232a] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" onClick={e => e.stopPropagation()} aria-label={t('forms:step1.selectType')}>
-                        <SelectValue placeholder={t('forms:step1.selectType')} />
-                      </SelectTrigger>
-                      <SelectContent className="z-[100] bg-background border shadow-lg">
-                        <SelectItem value="Initiative" className="text-[18px] leading-[28px] py-3">{t('forms:step1.types.initiative')}</SelectItem>
-                        <SelectItem value="Referendum" className="text-[18px] leading-[28px] py-3">{t('forms:step1.types.referendum')}</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <CustomSelect
+                      options={[
+                        { value: "Initiative", label: t('forms:step1.types.initiative') },
+                        { value: "Referendum", label: t('forms:step1.types.referendum') }
+                      ]}
+                      value={type}
+                      onValueChange={(v) => setType(v as any)}
+                      placeholder={t('forms:step1.selectType')}
+                      aria-label={t('forms:step1.selectType')}
+                      className="w-full"
+                    />
                   </div>
                   
-                  <div className="space-y-2">
+                  <div className="space-y-4">
                     <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectTitle')}</Label>
-                    <Select value={selectedId} onValueChange={setSelectedId} disabled={!type}>
-                      <SelectTrigger className="h-12 w-full text-[18px] border-[#6b7280] focus:ring-0 focus:border-[#d8232a] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" onClick={e => e.stopPropagation()} aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}>
-                        <SelectValue placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')} />
-                      </SelectTrigger>
-                <SelectContent className="max-h-[300px] overflow-auto z-[100] bg-background border shadow-lg w-full min-w-[300px]">
-                  {options.map(o => <SelectItem key={o.id} value={o.id} className="text-[18px] leading-[28px] py-3">
-                      {o.title}
-                    </SelectItem>)}
-                      </SelectContent>
-                    </Select>
+                    <CustomSelect
+                      options={options.map(o => ({ value: o.id, label: o.title }))}
+                      value={selectedId}
+                      onValueChange={setSelectedId}
+                      disabled={!type}
+                      placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                      aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                      className="w-full"
+                    />
                   </div>
                   
-                  <div className="pt-4">
-                    <button onClick={handleNextFromStep1} className="w-full inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
+                  <div className="pt-4 flex justify-stretch sm:justify-end">
+                    <button onClick={handleNextFromStep1} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
                       {t('common:next')}
                     </button>
                   </div>
                 </div>}
 
-              {step === 2 && <div className="space-y-6">
+              {step === 2 && <div className="space-y-6 w-full md:w-[806px]">
                   <div>
                     <h3 className="text-[22px] leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step2.title')}</h3>
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
-                        <Input value={streetAddress} onChange={e => setStreetAddress(e.target.value)} placeholder={t('forms:step2.streetPlaceholder')} className="h-12 w-full text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
+                        <Input value={streetAddress} onChange={e => setStreetAddress(e.target.value)} placeholder={t('forms:step2.streetPlaceholder')} className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                       </div>
                       
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2 relative">
                           <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.postalCode')}</Label>
-                          <Input value={postalCode} onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 w-full text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" onFocus={() => postalSuggestions.length > 0 && setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} />
+                          <Input value={postalCode} onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" onFocus={() => postalSuggestions.length > 0 && setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} />
                           {isLoadingSuggestions && <div className="absolute right-3 top-10 text-muted-foreground">
                               <RefreshCw className="w-4 h-4 animate-spin" />
                             </div>}
@@ -653,24 +649,24 @@ export function ReceiptCredentialIssuer({
                         </div>
                         <div className="space-y-2">
                           <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.city')}</Label>
-                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 w-full text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
+                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                         </div>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <button onClick={() => setStep(1)} className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                    <button onClick={() => setStep(1)} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
                       {t('common:back')}
                     </button>
-                    <button onClick={handleNextFromStep2} className="inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] flex-1 shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]" disabled={isValidatingAddress}>
+                    <button onClick={handleNextFromStep2} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]" disabled={isValidatingAddress}>
                       {isValidatingAddress && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} 
                       {t('common:next')}
                     </button>
                   </div>
                 </div>}
 
-              {step === 3 && <div className="space-y-6">
+              {step === 3 && <div className="space-y-6 w-full md:w-[806px]">
                   <div className="space-y-4">
                     <h3 className="text-[22px] leading-[33px] font-semibold text-[#1f2937]">{t('forms:step3.title')}</h3>
                      
@@ -736,8 +732,8 @@ export function ReceiptCredentialIssuer({
                       </Label>
                     </div>
  
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <button onClick={() => setStep(2)} className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:justify-end">
+                      <button onClick={() => setStep(2)} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
                         {t('common:back')}
                       </button>
                       <button 
@@ -758,8 +754,8 @@ export function ReceiptCredentialIssuer({
                             }
                             return false;
                           })()
-                        } 
-                        className="inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] flex-1 shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]"
+                        }
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]"
                       >
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
                         {t('forms:step3.supportButton')}
@@ -768,7 +764,7 @@ export function ReceiptCredentialIssuer({
                   </div>
                 </div>}
 
-              {step === 4 && !issuedId && <div className="space-y-6">
+              {step === 4 && !issuedId && <div className="space-y-6 w-full md:w-[806px]">
                   <div className="space-y-4">
                     <h3 className="text-[22px] leading-[33px] font-semibold text-[#1f2937]">{t('forms:step4.verification.title')}</h3>
                     <p className="text-[16px] leading-[24px] text-[#6b7280]">
@@ -810,14 +806,14 @@ export function ReceiptCredentialIssuer({
                       </div>}
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <button onClick={() => setStep(3)} disabled={isPollingVerification} className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                    <button onClick={() => setStep(3)} disabled={isPollingVerification} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white">
                       {t('common:back')}
                     </button>
                   </div>
                 </div>}
 
-              {step === 4 && issuedId && <div className="space-y-6">
+              {step === 4 && issuedId && <div className="space-y-6 w-full md:w-[806px]">
                    <div className="bg-[#f1f4f7] p-4 rounded-[1px] space-y-3 border border-[#e0e4e8]">
                      <div className="font-semibold text-[16px] leading-[24px] text-[#1f2937]" role="heading" aria-level={4}>{t('forms:step4.summary.title')}</div>
                      
@@ -897,10 +893,10 @@ export function ReceiptCredentialIssuer({
           </div>
 
           {/* Action buttons span full width below columns */}
-          {step === 4 && issuedId && <div className="flex flex-col sm:flex-row gap-3 pt-4">
+          {step === 4 && issuedId && <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <button className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">{t('forms.restart', 'Neu starten')}</button>
+                  <button className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">{t('forms.restart', 'Neu starten')}</button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
@@ -915,7 +911,7 @@ export function ReceiptCredentialIssuer({
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-              <button onClick={handleShare} className="inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] flex-1 shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
+              <button onClick={handleShare} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
                 <Share2 className="w-4 h-4 mr-2" /> {t('forms:shareVolksbegehren', 'Volksbegehren teilen')}
               </button>
             </div>}

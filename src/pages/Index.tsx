@@ -218,7 +218,7 @@ const Index = () => {
 
         {/* Formular-Band: grauer Hintergrund und Figma-Spacing */}
         <section className="bg-[#f1f4f7]">
-          <div className="max-w-[2000px] mx-auto px-[597px] py-20">
+          <div className="max-w-[2000px] mx-auto flex justify-center px-4 sm:px-6 lg:px-8 py-20">
             <ReceiptCredentialIssuer preselect={preselect} />
           </div>
         </section>

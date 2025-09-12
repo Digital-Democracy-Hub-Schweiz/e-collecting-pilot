@@ -1,0 +1,20 @@
+/* Fix for Radix UI Select jumping issues */
+[data-radix-select-content] {
+  position: fixed !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+[data-radix-select-viewport] {
+  scroll-behavior: auto !important;
+}
+
+/* Prevent body scroll when select is open */
+body:has([data-state="open"][data-radix-select-content]) {
+  overflow: hidden !important;
+}
+
+/* Ensure select content doesn't cause layout shifts */
+[data-radix-popper-content-wrapper] {
+  transform: none !important;
+}
