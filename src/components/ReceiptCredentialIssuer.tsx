@@ -13,10 +13,12 @@ import { verificationBusinessAPI } from "@/services/verificationAPI";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
 import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
-import { ShieldCheck, QrCode, RefreshCw, Share2, AlertTriangle, CheckCircle2, Info } from "lucide-react";
+import { ShieldCheck, QrCode, RefreshCw, Share2, AlertTriangle, CheckCircle2, Info, ArrowRight } from "lucide-react";
 import { determineCantonFromBfs } from "@/utils/cantonUtils";
 import { useTranslation } from 'react-i18next';
 import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
+import { AddressAutocomplete } from "@/components/ui/address-autocomplete";
+import { AddressHit } from "@/services/addressAPI";
 type Option = {
   id: string;
   title: string;
@@ -60,15 +62,46 @@ export function ReceiptCredentialIssuer({
   const [verificationId, setVerificationId] = useState<string | null>(null);
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
   const [isCreatingVerification, setIsCreatingVerification] = useState(false);
+
+  // Handler for address selection
+  const handleAddressSelect = async (address: AddressHit) => {
+    console.log('Address selected:', address);
+    setStreetAddress(address.place.postalAddress.streetAddress);
+    setPostalCode(address.place.postalAddress.postalCode);
+    setCity(address.place.postalAddress.addressLocality);
+    
+    // Set municipality code for further processing
+    const municipalityCode = address.place.additionalProperty.municipalityCode;
+    console.log('Municipality code:', municipalityCode);
+    setMunicipality(municipalityCode);
+
+    // Set municipality details including canton determination
+    const town = address.place.postalAddress.addressLocality;
+    const canton = address.place.postalAddress.addressRegion || "";
+    const bfs = municipalityCode;
+
+    // Determine canton from BFS code if available
+    let cantonFromBfs = "";
+    if (bfs && !isNaN(Number(bfs))) {
+      try {
+        cantonFromBfs = await determineCantonFromBfs(Number(bfs));
+        console.log('Canton from BFS:', cantonFromBfs);
+      } catch (error) {
+        console.warn("Canton determination from BFS failed:", error);
+        cantonFromBfs = canton; // Fallback to original canton
+      }
+    }
+
+    setMunicipalityDetails({
+      town,
+      canton,
+      bfs,
+      cantonFromBfs: cantonFromBfs || canton
+    });
+  };
   const [isPollingVerification, setIsPollingVerification] = useState(false);
   const [acceptedLegalNotice, setAcceptedLegalNotice] = useState(false);
-  const [postalSuggestions, setPostalSuggestions] = useState<Array<{
-    label: string;
-    detail: string;
-    featureId: string;
-  }>>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+  // Postal suggestions removed - PLZ is now auto-filled by AddressAutocomplete
   const [banner, setBanner] = useState<{
     type: 'success' | 'warning' | 'error' | 'info';
     title: string;
@@ -228,62 +261,8 @@ export function ReceiptCredentialIssuer({
     setBanner(null);
     setStep(2);
   };
-  const validateAddressInBackground = async () => {
-    setIsValidatingAddress(true);
-    try {
-      if (!postalCode) throw new Error("PLZ fehlt");
-      const resp = await fetch(`https://swisszip.api.ganti.dev/zip/${encodeURIComponent(postalCode)}`);
-      if (!resp.ok) throw new Error(`PLZ-Abfrage fehlgeschlagen (${resp.status})`);
-      const data = await resp.json();
-      const items: any[] = Array.isArray(data) ? data : data?.results ?? data?.data ?? [];
-      if (!Array.isArray(items) || items.length === 0) throw new Error("Keine Treffer für diese PLZ gefunden");
-      const best: any = items.reduce((acc: any, cur: any) => {
-        const shareAcc = Number(acc?.["zip-share"] ?? acc?.zip_share ?? acc?.zipShare ?? acc?.share ?? 0);
-        const shareCur = Number(cur?.["zip-share"] ?? cur?.zip_share ?? cur?.zipShare ?? cur?.share ?? 0);
-        return shareCur > shareAcc ? cur : acc;
-      }, items[0]);
-      const bfs = String(best?.bfs ?? best?.["bfs-number"] ?? best?.bfsNumber ?? "");
-      const town = String(best?.town ?? best?.municipality ?? best?.place ?? best?.name ?? "");
-      const canton = String(best?.canton ?? best?.cantonShort ?? best?.canton_abbr ?? "");
-      
-      // Second optional check: Determine canton from BFS code
-      let cantonFromBfs = "";
-      if (bfs && !isNaN(Number(bfs))) {
-        try {
-          cantonFromBfs = await determineCantonFromBfs(Number(bfs));
-        } catch (error) {
-          console.warn("Canton determination from BFS failed:", error);
-        }
-      }
-      
-      setMunicipalityDetails({
-        town,
-        canton,
-        bfs,
-        cantonFromBfs
-      });
-      setMunicipality(`${town} ${canton} ${bfs}${cantonFromBfs ? ` (Kanton: ${cantonFromBfs})` : ""}`);
-      
-      let description = "Politische Gemeinde ermittelt.";
-      if (cantonFromBfs && cantonFromBfs !== canton && !cantonFromBfs.includes("Fehler") && !cantonFromBfs.includes("gefunden")) {
-        description += ` Kanton via politische Gemeinde: ${cantonFromBfs} ermittelt`;
-      }
-      
-      setBanner({
-        type: 'info',
-        title: t('forms:addressCheck.title', 'Adresse wird geprüft'),
-        description
-      });
-    } catch (e: any) {
-      setBanner({
-        type: 'error',
-        title: t('common:error', 'Fehler'),
-        description: e?.message ?? t('errors:api.unknownError')
-      });
-    } finally {
-      setIsValidatingAddress(false);
-    }
-  };
+  // Address validation is now handled by the AddressAutocomplete component
+  // via the handleAddressSelect callback which sets municipality and other details
   const handleNextFromStep2 = () => {
     if (!streetAddress || !postalCode || !city) {
       setBanner({
@@ -298,13 +277,15 @@ export function ReceiptCredentialIssuer({
       });
       return;
     }
-    // Prüfung im Hintergrund starten und direkt zu Schritt 3 wechseln
-    validateAddressInBackground();
-    setBanner({
-      type: 'info',
-      title: t('forms:addressCheck.title', 'Adresse wird geprüft'),
-      description: t('forms:addressCheck.description', 'Wir prüfen Ihre Adresse im Hintergrund.')
-    });
+    // Address validation already handled by AddressAutocomplete component
+    // Municipality details are set via handleAddressSelect callback
+    if (municipality) {
+      setBanner({
+        type: 'info',
+        title: t('forms:addressCheck.title', 'Adresse wird geprüft'),
+        description: 'Adresse erfolgreich validiert.'
+      });
+    }
     setStep(3);
   };
   const handleStartVerification = async () => {
@@ -460,74 +441,19 @@ export function ReceiptCredentialIssuer({
     setIsCreatingVerification(false);
     setIsPollingVerification(false);
     setAcceptedLegalNotice(false);
-    setPostalSuggestions([]);
-    setShowSuggestions(false);
-    setIsLoadingSuggestions(false);
+    // Postal suggestions functionality removed
     setBanner({
       type: 'info',
       title: t('forms.restart', 'Neu starten'),
       description: t('forms.confirmRestartDescription', 'Dadurch werden alle Eingaben gelöscht.')
     });
   };
-  const searchPostalCodes = async (searchText: string) => {
-    if (searchText.length < 3) {
-      setPostalSuggestions([]);
-      setShowSuggestions(false);
-      return;
-    }
-    setIsLoadingSuggestions(true);
-    try {
-      const response = await fetch(`https://api3.geo.admin.ch/rest/services/ech/SearchServer?sr=2056&searchText=${encodeURIComponent(searchText)}&lang=de&type=featuresearch&features=ch.swisstopo-vd.ortschaftenverzeichnis_plz&timeEnabled=false`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch postal codes');
-      }
-      const data = await response.json();
-      const suggestions = data.results?.map((result: any) => ({
-        label: result.attrs.label,
-        detail: result.attrs.detail,
-        featureId: result.attrs.featureId
-      })) || [];
-      setPostalSuggestions(suggestions);
-      setShowSuggestions(suggestions.length > 0);
-    } catch (error) {
-      console.error('Error fetching postal codes:', error);
-      setPostalSuggestions([]);
-      setShowSuggestions(false);
-    } finally {
-      setIsLoadingSuggestions(false);
-    }
-  };
+  // Postal code search functionality removed - now handled by AddressAutocomplete
   const handlePostalCodeChange = (value: string) => {
-    setPostalCode(value);
-    searchPostalCodes(value);
+    const digitsOnly = value.replace(/\D/g, "").slice(0, 4);
+    setPostalCode(digitsOnly);
   };
-  const handleSuggestionClick = async (suggestion: {
-    label: string;
-    detail: string;
-    featureId: string;
-  }) => {
-    setPostalCode(suggestion.label);
-    setShowSuggestions(false);
-
-    // Fetch detailed location information using feature ID
-    try {
-      const response = await fetch(`https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo-vd.ortschaftenverzeichnis_plz/${suggestion.featureId}`);
-      if (response.ok) {
-        const data = await response.json();
-        const langtext = data.feature?.attributes?.langtext;
-        if (langtext) {
-          setCity(langtext);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching detailed location:', error);
-      // Fallback to extracting city from detail as before
-      const cityFromDetail = suggestion.detail.split(' ').slice(1).join(' ');
-      if (cityFromDetail) {
-        setCity(cityFromDetail.charAt(0).toUpperCase() + cityFromDetail.slice(1));
-      }
-    }
-  };
+  // handleSuggestionClick removed - suggestions handled by AddressAutocomplete
   return <section aria-labelledby="issuer-section">
       <div className="space-y-6 w-full max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="w-full md:w-[806px] mx-auto">
@@ -630,24 +556,21 @@ export function ReceiptCredentialIssuer({
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
-                        <Input value={streetAddress} onChange={e => setStreetAddress(e.target.value)} placeholder={t('forms:step2.streetPlaceholder')} className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
+                        <AddressAutocomplete 
+                          value={streetAddress}
+                          onValueChange={setStreetAddress}
+                          onAddressSelect={handleAddressSelect}
+                          placeholder={t('forms:step2.streetPlaceholder')}
+                          className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]"
+                        />
                       </div>
                       
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="space-y-2 relative">
+                      <div className="grid grid-cols-1 sm:grid-cols-6 gap-4">
+                        <div className="space-y-2 relative sm:col-span-2">
                           <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.postalCode')}</Label>
-                          <Input value={postalCode} onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" onFocus={() => postalSuggestions.length > 0 && setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} />
-                          {isLoadingSuggestions && <div className="absolute right-3 top-10 text-muted-foreground">
-                              <RefreshCw className="w-4 h-4 animate-spin" />
-                            </div>}
-                          {showSuggestions && postalSuggestions.length > 0 && <div className="absolute z-50 w-full bg-background border border-input rounded-md shadow-lg mt-1 max-h-60 overflow-auto">
-                              {postalSuggestions.map((suggestion, index) => <button key={index} type="button" className="w-full px-3 py-2 text-left hover:bg-muted transition-colors border-b border-border last:border-b-0" onClick={() => handleSuggestionClick(suggestion)}>
-                                  <div className="font-medium">{suggestion.label}</div>
-                                  <div className="text-sm text-muted-foreground">{suggestion.detail}</div>
-                                </button>)}
-                            </div>}
+                          <Input value={postalCode} inputMode="numeric" pattern="[0-9]*" onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-2 sm:col-span-4">
                           <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.city')}</Label>
                           <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                         </div>
@@ -759,6 +682,7 @@ export function ReceiptCredentialIssuer({
                       >
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
                         {t('forms:step3.supportButton')}
+                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                       </button>
                     </div>
                   </div>
@@ -844,7 +768,9 @@ export function ReceiptCredentialIssuer({
                        </div>
                        {municipalityDetails && <div className="flex justify-between">
                            <span className="text-[#6b7280]">{t('forms:step4.summary.municipality')}</span>
-                           <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
+                           <span className="font-medium">
+                             {municipalityDetails.town}, {municipalityDetails.cantonFromBfs || municipalityDetails.canton} (BFS: {municipalityDetails.bfs})
+                           </span>
                          </div>}
                      </div>
                    </div>

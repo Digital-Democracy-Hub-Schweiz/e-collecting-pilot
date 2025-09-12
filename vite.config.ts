@@ -8,6 +8,17 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    proxy: {
+      '/api/address-search': {
+        target: 'https://osbapi.liip.ch',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/address-search/, '/address-search'),
+        secure: true,
+        headers: {
+          'Accept': 'application/json',
+        }
+      }
+    }
   },
   plugins: [
     react(),

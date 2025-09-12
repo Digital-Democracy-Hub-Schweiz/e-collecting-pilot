@@ -223,6 +223,7 @@ const Index = () => {
           </div>
         </section>
 
+
         {/*
         {/* Carousel Sektion: Darstellung der Volksbegehren gemäss Figma Medienmitteilungen 
         <section className="bg-white">
