@@ -292,30 +292,13 @@ export function ReceiptCredentialIssuer({
   };
   const handleStartVerification = async () => {
     setIsCreatingVerification(true);
-    
-    // Show address validation banner first (only in step 4)
-    if (municipalityDetails) {
-      setBanner({
-        type: 'info',
-        title: t('forms:addressCheck.title', 'Adresse wird geprüft'),
-        description: 'Adresse erfolgreich validiert.'
-      });
-    }
-    
+    // Entfernt: Address validation banner & step 4 info banner
     try {
       const verification = await verificationBusinessAPI.createVerification();
       setVerificationId(verification.id);
       setVerificationUrl(verification.verification_url);
       setStep(4);
-      
-      // After a short delay, replace with verification banner
-      setTimeout(() => {
-        setBanner({
-          type: 'info',
-          title: t('forms:step4.verification.title'),
-          description: t('forms:step4.verification.description')
-        });
-      }, 2000); // Show address validation for 2 seconds, then switch to verification
+      setBanner(null);
       
       // Start polling for verification result
       startPollingVerification(verification.id);
@@ -752,6 +735,22 @@ export function ReceiptCredentialIssuer({
                           <QRCode value={verificationUrl} size={192} />
                         </div>
                       )}
+                      <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                        <button
+                          onClick={() => { setBanner(null); setStep(3); }}
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]"
+                        >
+                          {t('common:back')}
+                        </button>
+                        <button
+                          onClick={() => verificationUrl && (window.location.href = `swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`)}
+                          disabled={!verificationUrl}
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {t('forms:step4.verification.openWallet')}
+                          <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
