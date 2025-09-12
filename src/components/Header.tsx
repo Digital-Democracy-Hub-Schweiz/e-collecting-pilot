@@ -1,0 +1,206 @@
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Menu, X } from 'lucide-react';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { useCurrentLanguage } from '@/utils/routing';
+import { useLocation } from 'react-router-dom';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+
+// Figma-Assets (Top-Bar Icons & Chevrons)
+
+const FIGMA_SIGN_LANGUAGE = 'http://localhost:3845/assets/f6f4ad8d9854a0e78aeec74f932142912c05a0c3.svg';
+
+export const Header: React.FC = () => {
+  const { t } = useTranslation(['common', 'content']);
+  const currentLang = useCurrentLanguage();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [easyLangOpen, setEasyLangOpen] = useState(false);
+  const [signLangOpen, setSignLangOpen] = useState(false);
+  const location = useLocation();
+
+  const navItems: { label: string; href: string }[] = [
+    { label: 'Pilot', href: `/${currentLang}` },
+    { label: 'Anleitung', href: `/${currentLang}/anleitung` },
+    { label: 'Projekt', href: `/${currentLang}/projekt` },
+  ];
+
+  const handleEasyLanguageOk = () => {
+    window.open('https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot/issues/7', '_blank');
+    setEasyLangOpen(false);
+  };
+
+  const handleSignLanguageOk = () => {
+    window.open('https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot/issues/17', '_blank');
+    setSignLangOpen(false);
+  };
+
+  return (
+    <header id="main-header">
+      {/* Top Bar (Figma: secondary/600 #334254) */}
+      <div className="top-bar text-white" style={{ backgroundColor: '#334254' }}>
+        <div className="max-w-[2000px] mx-auto px-40 h-[60px]">
+          <div className="h-full flex items-center justify-end">
+            {/* Rechte Seite: Leichte Sprache, Gebärdensprache, Sprache (ohne "Anmelden") */}
+            <div className="flex items-center gap-5">
+              <button
+                type="button"
+                className="flex items-center gap-2 text-white p-0 leading-none hover:opacity-80"
+                aria-label="Leichte Sprache"
+                onClick={() => setEasyLangOpen(true)}
+              >
+                <span className="text-[16px] leading-[24px] font-medium">Leichte Sprache</span>
+                <span className="relative inline-block w-[22px] h-[22px]">
+                  
+                  
+                </span>
+              </button>
+              <button
+                type="button"
+                className="flex items-center gap-2 text-white p-0 leading-none hover:opacity-80"
+                aria-label="Gebärdensprache"
+                onClick={() => setSignLangOpen(true)}
+              >
+                <span className="text-[16px] leading-[24px] font-medium">Gebärdensprache</span>
+                <img src={FIGMA_SIGN_LANGUAGE} alt="Gebärdensprache" className="w-[22px] h-[22px] invert" />
+              </button>
+              {/* Sprachauswahl nur mit Ländercode und weissem Chevron (durch Select-Trigger) */}
+              <div className="hidden sm:block">
+                <LanguageSwitcher variant="topbar" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Top Header */}
+      <div className="top-header bg-white">
+        <div className="max-w-[2000px] mx-auto px-40 h-[72px]">
+          <div className="h-full flex items-center justify-between">
+            <a href={`/${currentLang}`} className="flex items-center gap-4 hover:opacity-80 transition-opacity">
+              <div className="flex items-center">
+                <img src="/lovable-uploads/e75dd54e-b28f-48bc-8d17-683d07664c09.png" alt="Beta" className="h-8 w-8" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-[18px] leading-[28px] font-semibold text-[#1f2937]">
+                  Digital Democracy Hub Schweiz - Fachstelle für Demokratie und Digitalisierung
+                </div>
+                <div className="text-[16px] leading-[24px] text-[#1f2937]">
+                  E-Collecting Pilotprojekt
+                </div>
+              </div>
+            </a>
+
+            {/* Desktop Controls: Newsletter & Kontakt (keine Sprache hier) */}
+            <nav className="hidden lg:flex items-center gap-8">
+              <a
+                href="https://links.ecollecting.ch/newsletter"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[16px] leading-[24px] font-semibold text-[#1f2937] hover:text-[#d8232a]"
+              >
+                Newsletter
+              </a>
+              <a
+                href={`/${currentLang}/impressum`}
+                className="text-[16px] leading-[24px] font-semibold text-[#1f2937] hover:text-[#d8232a]"
+              >
+                Kontakt
+              </a>
+            </nav>
+
+            {/* Mobile Controls (ohne Sprache hier) */}
+            <div className="flex lg:hidden items-center gap-3">
+              <button aria-label="Toggle menu" onClick={() => setMobileOpen(v => !v)} className="p-2 rounded hover:bg-muted/50">
+                {mobileOpen ? <X /> : <Menu />}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mainmenu (Desktop) */}
+      <div className="hidden lg:block bg-white border-b border-[#e0e4e8]">
+        <div className="max-w-[2000px] mx-auto px-40">
+          <div className="relative h-[56px] flex items-center gap-8 text-[18px] leading-[28px] text-[#1f2937]">
+            {navItems.map(item => {
+              const isActive = location.pathname === item.href || (item.href !== `/${currentLang}` && location.pathname.startsWith(item.href));
+              return (
+                <div key={item.label} className="relative py-4">
+                  <a href={item.href} className="hover:text-[#d8232a] transition-colors">
+                    {item.label}
+                  </a>
+                  {isActive && (
+                    <span className="absolute left-0 right-0 -bottom-px h-[3px] bg-[#d8232a]" />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Modal: Leichte Sprache Bestätigung */}
+      <AlertDialog open={easyLangOpen} onOpenChange={setEasyLangOpen}>
+        <AlertDialogContent className="max-w-[480px] rounded-[2px]">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-[22px] leading-[33px] text-[#1f2937]">
+              Leichte Sprache
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-[18px] leading-[28px] text-[#1f2937]">
+              Hilfst du mir bei der Umsetzung dieses Features?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-[18px] leading-[28px]">Abbrechen</AlertDialogCancel>
+            <AlertDialogAction onClick={handleEasyLanguageOk} className="bg-[#5c6977] hover:bg-[#4c5967] text-white text-[18px] leading-[28px]">
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Modal: Gebärdensprache Bestätigung */}
+      <AlertDialog open={signLangOpen} onOpenChange={setSignLangOpen}>
+        <AlertDialogContent className="max-w-[480px] rounded-[2px]">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-[22px] leading-[33px] text-[#1f2937]">
+              Gebärdensprache
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-[18px] leading-[28px] text-[#1f2937]">
+              Hilfst du mir bei der Umsetzung dieses Features?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-[18px] leading-[28px]">Abbrechen</AlertDialogCancel>
+            <AlertDialogAction onClick={handleSignLanguageOk} className="bg-[#5c6977] hover:bg-[#4c5967] text-white text-[18px] leading-[28px]">
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="lg:hidden bg-white border-b border-[#e0e4e8]">
+          <div className="max-w-7xl mx-auto px-6 py-4 space-y-2">
+            {navItems.map(item => (
+              <a key={item.label} href={item.href} className="block px-1 py-2 text-[#1f2937] hover:text-[#d8232a] transition-colors">
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+    </header>
+  );
+};

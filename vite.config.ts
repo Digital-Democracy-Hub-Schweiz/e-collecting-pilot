@@ -19,4 +19,10 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    // Falls der Dep-Optimizer auf fehlerhafte Chunks läuft, hier ausschließen
+    exclude: [
+      "lovable-tagger",
+    ],
+  },
 }));

@@ -3,7 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -14,7 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
 import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
-import { ShieldCheck, QrCode, RefreshCw, Share2 } from "lucide-react";
+import { ShieldCheck, QrCode, RefreshCw, Share2, AlertTriangle, CheckCircle2, Info } from "lucide-react";
 import { determineCantonFromBfs } from "@/utils/cantonUtils";
 import { useTranslation } from 'react-i18next';
 import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
@@ -70,6 +69,11 @@ export function ReceiptCredentialIssuer({
   }>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+  const [banner, setBanner] = useState<{
+    type: 'success' | 'warning' | 'error' | 'info';
+    title: string;
+    description?: string;
+  } | null>(null);
 
   // Normalisierte Liste aus volksbegehren.json ableiten
   const normalized = useMemo(() => {
@@ -207,6 +211,11 @@ export function ReceiptCredentialIssuer({
   };
   const handleNextFromStep1 = () => {
     if (!type || !selectedId) {
+      setBanner({
+        type: 'error',
+        title: t('errors:validation.missingFields'),
+        description: t('errors:validation.selectTypeAndTitle')
+      });
       toast({
         title: t('errors:validation.missingFields'),
         description: t('errors:validation.selectTypeAndTitle'),
@@ -214,6 +223,7 @@ export function ReceiptCredentialIssuer({
       });
       return;
     }
+    setBanner(null);
     setStep(2);
   };
   const validateAddressInBackground = async () => {
@@ -273,6 +283,11 @@ export function ReceiptCredentialIssuer({
   };
   const handleNextFromStep2 = () => {
     if (!streetAddress || !postalCode || !city) {
+      setBanner({
+        type: 'error',
+        title: t('errors:validation.addressIncomplete'),
+        description: t('errors:validation.fillAllAddressFields')
+      });
       toast({
         title: t('errors:validation.addressIncomplete'),
         description: t('errors:validation.fillAllAddressFields'),
@@ -282,6 +297,11 @@ export function ReceiptCredentialIssuer({
     }
     // Prüfung im Hintergrund starten und direkt zu Schritt 3 wechseln
     validateAddressInBackground();
+    setBanner({
+      type: 'info',
+      title: t('forms:addressCheck.title', 'Adresse wird geprüft'),
+      description: t('forms:addressCheck.description', 'Wir prüfen Ihre Adresse im Hintergrund.')
+    });
     setStep(3);
   };
   const handleStartVerification = async () => {
@@ -291,6 +311,11 @@ export function ReceiptCredentialIssuer({
       setVerificationId(verification.id);
       setVerificationUrl(verification.verification_url);
       setStep(4);
+      setBanner({
+        type: 'info',
+        title: t('forms:step4.verification.title'),
+        description: t('forms:step4.verification.description')
+      });
       // Start polling for verification result
       startPollingVerification(verification.id);
       toast({
@@ -298,6 +323,11 @@ export function ReceiptCredentialIssuer({
         description: "Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App."
       });
     } catch (e: any) {
+      setBanner({
+        type: 'error',
+        title: t('common:error', 'Fehler'),
+        description: e?.message ?? t('errors:api.unknownError')
+      });
       toast({
         title: "Verifikation fehlgeschlagen",
         description: e?.message ?? "Unbekannter Fehler",
@@ -356,11 +386,21 @@ export function ReceiptCredentialIssuer({
     try {
       const res = await issuerBusinessAPI.checkCredentialStatus(issuedId);
       setStatusResult(res);
+      setBanner({
+        type: 'success',
+        title: t('forms:statusChecked', 'Status abgefragt'),
+        description: t('forms:statusUpdated', 'Statusinformationen aktualisiert.')
+      });
       toast({
         title: "Status abgefragt",
         description: "Statusinformationen aktualisiert."
       });
     } catch (e: any) {
+      setBanner({
+        type: 'error',
+        title: t('common:error', 'Fehler'),
+        description: e?.message ?? t('errors:api.unknownError')
+      });
       toast({
         title: "Statusabfrage fehlgeschlagen",
         description: e?.message ?? "Unbekannter Fehler",
@@ -495,19 +535,46 @@ export function ReceiptCredentialIssuer({
       }
     }
   };
-  return <section aria-labelledby="issuer-section" className="bg-white border border-gray-200 rounded-lg">
-      <div className="p-8 space-y-6">
-        <div className="space-y-6">
-          <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">{t('forms:supportTitle')}</h1>
-          <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p className="text-lg">{t('forms:supportDescription')}</p>
-          </div>
+  return <section aria-labelledby="issuer-section">
+      <div className="space-y-6 w-full max-w-[805px] mx-auto">
+        <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">
+          {t('forms:step', { current: step, total: 4 })}
         </div>
+
+
+        {/* Alert Banner gemäss Figma */}
+        {banner && <div className={
+          banner.type === 'success' ? 'border border-green-200 bg-green-50 rounded-lg p-4' :
+          banner.type === 'warning' ? 'border border-yellow-200 bg-yellow-50 rounded-lg p-4' :
+          banner.type === 'info' ? 'border border-blue-200 bg-blue-50 rounded-lg p-4' :
+          'border border-red-200 bg-red-50 rounded-lg p-4'
+        }>
+          <div className="flex items-start gap-3">
+            {banner.type === 'success' && <CheckCircle2 className="w-5 h-5 mt-0.5 text-green-600" />}
+            {banner.type === 'warning' && <AlertTriangle className="w-5 h-5 mt-0.5 text-yellow-600" />}
+            {banner.type === 'info' && <Info className="w-5 h-5 mt-0.5 text-blue-600" />}
+            {banner.type === 'error' && <AlertTriangle className="w-5 h-5 mt-0.5 text-red-600" />}
+            <div>
+              <div className={
+                banner.type === 'success' ? 'text-green-800 font-semibold' :
+                banner.type === 'warning' ? 'text-yellow-800 font-semibold' :
+                banner.type === 'info' ? 'text-blue-800 font-semibold' :
+                'text-red-800 font-semibold'
+              }>{banner.title}</div>
+              {banner.description && <div className={
+                banner.type === 'success' ? 'text-green-700 text-sm mt-0.5' :
+                banner.type === 'warning' ? 'text-yellow-700 text-sm mt-0.5' :
+                banner.type === 'info' ? 'text-blue-700 text-sm mt-0.5' :
+                'text-red-700 text-sm mt-0.5'
+              }>{banner.description}</div>}
+            </div>
+          </div>
+        </div>}
 
         {/* Action buttons matching screenshot style */}
         
 
-        <div className="space-y-6 pt-8 border-t border-gray-200">
+        <div className="space-y-6">
           {/* Success message spans full width */}
           {step === 4 && issuedId && <div className="space-y-4">
               <div className="flex items-center gap-2 mb-4">
@@ -523,34 +590,31 @@ export function ReceiptCredentialIssuer({
               </div>
             </div>}
 
-          <div className={cn("grid gap-6", issuedId ? "md:grid-cols-2" : "")}>
-            <div className={cn("space-y-4", !issuedId && "lg:max-w-2xl lg:mx-auto")}>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="text-xs">{t('forms:step', { current: step, total: 4 })}</Badge>
-              </div>
+          <div className={cn("grid gap-6", issuedId ? "md:grid-cols-2" : "")}> 
+            <div className={cn("space-y-4")}> 
 
               {step === 1 && <div className="space-y-6">
-                  <div className="space-y-4">
-                    <Label className="text-base font-semibold">{t('forms:step1.title')}</Label>
+                  <div className="space-y-2">
+                    <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.title')}</Label>
                     <Select value={type} onValueChange={v => setType(v as any)}>
-                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()} aria-label={t('forms:step1.selectType')}>
+                      <SelectTrigger className="h-12 w-full text-[18px] border-[#6b7280] focus:ring-0 focus:border-[#d8232a] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" onClick={e => e.stopPropagation()} aria-label={t('forms:step1.selectType')}>
                         <SelectValue placeholder={t('forms:step1.selectType')} />
                       </SelectTrigger>
                       <SelectContent className="z-[100] bg-background border shadow-lg">
-                        <SelectItem value="Initiative" className="text-base py-3">{t('forms:step1.types.initiative')}</SelectItem>
-                        <SelectItem value="Referendum" className="text-base py-3">{t('forms:step1.types.referendum')}</SelectItem>
+                        <SelectItem value="Initiative" className="text-[18px] leading-[28px] py-3">{t('forms:step1.types.initiative')}</SelectItem>
+                        <SelectItem value="Referendum" className="text-[18px] leading-[28px] py-3">{t('forms:step1.types.referendum')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   
-                  <div className="space-y-4">
-                    <Label className="text-base font-semibold">{t('forms:step1.selectTitle')}</Label>
+                  <div className="space-y-2">
+                    <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectTitle')}</Label>
                     <Select value={selectedId} onValueChange={setSelectedId} disabled={!type}>
-                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()} aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}>
+                      <SelectTrigger className="h-12 w-full text-[18px] border-[#6b7280] focus:ring-0 focus:border-[#d8232a] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" onClick={e => e.stopPropagation()} aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}>
                         <SelectValue placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')} />
                       </SelectTrigger>
                 <SelectContent className="max-h-[300px] overflow-auto z-[100] bg-background border shadow-lg w-full min-w-[300px]">
-                  {options.map(o => <SelectItem key={o.id} value={o.id} className="text-sm py-3 leading-relaxed">
+                  {options.map(o => <SelectItem key={o.id} value={o.id} className="text-[18px] leading-[28px] py-3">
                       {o.title}
                     </SelectItem>)}
                       </SelectContent>
@@ -558,7 +622,7 @@ export function ReceiptCredentialIssuer({
                   </div>
                   
                   <div className="pt-4">
-                    <button onClick={handleNextFromStep1} className="w-full inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
+                    <button onClick={handleNextFromStep1} className="w-full inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
                       {t('common:next')}
                     </button>
                   </div>
@@ -566,17 +630,17 @@ export function ReceiptCredentialIssuer({
 
               {step === 2 && <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-semibold mb-4">{t('forms:step2.title')}</h3>
+                    <h3 className="text-[22px] leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step2.title')}</h3>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label className="text-base font-medium">{t('forms:step2.street')}</Label>
-                        <Input value={streetAddress} onChange={e => setStreetAddress(e.target.value)} placeholder={t('forms:step2.streetPlaceholder')} className="h-12 text-base" />
+                        <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
+                        <Input value={streetAddress} onChange={e => setStreetAddress(e.target.value)} placeholder={t('forms:step2.streetPlaceholder')} className="h-12 w-full text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                       </div>
                       
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div className="space-y-2 relative">
-                          <Label className="text-base font-medium">{t('forms:step2.postalCode')}</Label>
-                          <Input value={postalCode} onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-base" onFocus={() => postalSuggestions.length > 0 && setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} />
+                          <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.postalCode')}</Label>
+                          <Input value={postalCode} onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 w-full text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" onFocus={() => postalSuggestions.length > 0 && setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} />
                           {isLoadingSuggestions && <div className="absolute right-3 top-10 text-muted-foreground">
                               <RefreshCw className="w-4 h-4 animate-spin" />
                             </div>}
@@ -588,18 +652,18 @@ export function ReceiptCredentialIssuer({
                             </div>}
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-base font-medium">{t('forms:step2.city')}</Label>
-                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-base" />
+                          <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.city')}</Label>
+                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 w-full text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                         </div>
                       </div>
                     </div>
                   </div>
                   
                   <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <button onClick={() => setStep(1)} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
+                    <button onClick={() => setStep(1)} className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
                       {t('common:back')}
                     </button>
-                    <button onClick={handleNextFromStep2} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base flex-1" disabled={isValidatingAddress}>
+                    <button onClick={handleNextFromStep2} className="inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] flex-1 shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]" disabled={isValidatingAddress}>
                       {isValidatingAddress && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} 
                       {t('common:next')}
                     </button>
@@ -608,72 +672,72 @@ export function ReceiptCredentialIssuer({
 
               {step === 3 && <div className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">{t('forms:step3.title')}</h3>
-                    
-                    <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                    <h3 className="text-[22px] leading-[33px] font-semibold text-[#1f2937]">{t('forms:step3.title')}</h3>
+                     
+                    <div className="bg-[#f1f4f7] p-4 rounded-[1px] space-y-3 border border-[#e0e4e8]">
                       <div>
-                        <Label className="text-sm font-medium text-muted-foreground">{t('forms:step3.volksbegehren')}</Label>
-                        <p className="text-sm">
+                        <Label className="text-[12px] leading-[15px] font-medium text-[#6b7280]">{t('forms:step3.volksbegehren')}</Label>
+                        <p className="text-[16px] leading-[24px]">
                           {type} - {options.find(o => o.id === selectedId)?.title}
                         </p>
                       </div>
                       
                       <div>
-                        <Label className="text-sm font-medium text-muted-foreground">{t('forms:step3.address')}</Label>
-                        <p className="text-sm">
+                        <Label className="text-[12px] leading-[15px] font-medium text-[#6b7280]">{t('forms:step3.address')}</Label>
+                        <p className="text-[16px] leading-[24px]">
                           {streetAddress}<br />
                           {postalCode} {city}
                         </p>
                       </div>
-
+ 
                       {municipality && <div>
-                          <Label className="text-sm font-medium text-muted-foreground">{t('forms:step3.municipality')}</Label>
-                          <p className="text-sm text-primary font-medium">
+                          <Label className="text-[12px] leading-[15px] font-medium text-[#6b7280]">{t('forms:step3.municipality')}</Label>
+                          <p className="text-[16px] leading-[24px] text-[#1f2937] font-medium">
                             {municipality}
                             {isValidatingAddress && <RefreshCw className="w-3 h-3 ml-2 inline animate-spin" />}
                           </p>
                         </div>}
                     </div>
                   </div>
-
+ 
                   <div className="space-y-4 pt-4">
-                    {/* Canton validation for non-federal initiatives */}
-                    {(() => {
-                      const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
-                      const selectedLevel = selectedItem?.level;
-                      const userCanton = municipalityDetails?.cantonFromBfs;
-                      
-                      // Check if initiative level is not "Bund" and we have canton data
-                      if (selectedLevel && selectedLevel !== "Bund" && userCanton) {
-                        const isCantonMatch = selectedLevel.includes(userCanton) || userCanton.includes(selectedLevel.replace("Kanton ", ""));
-                        
-                        if (!isCantonMatch) {
-                          return (
-                            <div className="p-4 border border-red-200 rounded-lg bg-red-50">
+                     {/* Canton validation for non-federal initiatives */}
+                     {(() => {
+                       const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
+                       const selectedLevel = selectedItem?.level;
+                       const userCanton = municipalityDetails?.cantonFromBfs;
+                       
+                       // Check if initiative level is not "Bund" and we have canton data
+                       if (selectedLevel && selectedLevel !== "Bund" && userCanton) {
+                         const isCantonMatch = selectedLevel.includes(userCanton) || userCanton.includes(selectedLevel.replace("Kanton ", ""));
+                         
+                         if (!isCantonMatch) {
+                           return (
+                            <div className="p-4 border border-red-200 rounded-[1px] bg-red-50">
                               <div className="flex items-start space-x-3">
                                 <div className="text-red-600 mt-1">⚠️</div>
                                 <div>
-                                  <div className="text-sm font-medium text-red-800" role="heading" aria-level="4">{t('forms:step3.cantonConflict.title')}</div>
-                                  <p className="text-sm text-red-700 mt-1" dangerouslySetInnerHTML={{ __html: t('forms:step3.cantonConflict.message', { level: selectedLevel, canton: userCanton }) }}>
-                                  </p>
+                                  <div className="text-[16px] leading-[24px] font-medium text-red-800" role="heading" aria-level={4}>{t('forms:step3.cantonConflict.title')}</div>
+                                  <p className="text-[16px] leading-[24px] text-red-700 mt-1" dangerouslySetInnerHTML={{ __html: t('forms:step3.cantonConflict.message', { level: selectedLevel, canton: userCanton }) }}>
+                                   </p>
                                 </div>
                               </div>
                             </div>
                           );
-                        }
-                      }
-                      return null;
-                    })()}
-
-                    <div className="flex items-start space-x-3 p-4 border rounded-lg bg-muted/20">
+                         }
+                       }
+                       return null;
+                     })()}
+ 
+                    <div className="flex items-start space-x-3 p-4 border border-[#e0e4e8] rounded-[1px] bg-white">
                       <Checkbox id="legal-notice" checked={acceptedLegalNotice} onCheckedChange={checked => setAcceptedLegalNotice(checked === true)} className="mt-1" />
-                      <Label htmlFor="legal-notice" className="text-sm leading-relaxed cursor-pointer">
+                      <Label htmlFor="legal-notice" className="text-[16px] leading-[24px] text-[#1f2937] cursor-pointer">
                         {t('forms:step3.legalNotice')}
                       </Label>
                     </div>
-
+ 
                     <div className="flex flex-col sm:flex-row gap-3">
-                      <button onClick={() => setStep(2)} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
+                      <button onClick={() => setStep(2)} className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
                         {t('common:back')}
                       </button>
                       <button 
@@ -695,7 +759,7 @@ export function ReceiptCredentialIssuer({
                             return false;
                           })()
                         } 
-                        className="inline-flex items-center justify-center px-6 py-3 bg-swiss-gray-900 text-swiss-white border border-swiss-gray-900 rounded hover:bg-swiss-gray-800 transition-colors font-medium h-12 text-base flex-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-swiss-gray-900"
+                        className="inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] flex-1 shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]"
                       >
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
                         {t('forms:step3.supportButton')}
@@ -706,18 +770,18 @@ export function ReceiptCredentialIssuer({
 
               {step === 4 && !issuedId && <div className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">{t('forms:step4.verification.title')}</h3>
-                    <p className="text-sm text-muted-foreground">
+                    <h3 className="text-[22px] leading-[33px] font-semibold text-[#1f2937]">{t('forms:step4.verification.title')}</h3>
+                    <p className="text-[16px] leading-[24px] text-[#6b7280]">
                       {t('forms:step4.verification.description')}
                     </p>
 
                      {verificationUrl && <div className="space-y-4">
-                        <div className="bg-background p-6 rounded border flex flex-col items-center justify-center gap-3 text-center">
+                        <div className="bg-white p-6 rounded-[1px] border border-[#e0e4e8] flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={verificationUrl} size={192} />
                           <div className="mt-4 pt-4 border-t">
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <button className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base no-underline">
+                                <button className="inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] no-underline shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
                                   {t('forms:step4.verification.openWallet')}
                                 </button>
                               </AlertDialogTrigger>
@@ -747,43 +811,43 @@ export function ReceiptCredentialIssuer({
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <button onClick={() => setStep(3)} disabled={isPollingVerification} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+                    <button onClick={() => setStep(3)} disabled={isPollingVerification} className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white">
                       {t('common:back')}
                     </button>
                   </div>
                 </div>}
 
               {step === 4 && issuedId && <div className="space-y-6">
-                   <div className="bg-muted/50 p-4 rounded-lg space-y-3">
-                     <div className="font-semibold text-sm" role="heading" aria-level="4">{t('forms:step4.summary.title')}</div>
+                   <div className="bg-[#f1f4f7] p-4 rounded-[1px] space-y-3 border border-[#e0e4e8]">
+                     <div className="font-semibold text-[16px] leading-[24px] text-[#1f2937]" role="heading" aria-level={4}>{t('forms:step4.summary.title')}</div>
                      
-                     <div className="grid gap-3 text-sm">
+                     <div className="grid gap-3 text-[16px] leading-[24px] text-[#1f2937]">
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.date')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.date')}</span>
                          <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.time')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.time')}</span>
                          <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.firstName')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.firstName')}</span>
                          <span className="font-medium">{firstName}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.lastName')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.lastName')}</span>
                          <span className="font-medium">{lastName}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.birthDate')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.birthDate')}</span>
                          <span className="font-medium">{birthDate}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.address')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.address')}</span>
                          <span className="font-medium">{streetAddress}, {postalCode} {city}</span>
                        </div>
                        {municipalityDetails && <div className="flex justify-between">
-                           <span className="text-muted-foreground">{t('forms:step4.summary.municipality')}</span>
+                           <span className="text-[#6b7280]">{t('forms:step4.summary.municipality')}</span>
                            <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
                          </div>}
                      </div>
@@ -800,12 +864,12 @@ export function ReceiptCredentialIssuer({
                   <div className="space-y-4">
                     
                      {offerDeeplink && <div className="space-y-4">
-                        <div className="bg-background p-4 rounded border flex flex-col items-center justify-center gap-3 text-center">
+                        <div className="bg-white p-4 rounded-[1px] border flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={offerDeeplink} size={192} />
                           <div className="mt-4 pt-4 border-t">
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <button className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base no-underline">
+                                <button className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px] no-underline">
                                   Quittung herunterladen
                                 </button>
                               </AlertDialogTrigger>
@@ -836,7 +900,7 @@ export function ReceiptCredentialIssuer({
           {step === 4 && issuedId && <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <button className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">{t('forms.restart', 'Neu starten')}</button>
+                  <button className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">{t('forms.restart', 'Neu starten')}</button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
@@ -851,8 +915,8 @@ export function ReceiptCredentialIssuer({
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-              <button onClick={handleShare} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base flex-1">
-                <Share2 className="w-4 h-4 mr-2" /> {t('forms.shareVolksbegehren', 'Volksbegehren teilen')}
+              <button onClick={handleShare} className="inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] flex-1 shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
+                <Share2 className="w-4 h-4 mr-2" /> {t('forms:shareVolksbegehren', 'Volksbegehren teilen')}
               </button>
             </div>}
         </div>
