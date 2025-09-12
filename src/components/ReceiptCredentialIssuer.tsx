@@ -481,33 +481,42 @@ export function ReceiptCredentialIssuer({
 
 
         {/* Alert Banner gemäss Figma */}
-        {banner && <div className={
-          banner.type === 'success' ? 'border border-green-200 bg-green-50 rounded-lg p-4' :
-          banner.type === 'warning' ? 'border border-yellow-200 bg-yellow-50 rounded-lg p-4' :
-          banner.type === 'info' ? 'border border-blue-200 bg-blue-50 rounded-lg p-4' :
-          'border border-red-200 bg-red-50 rounded-lg p-4'
-        }>
-          <div className="flex items-start gap-3">
-            {banner.type === 'success' && <CheckCircle2 className="w-5 h-5 mt-0.5 text-green-600" />}
-            {banner.type === 'warning' && <AlertTriangle className="w-5 h-5 mt-0.5 text-yellow-600" />}
-            {banner.type === 'info' && <Info className="w-5 h-5 mt-0.5 text-blue-600" />}
-            {banner.type === 'error' && <AlertTriangle className="w-5 h-5 mt-0.5 text-red-600" />}
-            <div>
-              <div className={
-                banner.type === 'success' ? 'text-green-800 font-semibold' :
-                banner.type === 'warning' ? 'text-yellow-800 font-semibold' :
-                banner.type === 'info' ? 'text-blue-800 font-semibold' :
-                'text-red-800 font-semibold'
-              }>{banner.title}</div>
-              {banner.description && <div className={
-                banner.type === 'success' ? 'text-green-700 text-sm mt-0.5' :
-                banner.type === 'warning' ? 'text-yellow-700 text-sm mt-0.5' :
-                banner.type === 'info' ? 'text-blue-700 text-sm mt-0.5' :
-                'text-red-700 text-sm mt-0.5'
-              }>{banner.description}</div>}
+        {banner && (
+          <div className={
+            banner.type === 'error'
+              ? 'bg-[#ffedee] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+              : banner.type === 'warning'
+              ? 'bg-yellow-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+              : banner.type === 'success'
+              ? 'bg-green-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+              : 'bg-blue-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+          }>
+            <div className="flex items-start gap-3">
+              {banner.type === 'error' && <AlertTriangle className="w-6 h-6 text-[#d8232a]" />}
+              {banner.type === 'warning' && <AlertTriangle className="w-6 h-6 text-yellow-600" />}
+              {banner.type === 'success' && <CheckCircle2 className="w-6 h-6 text-green-600" />}
+              {banner.type === 'info' && <Info className="w-6 h-6 text-blue-600" />}
+              <div>
+                <div className={
+                  banner.type === 'error'
+                    ? 'text-[#d8232a] text-[20px] leading-[32px] font-medium'
+                    : 'text-[#1f2937] text-[20px] leading-[32px] font-medium'
+                }>
+                  {banner.title}
+                </div>
+                {banner.description && (
+                  <div className={
+                    banner.type === 'error'
+                      ? 'text-[#d8232a] text-[20px] leading-[32px] font-medium'
+                      : 'text-[#1f2937] text-[16px] leading-[24px]'
+                  }>
+                    {banner.description}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>}
+        )}
 
         {/* Action buttons matching screenshot style */}
         
