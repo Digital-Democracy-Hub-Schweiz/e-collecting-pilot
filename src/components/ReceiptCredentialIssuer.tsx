@@ -12,7 +12,7 @@ import { verificationBusinessAPI } from "@/services/verificationAPI";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
 import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
-import { ShieldCheck, QrCode, RefreshCw, Share2, AlertTriangle, CheckCircle2, Info, ArrowRight } from "lucide-react";
+import { ShieldCheck, QrCode, RefreshCw, Share2, AlertTriangle, AlertCircle, CheckCircle2, Info, ArrowRight } from "lucide-react";
 import { determineCantonFromBfs } from "@/utils/cantonUtils";
 import { useTranslation } from 'react-i18next';
 import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
@@ -254,12 +254,12 @@ export function ReceiptCredentialIssuer({
   const handleNextFromStep1 = () => {
     if (!type || !selectedId) {
       setBanner({
-        type: 'error',
+        type: 'warning',
         title: t('errors:validation.missingFields'),
         description: t('errors:validation.selectTypeAndTitle')
       });
       setBanner({
-        type: 'error',
+        type: 'warning',
         title: t('errors:validation.missingFields'),
         description: t('errors:validation.selectTypeAndTitle')
       });
@@ -273,12 +273,12 @@ export function ReceiptCredentialIssuer({
   const handleNextFromStep2 = () => {
     if (!streetAddress || !postalCode || !city) {
       setBanner({
-        type: 'error',
+        type: 'warning',
         title: t('errors:validation.addressIncomplete'),
         description: t('errors:validation.fillAllAddressFields')
       });
       setBanner({
-        type: 'error',
+        type: 'warning',
         title: t('errors:validation.addressIncomplete'),
         description: t('errors:validation.fillAllAddressFields')
       });
@@ -486,20 +486,22 @@ export function ReceiptCredentialIssuer({
             banner.type === 'error'
               ? 'bg-[#ffedee] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
               : banner.type === 'warning'
-              ? 'bg-yellow-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+              ? 'bg-[#fff7ed] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
               : banner.type === 'success'
               ? 'bg-green-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
               : 'bg-blue-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
           }>
             <div className="flex items-start gap-3">
-              {banner.type === 'error' && <AlertTriangle className="w-6 h-6 text-[#d8232a]" />}
-              {banner.type === 'warning' && <AlertTriangle className="w-6 h-6 text-yellow-600" />}
+              {banner.type === 'error' && <AlertCircle className="w-8 h-8 text-[#d8232a]" />}
+              {banner.type === 'warning' && <Info className="w-8 h-8 text-[#9a3412]" />}
               {banner.type === 'success' && <CheckCircle2 className="w-6 h-6 text-green-600" />}
               {banner.type === 'info' && <Info className="w-6 h-6 text-blue-600" />}
               <div>
                 <div className={
                   banner.type === 'error'
                     ? 'text-[#d8232a] text-[20px] leading-[32px] font-medium'
+                    : banner.type === 'warning'
+                    ? 'text-[#9a3412] text-[20px] leading-[32px] font-medium'
                     : 'text-[#1f2937] text-[20px] leading-[32px] font-medium'
                 }>
                   {banner.title}
@@ -508,6 +510,8 @@ export function ReceiptCredentialIssuer({
                   <div className={
                     banner.type === 'error'
                       ? 'text-[#d8232a] text-[20px] leading-[32px] font-medium'
+                      : banner.type === 'warning'
+                      ? 'text-[#9a3412] text-[20px] leading-[32px] font-medium'
                       : 'text-[#1f2937] text-[16px] leading-[24px]'
                   }>
                     {banner.description}
@@ -522,20 +526,8 @@ export function ReceiptCredentialIssuer({
         
 
         <div className="space-y-6">
-          {/* Success message spans full width */}
-          {step === 4 && issuedId && <div className="space-y-4">
-              <div className="flex items-center gap-2 mb-4">
-                <ShieldCheck className="w-6 h-6 text-green-600" />
-                <h3 className="text-lg font-semibold text-green-600">Erfolgreich unterstützt!</h3>
-              </div>
-              
-              <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-                <p className="text-sm font-medium text-green-800 mb-2">
-                  Sie haben {type === "Initiative" ? "die Initiative" : "das Referendum"} "{options.find(o => o.id === selectedId)?.title}" unterstützt. Wichtiger Hinweis: Dies ist ein Pilotprojekt für E-Collecting mit der Beta-ID des Bundes. Ihre Willensbekundung wird nicht an die zuständige Gemeinde übermittelt. Vielen Dank fürs Ausprobieren!
-                </p>
-  
-              </div>
-            </div>}
+          {/* Entfernt: Erfolgsmeldung in Schritt 4 */}
+          {null}
 
           <div className={cn("grid gap-6 md:gap-8", issuedId ? "md:grid-cols-2" : "")}> 
             <div className={cn("space-y-4 w-full md:w-[806px]", !issuedId && "mx-auto")}> 
@@ -705,7 +697,7 @@ export function ReceiptCredentialIssuer({
                     <div className="bg-[#fff7ed] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]">
                         <div className="flex items-start gap-3">
                           <div className="mt-0.5">
-                            <AlertTriangle className="w-6 h-6 text-[#9a3412]" />
+                            <Info className="w-8 h-8 text-[#9a3412]" />
                           </div>
                           <p className="text-[20px] leading-[32px] text-[#9a3412] font-medium">
                             {t('forms:step3.legalNotice')}
@@ -745,159 +737,50 @@ export function ReceiptCredentialIssuer({
                   </div>
                 </div>}
 
-              {step === 4 && !issuedId && <div className="space-y-6 w-full md:w-[806px]">
+              {step === 4 && !issuedId && (
+                <div className="space-y-6 w-full md:w-[806px]">
                   <div className="space-y-4">
-                    <h3 className="text-[22px] leading-[33px] font-semibold text-[#1f2937]">{t('forms:step4.verification.title')}</h3>
-                    <p className="text-[16px] leading-[24px] text-[#6b7280]">
-                      {t('forms:step4.verification.description')}
-                    </p>
-
-                     {verificationUrl && <div className="space-y-4">
-                        <div className="bg-white p-6 rounded-[1px] border border-[#e0e4e8] flex flex-col items-center justify-center gap-3 text-center">
+                    <div className="bg-white px-12 py-6">
+                      <div className="py-4">
+                        <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">{t('forms:step4.verification.title')}</div>
+                      </div>
+                      <div className="text-[18px] leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
+                        {t('forms:step4.verification.description')}
+                      </div>
+                      {verificationUrl && (
+                        <div className="flex items-center justify-center py-6">
                           <QRCode value={verificationUrl} size={192} />
-                          <div className="mt-4 pt-4 border-t">
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <button className="inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] no-underline shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
-                                  {t('forms:step4.verification.openWallet')}
-                                </button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>{t('forms:step4.verification.dialogTitle')}</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    {t('forms:step4.verification.dialogDescription')}
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>{t('common:cancel')}</AlertDialogCancel>
-                                  <AlertDialogAction onClick={() => window.location.href = `swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`}>
-                                    {t('common:open')}
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          </div>
                         </div>
-
-                        {isPollingVerification && <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                            <RefreshCw className="w-4 h-4 animate-spin" />
-                            {t('forms:step4.verification.waitingMessage')}
-                          </div>}
-                      </div>}
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                    <button onClick={() => { setBanner(null); setStep(3); }} disabled={isPollingVerification} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white">
-                      {t('common:back')}
-                    </button>
-                  </div>
-                </div>}
-
-              {step === 4 && issuedId && <div className="space-y-6 w-full md:w-[806px]">
-                   <div className="bg-[#f1f4f7] p-4 rounded-[1px] space-y-3 border border-[#e0e4e8]">
-                     <div className="font-semibold text-[16px] leading-[24px] text-[#1f2937]" role="heading" aria-level={4}>{t('forms:step4.summary.title')}</div>
-                     
-                     <div className="grid gap-3 text-[16px] leading-[24px] text-[#1f2937]">
-                       <div className="flex justify-between">
-                         <span className="text-[#6b7280]">{t('forms:step4.summary.date')}</span>
-                         <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
-                       </div>
-                       <div className="flex justify-between">
-                         <span className="text-[#6b7280]">{t('forms:step4.summary.time')}</span>
-                         <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
-                       </div>
-                       <div className="flex justify-between">
-                         <span className="text-[#6b7280]">{t('forms:step4.summary.firstName')}</span>
-                         <span className="font-medium">{firstName}</span>
-                       </div>
-                       <div className="flex justify-between">
-                         <span className="text-[#6b7280]">{t('forms:step4.summary.lastName')}</span>
-                         <span className="font-medium">{lastName}</span>
-                       </div>
-                       <div className="flex justify-between">
-                         <span className="text-[#6b7280]">{t('forms:step4.summary.birthDate')}</span>
-                         <span className="font-medium">{birthDate}</span>
-                       </div>
-                       <div className="flex justify-between">
-                         <span className="text-[#6b7280]">{t('forms:step4.summary.address')}</span>
-                         <span className="font-medium">{streetAddress}, {postalCode} {city}</span>
-                       </div>
-                       {municipalityDetails && <div className="flex justify-between">
-                           <span className="text-[#6b7280]">{t('forms:step4.summary.municipality')}</span>
-                           <span className="font-medium">
-                             {municipalityDetails.town} (BFS: {municipalityDetails.bfs}), Kanton {municipalityDetails.cantonFromBfs || municipalityDetails.canton}
-                           </span>
-                         </div>}
-                     </div>
-                   </div>
-                 </div>}
-            </div>
-
-            {issuedId && <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Quittung:</Label>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Eine Quittung kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere swiyu-Wallet App. Oder klicken Sie auf Ihrem Smartphone auf den Button.
-                  </p>
-                  <div className="space-y-4">
-                    
-                     {offerDeeplink && <div className="space-y-4">
-                        <div className="bg-white p-4 rounded-[1px] border flex flex-col items-center justify-center gap-3 text-center">
-                          <QRCode value={offerDeeplink} size={192} />
-                          <div className="mt-4 pt-4 border-t">
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <button className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px] no-underline">
-                                  Quittung herunterladen
-                                </button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>swiyu-Wallet öffnen</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    Bitte anschliessend wieder auf diese Seite zurückkehren.
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Abbrechen</AlertDialogCancel>
-                                  <AlertDialogAction onClick={() => window.location.href = offerDeeplink}>
-                                    {t('forms.open', 'Öffnen')}
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          </div>
-                        </div>
-                      </div>}
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>}
+              )}
+
+              {step === 4 && issuedId && (
+                <div className="space-y-6 w-full md:w-[806px]">
+                  <div className="space-y-4">
+                    <div className="bg-white px-12 py-6">
+                      <div className="text-[18px] leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
+                        Eine Quittung kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere swiyu-Wallet App. Oder klicken Sie auf Ihrem Smartphone auf den Button.
+                      </div>
+                      {offerDeeplink && (
+                        <div className="flex items-center justify-center py-6">
+                          <QRCode value={offerDeeplink} size={192} />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Entfernt: Rechte Spalte Quittung in Schritt 4 */}
+            {null}
           </div>
 
-          {/* Action buttons span full width below columns */}
-          {step === 4 && issuedId && <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <button className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">{t('forms.restart', 'Neu starten')}</button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>{t('forms.confirmRestart', 'Neustart bestätigen')}</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      {t('forms.confirmRestartDescription', 'Dadurch werden alle Eingaben gelöscht. Möchten Sie fortfahren?')}
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>{t('forms.cancel', 'Abbrechen')}</AlertDialogCancel>
-                    <AlertDialogAction onClick={resetForm}>{t('forms.deleteAndRestart', 'Löschen und neu starten')}</AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-              <button onClick={handleShare} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
-                <Share2 className="w-4 h-4 mr-2" /> {t('forms:shareVolksbegehren', 'Volksbegehren teilen')}
-              </button>
-            </div>}
+          {/* Entfernt: Aktionen unten in Schritt 4 */}
+          {null}
         </div>
       </div>
     </section>;
