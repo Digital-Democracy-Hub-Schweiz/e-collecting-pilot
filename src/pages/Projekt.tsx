@@ -1,12 +1,12 @@
-import { useHealthStatus } from "@/hooks/use-health-status";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { useTranslation } from 'react-i18next';
-import PageContainer from "@/components/PageContainer";
+import { useHealthStatus } from "@/hooks/use-health-status";
+import { useTranslation } from "react-i18next";
 import { Share2, Printer } from "lucide-react";
+import PageContainer from "@/components/PageContainer";
 import { useCurrentLanguage } from "@/utils/routing";
 
-const Impressum = () => {
+const Projekt = () => {
   const { t } = useTranslation(['common', 'content']);
   const { data: healthStatus, isLoading: healthLoading } = useHealthStatus();
   const currentLang = useCurrentLanguage();
@@ -29,20 +29,18 @@ const Impressum = () => {
 
   return (
     <body className="min-h-screen bg-white flex flex-col">
-      {/* Skip to main content - Swiss Design System requirement */}
       <a href="#main-content" className="skip-to-content sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50">
         {t('common:skipToMain')}
       </a>
 
       <Header />
 
-      {/* Main Content */}
       <main id="main-content" className="flex-1">
         {/* Breadcrumb (Figma) */}
         <section className="bg-white">
           <PageContainer paddingYClassName="py-8">
             <nav className="text-[16px] leading-[24px] text-[#6b7280]">
-              <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">Startseite</a> <span className="inline-block mx-[7px]">›</span> Impressum
+              <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">Startseite</a> <span className="inline-block mx-[7px]">›</span> Projekt
             </nav>
           </PageContainer>
         </section>
@@ -59,51 +57,36 @@ const Impressum = () => {
           </PageContainer>
         </section>
 
-        {/* Hero-ähnlicher Titelblock (wie Projektseite) */}
+        {/* Hero-ähnlicher Titelblock (Figma Detailseite) */}
         <section className="bg-white">
           <PageContainer paddingYClassName="py-0">
             <div className="py-14 md:py-16 flex flex-col items-start">
-              <h1 className="text-[28px] leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">{t('content:impressum.title')}</h1>
+              <h1 className="text-[28px] leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">E-Collecting Pilotprojekt</h1>
+              <div className="h-6 md:h-10" />
+              <p className="text-[18px] leading-[28px] md:text-[22px] md:leading-[33px] font-medium text-[#1f2937] max-w-[1024px]">
+                Diese Website ist ein gemeinnütziges Projekt der Zivilgesellschaft. Unser Ziel ist es, Initiativen und Referenden mithilfe der neuen E-ID sicher, digital und barrierefrei zu unterstützen.
+              </p>
               <div className="h-12 md:h-24" />
             </div>
           </PageContainer>
         </section>
 
-        {/* Detail-Content Block im Stil der Projektseite */}
+        {/* Detail-Content (Figma Detailseite) */}
         <section className="bg-white">
           <PageContainer>
             <div className="w-full max-w-[805px]">
               <div className="max-w-none">
-                <div className="bg-white rounded-sm p-0 space-y-8">
-                  <div>
-                    <h2 className="text-xl font-semibold text-foreground mb-2">{t('content:impressum.responsible.title')}</h2>
-                    <div className="space-y-1 text-muted-foreground">
-                      <p><strong>{t('content:impressum.responsible.organization')}</strong></p>
-                      <p>{t('content:impressum.responsible.contact')}</p>
-                      <p>{t('content:impressum.responsible.email')}</p>
-                      <p>{t('content:impressum.responsible.web')}</p>
-                    </div>
-                  </div>
+                <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Informationen zur Teilnahme</h2>
+                <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">e-ID</h3>
+                <p>Die e-ID wird vom Staat herausgegeben. Sie ergänzt die physische Identitätskarte und ist kostenlos. Am 28. September stimmt die Bevölkerung über die Vorlage ab.</p>
 
-                  <div>
-                    <h2 className="text-xl font-semibold text-foreground mb-2">{t('content:impressum.purpose.title')}</h2>
-                    <p className="text-muted-foreground">{t('content:impressum.purpose.description')}</p>
-                  </div>
+                <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">swiyu-Wallet App</h3>
+                <p>Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Für die Teilnahme muss eine Beta-ID über die swiyu-Wallet App erstellt werden. Im Rahmen des Projekts werden ausschliesslich fiktive Vorlagen und die Beta-ID des Bundes genutzt. Es werden keine persönlichen Daten gespeichert.</p>
 
-                  <div>
-                    <h2 className="text-xl font-semibold text-foreground mb-2">{t('content:impressum.disclaimer.title')}</h2>
-                    <p className="text-muted-foreground">{t('content:impressum.disclaimer.description')}</p>
-                  </div>
-
-                  <div>
-                    <h2 className="text-xl font-semibold text-foreground mb-2">{t('content:impressum.privacy.title')}</h2>
-                    <p className="text-muted-foreground">{t('content:impressum.privacy.description')}</p>
-                  </div>
-
-                  <div>
-                    <h2 className="text-xl font-semibold text-foreground mb-2">{t('content:impressum.copyright.title')}</h2>
-                    <p className="text-muted-foreground">{t('content:impressum.copyright.description')}</p>
-                  </div>
+                <div className="mt-6 space-y-2">
+                  <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">📱 swiyu App (iOS)</a>
+                  <a href="https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pli=1" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">🤖 swiyu App (Android)</a>
+                  <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">👉 Beta-ID ausstellen</a>
                 </div>
               </div>
             </div>
@@ -116,9 +99,11 @@ const Impressum = () => {
         <PageContainer paddingYClassName="py-24" />
       </section>
 
-      {/* Footer */}
       <Footer healthStatus={healthStatus} healthLoading={healthLoading} />
     </body>
   );
 };
-export default Impressum;
+
+export default Projekt;
+
+

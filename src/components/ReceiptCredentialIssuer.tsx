@@ -3,21 +3,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CustomSelect } from "@/components/ui/custom-select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { issuerBusinessAPI } from "@/services/issuerAPI";
 import { verificationBusinessAPI } from "@/services/verificationAPI";
-import { useToast } from "@/hooks/use-toast";
+// import { useToast } from "@/hooks/use-toast";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
 import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
-import { ShieldCheck, QrCode, RefreshCw, Share2 } from "lucide-react";
+import { ShieldCheck, QrCode, RefreshCw, Share2, AlertTriangle, CheckCircle2, Info, ArrowRight } from "lucide-react";
 import { determineCantonFromBfs } from "@/utils/cantonUtils";
 import { useTranslation } from 'react-i18next';
 import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
+import { AddressAutocomplete } from "@/components/ui/address-autocomplete";
+import { AddressHit } from "@/services/addressAPI";
 type Option = {
   id: string;
   title: string;
@@ -31,7 +31,7 @@ export function ReceiptCredentialIssuer({
   };
 }) {
   const { t } = useTranslation(['forms', 'errors', 'common']);
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const currentLang = useCurrentLanguage();
   const volksbegehren = useVolksbegehren();
   const [type, setType] = useState<"Initiative" | "Referendum" | "">("");
@@ -61,15 +61,51 @@ export function ReceiptCredentialIssuer({
   const [verificationId, setVerificationId] = useState<string | null>(null);
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
   const [isCreatingVerification, setIsCreatingVerification] = useState(false);
+
+  // Handler for address selection
+  const handleAddressSelect = async (address: AddressHit) => {
+    console.log('Address selected:', address);
+    setStreetAddress(address.place.postalAddress.streetAddress);
+    setPostalCode(address.place.postalAddress.postalCode);
+    setCity(address.place.postalAddress.addressLocality);
+    
+    // Set municipality code for further processing
+    const municipalityCode = address.place.additionalProperty.municipalityCode;
+    console.log('Municipality code:', municipalityCode);
+    setMunicipality(municipalityCode);
+
+    // Set municipality details including canton determination
+    const town = address.place.postalAddress.addressLocality;
+    const canton = address.place.postalAddress.addressRegion || "";
+    const bfs = municipalityCode;
+
+    // Determine canton from BFS code if available
+    let cantonFromBfs = "";
+    if (bfs && !isNaN(Number(bfs))) {
+      try {
+        cantonFromBfs = await determineCantonFromBfs(Number(bfs));
+        console.log('Canton from BFS:', cantonFromBfs);
+      } catch (error) {
+        console.warn("Canton determination from BFS failed:", error);
+        cantonFromBfs = canton; // Fallback to original canton
+      }
+    }
+
+    setMunicipalityDetails({
+      town,
+      canton,
+      bfs,
+      cantonFromBfs: cantonFromBfs || canton
+    });
+  };
   const [isPollingVerification, setIsPollingVerification] = useState(false);
-  const [acceptedLegalNotice, setAcceptedLegalNotice] = useState(false);
-  const [postalSuggestions, setPostalSuggestions] = useState<Array<{
-    label: string;
-    detail: string;
-    featureId: string;
-  }>>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+  // Legal notice checkbox removed; button always enabled
+  // Postal suggestions removed - PLZ is now auto-filled by AddressAutocomplete
+  const [banner, setBanner] = useState<{
+    type: 'success' | 'warning' | 'error' | 'info';
+    title: string;
+    description?: string;
+  } | null>(null);
 
   // Normalisierte Liste aus volksbegehren.json ableiten
   const normalized = useMemo(() => {
@@ -107,6 +143,15 @@ export function ReceiptCredentialIssuer({
     }));
   }, [type, normalized]);
 
+  // Selected item and level display mapping for summary
+  const selectedItem = useMemo(() => {
+    return normalized.find(o => o.type === type && o.id === selectedId) || null;
+  }, [normalized, type, selectedId]);
+  const levelDisplay = useMemo(() => {
+    return selectedItem?.level ?? '';
+  }, [selectedItem]);
+
+
   // Vorbelegung via URL
   useEffect(() => {
     console.log('Preselect data:', preselect);
@@ -139,10 +184,10 @@ export function ReceiptCredentialIssuer({
     const currentLastName = credentialData?.family_name || lastName;
     const currentBirthDate = credentialData?.birth_date || birthDate;
     if (!type || !selectedId || !currentFirstName || !currentLastName) {
-      toast({
+      setBanner({
+        type: 'error',
         title: t('errors:validation.missingFields'),
-        description: t('errors:validation.fillNameFields'),
-        variant: "destructive"
+        description: t('errors:validation.fillNameFields')
       });
       return;
     }
@@ -173,7 +218,8 @@ export function ReceiptCredentialIssuer({
       const res = await issuerBusinessAPI.issueCredential(payload);
       setIssuedId(res.id || (res as any).management_id || null);
       setOfferDeeplink(res.offer_deeplink || null);
-      toast({
+      setBanner({
+        type: 'success',
         title: t('errors:api.credentialCreated'),
         description: `ID: ${res.id || (res as any).management_id}`
       });
@@ -196,10 +242,10 @@ export function ReceiptCredentialIssuer({
         });*/
       }
     } catch (e: any) {
-      toast({
+      setBanner({
+        type: 'error',
         title: t('errors:api.credentialError'),
-        description: e?.message ?? t('errors:api.unknownError'),
-        variant: "destructive"
+        description: e?.message ?? t('errors:api.unknownError')
       });
     } finally {
       setIsIssuing(false);
@@ -207,101 +253,83 @@ export function ReceiptCredentialIssuer({
   };
   const handleNextFromStep1 = () => {
     if (!type || !selectedId) {
-      toast({
+      setBanner({
+        type: 'error',
         title: t('errors:validation.missingFields'),
-        description: t('errors:validation.selectTypeAndTitle'),
-        variant: "destructive"
+        description: t('errors:validation.selectTypeAndTitle')
+      });
+      setBanner({
+        type: 'error',
+        title: t('errors:validation.missingFields'),
+        description: t('errors:validation.selectTypeAndTitle')
       });
       return;
     }
+    setBanner(null);
     setStep(2);
   };
-  const validateAddressInBackground = async () => {
-    setIsValidatingAddress(true);
-    try {
-      if (!postalCode) throw new Error("PLZ fehlt");
-      const resp = await fetch(`https://swisszip.api.ganti.dev/zip/${encodeURIComponent(postalCode)}`);
-      if (!resp.ok) throw new Error(`PLZ-Abfrage fehlgeschlagen (${resp.status})`);
-      const data = await resp.json();
-      const items: any[] = Array.isArray(data) ? data : data?.results ?? data?.data ?? [];
-      if (!Array.isArray(items) || items.length === 0) throw new Error("Keine Treffer für diese PLZ gefunden");
-      const best: any = items.reduce((acc: any, cur: any) => {
-        const shareAcc = Number(acc?.["zip-share"] ?? acc?.zip_share ?? acc?.zipShare ?? acc?.share ?? 0);
-        const shareCur = Number(cur?.["zip-share"] ?? cur?.zip_share ?? cur?.zipShare ?? cur?.share ?? 0);
-        return shareCur > shareAcc ? cur : acc;
-      }, items[0]);
-      const bfs = String(best?.bfs ?? best?.["bfs-number"] ?? best?.bfsNumber ?? "");
-      const town = String(best?.town ?? best?.municipality ?? best?.place ?? best?.name ?? "");
-      const canton = String(best?.canton ?? best?.cantonShort ?? best?.canton_abbr ?? "");
-      
-      // Second optional check: Determine canton from BFS code
-      let cantonFromBfs = "";
-      if (bfs && !isNaN(Number(bfs))) {
-        try {
-          cantonFromBfs = await determineCantonFromBfs(Number(bfs));
-        } catch (error) {
-          console.warn("Canton determination from BFS failed:", error);
-        }
-      }
-      
-      setMunicipalityDetails({
-        town,
-        canton,
-        bfs,
-        cantonFromBfs
-      });
-      setMunicipality(`${town} ${canton} ${bfs}${cantonFromBfs ? ` (Kanton: ${cantonFromBfs})` : ""}`);
-      
-      let description = "Politische Gemeinde ermittelt.";
-      if (cantonFromBfs && cantonFromBfs !== canton && !cantonFromBfs.includes("Fehler") && !cantonFromBfs.includes("gefunden")) {
-        description += ` Kanton via politische Gemeinde: ${cantonFromBfs} ermittelt`;
-      }
-      
-      toast({
-        title: "Adresse geprüft",
-        description
-      });
-    } catch (e: any) {
-      toast({
-        title: "Adressprüfung fehlgeschlagen",
-        description: e?.message ?? "Unbekannter Fehler",
-        variant: "destructive"
-      });
-    } finally {
-      setIsValidatingAddress(false);
-    }
-  };
+  // Address validation is now handled by the AddressAutocomplete component
+  // via the handleAddressSelect callback which sets municipality and other details
   const handleNextFromStep2 = () => {
     if (!streetAddress || !postalCode || !city) {
-      toast({
+      setBanner({
+        type: 'error',
         title: t('errors:validation.addressIncomplete'),
-        description: t('errors:validation.fillAllAddressFields'),
-        variant: "destructive"
+        description: t('errors:validation.fillAllAddressFields')
+      });
+      setBanner({
+        type: 'error',
+        title: t('errors:validation.addressIncomplete'),
+        description: t('errors:validation.fillAllAddressFields')
       });
       return;
     }
-    // Prüfung im Hintergrund starten und direkt zu Schritt 3 wechseln
-    validateAddressInBackground();
+    // Address validation already handled by AddressAutocomplete component
+    // Municipality details are set via handleAddressSelect callback
+    // Clear any existing banner when going to step 3
+    setBanner(null);
     setStep(3);
   };
   const handleStartVerification = async () => {
     setIsCreatingVerification(true);
+    
+    // Show address validation banner first (only in step 4)
+    if (municipalityDetails) {
+      setBanner({
+        type: 'info',
+        title: t('forms:addressCheck.title', 'Adresse wird geprüft'),
+        description: 'Adresse erfolgreich validiert.'
+      });
+    }
+    
     try {
       const verification = await verificationBusinessAPI.createVerification();
       setVerificationId(verification.id);
       setVerificationUrl(verification.verification_url);
       setStep(4);
+      
+      // After a short delay, replace with verification banner
+      setTimeout(() => {
+        setBanner({
+          type: 'info',
+          title: t('forms:step4.verification.title'),
+          description: t('forms:step4.verification.description')
+        });
+      }, 2000); // Show address validation for 2 seconds, then switch to verification
+      
       // Start polling for verification result
       startPollingVerification(verification.id);
-      toast({
-        title: "Verifikation gestartet",
-        description: "Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App."
-      });
+      // Entfernt: Toast
     } catch (e: any) {
-      toast({
-        title: "Verifikation fehlgeschlagen",
-        description: e?.message ?? "Unbekannter Fehler",
-        variant: "destructive"
+      setBanner({
+        type: 'error',
+        title: t('common:error', 'Fehler'),
+        description: e?.message ?? t('errors:api.unknownError')
+      });
+      setBanner({
+        type: 'error',
+        title: t('common:error', 'Fehler'),
+        description: e?.message ?? t('errors:api.unknownError')
       });
     } finally {
       setIsCreatingVerification(false);
@@ -323,9 +351,10 @@ export function ReceiptCredentialIssuer({
             setLastName(credentialData.family_name || "");
             setBirthDate(credentialData.birth_date || "");
           }
-          toast({
-            title: "Identität erfolgreich verifiziert",
-            description: "Daten wurden übernommen."
+          setBanner({
+            type: 'success',
+            title: t('forms:step4.verification.title'),
+            description: t('forms:step4.verification.description')
           });
 
           // Automatically issue the credential with the verified data
@@ -333,10 +362,10 @@ export function ReceiptCredentialIssuer({
         } else if (result.state === 'FAILED') {
           clearInterval(pollInterval);
           setIsPollingVerification(false);
-          toast({
-            title: "Verification fehlgeschlagen",
-            description: "Bitte versuchen Sie es erneut.",
-            variant: "destructive"
+          setBanner({
+            type: 'error',
+            title: t('common:error', 'Fehler'),
+            description: t('errors:api.unknownError')
           });
         }
       } catch (e) {
@@ -356,15 +385,22 @@ export function ReceiptCredentialIssuer({
     try {
       const res = await issuerBusinessAPI.checkCredentialStatus(issuedId);
       setStatusResult(res);
-      toast({
-        title: "Status abgefragt",
-        description: "Statusinformationen aktualisiert."
+      setBanner({
+        type: 'success',
+        title: t('forms:statusChecked', 'Status abgefragt'),
+        description: t('forms:statusUpdated', 'Statusinformationen aktualisiert.')
       });
+      // Entfernt: Toast
     } catch (e: any) {
-      toast({
-        title: "Statusabfrage fehlgeschlagen",
-        description: e?.message ?? "Unbekannter Fehler",
-        variant: "destructive"
+      setBanner({
+        type: 'error',
+        title: t('common:error', 'Fehler'),
+        description: e?.message ?? t('errors:api.unknownError')
+      });
+      setBanner({
+        type: 'error',
+        title: t('common:error', 'Fehler'),
+        description: e?.message ?? t('errors:api.unknownError')
       });
     } finally {
       setIsChecking(false);
@@ -384,22 +420,16 @@ export function ReceiptCredentialIssuer({
           text: `${t('forms:shareText', 'Unterstütze')}: ${title}`,
           url
         });
-        toast({
-          title: t('forms:shared', 'Geteilt'),
-          description: t('forms:shareDialogOpened', 'Freigabedialog geöffnet.')
-        });
+        // Entfernt: Toast
       } else {
         await navigator.clipboard.writeText(url);
-        toast({
-          title: t('forms:linkCopied', 'Link kopiert'),
-          description: url
-        });
+        // Entfernt: Toast
       }
     } catch (e: any) {
-      toast({
-        title: t('forms:shareFailed', 'Teilen fehlgeschlagen'),
-        description: e?.message ?? t('errors:unknownError', 'Unbekannter Fehler'),
-        variant: "destructive"
+      setBanner({
+        type: 'error',
+        title: t('common:error', 'Fehler'),
+        description: e?.message ?? t('errors:api.unknownError')
       });
     }
   };
@@ -428,86 +458,70 @@ export function ReceiptCredentialIssuer({
     setIsCreatingVerification(false);
     setIsPollingVerification(false);
     setAcceptedLegalNotice(false);
-    setPostalSuggestions([]);
-    setShowSuggestions(false);
-    setIsLoadingSuggestions(false);
-    toast({
-      title: "Zurückgesetzt",
-      description: "Formular wurde geleert."
+    // Postal suggestions functionality removed
+    setBanner({
+      type: 'info',
+      title: t('forms.restart', 'Neu starten'),
+      description: t('forms.confirmRestartDescription', 'Dadurch werden alle Eingaben gelöscht.')
     });
   };
-  const searchPostalCodes = async (searchText: string) => {
-    if (searchText.length < 3) {
-      setPostalSuggestions([]);
-      setShowSuggestions(false);
-      return;
-    }
-    setIsLoadingSuggestions(true);
-    try {
-      const response = await fetch(`https://api3.geo.admin.ch/rest/services/ech/SearchServer?sr=2056&searchText=${encodeURIComponent(searchText)}&lang=de&type=featuresearch&features=ch.swisstopo-vd.ortschaftenverzeichnis_plz&timeEnabled=false`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch postal codes');
-      }
-      const data = await response.json();
-      const suggestions = data.results?.map((result: any) => ({
-        label: result.attrs.label,
-        detail: result.attrs.detail,
-        featureId: result.attrs.featureId
-      })) || [];
-      setPostalSuggestions(suggestions);
-      setShowSuggestions(suggestions.length > 0);
-    } catch (error) {
-      console.error('Error fetching postal codes:', error);
-      setPostalSuggestions([]);
-      setShowSuggestions(false);
-    } finally {
-      setIsLoadingSuggestions(false);
-    }
-  };
+  // Postal code search functionality removed - now handled by AddressAutocomplete
   const handlePostalCodeChange = (value: string) => {
-    setPostalCode(value);
-    searchPostalCodes(value);
+    const digitsOnly = value.replace(/\D/g, "").slice(0, 4);
+    setPostalCode(digitsOnly);
   };
-  const handleSuggestionClick = async (suggestion: {
-    label: string;
-    detail: string;
-    featureId: string;
-  }) => {
-    setPostalCode(suggestion.label);
-    setShowSuggestions(false);
-
-    // Fetch detailed location information using feature ID
-    try {
-      const response = await fetch(`https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo-vd.ortschaftenverzeichnis_plz/${suggestion.featureId}`);
-      if (response.ok) {
-        const data = await response.json();
-        const langtext = data.feature?.attributes?.langtext;
-        if (langtext) {
-          setCity(langtext);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching detailed location:', error);
-      // Fallback to extracting city from detail as before
-      const cityFromDetail = suggestion.detail.split(' ').slice(1).join(' ');
-      if (cityFromDetail) {
-        setCity(cityFromDetail.charAt(0).toUpperCase() + cityFromDetail.slice(1));
-      }
-    }
-  };
-  return <section aria-labelledby="issuer-section" className="bg-white border border-gray-200 rounded-lg">
-      <div className="p-8 space-y-6">
-        <div className="space-y-6">
-          <h1 id="issuer-section" className="text-3xl font-bold text-gray-900 leading-tight">{t('forms:supportTitle')}</h1>
-          <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p className="text-lg">{t('forms:supportDescription')}</p>
+  // handleSuggestionClick removed - suggestions handled by AddressAutocomplete
+  return <section aria-labelledby="issuer-section">
+      <div className="space-y-6 w-full max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full md:w-[806px] mx-auto">
+          <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">
+            {t('forms:step', { current: step, total: 4 })}
           </div>
         </div>
+
+
+        {/* Alert Banner gemäss Figma */}
+        {banner && (
+          <div className={
+            banner.type === 'error'
+              ? 'bg-[#ffedee] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+              : banner.type === 'warning'
+              ? 'bg-yellow-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+              : banner.type === 'success'
+              ? 'bg-green-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+              : 'bg-blue-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+          }>
+            <div className="flex items-start gap-3">
+              {banner.type === 'error' && <AlertTriangle className="w-6 h-6 text-[#d8232a]" />}
+              {banner.type === 'warning' && <AlertTriangle className="w-6 h-6 text-yellow-600" />}
+              {banner.type === 'success' && <CheckCircle2 className="w-6 h-6 text-green-600" />}
+              {banner.type === 'info' && <Info className="w-6 h-6 text-blue-600" />}
+              <div>
+                <div className={
+                  banner.type === 'error'
+                    ? 'text-[#d8232a] text-[20px] leading-[32px] font-medium'
+                    : 'text-[#1f2937] text-[20px] leading-[32px] font-medium'
+                }>
+                  {banner.title}
+                </div>
+                {banner.description && (
+                  <div className={
+                    banner.type === 'error'
+                      ? 'text-[#d8232a] text-[20px] leading-[32px] font-medium'
+                      : 'text-[#1f2937] text-[16px] leading-[24px]'
+                  }>
+                    {banner.description}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Action buttons matching screenshot style */}
         
 
-        <div className="space-y-6 pt-8 border-t border-gray-200">
+        <div className="space-y-6">
           {/* Success message spans full width */}
           {step === 4 && issuedId && <div className="space-y-4">
               <div className="flex items-center gap-2 mb-4">
@@ -523,163 +537,189 @@ export function ReceiptCredentialIssuer({
               </div>
             </div>}
 
-          <div className={cn("grid gap-6", issuedId ? "md:grid-cols-2" : "")}>
-            <div className={cn("space-y-4", !issuedId && "lg:max-w-2xl lg:mx-auto")}>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="text-xs">{t('forms:step', { current: step, total: 4 })}</Badge>
-              </div>
+          <div className={cn("grid gap-6 md:gap-8", issuedId ? "md:grid-cols-2" : "")}> 
+            <div className={cn("space-y-4 w-full md:w-[806px]", !issuedId && "mx-auto")}> 
 
-              {step === 1 && <div className="space-y-6">
+              {step === 1 && <div className="space-y-6 w-full md:w-[806px]">
                   <div className="space-y-4">
-                    <Label className="text-base font-semibold">{t('forms:step1.title')}</Label>
-                    <Select value={type} onValueChange={v => setType(v as any)}>
-                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()} aria-label={t('forms:step1.selectType')}>
-                        <SelectValue placeholder={t('forms:step1.selectType')} />
-                      </SelectTrigger>
-                      <SelectContent className="z-[100] bg-background border shadow-lg">
-                        <SelectItem value="Initiative" className="text-base py-3">{t('forms:step1.types.initiative')}</SelectItem>
-                        <SelectItem value="Referendum" className="text-base py-3">{t('forms:step1.types.referendum')}</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.title')}</Label>
+                    <CustomSelect
+                      options={[
+                        { value: "Initiative", label: t('forms:step1.types.initiative') },
+                        { value: "Referendum", label: t('forms:step1.types.referendum') }
+                      ]}
+                      value={type}
+                      onValueChange={(v) => setType(v as any)}
+                      placeholder={t('forms:step1.selectType')}
+                      aria-label={t('forms:step1.selectType')}
+                      className="w-full"
+                    />
                   </div>
                   
                   <div className="space-y-4">
-                    <Label className="text-base font-semibold">{t('forms:step1.selectTitle')}</Label>
-                    <Select value={selectedId} onValueChange={setSelectedId} disabled={!type}>
-                      <SelectTrigger className="h-12 text-base" onClick={e => e.stopPropagation()} aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}>
-                        <SelectValue placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')} />
-                      </SelectTrigger>
-                <SelectContent className="max-h-[300px] overflow-auto z-[100] bg-background border shadow-lg w-full min-w-[300px]">
-                  {options.map(o => <SelectItem key={o.id} value={o.id} className="text-sm py-3 leading-relaxed">
-                      {o.title}
-                    </SelectItem>)}
-                      </SelectContent>
-                    </Select>
+                    <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectTitle')}</Label>
+                    <CustomSelect
+                      options={options.map(o => ({ value: o.id, label: o.title }))}
+                      value={selectedId}
+                      onValueChange={setSelectedId}
+                      disabled={!type}
+                      placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                      aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                      className="w-full"
+                    />
                   </div>
                   
-                  <div className="pt-4">
-                    <button onClick={handleNextFromStep1} className="w-full inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
+                  <div className="pt-4 flex justify-stretch sm:justify-end">
+                    <button onClick={handleNextFromStep1} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
                       {t('common:next')}
                     </button>
                   </div>
                 </div>}
 
-              {step === 2 && <div className="space-y-6">
+              {step === 2 && <div className="space-y-6 w-full md:w-[806px]">
                   <div>
-                    <h3 className="text-lg font-semibold mb-4">{t('forms:step2.title')}</h3>
+                    <h3 className="text-[22px] leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step2.title')}</h3>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label className="text-base font-medium">{t('forms:step2.street')}</Label>
-                        <Input value={streetAddress} onChange={e => setStreetAddress(e.target.value)} placeholder={t('forms:step2.streetPlaceholder')} className="h-12 text-base" />
+                        <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
+                        <AddressAutocomplete 
+                          value={streetAddress}
+                          onValueChange={setStreetAddress}
+                          onAddressSelect={handleAddressSelect}
+                          placeholder={t('forms:step2.streetPlaceholder')}
+                          className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]"
+                        />
                       </div>
                       
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="space-y-2 relative">
-                          <Label className="text-base font-medium">{t('forms:step2.postalCode')}</Label>
-                          <Input value={postalCode} onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-base" onFocus={() => postalSuggestions.length > 0 && setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} />
-                          {isLoadingSuggestions && <div className="absolute right-3 top-10 text-muted-foreground">
-                              <RefreshCw className="w-4 h-4 animate-spin" />
-                            </div>}
-                          {showSuggestions && postalSuggestions.length > 0 && <div className="absolute z-50 w-full bg-background border border-input rounded-md shadow-lg mt-1 max-h-60 overflow-auto">
-                              {postalSuggestions.map((suggestion, index) => <button key={index} type="button" className="w-full px-3 py-2 text-left hover:bg-muted transition-colors border-b border-border last:border-b-0" onClick={() => handleSuggestionClick(suggestion)}>
-                                  <div className="font-medium">{suggestion.label}</div>
-                                  <div className="text-sm text-muted-foreground">{suggestion.detail}</div>
-                                </button>)}
-                            </div>}
+                      <div className="grid grid-cols-1 sm:grid-cols-6 gap-4">
+                        <div className="space-y-2 relative sm:col-span-2">
+                          <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.postalCode')}</Label>
+                          <Input value={postalCode} inputMode="numeric" pattern="[0-9]*" onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                         </div>
-                        <div className="space-y-2">
-                          <Label className="text-base font-medium">{t('forms:step2.city')}</Label>
-                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-base" />
+                        <div className="space-y-2 sm:col-span-4">
+                          <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.city')}</Label>
+                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                         </div>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <button onClick={() => setStep(1)} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                    <button onClick={() => { setBanner(null); setStep(1); }} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
                       {t('common:back')}
                     </button>
-                    <button onClick={handleNextFromStep2} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base flex-1" disabled={isValidatingAddress}>
+                    <button onClick={handleNextFromStep2} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]" disabled={isValidatingAddress}>
                       {isValidatingAddress && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} 
                       {t('common:next')}
                     </button>
                   </div>
                 </div>}
 
-              {step === 3 && <div className="space-y-6">
+              {step === 3 && <div className="space-y-6 w-full md:w-[806px]">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">{t('forms:step3.title')}</h3>
-                    
-                    <div className="bg-muted/50 p-4 rounded-lg space-y-3">
-                      <div>
-                        <Label className="text-sm font-medium text-muted-foreground">{t('forms:step3.volksbegehren')}</Label>
-                        <p className="text-sm">
-                          {type} - {options.find(o => o.id === selectedId)?.title}
-                        </p>
+                    <div className="bg-white px-12 py-6">
+                      {/* Volksbegehren Section */}
+                      <div className="py-4">
+                        <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">{t('forms:step3.sectionVolksbegehren', 'Volksbegehren')}</div>
                       </div>
-                      
-                      <div>
-                        <Label className="text-sm font-medium text-muted-foreground">{t('forms:step3.address')}</Label>
-                        <p className="text-sm">
-                          {streetAddress}<br />
-                          {postalCode} {city}
-                        </p>
+                      <div className="border-t border-[#adb4bc] divide-y divide-[#adb4bc]">
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:type', 'Typ')}:</div>
+                          <div className="w-[441px] text-[22px] leading-[33px] text-[#1f2937] font-medium">{type || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:title', 'Titel')}:</div>
+                          <div className="w-[441px] text-[22px] leading-[33px] text-[#1f2937] font-medium break-words">{options.find(o => o.id === selectedId)?.title || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:level.label', 'Ebene')}:</div>
+                          <div className="w-[441px] text-[22px] leading-[33px] text-[#1f2937] font-medium">{levelDisplay || '—'}</div>
+                        </div>
                       </div>
 
-                      {municipality && <div>
-                          <Label className="text-sm font-medium text-muted-foreground">{t('forms:step3.municipality')}</Label>
-                          <p className="text-sm text-primary font-medium">
-                            {municipality}
-                            {isValidatingAddress && <RefreshCw className="w-3 h-3 ml-2 inline animate-spin" />}
-                          </p>
-                        </div>}
+                      {/* Adressdaten Section */}
+                      <div className="py-4 mt-8">
+                        <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">{t('forms:step3.sectionAddressData', 'Adressdaten')}</div>
+                      </div>
+                      <div className="border-t border-[#adb4bc] divide-y divide-[#adb4bc]">
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step2.street', 'Strasse / Nr.')}:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{streetAddress || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step2.postalCode', 'PLZ')}:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{postalCode || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step2.city', 'Ort')}:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{city || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step3.municipality', 'Politische Gemeinde')}:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.town || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">BFS-Nr.:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.bfs || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">Kanton:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">
+                            {municipalityDetails?.cantonFromBfs || municipalityDetails?.canton || '—'}
+                            {isValidatingAddress && <RefreshCw className="w-4 h-4 ml-2 inline align-middle animate-spin" />}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-
+ 
                   <div className="space-y-4 pt-4">
-                    {/* Canton validation for non-federal initiatives */}
-                    {(() => {
-                      const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
-                      const selectedLevel = selectedItem?.level;
-                      const userCanton = municipalityDetails?.cantonFromBfs;
-                      
-                      // Check if initiative level is not "Bund" and we have canton data
-                      if (selectedLevel && selectedLevel !== "Bund" && userCanton) {
-                        const isCantonMatch = selectedLevel.includes(userCanton) || userCanton.includes(selectedLevel.replace("Kanton ", ""));
-                        
-                        if (!isCantonMatch) {
-                          return (
-                            <div className="p-4 border border-red-200 rounded-lg bg-red-50">
+                     {/* Canton validation for non-federal initiatives */}
+                     {(() => {
+                       const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
+                       const selectedLevel = selectedItem?.level;
+                       const userCanton = municipalityDetails?.cantonFromBfs;
+                       
+                       // Check if initiative level is not "Bund" and we have canton data
+                       if (selectedLevel && selectedLevel !== "Bund" && userCanton) {
+                         const isCantonMatch = selectedLevel.includes(userCanton) || userCanton.includes(selectedLevel.replace("Kanton ", ""));
+                         
+                         if (!isCantonMatch) {
+                           return (
+                            <div className="p-4 border border-red-200 rounded-[1px] bg-red-50">
                               <div className="flex items-start space-x-3">
                                 <div className="text-red-600 mt-1">⚠️</div>
                                 <div>
-                                  <div className="text-sm font-medium text-red-800" role="heading" aria-level="4">{t('forms:step3.cantonConflict.title')}</div>
-                                  <p className="text-sm text-red-700 mt-1" dangerouslySetInnerHTML={{ __html: t('forms:step3.cantonConflict.message', { level: selectedLevel, canton: userCanton }) }}>
-                                  </p>
+                                  <div className="text-[16px] leading-[24px] font-medium text-red-800" role="heading" aria-level={4}>{t('forms:step3.cantonConflict.title')}</div>
+                                  <p className="text-[16px] leading-[24px] text-red-700 mt-1" dangerouslySetInnerHTML={{ __html: t('forms:step3.cantonConflict.message', { level: selectedLevel, canton: userCanton }) }}>
+                                   </p>
                                 </div>
                               </div>
                             </div>
                           );
-                        }
-                      }
-                      return null;
-                    })()}
-
-                    <div className="flex items-start space-x-3 p-4 border rounded-lg bg-muted/20">
-                      <Checkbox id="legal-notice" checked={acceptedLegalNotice} onCheckedChange={checked => setAcceptedLegalNotice(checked === true)} className="mt-1" />
-                      <Label htmlFor="legal-notice" className="text-sm leading-relaxed cursor-pointer">
-                        {t('forms:step3.legalNotice')}
-                      </Label>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <button onClick={() => setStep(2)} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">
+                         }
+                       }
+                       return null;
+                     })()}
+ 
+                    <div className="bg-[#fff7ed] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]">
+                        <div className="flex items-start gap-3">
+                          <div className="mt-0.5">
+                            <AlertTriangle className="w-6 h-6 text-[#9a3412]" />
+                          </div>
+                          <p className="text-[20px] leading-[32px] text-[#9a3412] font-medium">
+                            {t('forms:step3.legalNotice')}
+                          </p>
+                        </div>
+                      </div>
+ 
+                    <div className="flex flex-col sm:flex-row gap-3 sm:justify-end">
+                      <button onClick={() => { setBanner(null); setStep(2); }} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
                         {t('common:back')}
                       </button>
                       <button 
                         onClick={handleStartVerification} 
                         disabled={
-                          !acceptedLegalNotice || 
                           isCreatingVerification || 
                           isValidatingAddress ||
                           (() => {
@@ -694,30 +734,31 @@ export function ReceiptCredentialIssuer({
                             }
                             return false;
                           })()
-                        } 
-                        className="inline-flex items-center justify-center px-6 py-3 bg-swiss-gray-900 text-swiss-white border border-swiss-gray-900 rounded hover:bg-swiss-gray-800 transition-colors font-medium h-12 text-base flex-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-swiss-gray-900"
+                        }
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]"
                       >
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
                         {t('forms:step3.supportButton')}
+                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                       </button>
                     </div>
                   </div>
                 </div>}
 
-              {step === 4 && !issuedId && <div className="space-y-6">
+              {step === 4 && !issuedId && <div className="space-y-6 w-full md:w-[806px]">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">{t('forms:step4.verification.title')}</h3>
-                    <p className="text-sm text-muted-foreground">
+                    <h3 className="text-[22px] leading-[33px] font-semibold text-[#1f2937]">{t('forms:step4.verification.title')}</h3>
+                    <p className="text-[16px] leading-[24px] text-[#6b7280]">
                       {t('forms:step4.verification.description')}
                     </p>
 
                      {verificationUrl && <div className="space-y-4">
-                        <div className="bg-background p-6 rounded border flex flex-col items-center justify-center gap-3 text-center">
+                        <div className="bg-white p-6 rounded-[1px] border border-[#e0e4e8] flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={verificationUrl} size={192} />
                           <div className="mt-4 pt-4 border-t">
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <button className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base no-underline">
+                                <button className="inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] no-underline shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
                                   {t('forms:step4.verification.openWallet')}
                                 </button>
                               </AlertDialogTrigger>
@@ -746,45 +787,47 @@ export function ReceiptCredentialIssuer({
                       </div>}
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <button onClick={() => setStep(3)} disabled={isPollingVerification} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                    <button onClick={() => { setBanner(null); setStep(3); }} disabled={isPollingVerification} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white">
                       {t('common:back')}
                     </button>
                   </div>
                 </div>}
 
-              {step === 4 && issuedId && <div className="space-y-6">
-                   <div className="bg-muted/50 p-4 rounded-lg space-y-3">
-                     <div className="font-semibold text-sm" role="heading" aria-level="4">{t('forms:step4.summary.title')}</div>
+              {step === 4 && issuedId && <div className="space-y-6 w-full md:w-[806px]">
+                   <div className="bg-[#f1f4f7] p-4 rounded-[1px] space-y-3 border border-[#e0e4e8]">
+                     <div className="font-semibold text-[16px] leading-[24px] text-[#1f2937]" role="heading" aria-level={4}>{t('forms:step4.summary.title')}</div>
                      
-                     <div className="grid gap-3 text-sm">
+                     <div className="grid gap-3 text-[16px] leading-[24px] text-[#1f2937]">
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.date')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.date')}</span>
                          <span className="font-medium">{new Date().toLocaleDateString("de-CH")}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.time')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.time')}</span>
                          <span className="font-medium">{new Date().toLocaleTimeString("de-CH")}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.firstName')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.firstName')}</span>
                          <span className="font-medium">{firstName}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.lastName')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.lastName')}</span>
                          <span className="font-medium">{lastName}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.birthDate')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.birthDate')}</span>
                          <span className="font-medium">{birthDate}</span>
                        </div>
                        <div className="flex justify-between">
-                         <span className="text-muted-foreground">{t('forms:step4.summary.address')}</span>
+                         <span className="text-[#6b7280]">{t('forms:step4.summary.address')}</span>
                          <span className="font-medium">{streetAddress}, {postalCode} {city}</span>
                        </div>
                        {municipalityDetails && <div className="flex justify-between">
-                           <span className="text-muted-foreground">{t('forms:step4.summary.municipality')}</span>
-                           <span className="font-medium">{municipalityDetails.town} {municipalityDetails.canton} (BFS: {municipalityDetails.bfs})</span>
+                           <span className="text-[#6b7280]">{t('forms:step4.summary.municipality')}</span>
+                           <span className="font-medium">
+                             {municipalityDetails.town} (BFS: {municipalityDetails.bfs}), Kanton {municipalityDetails.cantonFromBfs || municipalityDetails.canton}
+                           </span>
                          </div>}
                      </div>
                    </div>
@@ -800,12 +843,12 @@ export function ReceiptCredentialIssuer({
                   <div className="space-y-4">
                     
                      {offerDeeplink && <div className="space-y-4">
-                        <div className="bg-background p-4 rounded border flex flex-col items-center justify-center gap-3 text-center">
+                        <div className="bg-white p-4 rounded-[1px] border flex flex-col items-center justify-center gap-3 text-center">
                           <QRCode value={offerDeeplink} size={192} />
                           <div className="mt-4 pt-4 border-t">
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <button className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base no-underline">
+                                <button className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px] no-underline">
                                   Quittung herunterladen
                                 </button>
                               </AlertDialogTrigger>
@@ -833,10 +876,10 @@ export function ReceiptCredentialIssuer({
           </div>
 
           {/* Action buttons span full width below columns */}
-          {step === 4 && issuedId && <div className="flex flex-col sm:flex-row gap-3 pt-4">
+          {step === 4 && issuedId && <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <button className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base">{t('forms.restart', 'Neu starten')}</button>
+                  <button className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">{t('forms.restart', 'Neu starten')}</button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
@@ -851,8 +894,8 @@ export function ReceiptCredentialIssuer({
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-              <button onClick={handleShare} className="inline-flex items-center justify-center px-6 py-3 text-[#13678A] border border-[#13678A] rounded hover:bg-[#13678A]/10 transition-colors font-medium h-12 text-base flex-1">
-                <Share2 className="w-4 h-4 mr-2" /> {t('forms.shareVolksbegehren', 'Volksbegehren teilen')}
+              <button onClick={handleShare} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
+                <Share2 className="w-4 h-4 mr-2" /> {t('forms:shareVolksbegehren', 'Volksbegehren teilen')}
               </button>
             </div>}
         </div>

@@ -1,15 +1,18 @@
 import { VerificationDashboard } from "@/components/VerificationDashboard";
 import { ReceiptCredentialIssuer } from "@/components/ReceiptCredentialIssuer";
-import { Gallery6 } from "@/components/ui/gallery6";
+import { MediaCarousel } from "@/components/MediaCarousel";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Header } from "@/components/Header";
 import { VersionSwitcher } from "@/components/VersionSwitcher";
-import { Shield, Building2, Github, Coffee, Heart } from "lucide-react";
+import { Footer } from "@/components/Footer";
+import { Shield, Building2, Github, Coffee, Heart, Share2, Printer } from "lucide-react";
 import { useMatch, useLocation } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
 import { format } from "date-fns";
 import { useTranslation } from 'react-i18next';
 import { parseRouteFromPath, getLocalizedPath, useCurrentLanguage } from "@/utils/routing";
+import PageContainer from "@/components/PageContainer";
 const Index = () => {
   const { t } = useTranslation(['common', 'content']);
   const location = useLocation();
@@ -127,7 +130,7 @@ const Index = () => {
     
     return undefined;
   })();
-
+  
   // Prepare data for carousel - only show items with show: true
   const carouselItems = normalized.filter((item: any) => volksbegehren.find((vb: any) => vb.title === item.title)?.show === true).map((item: any) => {
     const dateRange = getDateRange(item.startDate, item.endDate);
@@ -147,272 +150,92 @@ const Index = () => {
 
   // Extract unique levels from the displayed items
   const availableLevels = Array.from(new Set(carouselItems.map(item => item.level).filter(Boolean))).sort();
-  return <body className="min-h-screen bg-gradient-secondary flex flex-col">
+  const handleShare = async () => {
+    try {
+      const url = window.location.href;
+      const title = document.title || 'Teilen';
+      if (navigator.share) {
+        await navigator.share({ title, url });
+      } else if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+        alert('Link kopiert.');
+      } else {
+        window.prompt('Link kopieren:', url);
+      }
+    } catch (_) {
+      // Abbruch durch Nutzer ignorieren
+    }
+  };
+  const handlePrint = () => window.print();
+
+  return <div className="min-h-screen bg-gradient-secondary flex flex-col">
       {/* Skip to main content - Swiss Design System requirement */}
       <a href="#main-content" className="skip-to-content sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50">
         {t('common:skipToMain')}
       </a>
 
-      {/* Header following Swiss Design System structure */}
-      <header id="main-header">
-        {/* Top Bar - All Swiss Federal Authorities */}
-        <div className="top-bar text-white border-b border-white/20" style={{
-        backgroundColor: '#13678A'
-      }}>
-          <div className="max-w-7xl mx-auto px-6 py-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                
-                
-              </div>
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-4 text-sm">
-                  
-                  
-                  
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Top Header - Main department info */}
-        <div className="top-header bg-white">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <a href={`/${currentLang}`} className="flex items-center gap-4 hover:opacity-80 transition-opacity">
-                {/* Swiss Cross Logo */}
-                <div className="h-12 bg-white flex items-center justify-center">
-                  
-                </div>
-                {/* Beta Logo */}
-                <div className="flex items-center">
-                  <img src="/lovable-uploads/e75dd54e-b28f-48bc-8d17-683d07664c09.png" alt="Beta" className="h-8 w-8" />
-                </div>
-                <div className="max-w-md">
-                  <div className="text-base font-medium text-[hsl(var(--gov-nav-text))] leading-tight">{t('content:header.title')}</div>
-                </div>
-              </a>
-              <div className="flex items-center gap-6 ml-auto">
-                <nav className="meta-navigation hidden lg:flex items-center gap-4 text-sm">
-                  
-                  
-                </nav>
-                <div className="flex items-center gap-4">
-                  <LanguageSwitcher />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Desktop Menu - Main Navigation */}
-        
-
-        {/* Mobile Menu - Hidden by default, shown on mobile */}
-        <div className="mobile-menu hidden">
-          {/* Mobile navigation would be implemented here */}
-        </div>
-      </header>
+      <Header />
 
       {/* Main Content */}
       <main id="main-content">
-        {/* Container section with max width */}
-        <section className="max-w-7xl mx-auto px-6 py-8">
-          <div className="grid gap-8">
-            {/* Receipt Credential Issuer with Info Box */}
-            <div className="grid lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2">
-                <ReceiptCredentialIssuer preselect={preselect} />
-              </div>
-              <div className="lg:col-span-1">
-                <div className="bg-muted/30 border border-muted rounded-lg p-6 space-y-4">
-                <h1 className="text-lg font-semibold text-foreground">{t('content:homepage.infoBox.title')}</h1>
-                  <p className="text-sm text-muted-foreground">{t('content:homepage.infoBox.description')}</p>
-
-                  <h2 className="text-lg font-semibold text-foreground">{t('content:homepage.infoBox.participationTitle')}</h2>
-                  <h3 className="text-lg font-semibold text-foreground">{t('content:homepage.infoBox.eidTitle')}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {t('content:homepage.infoBox.eidDescription')}
-                  </p>
-
-          
-                  <h3 className="text-lg font-semibold text-foreground">{t('content:homepage.infoBox.swiyuTitle')}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {t('content:homepage.infoBox.swiyuDescription')}
-                  </p>
-                  <div className="space-y-2">
-                    <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="block text-sm text-primary hover:text-primary/80 underline underline-offset-4">
-                      {t('content:homepage.infoBox.links.ios')}
-                    </a>
-                    <a href="https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pli=1" target="_blank" rel="noopener noreferrer" className="block text-sm text-primary hover:text-primary/80 underline underline-offset-4">
-                      {t('content:homepage.infoBox.links.android')}
-                    </a>
-                    <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="block text-sm text-primary hover:text-primary/80 underline underline-offset-4">
-                      {t('content:homepage.infoBox.links.betaId')}
-                    </a>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            <VerificationDashboard />
-          </div>
+        {/* Breadcrumb Section (Figma) */}
+        <section className="bg-white">
+          <PageContainer paddingYClassName="py-8">
+            <nav className="text-[16px] leading-[24px] text-[#6b7280]">
+              <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">Startseite</a> <span className="inline-block mx-[7px]">›</span> Pilot
+            </nav>
+          </PageContainer>
         </section>
 
-        {/* Full width section */}
-        <section id="verfuegbare-initiativen-referenden" className="border-t">
-          <Gallery6 heading={t('content:homepage.carousel.title')} items={carouselItems} availableLevels={availableLevels} />
+        {/* Print/Share Section (Figma) */}
+        <section className="bg-white">
+          <PageContainer className="h-[52px] flex items-center justify-end gap-3">
+            <button type="button" aria-label="Teilen" onClick={handleShare} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
+              <Share2 className="w-5 h-5" aria-hidden />
+            </button>
+            <button type="button" aria-label="Drucken" onClick={handlePrint} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
+              <Printer className="w-5 h-5" aria-hidden />
+            </button>
+          </PageContainer>
         </section>
 
-        {/* Support Section */}
-        <section id="e-collecting-ausprobieren" className="bg-white border-t">
-          <div className="max-w-7xl mx-auto px-6 py-16">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-8">
-                <h2 className="text-4xl font-bold text-foreground">{t('content:homepage.tryECollecting.title')}</h2>
-                
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-3">{t('content:homepage.tryECollecting.download.title')}</h3>
-                    <p className="text-muted-foreground mb-4" dangerouslySetInnerHTML={{ __html: t('content:homepage.tryECollecting.download.description') }}>
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-3">{t('content:homepage.tryECollecting.betaId.title')}</h3>
-                    <div className="space-y-2 text-muted-foreground">
-                      <p dangerouslySetInnerHTML={{ __html: t('content:homepage.tryECollecting.betaId.steps.1') }}></p>
-                      <p dangerouslySetInnerHTML={{ __html: t('content:homepage.tryECollecting.betaId.steps.2') }}></p>
-                      <p dangerouslySetInnerHTML={{ __html: t('content:homepage.tryECollecting.betaId.steps.3') }}></p>
-                    </div>
-                    <div className="mt-4 space-y-2">
-                      <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">
-                        {t('content:homepage.tryECollecting.betaId.links.create')}
-                      </a>
-                      <a href="https://backend.eid.admin.ch/fileservice/sdweb-docs-prod-eidch-files/files/2025/03/25/509a3b49-1305-4838-be91-9985e3182adf.pdf" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">
-                        {t('content:homepage.tryECollecting.betaId.links.guide')}
-                      </a>
-                    </div>
-                  </div>
-
-                  
-                </div>
-              </div>
-              
-              <div className="flex justify-center lg:justify-end">
-                <div className="relative">
-                  <img src="/lovable-uploads/f29ac8cf-3603-4085-b35e-af7ed0bee35b.png" alt="E-Collecting Pilotprojekt - Digital Democracy Hub Schweiz App Interface" className="max-w-md w-full h-auto" />
-                </div>
-              </div>
-            </div>
-            
-          </div>
-        </section>
-
-        {/* Financial Support Section */}
-        <section className="bg-gradient-to-br from-orange-50 to-yellow-50 border-t">
-          
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer id="main-footer" className="text-white" style={{
-      backgroundColor: '#13678A'
-    }}>
-        <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-            {/* Über E-Collecting Section */}
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold mb-4">{t('common:footer.project')}</h2>
-              <p className="text-sm text-white/80 leading-relaxed">{t('content:footer.projectDescription')}</p>
-              <p className="text-sm text-white mt-6" dangerouslySetInnerHTML={{ __html: t('content:footer.copyright') }}>
+        {/* Hero-Abschnitt (Figma, responsive Container/Typo) */}
+        <section className="bg-white">
+          <PageContainer paddingYClassName="py-0">
+            <div className="py-14 md:py-16 flex flex-col items-start">
+              <h1 className="text-[28px] leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">
+                Initiativen und Referenden unterstützen
+              </h1>
+              <div className="h-6 md:h-10" />
+              <p className="text-[18px] leading-[28px] md:text-[22px] md:leading-[33px] font-medium text-[#1f2937] max-w-[1024px]">
+                Testen Sie jetzt E-Collecting, um Initiativen und Referenden digital zu unterstützen. Verwenden Sie dafür die Beta-ID des Bundes für Volksbegehren. Es werden keine persönlichen Daten gespeichert.
               </p>
-              <p className="text-sm text-white mt-2">{t('content:footer.dataCredit')}</p>
+              <div className="h-12 md:h-24" />
             </div>
+          </PageContainer>
+        </section>
 
-            {/* Bleiben Sie informiert Section */}
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold mb-4">{t('common:footer.stayInformed')}</h2>
-              <div className="space-y-3">
-                <a href="https://links.ecollecting.ch/newsletter" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-white/30 text-white text-sm rounded hover:bg-white/10 transition-colors">
-                  {t('common:footer.newsletter')}
-                  <span>→</span>
-                </a>
-              </div>
-              
-              <div className="mt-6 pt-4 border-t border-white/20">
-                <h3 className="text-base font-medium mb-3">{t('common:footer.contact')}</h3>
-                <div className="space-y-2 text-sm text-white">
-                  <p>{t('content:footer.contact.organization')}</p>
-                  
-                  <p dangerouslySetInnerHTML={{ __html: t('content:footer.contact.email') }}></p>
-                  <p dangerouslySetInnerHTML={{ __html: t('content:footer.contact.web') }}></p>
-                </div>
-              </div>
-            </div>
+        {/* Formular-Band: grauer Hintergrund und Figma-Spacing */}
+        <section className="bg-[#f1f4f7]">
+          <div className="max-w-[2000px] mx-auto flex justify-center px-4 sm:px-6 lg:px-8 py-20">
+            <ReceiptCredentialIssuer preselect={preselect} />
+          </div>
+        </section>
 
-            {/* Weitere Informationen Section */}
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold mb-4">{t('common:footer.externalLinks')}</h2>
-              <div className="space-y-3">
-                <a href="https://www.eid.admin.ch/de" target="_blank" rel="noopener noreferrer" className="block text-sm text-white hover:text-white/80 transition-colors underline underline-offset-4">
-                  {t('content:footer.externalLinks.swiyuWallet')}
-                </a>
-                <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="block text-sm text-white hover:text-white/80 transition-colors underline underline-offset-4">
-                  {t('content:footer.externalLinks.betaIdService')}
-                </a>
-              </div>
-              
-              <div className="mt-6 pt-4 border-t border-white/20">
-                <h3 className="text-base font-medium mb-3">{t('common:footer.systemStatus')}</h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
-                  <span className="text-white">{t('common:footer.services.verifierMgmt')}:</span>
-                  {healthLoading ? <span className="text-white">{t('common:loading')}</span> : <span className={`font-medium ${healthStatus?.verifierManagement?.status === "UP" ? "text-green-100" : "text-red-100"}`}>
-                      {healthStatus?.verifierManagement?.status || t('common:offline')}
-                    </span>}
-                </div>
-                <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
-                  <span className="text-white">{t('common:footer.services.issuerMgmt')}:</span>
-                  {healthLoading ? <span className="text-white">{t('common:loading')}</span> : <span className={`font-medium ${healthStatus?.issuerManagement?.status === "UP" ? "text-green-100" : "text-red-100"}`}>
-                      {healthStatus?.issuerManagement?.status || t('common:offline')}
-                    </span>}
-                </div>
-                <div className="flex items-center justify-between text-sm border-b border-white/20 pb-2">
-                  <span className="text-white">{t('common:footer.services.issuerOid4vci')}:</span>
-                  {healthLoading ? <span className="text-white">{t('common:loading')}</span> : <span className={`font-medium ${healthStatus?.issuerOid4vci?.status === "UP" ? "text-green-100" : "text-red-100"}`}>
-                      {healthStatus?.issuerOid4vci?.status || t('common:offline')}
-                    </span>}
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
 
-          {/* Footer links */}
-          <div className="border-t border-white/20 mt-8 pt-8">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                <p className="text-sm text-white flex items-center gap-2">
-                  {t('common:footer.madeWith')}{" "}
-                  <a href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-colors" aria-label="GitHub Repository">
-                    <Github size={16} />
-                  </a>
-                </p>
-                <VersionSwitcher />
-                <a href="https://links.ecollecting.ch/buy-me-a-coffee" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-3 py-1 bg-yellow-500 hover:bg-yellow-400 text-black text-sm font-medium rounded-full transition-colors">
-                  {t('common:footer.buyMeCoffee')}
-                </a>
-              </div>
-              <a href={`/${currentLang}/impressum`} className="text-sm text-white hover:text-white/80 transition-colors underline underline-offset-4">
-                {t('common:navigation.impressum')}
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </body>;
+        {/*
+        {/* Carousel Sektion: Darstellung der Volksbegehren gemäss Figma Medienmitteilungen 
+        <section className="bg-white">
+          <MediaCarousel heading={t('content:volksbegehren', 'Volksbegehren')} items={carouselItems} />
+        </section>
+      */}
+
+        {/* Spacer vor Footer (Figma: 96px)
+        <section className="bg-white">
+          <PageContainer paddingYClassName="py-24">{null}</PageContainer>
+        </section> */}
+      </main>
+      <Footer healthStatus={healthStatus} healthLoading={healthLoading} />
+    </div>;
 };
 export default Index;

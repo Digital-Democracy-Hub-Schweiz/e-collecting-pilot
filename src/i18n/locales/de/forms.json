@@ -62,7 +62,7 @@
       "lastName": "Nachname:",
       "birthDate": "Geburtsdatum:",
       "address": "Adresse:",
-      "municipality": "Politische Gemeinde:"
+      "municipality": "Politische Gemeinde und Kanton:"
     }
   },
   "actions": {
