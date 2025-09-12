@@ -199,21 +199,20 @@ const Index = () => {
           </PageContainer>
         </section>
 
-        {/* Hero-Abschnitt (Figma) */}
+        {/* Hero-Abschnitt (Figma, responsive Container/Typo) */}
         <section className="bg-white">
-          <div className="box-border flex flex-col items-start justify-start px-[452px] py-0">
-            <div className="h-14 opacity-0" />
-            <div className="w-full">
-              <h1 className="text-[40px] leading-[48px] font-semibold text-[#1f2937]">Initiativen und Referenden unterstützen</h1>
-            </div>
-            <div className="h-10 opacity-0" />
-            <div className="w-full">
-              <p className="text-[22px] leading-[33px] font-medium text-[#1f2937] max-w-[1200px]">
+          <PageContainer paddingYClassName="py-0">
+            <div className="py-14 md:py-16 flex flex-col items-start">
+              <h1 className="text-[28px] leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">
+                Initiativen und Referenden unterstützen
+              </h1>
+              <div className="h-6 md:h-10" />
+              <p className="text-[18px] leading-[28px] md:text-[22px] md:leading-[33px] font-medium text-[#1f2937] max-w-[1024px]">
                 Testen Sie jetzt E-Collecting, um Initiativen und Referenden digital zu unterstützen. Verwenden Sie dafür die Beta-ID des Bundes für Volksbegehren. Es werden keine persönlichen Daten gespeichert.
               </p>
+              <div className="h-12 md:h-24" />
             </div>
-            <div className="h-24 opacity-0" />
-          </div>
+          </PageContainer>
         </section>
 
         {/* Formular-Band: grauer Hintergrund und Figma-Spacing */}

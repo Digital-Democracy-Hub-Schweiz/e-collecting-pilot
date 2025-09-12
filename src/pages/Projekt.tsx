@@ -59,25 +59,22 @@ const Projekt = () => {
 
         {/* Hero-ähnlicher Titelblock (Figma Detailseite) */}
         <section className="bg-white">
-          <div className="box-border w-full px-[452px]">
-            <div className="h-14 opacity-0" />
-            <div className="w-full">
-              <h1 className="text-[40px] leading-[48px] font-semibold text-[#1f2937]">E-Collecting Pilotprojekt</h1>
-            </div>
-            <div className="h-10 opacity-0" />
-            <div className="w-full">
-              <p className="text-[22px] leading-[33px] font-medium text-[#1f2937] max-w-[1200px]">
+          <PageContainer paddingYClassName="py-0">
+            <div className="py-14 md:py-16 flex flex-col items-start">
+              <h1 className="text-[28px] leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">E-Collecting Pilotprojekt</h1>
+              <div className="h-6 md:h-10" />
+              <p className="text-[18px] leading-[28px] md:text-[22px] md:leading-[33px] font-medium text-[#1f2937] max-w-[1024px]">
                 Diese Website ist ein gemeinnütziges Projekt der Zivilgesellschaft. Unser Ziel ist es, Initiativen und Referenden mithilfe der neuen E-ID sicher, digital und barrierefrei zu unterstützen.
               </p>
+              <div className="h-12 md:h-24" />
             </div>
-            <div className="h-24 opacity-0" />
-          </div>
+          </PageContainer>
         </section>
 
         {/* Detail-Content (Figma Detailseite) */}
         <section className="bg-white">
-          <div className="box-border w-full px-[452px]">
-            <div className="w-[805px] max-w-full">
+          <PageContainer>
+            <div className="w-full max-w-[805px]">
               <div className="max-w-none">
                 <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Informationen zur Teilnahme</h2>
                 <h3 className="text-xl font-semibold text-foreground mt-6 mb-2">e-ID</h3>
@@ -93,7 +90,7 @@ const Projekt = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </PageContainer>
         </section>
       </main>
 

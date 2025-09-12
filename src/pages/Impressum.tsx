@@ -61,19 +61,18 @@ const Impressum = () => {
 
         {/* Hero-ähnlicher Titelblock (wie Projektseite) */}
         <section className="bg-white">
-          <div className="box-border w-full px-[452px]">
-            <div className="h-14 opacity-0" />
-            <div className="w-full">
-              <h1 className="text-[40px] leading-[48px] font-semibold text-[#1f2937]">{t('content:impressum.title')}</h1>
+          <PageContainer paddingYClassName="py-0">
+            <div className="py-14 md:py-16 flex flex-col items-start">
+              <h1 className="text-[28px] leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">{t('content:impressum.title')}</h1>
+              <div className="h-12 md:h-24" />
             </div>
-            <div className="h-24 opacity-0" />
-          </div>
+          </PageContainer>
         </section>
 
         {/* Detail-Content Block im Stil der Projektseite */}
         <section className="bg-white">
-          <div className="box-border w-full px-[452px]">
-            <div className="w-[805px] max-w-full">
+          <PageContainer>
+            <div className="w-full max-w-[805px]">
               <div className="max-w-none">
                 <div className="bg-white rounded-sm p-0 space-y-8">
                   <div>
@@ -108,7 +107,7 @@ const Impressum = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </PageContainer>
         </section>
       </main>
 

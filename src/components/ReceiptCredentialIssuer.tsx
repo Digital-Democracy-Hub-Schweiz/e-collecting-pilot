@@ -3,7 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { CustomSelect } from "@/components/ui/custom-select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
@@ -100,7 +99,7 @@ export function ReceiptCredentialIssuer({
     });
   };
   const [isPollingVerification, setIsPollingVerification] = useState(false);
-  const [acceptedLegalNotice, setAcceptedLegalNotice] = useState(false);
+  // Legal notice checkbox removed; button always enabled
   // Postal suggestions removed - PLZ is now auto-filled by AddressAutocomplete
   const [banner, setBanner] = useState<{
     type: 'success' | 'warning' | 'error' | 'info';
@@ -143,6 +142,14 @@ export function ReceiptCredentialIssuer({
       title
     }));
   }, [type, normalized]);
+
+  // Selected item and level display mapping for summary
+  const selectedItem = useMemo(() => {
+    return normalized.find(o => o.type === type && o.id === selectedId) || null;
+  }, [normalized, type, selectedId]);
+  const levelDisplay = useMemo(() => {
+    return selectedItem?.level ?? '';
+  }, [selectedItem]);
 
 
   // Vorbelegung via URL
@@ -279,27 +286,37 @@ export function ReceiptCredentialIssuer({
     }
     // Address validation already handled by AddressAutocomplete component
     // Municipality details are set via handleAddressSelect callback
-    if (municipality) {
+    // Clear any existing banner when going to step 3
+    setBanner(null);
+    setStep(3);
+  };
+  const handleStartVerification = async () => {
+    setIsCreatingVerification(true);
+    
+    // Show address validation banner first (only in step 4)
+    if (municipalityDetails) {
       setBanner({
         type: 'info',
         title: t('forms:addressCheck.title', 'Adresse wird geprüft'),
         description: 'Adresse erfolgreich validiert.'
       });
     }
-    setStep(3);
-  };
-  const handleStartVerification = async () => {
-    setIsCreatingVerification(true);
+    
     try {
       const verification = await verificationBusinessAPI.createVerification();
       setVerificationId(verification.id);
       setVerificationUrl(verification.verification_url);
       setStep(4);
-      setBanner({
-        type: 'info',
-        title: t('forms:step4.verification.title'),
-        description: t('forms:step4.verification.description')
-      });
+      
+      // After a short delay, replace with verification banner
+      setTimeout(() => {
+        setBanner({
+          type: 'info',
+          title: t('forms:step4.verification.title'),
+          description: t('forms:step4.verification.description')
+        });
+      }, 2000); // Show address validation for 2 seconds, then switch to verification
+      
       // Start polling for verification result
       startPollingVerification(verification.id);
       // Entfernt: Toast
@@ -579,7 +596,7 @@ export function ReceiptCredentialIssuer({
                   </div>
                   
                   <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                    <button onClick={() => setStep(1)} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
+                    <button onClick={() => { setBanner(null); setStep(1); }} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
                       {t('common:back')}
                     </button>
                     <button onClick={handleNextFromStep2} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]" disabled={isValidatingAddress}>
@@ -591,31 +608,59 @@ export function ReceiptCredentialIssuer({
 
               {step === 3 && <div className="space-y-6 w-full md:w-[806px]">
                   <div className="space-y-4">
-                    <h3 className="text-[22px] leading-[33px] font-semibold text-[#1f2937]">{t('forms:step3.title')}</h3>
-                     
-                    <div className="bg-[#f1f4f7] p-4 rounded-[1px] space-y-3 border border-[#e0e4e8]">
-                      <div>
-                        <Label className="text-[12px] leading-[15px] font-medium text-[#6b7280]">{t('forms:step3.volksbegehren')}</Label>
-                        <p className="text-[16px] leading-[24px]">
-                          {type} - {options.find(o => o.id === selectedId)?.title}
-                        </p>
+                    <div className="bg-white px-12 py-6">
+                      {/* Volksbegehren Section */}
+                      <div className="py-4">
+                        <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">{t('forms:step3.sectionVolksbegehren', 'Volksbegehren')}</div>
                       </div>
-                      
-                      <div>
-                        <Label className="text-[12px] leading-[15px] font-medium text-[#6b7280]">{t('forms:step3.address')}</Label>
-                        <p className="text-[16px] leading-[24px]">
-                          {streetAddress}<br />
-                          {postalCode} {city}
-                        </p>
+                      <div className="border-t border-[#adb4bc] divide-y divide-[#adb4bc]">
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:type', 'Typ')}:</div>
+                          <div className="w-[441px] text-[22px] leading-[33px] text-[#1f2937] font-medium">{type || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:title', 'Titel')}:</div>
+                          <div className="w-[441px] text-[22px] leading-[33px] text-[#1f2937] font-medium break-words">{options.find(o => o.id === selectedId)?.title || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:level.label', 'Ebene')}:</div>
+                          <div className="w-[441px] text-[22px] leading-[33px] text-[#1f2937] font-medium">{levelDisplay || '—'}</div>
+                        </div>
                       </div>
- 
-                      {municipality && <div>
-                          <Label className="text-[12px] leading-[15px] font-medium text-[#6b7280]">{t('forms:step3.municipality')}</Label>
-                          <p className="text-[16px] leading-[24px] text-[#1f2937] font-medium">
-                            {municipality}
-                            {isValidatingAddress && <RefreshCw className="w-3 h-3 ml-2 inline animate-spin" />}
-                          </p>
-                        </div>}
+
+                      {/* Adressdaten Section */}
+                      <div className="py-4 mt-8">
+                        <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">{t('forms:step3.sectionAddressData', 'Adressdaten')}</div>
+                      </div>
+                      <div className="border-t border-[#adb4bc] divide-y divide-[#adb4bc]">
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step2.street', 'Strasse / Nr.')}:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{streetAddress || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step2.postalCode', 'PLZ')}:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{postalCode || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step2.city', 'Ort')}:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{city || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step3.municipality', 'Politische Gemeinde')}:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.town || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">BFS-Nr.:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.bfs || '—'}</div>
+                        </div>
+                        <div className="flex gap-10 items-start py-6">
+                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">Kanton:</div>
+                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">
+                            {municipalityDetails?.cantonFromBfs || municipalityDetails?.canton || '—'}
+                            {isValidatingAddress && <RefreshCw className="w-4 h-4 ml-2 inline align-middle animate-spin" />}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
  
@@ -648,21 +693,24 @@ export function ReceiptCredentialIssuer({
                        return null;
                      })()}
  
-                    <div className="flex items-start space-x-3 p-4 border border-[#e0e4e8] rounded-[1px] bg-white">
-                      <Checkbox id="legal-notice" checked={acceptedLegalNotice} onCheckedChange={checked => setAcceptedLegalNotice(checked === true)} className="mt-1" />
-                      <Label htmlFor="legal-notice" className="text-[16px] leading-[24px] text-[#1f2937] cursor-pointer">
-                        {t('forms:step3.legalNotice')}
-                      </Label>
-                    </div>
+                    <div className="bg-[#fff7ed] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]">
+                        <div className="flex items-start gap-3">
+                          <div className="mt-0.5">
+                            <AlertTriangle className="w-6 h-6 text-[#9a3412]" />
+                          </div>
+                          <p className="text-[20px] leading-[32px] text-[#9a3412] font-medium">
+                            {t('forms:step3.legalNotice')}
+                          </p>
+                        </div>
+                      </div>
  
                     <div className="flex flex-col sm:flex-row gap-3 sm:justify-end">
-                      <button onClick={() => setStep(2)} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
+                      <button onClick={() => { setBanner(null); setStep(2); }} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
                         {t('common:back')}
                       </button>
                       <button 
                         onClick={handleStartVerification} 
                         disabled={
-                          !acceptedLegalNotice || 
                           isCreatingVerification || 
                           isValidatingAddress ||
                           (() => {
@@ -731,7 +779,7 @@ export function ReceiptCredentialIssuer({
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                    <button onClick={() => setStep(3)} disabled={isPollingVerification} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white">
+                    <button onClick={() => { setBanner(null); setStep(3); }} disabled={isPollingVerification} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white">
                       {t('common:back')}
                     </button>
                   </div>
@@ -769,7 +817,7 @@ export function ReceiptCredentialIssuer({
                        {municipalityDetails && <div className="flex justify-between">
                            <span className="text-[#6b7280]">{t('forms:step4.summary.municipality')}</span>
                            <span className="font-medium">
-                             {municipalityDetails.town}, {municipalityDetails.cantonFromBfs || municipalityDetails.canton} (BFS: {municipalityDetails.bfs})
+                             {municipalityDetails.town} (BFS: {municipalityDetails.bfs}), Kanton {municipalityDetails.cantonFromBfs || municipalityDetails.canton}
                            </span>
                          </div>}
                      </div>
