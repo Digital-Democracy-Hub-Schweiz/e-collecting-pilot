@@ -130,7 +130,7 @@ export function CustomSelect({
   }, [highlightedIndex, isOpen]);
 
   return (
-    <div ref={selectRef} className={cn("relative w-full", className)}>
+    <div ref={selectRef} className={cn("relative w-full max-w-full", className)}>
       <button
         ref={buttonRef}
         type="button"
@@ -141,8 +141,9 @@ export function CustomSelect({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         className={cn(
-          "flex h-12 w-full items-center rounded-[1px] border border-[#6b7280] bg-white pl-5 pr-0 text-[18px] leading-[28px] font-medium shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)] focus:outline-none focus:ring-0 focus:border-[#d8232a] disabled:cursor-not-allowed disabled:opacity-50",
-          isOpen && "border-[#d8232a]"
+          "flex h-12 w-full items-center rounded-[1px] border border-[#6b7280] bg-white pl-5 pr-0 text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] font-medium shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)] focus:outline-none focus:ring-0 focus:border-[#d8232a] disabled:cursor-not-allowed disabled:opacity-50",
+          isOpen && "border-[#d8232a]",
+          className
         )}
       >
         <span className="grow text-left truncate">
@@ -173,7 +174,7 @@ export function CustomSelect({
               role="option"
               aria-selected={option.value === value}
               className={cn(
-                "relative flex w-full cursor-pointer select-none items-center rounded-sm py-3 pl-8 pr-2 text-[18px] leading-[28px] outline-none transition-colors",
+                "relative flex w-full cursor-pointer select-none items-center rounded-sm py-3 pl-8 pr-2 text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] outline-none transition-colors",
                 highlightedIndex === index && "bg-[#f5f6f7] text-[#1f2937]",
                 option.value === value && "bg-[#f5f6f7] text-[#1f2937]"
               )}

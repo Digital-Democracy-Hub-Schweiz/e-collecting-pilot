@@ -7,7 +7,7 @@ type PageContainerProps = {
 	paddingYClassName?: string; // erlaubt py-Override
 };
 
-export default function PageContainer({ children, className = "", paddingXClassName = "px-40", paddingYClassName = "" }: PageContainerProps) {
+export default function PageContainer({ children, className = "", paddingXClassName = "px-4 sm:px-6 lg:px-8 xl:px-20 2xl:px-40", paddingYClassName = "" }: PageContainerProps) {
 	return (
 		<div className={`max-w-[2000px] mx-auto ${paddingXClassName} ${paddingYClassName} ${className}`.trim()}>
 			{children}

@@ -29,7 +29,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
   const NavigationItem = ({ children, href, onClick }: { children: React.ReactNode; href?: string; onClick?: () => void }) => (
     <div className="h-16 relative w-full group">
       <div className="absolute flex items-center justify-start left-0 right-[47px] top-1/2 -translate-y-1/2">
-        <div className="flex-1 flex flex-col justify-center text-[18px] text-white font-medium leading-[28px]">
+        <div className="flex-1 flex flex-col justify-center text-[16px] sm:text-[18px] text-white font-medium leading-[24px] sm:leading-[28px]">
           {onClick ? (
             <button type="button" onClick={onClick} className="text-left hover:text-white/80 transition-colors">
               {children}
@@ -60,7 +60,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
       <div className="w-6 h-6 overflow-hidden">
         <Icon className="w-full h-full" />
       </div>
-      <span className="text-[18px] font-medium leading-[28px]">{children}</span>
+      <span className="text-[16px] sm:text-[18px] font-medium leading-[24px] sm:leading-[28px]">{children}</span>
     </a>
   );
 
@@ -69,10 +69,10 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
   const StatusItem = ({ label, statusValue }: { label: string; statusValue?: string }) => (
     <div className="h-16 relative w-full">
       <div className="absolute flex items-center justify-between left-0 right-0 top-1/2 -translate-y-1/2">
-        <div className="text-[18px] text-white font-medium leading-[28px]">
+        <div className="text-[16px] sm:text-[18px] text-white font-medium leading-[24px] sm:leading-[28px]">
           {label}
         </div>
-        <div className={`text-[18px] font-medium leading-[28px] ${getStatusClass(statusValue)}`}>
+        <div className={`text-[16px] sm:text-[18px] font-medium leading-[24px] sm:leading-[28px] ${getStatusClass(statusValue)}`}>
           {statusValue || t('common:offline')}
         </div>
       </div>
@@ -95,10 +95,10 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
             <div className="flex gap-16 items-start justify-start">
               {/* About Us Section */}
               <div className="w-[440px] space-y-10">
-                <h2 className="text-[22px] font-semibold leading-[33px] text-white">
+                <h2 className="text-[20px] sm:text-[22px] font-semibold leading-[32px] sm:leading-[33px] text-white">
                   {t('common:footer.project')}
                 </h2>
-                <div className="text-[18px] font-medium leading-[28px] text-white">
+                <div className="text-[16px] sm:text-[18px] font-medium leading-[24px] sm:leading-[28px] text-white">
                   <p>{t('content:footer.projectDescription')}</p>
                   <p className="mt-4 text-white" dangerouslySetInnerHTML={{ __html: t('content:footer.copyright') }} />
                   <p className="text-white">{t('content:footer.dataCredit')}</p>
@@ -107,7 +107,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
 
               {/* Stay Informed Section */}
               <div className="w-[340px] space-y-10">
-                <h2 className="text-[22px] font-semibold leading-[33px] text-white">
+                <h2 className="text-[20px] sm:text-[22px] font-semibold leading-[32px] sm:leading-[33px] text-white">
                   {t('common:footer.stayInformed')}
                 </h2>
                 <div className="space-y-[45px]">
@@ -126,7 +126,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                     asChild
                   >
                     <a href="https://links.ecollecting.ch/newsletter" target="_blank" rel="noopener noreferrer">
-                      <span className="text-[18px] font-semibold leading-[1.556]">{t('common:footer.newsletter')}</span>
+                      <span className="text-[16px] sm:text-[18px] font-semibold leading-[1.556]">{t('common:footer.newsletter')}</span>
                       <ChevronRight className="w-6 h-6 ml-1" />
                     </a>
                   </Button>
@@ -134,8 +134,8 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                 
                 {/* Contact Information */}
                 <div className="space-y-4 pt-4 border-t border-white/20">
-                  <h3 className="text-[18px] font-medium text-white">{t('common:footer.contact')}</h3>
-                  <div className="space-y-2 text-[16px] text-white">
+                  <h3 className="text-[16px] sm:text-[18px] font-medium text-white">{t('common:footer.contact')}</h3>
+                  <div className="space-y-2 text-[14px] sm:text-[16px] text-white">
                     <p>{t('content:footer.contact.organization')}</p>
                     <p dangerouslySetInnerHTML={{ __html: t('content:footer.contact.email') }} />
                     <p dangerouslySetInnerHTML={{ __html: t('content:footer.contact.web') }} />
@@ -145,7 +145,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
 
               {/* More Information Section */}
               <div className="space-y-[39px]">
-                <h2 className="text-[22px] font-semibold leading-[33px] text-white">
+                <h2 className="text-[20px] sm:text-[22px] font-semibold leading-[32px] sm:leading-[33px] text-white">
                   {t('common:footer.externalLinks')}
                 </h2>
                 <div className="flex gap-16">
@@ -174,10 +174,10 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
           <div className="px-5 py-10 space-y-9">
             {/* About Us Section */}
             <div className="space-y-4">
-              <h2 className="text-[22px] font-semibold leading-[33px] text-white">
+              <h2 className="text-[20px] sm:text-[22px] font-semibold leading-[32px] sm:leading-[33px] text-white">
                 {t('common:footer.project')}
               </h2>
-              <div className="text-[18px] font-medium leading-[28px] text-white">
+              <div className="text-[16px] sm:text-[18px] font-medium leading-[24px] sm:leading-[28px] text-white">
                 <p>{t('content:footer.projectDescription')}</p>
                 <p className="mt-4 text-white" dangerouslySetInnerHTML={{ __html: t('content:footer.copyright') }} />
                 <p className="text-white">{t('content:footer.dataCredit')}</p>
@@ -186,7 +186,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
 
             {/* Stay Informed Section */}
             <div className="space-y-4">
-              <h2 className="text-[22px] font-semibold leading-[33px] text-white">
+              <h2 className="text-[20px] sm:text-[22px] font-semibold leading-[32px] sm:leading-[33px] text-white">
                 {t('common:footer.stayInformed')}
               </h2>
               <div className="space-y-6">
@@ -205,7 +205,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                   asChild
                 >
                   <a href="https://links.ecollecting.ch/newsletter" target="_blank" rel="noopener noreferrer">
-                    <span className="text-[18px] font-semibold leading-[1.556]">{t('common:footer.newsletter')}</span>
+                    <span className="text-[16px] sm:text-[18px] font-semibold leading-[1.556]">{t('common:footer.newsletter')}</span>
                     <ChevronRight className="w-6 h-6 ml-1" />
                   </a>
                 </Button>
@@ -213,8 +213,8 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
               
               {/* Contact Information */}
               <div className="space-y-4 pt-4 border-t border-white/20">
-                <h3 className="text-[18px] font-medium text-white">{t('common:footer.contact')}</h3>
-                <div className="space-y-2 text-[16px] text-white">
+                <h3 className="text-[16px] sm:text-[18px] font-medium text-white">{t('common:footer.contact')}</h3>
+                <div className="space-y-2 text-[14px] sm:text-[16px] text-white">
                   <p>{t('content:footer.contact.organization')}</p>
                   <p dangerouslySetInnerHTML={{ __html: t('content:footer.contact.email') }} />
                   <p dangerouslySetInnerHTML={{ __html: t('content:footer.contact.web') }} />
@@ -224,7 +224,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
 
             {/* More Information Section */}
             <div className="space-y-2">
-              <h2 className="text-[22px] font-semibold leading-[33px] text-white">
+              <h2 className="text-[20px] sm:text-[22px] font-semibold leading-[32px] sm:leading-[33px] text-white">
                 {t('common:footer.externalLinks')}
               </h2>
               <div className="space-y-1">
@@ -251,7 +251,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
         <div className="hidden xl:block">
           <div className="max-w-[2000px] mx-auto px-40 py-5">
             <div className="flex items-center justify-between">
-              <div className="flex gap-8 items-start text-[16px] font-medium leading-[24px] text-white">
+              <div className="flex gap-8 items-start text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
                 <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Rechtliches</a>
                 <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Datenschutz</a>
                 <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Impressum</a>
@@ -263,7 +263,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
 
         {/* Mobile Layout */}
         <div className="block xl:hidden px-5 py-7 space-y-9">
-          <div className="flex flex-wrap gap-9 text-[16px] font-medium leading-[24px] text-white">
+          <div className="flex flex-wrap gap-9 text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
             <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Rechtliches</a>
             <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Datenschutz</a>
             <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Impressum</a>
@@ -276,14 +276,14 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
       <AlertDialog open={accessibilityOpen} onOpenChange={setAccessibilityOpen}>
         <AlertDialogContent className="max-w-[480px] rounded-[2px]">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-[22px] leading-[33px] text-[#1f2937]">Barrierefreiheit</AlertDialogTitle>
-            <AlertDialogDescription className="text-[18px] leading-[28px] text-[#1f2937]">
+            <AlertDialogTitle className="text-[20px] sm:text-[22px] leading-[32px] sm:leading-[33px] text-[#1f2937]">Barrierefreiheit</AlertDialogTitle>
+            <AlertDialogDescription className="text-[16px] sm:text-[18px] leading-[24px] sm:leading-[28px] text-[#1f2937]">
               Hilfst du mir bei der Umsetzung dieses Features?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="text-[18px] leading-[28px]">Abbrechen</AlertDialogCancel>
-            <AlertDialogAction onClick={handleAccessibilityOk} className="bg-[#5c6977] hover:bg-[#4c5967] text-white text-[18px] leading-[28px]">OK</AlertDialogAction>
+            <AlertDialogCancel className="text-[16px] sm:text-[18px] leading-[24px] sm:leading-[28px]">Abbrechen</AlertDialogCancel>
+            <AlertDialogAction onClick={handleAccessibilityOk} className="bg-[#5c6977] hover:bg-[#4c5967] text-white text-[16px] sm:text-[18px] leading-[24px] sm:leading-[28px]">OK</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

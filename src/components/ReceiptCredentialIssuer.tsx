@@ -441,7 +441,6 @@ export function ReceiptCredentialIssuer({
     setVerificationUrl(null);
     setIsCreatingVerification(false);
     setIsPollingVerification(false);
-    setAcceptedLegalNotice(false);
     // Postal suggestions functionality removed
     setBanner({
       type: 'info',
@@ -456,9 +455,9 @@ export function ReceiptCredentialIssuer({
   };
   // handleSuggestionClick removed - suggestions handled by AddressAutocomplete
   return <section aria-labelledby="issuer-section">
-      <div className="space-y-6 w-full max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="w-full md:w-[806px] mx-auto">
-          <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">
+      <div className="space-y-6 w-full max-w-[960px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20">
+        <div className="w-full">
+          <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
             {t('forms:step', { current: step, total: 5 })}
           </div>
         </div>
@@ -513,134 +512,145 @@ export function ReceiptCredentialIssuer({
           {/* Entfernt: Erfolgsmeldung in Schritt 4 */}
           {null}
 
+          {step === 1 && (
+            <div className="space-y-6 w-full">
+              <div>
+                <h3 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step1.title')}</h3>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectType')}</Label>
+                    <div style={{ width: '100%' }}>
+                      <CustomSelect
+                        options={[
+                          { value: "Initiative", label: t('forms:step1.types.initiative') },
+                          { value: "Referendum", label: t('forms:step1.types.referendum') }
+                        ]}
+                        value={type}
+                        onValueChange={(v) => setType(v as any)}
+                        placeholder={t('forms:step1.selectType')}
+                        aria-label={t('forms:step1.selectType')}
+                        className="!w-full h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectTitle')}</Label>
+                    <div style={{ width: '100%' }}>
+                      <CustomSelect
+                        options={options.map(o => ({ value: o.id, label: o.title }))}
+                        value={selectedId}
+                        onValueChange={setSelectedId}
+                        disabled={!type}
+                        placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                        aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                        className="!w-full h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                <button onClick={handleNextFromStep1} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
+                  {t('common:next')}
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className={cn("grid gap-6 md:gap-8", issuedId ? "md:grid-cols-2" : "")}> 
-            <div className={cn("space-y-4 w-full md:w-[806px]", !issuedId && "mx-auto")}> 
+            <div className="space-y-4 w-full"> 
 
-              {step === 1 && <div className="space-y-6 w-full md:w-[806px]">
-                  <div className="space-y-4">
-                    <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.title')}</Label>
-                    <CustomSelect
-                      options={[
-                        { value: "Initiative", label: t('forms:step1.types.initiative') },
-                        { value: "Referendum", label: t('forms:step1.types.referendum') }
-                      ]}
-                      value={type}
-                      onValueChange={(v) => setType(v as any)}
-                      placeholder={t('forms:step1.selectType')}
-                      aria-label={t('forms:step1.selectType')}
-                      className="w-full"
-                    />
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectTitle')}</Label>
-                    <CustomSelect
-                      options={options.map(o => ({ value: o.id, label: o.title }))}
-                      value={selectedId}
-                      onValueChange={setSelectedId}
-                      disabled={!type}
-                      placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
-                      aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
-                      className="w-full"
-                    />
-                  </div>
-                  
-                  <div className="pt-4 flex justify-stretch sm:justify-end">
-                    <button onClick={handleNextFromStep1} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
-                      {t('common:next')}
-                    </button>
-                  </div>
-                </div>}
-
-              {step === 2 && <div className="space-y-6 w-full md:w-[806px]">
+              {step === 2 && <div className="space-y-6 w-full">
                   <div>
-                    <h3 className="text-[22px] leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step2.title')}</h3>
+                    <h3 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step2.title')}</h3>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
+                        <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
                         <AddressAutocomplete 
                           value={streetAddress}
                           onValueChange={setStreetAddress}
                           onAddressSelect={handleAddressSelect}
                           placeholder={t('forms:step2.streetPlaceholder')}
-                          className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]"
+                          className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]"
                         />
                       </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-6 gap-4">
                         <div className="space-y-2 relative sm:col-span-2">
-                          <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.postalCode')}</Label>
-                          <Input value={postalCode} inputMode="numeric" pattern="[0-9]*" onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
+                          <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.postalCode')}</Label>
+                          <Input value={postalCode} inputMode="numeric" pattern="[0-9]*" onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                         </div>
                         <div className="space-y-2 sm:col-span-4">
-                          <Label className="text-[18px] leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.city')}</Label>
-                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
+                          <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.city')}</Label>
+                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                         </div>
                       </div>
                     </div>
                   </div>
                   
                   <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                    <button onClick={() => { setBanner(null); setStep(1); }} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
+                    <button onClick={() => { setBanner(null); setStep(1); }} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px]">
                       {t('common:back')}
                     </button>
-                    <button onClick={handleNextFromStep2} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]" disabled={isValidatingAddress}>
+                    <button onClick={handleNextFromStep2} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]" disabled={isValidatingAddress}>
                       {isValidatingAddress && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} 
                       {t('common:next')}
                     </button>
                   </div>
                 </div>}
 
-              {step === 3 && <div className="space-y-6 w-full md:w-[806px]">
+              {step === 3 && <div className="space-y-6 w-full">
                   <div className="space-y-4">
-                    <div className="bg-white px-12 py-6">
+                    <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
                       {/* Volksbegehren Section */}
                       <div className="py-4">
-                        <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">{t('forms:step3.sectionVolksbegehren', 'Volksbegehren')}</div>
+                        <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">{t('forms:step3.sectionVolksbegehren', 'Volksbegehren')}</div>
                       </div>
                       <div className="border-t border-[#adb4bc] divide-y divide-[#adb4bc]">
-                        <div className="flex gap-10 items-start py-6">
-                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:type', 'Typ')}:</div>
-                          <div className="w-[441px] text-[22px] leading-[33px] text-[#1f2937] font-medium">{type || '—'}</div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:type', 'Typ')}:</div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{type || '—'}</div>
                         </div>
-                        <div className="flex gap-10 items-start py-6">
-                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:title', 'Titel')}:</div>
-                          <div className="w-[441px] text-[22px] leading-[33px] text-[#1f2937] font-medium break-words">{options.find(o => o.id === selectedId)?.title || '—'}</div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:title', 'Titel')}:</div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium break-words">{options.find(o => o.id === selectedId)?.title || '—'}</div>
                         </div>
-                        <div className="flex gap-10 items-start py-6">
-                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:level.label', 'Ebene')}:</div>
-                          <div className="w-[441px] text-[22px] leading-[33px] text-[#1f2937] font-medium">{levelDisplay || '—'}</div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:level.label', 'Ebene')}:</div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{levelDisplay || '—'}</div>
                         </div>
                       </div>
 
                       {/* Adressdaten Section */}
                       <div className="py-4 mt-8">
-                        <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">{t('forms:step3.sectionAddressData', 'Adressdaten')}</div>
+                        <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">{t('forms:step3.sectionAddressData', 'Adressdaten')}</div>
                       </div>
                       <div className="border-t border-[#adb4bc] divide-y divide-[#adb4bc]">
-                        <div className="flex gap-10 items-start py-6">
-                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step2.street', 'Strasse / Nr.')}:</div>
-                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{streetAddress || '—'}</div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:step2.street', 'Strasse / Nr.')}:</div>
+                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{streetAddress || '—'}</div>
                         </div>
-                        <div className="flex gap-10 items-start py-6">
-                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step2.postalCode', 'PLZ')}:</div>
-                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{postalCode || '—'}</div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:step2.postalCode', 'PLZ')}:</div>
+                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{postalCode || '—'}</div>
                         </div>
-                        <div className="flex gap-10 items-start py-6">
-                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step2.city', 'Ort')}:</div>
-                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{city || '—'}</div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:step2.city', 'Ort')}:</div>
+                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{city || '—'}</div>
                         </div>
-                        <div className="flex gap-10 items-start py-6">
-                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">{t('forms:step3.municipality', 'Politische Gemeinde')}:</div>
-                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.town || '—'}</div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:step3.municipality', 'Politische Gemeinde')}:</div>
+                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.town || '—'}</div>
                         </div>
-                        <div className="flex gap-10 items-start py-6">
-                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">BFS-Nr.:</div>
-                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.bfs || '—'}</div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">BFS-Nr.:</div>
+                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.bfs || '—'}</div>
                         </div>
-                        <div className="flex gap-10 items-start py-6">
-                          <div className="w-[229px] text-[#1f2937] text-[22px] leading-[33px] font-semibold">Kanton:</div>
-                          <div className="grow text-[22px] leading-[33px] text-[#1f2937] font-medium">
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">Kanton:</div>
+                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
                             {municipalityDetails?.cantonFromBfs || municipalityDetails?.canton || '—'}
                             {isValidatingAddress && <RefreshCw className="w-4 h-4 ml-2 inline align-middle animate-spin" />}
                           </div>
@@ -690,7 +700,7 @@ export function ReceiptCredentialIssuer({
                       </div>
  
                     <div className="flex flex-col sm:flex-row gap-3 sm:justify-end">
-                      <button onClick={() => { setBanner(null); setStep(2); }} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]">
+                      <button onClick={() => { setBanner(null); setStep(2); }} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px]">
                         {t('common:back')}
                       </button>
                       <button 
@@ -711,7 +721,7 @@ export function ReceiptCredentialIssuer({
                             return false;
                           })()
                         }
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]"
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]"
                       >
                         {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
                         {t('forms:step3.supportButton')}
@@ -722,13 +732,13 @@ export function ReceiptCredentialIssuer({
                 </div>}
 
               {step === 4 && !issuedId && (
-                <div className="space-y-6 w-full md:w-[806px]">
+                <div className="space-y-6 w-full">
                   <div className="space-y-4">
-                    <div className="bg-white px-12 py-6">
+                    <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
                       <div className="py-4">
-                        <div className="text-[32px] leading-[43px] font-semibold text-[#1f2937]">{t('forms:step4.verification.title')}</div>
+                        <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">{t('forms:step4.verification.title')}</div>
                       </div>
-                      <div className="text-[18px] leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
+                      <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
                         {t('forms:step4.verification.description')}
                       </div>
                       {verificationUrl && (
@@ -739,14 +749,14 @@ export function ReceiptCredentialIssuer({
                       <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
                         <button
                           onClick={() => { setBanner(null); setStep(3); }}
-                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]"
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px]"
                         >
                           {t('common:back')}
                         </button>
                         <button
                           onClick={() => verificationUrl && (window.location.href = `swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`)}
                           disabled={!verificationUrl}
-                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {t('forms:step4.verification.openWallet')}
                           <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
@@ -758,10 +768,10 @@ export function ReceiptCredentialIssuer({
               )}
 
               {step === 5 && issuedId && (
-                <div className="space-y-6 w-full md:w-[806px]">
+                <div className="space-y-6 w-full">
                   <div className="space-y-4">
-                    <div className="bg-white px-12 py-6">
-                      <div className="text-[18px] leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
+                    <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
+                      <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
                         Eine Quittung kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere swiyu-Wallet App. Oder klicken Sie auf Ihrem Smartphone auf den Button.
                       </div>
                       {offerDeeplink && (
@@ -772,14 +782,14 @@ export function ReceiptCredentialIssuer({
                       <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
                         <button
                           onClick={handleShare}
-                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[20px]"
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px]"
                         >
                           <Share2 className="w-4 h-4 mr-2" /> {t('forms:shareVolksbegehren', 'Volksbegehren teilen')}
                         </button>
                         <button
                           onClick={() => offerDeeplink && (window.location.href = offerDeeplink)}
                           disabled={!offerDeeplink}
-                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[20px] leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           Quittung herunterladen
                           <ArrowRight className="w-5 h-5 ml-2" aria-hidden />

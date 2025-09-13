@@ -148,3 +148,80 @@ All colors MUST be HSL.
     font-weight: 400;
   }
 }
+
+/* Responsive typography scale based on Swiss Design System / Figma */
+@layer components {
+  /* Headings */
+  .sd-h1 { @apply font-semibold text-[#1f2937]; font-size: 28px; line-height: 36px; }
+  @media (min-width: 768px) { /* md */
+    .sd-h1 { font-size: 40px; line-height: 48px; }
+  }
+
+  .sd-h2 { @apply font-semibold text-[#1f2937]; font-size: 24px; line-height: 32px; }
+  @media (min-width: 768px) {
+    .sd-h2 { font-size: 32px; line-height: 40px; }
+  }
+
+  .sd-h3 { @apply font-semibold text-[#1f2937]; font-size: 20px; line-height: 28px; }
+  @media (min-width: 768px) {
+    .sd-h3 { font-size: 24px; line-height: 32px; }
+  }
+
+  .sd-lead { @apply font-medium text-[#1f2937]; font-size: 18px; line-height: 28px; }
+  @media (min-width: 768px) {
+    .sd-lead { font-size: 22px; line-height: 33px; }
+  }
+
+  .sd-body { @apply text-[#1f2937]; font-size: 16px; line-height: 24px; }
+  @media (min-width: 768px) {
+    .sd-body { font-size: 18px; line-height: 28px; }
+  }
+
+  .sd-small { @apply text-[#374151]; font-size: 14px; line-height: 20px; }
+}
+
+/* Responsive grid utilities (12 / 8 / 4 columns, gaps per breakpoint) */
+@layer utilities {
+  .sd-grid { display: grid; gap: 16px; }
+  .sd-grid-12 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .sd-grid-8 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sd-grid-4 { grid-template-columns: 1fr; }
+  .sd-gap { gap: 16px; }
+
+  @media (min-width: 640px) { /* sm */
+    .sd-grid-12 { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+    .sd-grid-8 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .sd-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .sd-gap { gap: 20px; }
+  }
+  @media (min-width: 1024px) { /* lg */
+    .sd-grid-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    .sd-grid-8 { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+    .sd-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .sd-gap { gap: 24px; }
+  }
+}
+
+/* Responsive section vertical paddings (compact / default / comfort) */
+@layer utilities {
+  /* Compact */
+  .sd-section-py-compact { padding-top: 16px; padding-bottom: 16px; }
+  @media (min-width: 640px) { .sd-section-py-compact { padding-top: 24px; padding-bottom: 24px; } }
+  @media (min-width: 768px) { .sd-section-py-compact { padding-top: 32px; padding-bottom: 32px; } }
+  @media (min-width: 1024px) { .sd-section-py-compact { padding-top: 40px; padding-bottom: 40px; } }
+  @media (min-width: 1280px) { .sd-section-py-compact { padding-top: 56px; padding-bottom: 56px; } }
+
+  /* Default */
+  .sd-section-py { padding-top: 24px; padding-bottom: 24px; }
+  @media (min-width: 640px) { .sd-section-py { padding-top: 32px; padding-bottom: 32px; } }
+  @media (min-width: 768px) { .sd-section-py { padding-top: 48px; padding-bottom: 48px; } }
+  @media (min-width: 1024px) { .sd-section-py { padding-top: 64px; padding-bottom: 64px; } }
+  @media (min-width: 1280px) { .sd-section-py { padding-top: 96px; padding-bottom: 96px; } }
+
+  /* Comfort */
+  .sd-section-py-comfort { padding-top: 32px; padding-bottom: 32px; }
+  @media (min-width: 640px) { .sd-section-py-comfort { padding-top: 48px; padding-bottom: 48px; } }
+  @media (min-width: 768px) { .sd-section-py-comfort { padding-top: 64px; padding-bottom: 64px; } }
+  @media (min-width: 1024px) { .sd-section-py-comfort { padding-top: 96px; padding-bottom: 96px; } }
+  @media (min-width: 1280px) { .sd-section-py-comfort { padding-top: 128px; padding-bottom: 128px; } }
+}
