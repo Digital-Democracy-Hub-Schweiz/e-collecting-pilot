@@ -167,7 +167,7 @@ export function CustomSelect({
         <ul
           ref={listRef}
           role="listbox"
-          className="absolute top-full left-0 z-[9999] mt-0 w-full max-h-60 sm:max-h-96 overflow-auto bg-white border-t border-l border-r border-[#6b7280]"
+          className="absolute top-full left-0 z-[9999] mt-0 w-full max-h-60 sm:max-h-96 overflow-auto bg-white border-t border-l border-r border-[#6b7280] min-w-0"
           style={{ width: '100%', maxWidth: '100%' }}
         >
           {options.length === 0 && (
@@ -179,7 +179,7 @@ export function CustomSelect({
               role="option"
               aria-selected={option.value === value}
               className={cn(
-                "relative flex w-full cursor-pointer select-none items-center px-4 py-2.5 text-[18px] leading-[27px] outline-none transition-colors",
+                "relative flex w-full cursor-pointer select-none items-center px-4 py-2.5 text-[18px] leading-[27px] outline-none transition-colors min-w-0",
                 highlightedIndex === index && "bg-[#e5e7eb] text-[#1f2937]",
                 option.value === value && "bg-[#f3f4f6] text-[#1f2937]"
               )}
