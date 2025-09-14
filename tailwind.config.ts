@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 export default {
 	darkMode: ["class"],
@@ -118,13 +119,33 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'mobile-overlay-fade-in': {
+					from: { opacity: '0' },
+					to: { opacity: '1' }
+				},
+				'mobile-overlay-fade-out': {
+					from: { opacity: '1' },
+					to: { opacity: '0' }
+				},
+				'mobile-panel-slide-down': {
+					from: { transform: 'translateY(-8px)', opacity: '0' },
+					to: { transform: 'translateY(0)', opacity: '1' }
+				},
+				'mobile-panel-slide-up': {
+					from: { transform: 'translateY(0)', opacity: '1' },
+					to: { transform: 'translateY(-8px)', opacity: '0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'mobile-overlay-in': 'mobile-overlay-fade-in 150ms var(--transition-smooth)',
+				'mobile-overlay-out': 'mobile-overlay-fade-out 150ms var(--transition-smooth)',
+				'mobile-panel-in': 'mobile-panel-slide-down 200ms var(--transition-smooth)',
+				'mobile-panel-out': 'mobile-panel-slide-up 180ms var(--transition-smooth)'
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [animate],
 } satisfies Config;

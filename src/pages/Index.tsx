@@ -180,7 +180,7 @@ const Index = () => {
       <main id="main-content">
         {/* Breadcrumb Section (Figma) */}
         <section className="bg-white">
-          <PageContainer paddingYClassName="py-8">
+          <PageContainer paddingYClassName="sd-section-py-compact">
             <nav className="text-[16px] leading-[24px] text-[#6b7280]">
               <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">Startseite</a> <span className="inline-block mx-[7px]">›</span> Pilot
             </nav>
@@ -201,25 +201,23 @@ const Index = () => {
 
         {/* Hero-Abschnitt (Figma, responsive Container/Typo) */}
         <section className="bg-white">
-          <PageContainer paddingYClassName="py-0">
+          <PageContainer paddingYClassName="sd-section-py">
             <div className="py-14 md:py-16 flex flex-col items-start">
-              <h1 className="text-[28px] leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">
+              <h1 className="sd-h1 max-w-[1024px]">
                 Initiativen und Referenden unterstützen
               </h1>
               <div className="h-6 md:h-10" />
-              <p className="text-[18px] leading-[28px] md:text-[22px] md:leading-[33px] font-medium text-[#1f2937] max-w-[1024px]">
+              <p className="sd-lead max-w-[1024px]">
                 Testen Sie jetzt E-Collecting, um Initiativen und Referenden digital zu unterstützen. Verwenden Sie dafür die Beta-ID des Bundes für Volksbegehren. Es werden keine persönlichen Daten gespeichert.
               </p>
-              <div className="h-12 md:h-24" />
             </div>
+            <div className="h-24 opacity-0" />
           </PageContainer>
         </section>
 
         {/* Formular-Band: grauer Hintergrund und Figma-Spacing */}
-        <section className="bg-[#f1f4f7]">
-          <div className="max-w-[2000px] mx-auto flex justify-center px-4 sm:px-6 lg:px-8 py-20">
-            <ReceiptCredentialIssuer preselect={preselect} />
-          </div>
+        <section className="bg-[#f1f4f7] sd-section-py-comfort">
+          <ReceiptCredentialIssuer preselect={preselect} />
         </section>
 
 
