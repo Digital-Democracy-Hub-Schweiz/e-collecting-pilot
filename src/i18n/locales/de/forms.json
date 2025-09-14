@@ -65,6 +65,11 @@
       "municipality": "Politische Gemeinde und Kanton:"
     }
   },
+  "step5": {
+    "success": {
+      "title": "Volksbegehren erfolgreich eingereicht"
+    }
+  },
   "actions": {
     "shareVolksbegehren": "Volksbegehren teilen",
     "restartConfirm": "Neustart bestätigen",

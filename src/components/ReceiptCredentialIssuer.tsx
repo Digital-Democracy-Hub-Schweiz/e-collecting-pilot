@@ -513,7 +513,7 @@ export function ReceiptCredentialIssuer({
           {/* Entfernt: Erfolgsmeldung in Schritt 4 */}
           {null}
 
-          <div className={cn("grid gap-6 md:gap-8", issuedId ? "md:grid-cols-2" : "")}> 
+          <div className={cn("grid gap-6 md:gap-8", issuedId && step !== 5 ? "md:grid-cols-2" : "")}> 
             <div className="space-y-4 w-full">
 
               {step === 1 && (
@@ -775,6 +775,9 @@ export function ReceiptCredentialIssuer({
                 <div className="space-y-6 w-full">
                   <div className="space-y-4">
                     <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
+                      <div className="py-4">
+                        <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">{t('forms:step5.success.title')}</div>
+                      </div>
                       <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
                         Eine Quittung kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrere swiyu-Wallet App. Oder klicken Sie auf Ihrem Smartphone auf den Button.
                       </div>
