@@ -241,12 +241,29 @@ export const Header: React.FC = () => {
                       </a>
                     </li>
                   ))}
+                  {/* Additional mobile-only menu items */}
+                  <li>
+                    <a
+                      href="https://links.ecollecting.ch/newsletter"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setMobileOpen(false)}
+                      className="block px-1 py-3 text-[18px] leading-[28px] text-[#1f2937] hover:text-[#d8232a] transition-colors"
+                    >
+                      Newsletter
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={`/${currentLang}/impressum`}
+                      onClick={() => setMobileOpen(false)}
+                      className="block px-1 py-3 text-[18px] leading-[28px] text-[#1f2937] hover:text-[#d8232a] transition-colors"
+                    >
+                      Kontakt
+                    </a>
+                  </li>
                 </ul>
               </nav>
-              <div className="pt-2 border-t border-[#e0e4e8] mt-2">
-                {/* Language switcher in mobile menu for parity with desktop top-bar */}
-                <LanguageSwitcher variant="topbar" />
-              </div>
             </div>
           </div>
         </div>
