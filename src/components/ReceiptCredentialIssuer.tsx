@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
 import { AddressAutocomplete } from "@/components/ui/address-autocomplete";
 import { AddressHit } from "@/services/addressAPI";
+import { createTitleVariants } from "@/lib/title-utils";
 type Option = {
   id: string;
   title: string;
@@ -538,7 +539,14 @@ export function ReceiptCredentialIssuer({
                       <div className="space-y-2">
                         <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectTitle')}</Label>
                         <CustomSelect
-                          options={options.map(o => ({ value: o.id, label: o.title }))}
+                          options={options.map(o => {
+                            const titleVariants = createTitleVariants(o.title, 45);
+                            return { 
+                              value: o.id, 
+                              label: o.title, // Full title for dropdown options
+                              displayLabel: titleVariants.short // Short title for input field display
+                            };
+                          })}
                           value={selectedId}
                           onValueChange={setSelectedId}
                           disabled={!type}
