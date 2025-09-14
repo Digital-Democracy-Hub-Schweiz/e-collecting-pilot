@@ -4,9 +4,9 @@
   "step": "Schritt {{current}} von {{total}}",
   "step1": {
     "title": "Kategorie und Inhalt auswählen",
-    "selectType": "Wählen Sie Initiative oder Referendum",
+    "selectType": "Initiative oder Referendum",
     "selectTitle": "Volksbegehren auswählen",
-    "selectTitlePlaceholder": "Titel auswählen",
+    "selectTitlePlaceholder": "Bitte auswählen",
     "selectTypeFirst": "Zuerst Typ wählen",
     "types": {
       "initiative": "Initiative",

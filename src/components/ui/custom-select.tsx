@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 interface Option {
   value: string;
   label: string;
+  displayLabel?: string; // Optional shorter label for display in input field
 }
 
 interface CustomSelectProps {
@@ -147,9 +148,9 @@ export function CustomSelect({
         style={{ width: '100%', maxWidth: '100%' }}
       >
         <div className="flex-1 flex gap-2.5 items-center min-w-0 overflow-hidden">
-          <div className="flex-1 min-w-0 overflow-hidden">
-            <span className="block truncate whitespace-nowrap overflow-hidden text-ellipsis text-[#1f2937] leading-[27px]">
-              {selectedOption?.label || placeholder}
+          <div className="flex-1 min-w-0 overflow-hidden text-left">
+            <span className="block truncate whitespace-nowrap overflow-hidden text-ellipsis text-[#1f2937] leading-[27px] text-left">
+              {selectedOption?.displayLabel || selectedOption?.label || placeholder}
             </span>
           </div>
         </div>
