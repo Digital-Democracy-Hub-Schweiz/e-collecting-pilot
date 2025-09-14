@@ -86,5 +86,9 @@
   "shared": "Geteilt",
   "shareDialogOpened": "Freigabedialog geöffnet.",
   "linkCopied": "Link kopiert",
-  "shareFailed": "Teilen fehlgeschlagen"
+  "shareFailed": "Teilen fehlgeschlagen",
+  "shareSuccess": {
+    "title": "Link kopiert",
+    "message": "Der Link wurde erfolgreich in die Zwischenablage kopiert."
+  }
 }

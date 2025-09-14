@@ -62,6 +62,7 @@ export function ReceiptCredentialIssuer({
   const [verificationId, setVerificationId] = useState<string | null>(null);
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
   const [isCreatingVerification, setIsCreatingVerification] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   // Handler for address selection
   const handleAddressSelect = async (address: AddressHit) => {
@@ -405,11 +406,11 @@ export function ReceiptCredentialIssuer({
           text: `${t('forms:shareText', 'Unterstütze')}: ${title}`,
           url
         });
-        // Entfernt: Toast
       } else {
         await navigator.clipboard.writeText(url);
-        // Entfernt: Toast
       }
+      // Show success modal
+      setShareModalOpen(true);
     } catch (e: any) {
       setBanner({
         type: 'error',
@@ -816,5 +817,27 @@ export function ReceiptCredentialIssuer({
           {null}
         </div>
       </div>
+
+      {/* Modal: Link erfolgreich kopiert */}
+      <AlertDialog open={shareModalOpen} onOpenChange={setShareModalOpen}>
+        <AlertDialogContent className="max-w-[480px] rounded-[2px]">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-[22px] leading-[33px] text-[#1f2937]">
+              {t('forms:shareSuccess.title')}
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-[18px] leading-[28px] text-[#1f2937]">
+              {t('forms:shareSuccess.message')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction 
+              onClick={() => setShareModalOpen(false)} 
+              className="bg-[#5c6977] hover:bg-[#4c5967] text-white text-[18px] leading-[28px]"
+            >
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </section>;
 }
