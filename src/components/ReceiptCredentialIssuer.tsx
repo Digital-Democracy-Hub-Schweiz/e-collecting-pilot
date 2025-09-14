@@ -455,9 +455,9 @@ export function ReceiptCredentialIssuer({
   };
   // handleSuggestionClick removed - suggestions handled by AddressAutocomplete
   return <section aria-labelledby="issuer-section">
-      <div className="space-y-6 w-full max-w-[960px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20">
+      <div className="space-y-4 sm:space-y-6 w-full max-w-[960px] mx-auto px-2 sm:px-4 md:px-6 lg:px-8 xl:px-12">
         <div className="w-full">
-          <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
+          <div className="text-[24px] leading-[32px] sm:text-[28px] sm:leading-[36px] md:text-[32px] md:leading-[43px] font-semibold text-[#1f2937]">
             {t('forms:step', { current: step, total: 5 })}
           </div>
         </div>

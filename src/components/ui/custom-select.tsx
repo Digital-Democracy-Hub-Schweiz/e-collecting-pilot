@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronDown, Check } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Option {
@@ -130,7 +130,7 @@ export function CustomSelect({
   }, [highlightedIndex, isOpen]);
 
   return (
-    <div ref={selectRef} className={cn("relative w-full", className)}>
+    <div ref={selectRef} className={cn("relative w-full min-w-0", className)} style={{ maxWidth: '100%' }}>
       <button
         ref={buttonRef}
         type="button"
@@ -141,17 +141,22 @@ export function CustomSelect({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         className={cn(
-          "flex h-12 w-full items-center rounded-[1px] border border-[#6b7280] bg-white px-5 py-2 text-[18px] leading-[28px] font-medium shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)] focus:outline-none focus:ring-0 focus:border-[#d8232a] disabled:cursor-not-allowed disabled:opacity-50",
+          "flex h-12 w-full items-center rounded-[1px] border border-[#6b7280] bg-white pl-4 pr-0 py-0 text-[18px] leading-[27px] font-medium shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)] focus:outline-none focus:ring-0 focus:border-[#d8232a] disabled:cursor-not-allowed disabled:opacity-50 overflow-hidden",
           isOpen && "border-[#d8232a]"
         )}
+        style={{ width: '100%', maxWidth: '100%' }}
       >
-        <span className="flex-1 text-left truncate pr-3">
-          {selectedOption?.label || placeholder}
-        </span>
-        <div className="flex-shrink-0 h-6 w-6 flex items-center justify-center">
+        <div className="flex-1 flex gap-2.5 items-center min-w-0 overflow-hidden">
+          <div className="flex-1 min-w-0 overflow-hidden">
+            <span className="block truncate whitespace-nowrap overflow-hidden text-ellipsis text-[#1f2937] leading-[27px]">
+              {selectedOption?.label || placeholder}
+            </span>
+          </div>
+        </div>
+        <div className="flex-shrink-0 h-12 w-12 bg-white border-l border-[#6b7280] flex items-center justify-center">
           <ChevronDown 
             className={cn(
-              "h-4 w-4 text-gray-400 transition-transform duration-200",
+              "h-6 w-6 text-[#1f2937] transition-transform duration-200",
               isOpen && "rotate-180"
             )} 
           />
@@ -162,7 +167,8 @@ export function CustomSelect({
         <ul
           ref={listRef}
           role="listbox"
-          className="absolute top-full left-0 right-0 z-[9999] mt-1 max-h-96 overflow-auto rounded border border-gray-300 bg-white shadow-lg p-1"
+          className="absolute top-full left-0 z-[9999] mt-0 w-full max-h-60 sm:max-h-96 overflow-auto bg-white border-t border-l border-r border-[#6b7280]"
+          style={{ width: '100%', maxWidth: '100%' }}
         >
           {options.length === 0 && (
             <li className="py-3 px-4 text-gray-500">Keine Optionen verfügbar</li>
@@ -173,21 +179,18 @@ export function CustomSelect({
               role="option"
               aria-selected={option.value === value}
               className={cn(
-                "relative flex w-full cursor-pointer select-none items-center rounded-sm py-3 pl-8 pr-2 text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] outline-none transition-colors",
-                highlightedIndex === index && "bg-[#f5f6f7] text-[#1f2937]",
-                option.value === value && "bg-[#f5f6f7] text-[#1f2937]"
+                "relative flex w-full cursor-pointer select-none items-center px-4 py-2.5 text-[18px] leading-[27px] outline-none transition-colors",
+                highlightedIndex === index && "bg-[#e5e7eb] text-[#1f2937]",
+                option.value === value && "bg-[#f3f4f6] text-[#1f2937]"
               )}
               onClick={(e) => {
                 handleSelect(option.value, e);
               }}
               onMouseEnter={() => setHighlightedIndex(index)}
             >
-              <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-                {option.value === value && (
-                  <Check className="h-5 w-5 text-[#1f2937]" />
-                )}
-              </span>
-              <span className="truncate">{option.label}</span>
+              <div className="flex-1 min-w-0">
+                <span className="block truncate text-[#1f2937] font-semibold leading-[27px]">{option.label}</span>
+              </div>
             </li>
           ))}
         </ul>
