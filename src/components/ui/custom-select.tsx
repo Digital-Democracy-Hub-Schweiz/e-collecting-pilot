@@ -130,7 +130,7 @@ export function CustomSelect({
   }, [highlightedIndex, isOpen]);
 
   return (
-    <div ref={selectRef} className={cn("relative w-full max-w-full", className)}>
+    <div ref={selectRef} className={cn("relative w-full", className)}>
       <button
         ref={buttonRef}
         type="button"
@@ -141,18 +141,17 @@ export function CustomSelect({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         className={cn(
-          "flex h-12 w-full items-center rounded-[1px] border border-[#6b7280] bg-white pl-5 pr-0 text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] font-medium shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)] focus:outline-none focus:ring-0 focus:border-[#d8232a] disabled:cursor-not-allowed disabled:opacity-50",
-          isOpen && "border-[#d8232a]",
-          className
+          "flex h-12 w-full items-center rounded-[1px] border border-[#6b7280] bg-white px-5 py-2 text-[18px] leading-[28px] font-medium shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)] focus:outline-none focus:ring-0 focus:border-[#d8232a] disabled:cursor-not-allowed disabled:opacity-50",
+          isOpen && "border-[#d8232a]"
         )}
       >
-        <span className="grow text-left truncate">
+        <span className="flex-1 text-left truncate pr-3">
           {selectedOption?.label || placeholder}
         </span>
-        <div className="relative h-12 w-12 grid place-items-center border-l border-[#6b7280]">
+        <div className="flex-shrink-0 h-6 w-6 flex items-center justify-center">
           <ChevronDown 
             className={cn(
-              "h-6 w-6 text-[#1f2937] transition-transform duration-200",
+              "h-4 w-4 text-gray-400 transition-transform duration-200",
               isOpen && "rotate-180"
             )} 
           />

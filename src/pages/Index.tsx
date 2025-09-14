@@ -212,14 +212,12 @@ const Index = () => {
               </p>
             </div>
             <div className="h-24 opacity-0" />
-          </div>
+          </PageContainer>
         </section>
 
         {/* Formular-Band: grauer Hintergrund und Figma-Spacing */}
-        <section className="bg-[#f1f4f7]">
-          <div className="max-w-[2000px] mx-auto px-[597px] py-20">
-            <ReceiptCredentialIssuer preselect={preselect} />
-          </div>
+        <section className="bg-[#f1f4f7] sd-section-py-comfort">
+          <ReceiptCredentialIssuer preselect={preselect} />
         </section>
 
 

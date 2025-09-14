@@ -512,55 +512,51 @@ export function ReceiptCredentialIssuer({
           {/* Entfernt: Erfolgsmeldung in Schritt 4 */}
           {null}
 
-          {step === 1 && (
-            <div className="space-y-6 w-full">
-              <div>
-                <h3 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step1.title')}</h3>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectType')}</Label>
-                    <div style={{ width: '100%' }}>
-                      <CustomSelect
-                        options={[
-                          { value: "Initiative", label: t('forms:step1.types.initiative') },
-                          { value: "Referendum", label: t('forms:step1.types.referendum') }
-                        ]}
-                        value={type}
-                        onValueChange={(v) => setType(v as any)}
-                        placeholder={t('forms:step1.selectType')}
-                        aria-label={t('forms:step1.selectType')}
-                        className="!w-full h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]"
-                      />
+          <div className={cn("grid gap-6 md:gap-8", issuedId ? "md:grid-cols-2" : "")}> 
+            <div className="space-y-4 w-full">
+
+              {step === 1 && (
+                <div className="space-y-6 w-full">
+                  <div>
+                    <h3 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step1.title')}</h3>
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectType')}</Label>
+                        <CustomSelect
+                          options={[
+                            { value: "Initiative", label: t('forms:step1.types.initiative') },
+                            { value: "Referendum", label: t('forms:step1.types.referendum') }
+                          ]}
+                          value={type}
+                          onValueChange={(v) => setType(v as any)}
+                          placeholder={t('forms:step1.selectType')}
+                          aria-label={t('forms:step1.selectType')}
+                          className="w-full"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectTitle')}</Label>
+                        <CustomSelect
+                          options={options.map(o => ({ value: o.id, label: o.title }))}
+                          value={selectedId}
+                          onValueChange={setSelectedId}
+                          disabled={!type}
+                          placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                          aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                          className="w-full"
+                        />
+                      </div>
                     </div>
                   </div>
                   
-                  <div className="space-y-2">
-                    <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectTitle')}</Label>
-                    <div style={{ width: '100%' }}>
-                      <CustomSelect
-                        options={options.map(o => ({ value: o.id, label: o.title }))}
-                        value={selectedId}
-                        onValueChange={setSelectedId}
-                        disabled={!type}
-                        placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
-                        aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
-                        className="!w-full h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]"
-                      />
-                    </div>
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                    <button onClick={handleNextFromStep1} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
+                      {t('common:next')}
+                    </button>
                   </div>
                 </div>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                <button onClick={handleNextFromStep1} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
-                  {t('common:next')}
-                </button>
-              </div>
-            </div>
-          )}
-
-          <div className={cn("grid gap-6 md:gap-8", issuedId ? "md:grid-cols-2" : "")}> 
-            <div className="space-y-4 w-full"> 
+              )} 
 
               {step === 2 && <div className="space-y-6 w-full">
                   <div>
