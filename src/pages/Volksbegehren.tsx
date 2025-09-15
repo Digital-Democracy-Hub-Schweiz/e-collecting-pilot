@@ -206,9 +206,7 @@ const SectionCardRow: React.FC<SectionCardRowProps> = ({ title, items, lang }) =
                 <div className="text-[14px] leading-[18px] text-[#6b7280] flex items-center gap-[10px]">
                   <span className="font-medium">{card.level}</span>
                   <span aria-hidden className="text-center w-[21px]">|</span>
-                  <span className="font-medium">{formatDate(card.start_date, lang)}</span>
-                  <span aria-hidden className="text-center w-[21px]">|</span>
-                  <span className="font-medium">{`bis ${formatDate(card.end_date, lang)}`}</span>
+                  <span className="font-medium">{`${formatDate(card.start_date, lang)} bis ${formatDate(card.end_date, lang)}`}</span>
                 </div>
                 <div className="h-4" />
                 {/* Title */}
