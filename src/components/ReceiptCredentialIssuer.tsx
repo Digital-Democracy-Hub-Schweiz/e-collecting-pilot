@@ -579,8 +579,9 @@ export function ReceiptCredentialIssuer({
                     <h2 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step1.title')}</h2>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectType')}</Label>
+                        <Label htmlFor="type-select" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectType')}</Label>
                         <CustomSelect
+                          id="type-select"
                           options={[
                             { value: "Initiative", label: t('forms:step1.types.initiative') },
                             { value: "Referendum", label: t('forms:step1.types.referendum') }
@@ -602,8 +603,9 @@ export function ReceiptCredentialIssuer({
                       </div>
                       
                       <div className="space-y-2">
-                        <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectTitle')}</Label>
+                        <Label htmlFor="title-select" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectTitle')}</Label>
                         <CustomSelect
+                          id="title-select"
                           options={options.map(o => {
                             const titleVariants = createTitleVariants(o.title, 45);
                             return { 
@@ -639,8 +641,9 @@ export function ReceiptCredentialIssuer({
                     <h2 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step2.title')}</h2>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
+                        <Label htmlFor="street-address" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
                         <AddressAutocomplete 
+                          id="street-address"
                           value={streetAddress}
                           onValueChange={(v) => { setStreetAddress(v); setFieldErrors(prev => ({ ...prev, streetAddress: undefined })); }}
                           onAddressSelect={handleAddressSelect}
@@ -654,15 +657,15 @@ export function ReceiptCredentialIssuer({
                       
                       <div className="grid grid-cols-1 sm:grid-cols-6 gap-4">
                         <div className="space-y-2 relative sm:col-span-2">
-                          <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.postalCode')}</Label>
-                          <Input value={postalCode} inputMode="numeric" pattern="[0-9]*" onChange={e => { handlePostalCodeChange(e.target.value); setFieldErrors(prev => ({ ...prev, postalCode: undefined })); }} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
+                          <Label htmlFor="postal-code" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.postalCode')}</Label>
+                          <Input id="postal-code" value={postalCode} inputMode="numeric" pattern="[0-9]*" onChange={e => { handlePostalCodeChange(e.target.value); setFieldErrors(prev => ({ ...prev, postalCode: undefined })); }} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                           {fieldErrors.postalCode && (
                             <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.postalCode}</p>
                           )}
                         </div>
                         <div className="space-y-2 sm:col-span-4">
-                          <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.city')}</Label>
-                          <Input value={city} onChange={e => { setCity(e.target.value); setFieldErrors(prev => ({ ...prev, city: undefined })); }} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
+                          <Label htmlFor="city" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.city')}</Label>
+                          <Input id="city" value={city} onChange={e => { setCity(e.target.value); setFieldErrors(prev => ({ ...prev, city: undefined })); }} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                           {fieldErrors.city && (
                             <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.city}</p>
                           )}

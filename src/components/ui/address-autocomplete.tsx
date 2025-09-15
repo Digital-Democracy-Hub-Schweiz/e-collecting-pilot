@@ -12,6 +12,7 @@ interface AddressAutocompleteProps {
   placeholder?: string;
   className?: string;
   disabled?: boolean;
+  id?: string;
 }
 
 export function AddressAutocomplete({
@@ -21,6 +22,7 @@ export function AddressAutocomplete({
   placeholder = "Strasse und Hausnummer eingeben...",
   className,
   disabled = false,
+  id,
 }: AddressAutocompleteProps) {
   const [open, setOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<AddressHit[]>([]);
@@ -139,6 +141,7 @@ export function AddressAutocomplete({
     <div className={cn("relative w-full", className)}>
       <Input
         ref={inputRef}
+        id={id}
         value={value}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}

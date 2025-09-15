@@ -16,6 +16,7 @@ interface CustomSelectProps {
   disabled?: boolean;
   className?: string;
   "aria-label"?: string;
+  id?: string;
 }
 
 export function CustomSelect({
@@ -25,7 +26,8 @@ export function CustomSelect({
   placeholder = "Auswählen...",
   disabled = false,
   className,
-  "aria-label": ariaLabel
+  "aria-label": ariaLabel,
+  id
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [highlightedIndex, setHighlightedIndex] = React.useState(-1);
@@ -135,6 +137,7 @@ export function CustomSelect({
       <button
         ref={buttonRef}
         type="button"
+        id={id}
         onClick={handleToggle}
         onKeyDown={handleKeyDown}
         disabled={disabled}
