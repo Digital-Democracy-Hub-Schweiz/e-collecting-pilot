@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CustomSelect } from "@/components/ui/custom-select";
+import { NativeSelect } from "@/components/ui/native-select";
+import { AccessibleSelect } from "@/components/ui/accessible-select";
+import { SelectComparison } from "@/components/ui/select-comparison";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { issuerBusinessAPI } from "@/services/issuerAPI";
@@ -580,7 +583,7 @@ export function ReceiptCredentialIssuer({
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="type-select" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectType')}</Label>
-                        <CustomSelect
+                        <NativeSelect
                           id="type-select"
                           options={[
                             { value: "Initiative", label: t('forms:step1.types.initiative') },
@@ -604,7 +607,7 @@ export function ReceiptCredentialIssuer({
                       
                       <div className="space-y-2">
                         <Label htmlFor="title-select" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectTitle')}</Label>
-                        <CustomSelect
+                        <NativeSelect
                           id="title-select"
                           options={options.map(o => {
                             const titleVariants = createTitleVariants(o.title, 45);
@@ -624,6 +627,40 @@ export function ReceiptCredentialIssuer({
                         {fieldErrors.selectedId && (
                           <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.selectedId}</p>
                         )}
+                        
+                        {/* Comparison: Accessible Select Variant - COMMENTED OUT */}
+                        {/* 
+                        <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                          <h4 className="text-sm font-semibold text-gray-700 mb-3">Comparison: Accessible Select Variant</h4>
+                          <AccessibleSelect
+                            id="title-select-accessible"
+                            options={options.map(o => {
+                              const titleVariants = createTitleVariants(o.title, 45);
+                              return { 
+                                value: o.id, 
+                                label: o.title, // Full title for dropdown options
+                                displayLabel: titleVariants.short // Short title for input field display
+                              };
+                            })}
+                            value={selectedId}
+                            onValueChange={(v) => { setSelectedId(v); setFieldErrors(prev => ({ ...prev, selectedId: undefined })); }}
+                            disabled={!type}
+                            placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                            aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                            className="w-full"
+                          />
+                          <p className="text-xs text-gray-500 mt-2">
+                            This is the AccessibleSelect variant for comparison. Both dropdowns are synchronized.
+                          </p>
+                        </div>
+                        */}
+
+                        {/* Full Comparison Component - COMMENTED OUT */}
+                        {/* 
+                        <div className="mt-6">
+                          <SelectComparison />
+                        </div>
+                        */}
                       </div>
                     </div>
                   </div>
