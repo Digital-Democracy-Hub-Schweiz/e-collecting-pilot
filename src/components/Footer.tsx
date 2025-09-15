@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linkedin, Youtube, ChevronRight } from 'lucide-react';
+import { Linkedin, Youtube, ChevronRight, Github } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useCurrentLanguage } from "@/utils/routing";
 import type { SystemHealth } from "@/services/healthAPI";
@@ -113,10 +113,13 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                 <div className="space-y-[45px]">
                   <div className="flex gap-[33px] items-center">
                     <SocialButton icon={Linkedin} href="https://www.linkedin.com/company/digital-democracy-hub-schweiz-fachstelle-f%C3%BCr-demokratie-und-digitalisierung/">
-                      LinkedIn
+                      
                     </SocialButton>
                     <SocialButton icon={Youtube} href="https://youtu.be/WGUTi2jSaYw?feature=shared&t=7225">
-                      YouTube
+                      
+                    </SocialButton>
+                    <SocialButton icon={Github} href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot">
+                      Code
                     </SocialButton>
                   </div>
                   <Button 
@@ -257,6 +260,16 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                 <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Impressum</a>
                 <button type="button" onClick={() => setAccessibilityOpen(true)} className="hover:text-white/80 transition-colors">Barrierefreiheit</button>
               </div>
+              <div className="text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
+                <a 
+                  href="https://buymeacoffee.com/digitaldemocracyhub" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-white/80 transition-colors"
+                >
+                  unterstütze uns mit einem Kaffee ☕️
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -268,6 +281,16 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
             <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Datenschutz</a>
             <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Impressum</a>
             <button type="button" onClick={() => setAccessibilityOpen(true)} className="hover:text-white/80 transition-colors">Barrierefreiheit</button>
+          </div>
+          <div className="w-full text-right text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
+            <a 
+              href="https://buymeacoffee.com/digitaldemocracyhub" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-white/80 transition-colors"
+            >
+              Kaffee? ☕️ 
+            </a>
           </div>
         </div>
       </div>
