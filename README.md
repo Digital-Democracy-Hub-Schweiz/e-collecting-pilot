@@ -23,20 +23,14 @@ Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Für die T
 
 
 ## Datenquellen
-- `src/data/initiatives.json` und `src/data/referendums.json` dienen als Beispiel‑/Demodaten und können inhaltlich vom aktuellen Stand abweichen.
-- `src/data/volksbegehren.json` dienen als Beispiel‑/Demodaten und können inhaltlich vom aktuellen Stand abweichen.
+
+- `src/data/volksbegehren/[language].json` dienen als Beispiel‑/Demodaten und können inhaltlich vom aktuellen Stand abweichen.
 
 ### Gemeindedaten
 - **Amtliches Gemeindeverzeichnis der Schweiz**:  `https://opendata.swiss/de/dataset/historisiertes-gemeindeverzeichnis-der-schweiz/resource/a90c6d94-0bdd-4447-833a-81f1da3bcf11`, Datenstand https://www.agvchapp.bfs.admin.ch/api/communes/snapshot?date=01-01-2025
 
 ### Open Buildings API by liip.ch
 Dieses Projekt verwendet die Open Buildings API für die Adresssuche. Herzlichen Dank liip! https://osbapi.liip.ch/doc
-
-## Routing & Deep‑Links
-Die Startseite (`src/pages/Index.tsx`) unterstützt Deep‑Links zur Vorbelegung:
-- `/volksbegehren/:idOrSlug`
-
-Beim Aufruf wird der entsprechende Eintrag gesucht und im Aussteller‑Formular vorbelegt.
 
 ## Mitwirkende & Kontakt
 Made with ❤️ by [Digital Democracy Hub Schweiz](https://www.digitaldemocracyhub.ch/).
