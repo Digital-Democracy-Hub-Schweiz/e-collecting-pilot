@@ -22,7 +22,9 @@ const Volksbegehren = () => {
       } else {
         window.prompt("Link kopieren:", url);
       }
-    } catch (_) {}
+    } catch (_err) {
+      // ignore share errors
+    }
   };
   const handlePrint = () => window.print();
 
@@ -67,15 +69,12 @@ const Volksbegehren = () => {
         </section>
 
         {/* Initiativen Block (Figma-Vorlage) */}
-        <SectionCardRow title="Initiativen" />
-
-        {/* Referenden Block (Figma-Vorlage) */}
-        <SectionCardRow title="Referenden" />
+        <DataDrivenSections />
       </main>
 
       {/* Spacer vor Footer */}
       <section className="bg-white">
-        <PageContainer paddingYClassName="py-24" />
+        <PageContainer paddingYClassName="py-24">{null}</PageContainer>
       </section>
 
       <Footer healthStatus={healthStatus} healthLoading={healthLoading} />
@@ -85,18 +84,95 @@ const Volksbegehren = () => {
 
 export default Volksbegehren;
 
+type VolksbegehrenItem = {
+  id: string;
+  type: 'initiative' | 'referendum';
+  level: string;
+  title: string;
+  slug: string;
+  comitee: string;
+  wording: string;
+  start_date: string; // ISO
+  end_date: string;   // ISO
+  show: boolean;
+  image?: string;
+};
 
-type SectionCardRowProps = { title: string };
+const DataDrivenSections: React.FC = () => {
+  const lang = useCurrentLanguage();
+  const [items, setItems] = React.useState<VolksbegehrenItem[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
 
-const SectionCardRow: React.FC<SectionCardRowProps> = ({ title }) => {
-  const cards = React.useMemo(
-    () => [
-      { id: '1' },
-      { id: '2' },
-      { id: '3' },
-    ],
-    []
+  React.useEffect(() => {
+    let canceled = false;
+    setLoading(true);
+    setError(null);
+    try {
+      const modules = import.meta.glob<Record<string, unknown>>('/src/data/volksbegehren/*.json', { eager: true });
+      const path = `/src/data/volksbegehren/${lang}.json`;
+      const fallbackPath = `/src/data/volksbegehren/de.json`;
+      const mod = (modules[path] ?? modules[fallbackPath]) as { default?: unknown } | undefined;
+      const raw = (mod && (mod as { default?: unknown }).default) as unknown;
+      const data = (Array.isArray(raw) ? (raw as unknown[]) : []) as VolksbegehrenItem[];
+      if (!canceled) {
+        setItems(Array.isArray(data) ? data.filter(d => d.show !== false) : []);
+        setLoading(false);
+      }
+    } catch (e) {
+      if (!canceled) {
+        setError('Daten konnten nicht geladen werden.');
+        setLoading(false);
+      }
+    }
+    return () => {
+      canceled = true;
+    };
+  }, [lang]);
+
+  if (loading) {
+    return (
+      <section className="bg-white">
+        <PageContainer paddingYClassName="py-8">
+          <div className="text-[#6b7280]">Laden…</div>
+        </PageContainer>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="bg-white">
+        <PageContainer paddingYClassName="py-8">
+          <div className="text-red-600">{error}</div>
+        </PageContainer>
+      </section>
+    );
+  }
+
+  const initiatives = items.filter(i => i.type === 'initiative');
+  const referendums = items.filter(i => i.type === 'referendum');
+
+  return (
+    <>
+      <SectionCardRow title="Initiativen" items={initiatives} lang={lang} />
+      <SectionCardRow title="Referenden" items={referendums} lang={lang} />
+    </>
   );
+};
+
+type SectionCardRowProps = { title: string; items: VolksbegehrenItem[]; lang: string };
+
+const SectionCardRow: React.FC<SectionCardRowProps> = ({ title, items, lang }) => {
+  const [page, setPage] = React.useState(0);
+  const pageSize = 3;
+  const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
+  const start = page * pageSize;
+  const visible = items.slice(start, start + pageSize);
+  React.useEffect(() => {
+    // Reset page if items change and current page is out of range
+    if (page >= totalPages) setPage(0);
+  }, [items, totalPages, page]);
 
   return (
     <section className="bg-white">
@@ -108,58 +184,98 @@ const SectionCardRow: React.FC<SectionCardRowProps> = ({ title }) => {
           </h2>
         </div>
 
-        {/* Cards row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {cards.map(card => (
+        {/* Carousel row with nav arrows */}
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            aria-label="Zurück"
+            onClick={() => setPage(p => Math.max(0, p - 1))}
+            disabled={page === 0}
+            className="w-14 h-14 flex items-center justify-center text-[#5c6977] hover:text-[#1f2937] disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97 96" className="w-8 h-8" fill="currentColor">
+              <path d="M59.4324 22.816L44.0324 49.492L59.4324 76.168L56.8364 77.668L40.5684 49.492L56.8364 21.316L59.4324 22.816Z" />
+            </svg>
+          </button>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 flex-1">
+          {visible.map(card => (
             <article key={card.id} className="bg-white shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]">
               <div className="pt-9 px-7 pb-7">
                 {/* Meta */}
                 <div className="text-[14px] leading-[18px] text-[#6b7280] flex items-center gap-[10px]">
-                  <span className="font-medium">Artikel</span>
+                  <span className="font-medium">{card.level}</span>
                   <span aria-hidden className="text-center w-[21px]">|</span>
-                  <span className="font-medium">24. Februar 2023</span>
+                  <span className="font-medium">{formatDate(card.start_date, lang)}</span>
+                  <span aria-hidden className="text-center w-[21px]">|</span>
+                  <span className="font-medium">{`bis ${formatDate(card.end_date, lang)}`}</span>
                 </div>
                 <div className="h-4" />
                 {/* Title */}
-                <h3 className="text-[24px] font-semibold text-[#1f2937] leading-snug">Titel</h3>
+                <h3 className="text-[24px] font-semibold text-[#1f2937] leading-snug">{card.title}</h3>
                 <div className="h-4" />
                 {/* Description */}
-                <p className="text-[18px] leading-[28px] text-[#1f2937]">
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed ...
-                </p>
+                <p className="text-[18px] leading-[28px] text-[#1f2937]">{card.wording}</p>
                 <div className="h-4" />
-                {/* Image */}
-                <div className="bg-[#f1f4f7] h-[280px] w-full flex items-center justify-center rounded-t-[2px] overflow-hidden">
-                  <img src="/placeholder.svg" alt="" className="h-full object-contain" />
-                </div>
+                {/* Image (optional) */}
+                {card.image ? (
+                  <div className="bg-[#f1f4f7] h-[280px] w-full flex items-center justify-center rounded-t-[2px] overflow-hidden">
+                    <img src={card.image} alt="" className="h-full object-contain" />
+                  </div>
+                ) : null}
                 <div className="h-6" />
-                {/* Footer meta */}
-                <div className="text-[18px] leading-[28px] text-[#6b7280]">PDF 3.8 Mb   |   102 Seiten   |   Deutsch</div>
                 <div className="h-10" />
                 {/* Button (icon-only, bordered) */}
                 <div className="flex justify-end">
-                  <button type="button" aria-label="Mehr"
+                  <a href={`/${lang}/volksbegehren/${card.id}`} aria-label="Mehr"
                     className="relative border border-[#d8232a] rounded-[1px] p-2 text-[#d8232a] hover:bg-[#d8232a]/5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
-                  </button>
+                  </a>
                 </div>
               </div>
             </article>
           ))}
+          </div>
+
+          <button
+            type="button"
+            aria-label="Weiter"
+            onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+            disabled={page >= totalPages - 1}
+            className="w-14 h-14 flex items-center justify-center text-[#5c6977] hover:text-[#1f2937] disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97 96" className="w-8 h-8 rotate-180" fill="currentColor">
+              <path d="M59.4324 22.816L44.0324 49.492L59.4324 76.168L56.8364 77.668L40.5684 49.492L56.8364 21.316L59.4324 22.816Z" />
+            </svg>
+          </button>
         </div>
 
-        {/* Dots (static) */}
+        {/* Dots (dynamic) */}
         <div className="flex items-center justify-center gap-2 py-10">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#adb4bc]" />
-          <span className="w-1.5 h-1.5 rounded-full bg-[#1f2937]" />
-          <span className="w-1.5 h-1.5 rounded-full bg-[#adb4bc]" />
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              aria-label={`Seite ${i + 1}`}
+              onClick={() => setPage(i)}
+              className={"w-1.5 h-1.5 rounded-full " + (i === page ? "bg-[#1f2937]" : "bg-[#adb4bc]")}
+            />
+          ))}
         </div>
       </PageContainer>
     </section>
   );
 };
+
+function formatDate(iso: string, lang: string) {
+  try {
+    const date = new Date(iso);
+    return new Intl.DateTimeFormat(lang, { day: '2-digit', month: 'long', year: 'numeric' }).format(date);
+  } catch {
+    return iso;
+  }
+}
 
 

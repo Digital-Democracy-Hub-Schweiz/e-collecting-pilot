@@ -635,27 +635,27 @@ export function ReceiptCredentialIssuer({
                       <div className="border-t border-[#adb4bc] divide-y divide-[#adb4bc]">
                         <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
                           <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:step2.street', 'Strasse / Nr.')}:</div>
-                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{streetAddress || '—'}</div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{streetAddress || '—'}</div>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
                           <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:step2.postalCode', 'PLZ')}:</div>
-                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{postalCode || '—'}</div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{postalCode || '—'}</div>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
                           <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:step2.city', 'Ort')}:</div>
-                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{city || '—'}</div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{city || '—'}</div>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
                           <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:step3.municipality', 'Politische Gemeinde')}:</div>
-                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.town || '—'}</div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.town || '—'}</div>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
                           <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">BFS-Nr.:</div>
-                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.bfs || '—'}</div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.bfs || '—'}</div>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
                           <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">Kanton:</div>
-                          <div className="w-full sm:grow text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
                             {municipalityDetails?.cantonFromBfs || municipalityDetails?.canton || '—'}
                             {isValidatingAddress && <RefreshCw className="w-4 h-4 ml-2 inline align-middle animate-spin" />}
                           </div>
