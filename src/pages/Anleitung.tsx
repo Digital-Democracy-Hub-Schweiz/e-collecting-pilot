@@ -40,7 +40,7 @@ const Anleitung = () => {
         <section className="bg-white">
           <PageContainer paddingYClassName="py-8">
             <nav className="text-[16px] leading-[24px] text-[#6b7280]">
-              <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">Startseite</a> <span className="inline-block mx-[7px]">›</span> Anleitung
+              <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">{t('common:breadcrumb.home')}</a> <span className="inline-block mx-[7px]">›</span> {t('common:breadcrumb.instructions')}
             </nav>
           </PageContainer>
         </section>

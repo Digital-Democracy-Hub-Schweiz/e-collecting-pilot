@@ -26,7 +26,36 @@
   "navigation": {
     "home": "Hauptseite",
     "backToMain": "Zurück zur Hauptseite",
-    "impressum": "Impressum"
+    "impressum": "Impressum",
+    "pilot": "Pilot",
+    "instructions": "Anleitung",
+    "project": "Projekt",
+    "volksbegehren": "Volksbegehren",
+    "contact": "Kontakt",
+    "newsletter": "Newsletter",
+    "blog": "Blog"
+  },
+  "breadcrumb": {
+    "home": "Startseite",
+    "instructions": "Anleitung",
+    "volksbegehren": "Volksbegehren",
+    "pilot": "Pilot"
+  },
+  "accessibility": {
+    "easyLanguage": "Leichte Sprache",
+    "signLanguage": "Gebärdensprache",
+    "easyLanguageModal": {
+      "title": "Leichte Sprache",
+      "description": "Hilfst du mir bei der Umsetzung dieses Features?",
+      "cancel": "Abbrechen",
+      "ok": "OK"
+    },
+    "signLanguageModal": {
+      "title": "Gebärdensprache",
+      "description": "Hilfst du mir bei der Umsetzung dieses Features?",
+      "cancel": "Abbrechen",
+      "ok": "OK"
+    }
   },
   "footer": {
     "madeWith": "made with ❤️",

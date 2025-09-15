@@ -26,7 +26,36 @@
   "navigation": {
     "home": "Page principale",
     "backToMain": "Retour à la page principale",
-    "impressum": "Mentions légales"
+    "impressum": "Mentions légales",
+    "pilot": "Pilote",
+    "instructions": "Instructions",
+    "project": "Projet",
+    "volksbegehren": "Objet de votation populaire",
+    "contact": "Contact",
+    "newsletter": "Newsletter",
+    "blog": "Blog"
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "instructions": "Instructions",
+    "volksbegehren": "Objet de votation populaire",
+    "pilot": "Pilote"
+  },
+  "accessibility": {
+    "easyLanguage": "Langage simple",
+    "signLanguage": "Langue des signes",
+    "easyLanguageModal": {
+      "title": "Langage simple",
+      "description": "M'aiderez-vous à implémenter cette fonctionnalité ?",
+      "cancel": "Annuler",
+      "ok": "OK"
+    },
+    "signLanguageModal": {
+      "title": "Langue des signes",
+      "description": "M'aiderez-vous à implémenter cette fonctionnalité ?",
+      "cancel": "Annuler",
+      "ok": "OK"
+    }
   },
   "footer": {
     "madeWith": "fait avec ❤️",

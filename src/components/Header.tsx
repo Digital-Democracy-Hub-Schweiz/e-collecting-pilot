@@ -29,10 +29,10 @@ export const Header: React.FC = () => {
   const location = useLocation();
 
   const navItems: { label: string; href: string }[] = [
-    { label: 'Pilot', href: `/${currentLang}` },
-    { label: 'Anleitung', href: `/${currentLang}/anleitung` },
-    { label: 'Projekt', href: `/${currentLang}/projekt` },
-    { label: 'Volksbegehren', href: `/${currentLang}/volksbegehren` },
+    { label: t('common:navigation.pilot'), href: `/${currentLang}` },
+    { label: t('common:navigation.instructions'), href: `/${currentLang}/anleitung` },
+    { label: t('common:navigation.project'), href: `/${currentLang}/projekt` },
+    { label: t('common:navigation.volksbegehren'), href: `/${currentLang}/volksbegehren` },
   ];
 
   const handleEasyLanguageOk = () => {
@@ -72,21 +72,21 @@ export const Header: React.FC = () => {
               <button
                 type="button"
                 className="flex items-center gap-2 text-white p-0 leading-none hover:opacity-80"
-                aria-label="Leichte Sprache"
+                aria-label={t('common:accessibility.easyLanguage')}
                 onClick={() => setEasyLangOpen(true)}
               >
                 {/* Label left (hidden on xs), icon right */}
-                <span className="hidden sm:inline text-[16px] leading-[24px] font-medium">Leichte Sprache</span>
-                <img src={ICON_EASY_LANGUAGE} alt="Leichte Sprache" className="w-[22px] h-[22px] invert" />
+                <span className="hidden sm:inline text-[16px] leading-[24px] font-medium">{t('common:accessibility.easyLanguage')}</span>
+                <img src={ICON_EASY_LANGUAGE} alt={t('common:accessibility.easyLanguage')} className="w-[22px] h-[22px] invert" />
               </button>
               <button
                 type="button"
                 className="flex items-center gap-2 text-white p-0 leading-none hover:opacity-80"
-                aria-label="Gebärdensprache"
+                aria-label={t('common:accessibility.signLanguage')}
                 onClick={() => setSignLangOpen(true)}
               >
-                <span className="hidden sm:inline text-[16px] leading-[24px] font-medium">Gebärdensprache</span>
-                <img src={ICON_SIGN_LANGUAGE} alt="Gebärdensprache" className="w-[22px] h-[22px] invert" />
+                <span className="hidden sm:inline text-[16px] leading-[24px] font-medium">{t('common:accessibility.signLanguage')}</span>
+                <img src={ICON_SIGN_LANGUAGE} alt={t('common:accessibility.signLanguage')} className="w-[22px] h-[22px] invert" />
               </button>
               <div className="block">
                 <LanguageSwitcher variant="topbar" />
@@ -122,7 +122,7 @@ export const Header: React.FC = () => {
                 rel="noopener noreferrer"
                 className="text-[16px] leading-[24px] font-semibold text-[#1f2937] hover:text-[#d8232a]"
               >
-                Newsletter
+                {t('common:navigation.newsletter')}
               </a>
               <a
                 href="https://buymeacoffee.com/digitaldemocracyhub/posts"
@@ -130,13 +130,13 @@ export const Header: React.FC = () => {
                 rel="noopener noreferrer"
                 className="text-[16px] leading-[24px] font-semibold text-[#1f2937] hover:text-[#d8232a]"
               >
-                Blog
+                {t('common:navigation.blog')}
               </a>
               <a
                 href={`/${currentLang}/impressum`}
                 className="text-[16px] leading-[24px] font-semibold text-[#1f2937] hover:text-[#d8232a]"
               >
-                Kontakt
+                {t('common:navigation.contact')}
               </a>
             </nav>
 
@@ -176,16 +176,16 @@ export const Header: React.FC = () => {
         <AlertDialogContent className="max-w-[480px] rounded-[2px]">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-[22px] leading-[33px] text-[#1f2937]">
-              Leichte Sprache
+              {t('common:accessibility.easyLanguageModal.title')}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-[18px] leading-[28px] text-[#1f2937]">
-              Hilfst du mir bei der Umsetzung dieses Features?
+              {t('common:accessibility.easyLanguageModal.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="text-[18px] leading-[28px]">Abbrechen</AlertDialogCancel>
+            <AlertDialogCancel className="text-[18px] leading-[28px]">{t('common:accessibility.easyLanguageModal.cancel')}</AlertDialogCancel>
             <AlertDialogAction onClick={handleEasyLanguageOk} className="bg-[#5c6977] hover:bg-[#4c5967] text-white text-[18px] leading-[28px]">
-              OK
+              {t('common:accessibility.easyLanguageModal.ok')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -196,16 +196,16 @@ export const Header: React.FC = () => {
         <AlertDialogContent className="max-w-[480px] rounded-[2px]">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-[22px] leading-[33px] text-[#1f2937]">
-              Gebärdensprache
+              {t('common:accessibility.signLanguageModal.title')}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-[18px] leading-[28px] text-[#1f2937]">
-              Hilfst du mir bei der Umsetzung dieses Features?
+              {t('common:accessibility.signLanguageModal.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="text-[18px] leading-[28px]">Abbrechen</AlertDialogCancel>
+            <AlertDialogCancel className="text-[18px] leading-[28px]">{t('common:accessibility.signLanguageModal.cancel')}</AlertDialogCancel>
             <AlertDialogAction onClick={handleSignLanguageOk} className="bg-[#5c6977] hover:bg-[#4c5967] text-white text-[18px] leading-[28px]">
-              OK
+              {t('common:accessibility.signLanguageModal.ok')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -254,7 +254,7 @@ export const Header: React.FC = () => {
                       onClick={() => setMobileOpen(false)}
                       className="block px-1 py-3 text-[18px] leading-[28px] text-[#1f2937] hover:text-[#d8232a] transition-colors"
                     >
-                      Newsletter
+                      {t('common:navigation.newsletter')}
                     </a>
                   </li>
                   <li>
@@ -265,7 +265,7 @@ export const Header: React.FC = () => {
                       onClick={() => setMobileOpen(false)}
                       className="block px-1 py-3 text-[18px] leading-[28px] text-[#1f2937] hover:text-[#d8232a] transition-colors"
                     >
-                      Blog
+                      {t('common:navigation.blog')}
                     </a>
                   </li>
                   <li>
@@ -274,7 +274,7 @@ export const Header: React.FC = () => {
                       onClick={() => setMobileOpen(false)}
                       className="block px-1 py-3 text-[18px] leading-[28px] text-[#1f2937] hover:text-[#d8232a] transition-colors"
                     >
-                      Kontakt
+                      {t('common:navigation.contact')}
                     </a>
                   </li>
                 </ul>

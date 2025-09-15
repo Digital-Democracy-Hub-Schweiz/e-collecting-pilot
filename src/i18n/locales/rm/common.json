@@ -27,7 +27,36 @@
   "navigation": {
     "home": "Pagina principala",
     "backToMain": "Turnar a la pagina principala",
-    "impressum": "Impressum"
+    "impressum": "Impressum",
+    "pilot": "Pilot",
+    "instructions": "Instrucziuns",
+    "project": "Project",
+    "volksbegehren": "Dumonda populara",
+    "contact": "Contact",
+    "newsletter": "Newsletter",
+    "blog": "Blog"
+  },
+  "breadcrumb": {
+    "home": "Pagina principala",
+    "instructions": "Instrucziuns",
+    "volksbegehren": "Dumonda populara",
+    "pilot": "Pilot"
+  },
+  "accessibility": {
+    "easyLanguage": "Linguatg simpel",
+    "signLanguage": "Linguatg da segns",
+    "easyLanguageModal": {
+      "title": "Linguatg simpel",
+      "description": "M'gidast ti ad implementar questa funcziunalitad?",
+      "cancel": "Annullar",
+      "ok": "OK"
+    },
+    "signLanguageModal": {
+      "title": "Linguatg da segns",
+      "description": "M'gidast ti ad implementar questa funcziunalitad?",
+      "cancel": "Annullar",
+      "ok": "OK"
+    }
   },
   "footer": {
     "madeWith": "fatg cun ❤️",

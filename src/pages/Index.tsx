@@ -182,7 +182,7 @@ const Index = () => {
         <section className="bg-white">
           <PageContainer paddingYClassName="sd-section-py-compact">
             <nav className="text-[16px] leading-[24px] text-[#6b7280]">
-              <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">Startseite</a> <span className="inline-block mx-[7px]">›</span> Pilot
+              <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">{t('common:breadcrumb.home')}</a> <span className="inline-block mx-[7px]">›</span> {t('common:breadcrumb.pilot')}
             </nav>
           </PageContainer>
         </section>
@@ -204,11 +204,11 @@ const Index = () => {
           <PageContainer paddingYClassName="sd-section-py">
             <div className="py-14 md:py-16 flex flex-col items-start">
               <h1 className="sd-h1 max-w-[1024px]">
-                Initiativen und Referenden unterstützen
+                {t('content:homepage.hero.title')}
               </h1>
               <div className="h-6 md:h-10" />
               <p className="sd-lead max-w-[1024px]">
-                Testen Sie jetzt E-Collecting, um Initiativen und Referenden digital zu unterstützen. Verwenden Sie dafür die Beta-ID des Bundes für Volksbegehren. Es werden keine persönlichen Daten gespeichert.
+                {t('content:homepage.hero.description')}
               </p>
             </div>
             <div className="h-24 opacity-0" />

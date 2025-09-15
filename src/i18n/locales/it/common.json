@@ -26,7 +26,36 @@
   "navigation": {
     "home": "Pagina principale",
     "backToMain": "Torna alla pagina principale",
-    "impressum": "Colofone"
+    "impressum": "Colofone",
+    "pilot": "Pilota",
+    "instructions": "Istruzioni",
+    "project": "Progetto",
+    "volksbegehren": "Oggetto di votazione popolare",
+    "contact": "Contatto",
+    "newsletter": "Newsletter",
+    "blog": "Blog"
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "instructions": "Istruzioni",
+    "volksbegehren": "Oggetto di votazione popolare",
+    "pilot": "Pilota"
+  },
+  "accessibility": {
+    "easyLanguage": "Linguaggio semplice",
+    "signLanguage": "Linguaggio dei segni",
+    "easyLanguageModal": {
+      "title": "Linguaggio semplice",
+      "description": "Mi aiuterai a implementare questa funzionalità?",
+      "cancel": "Annulla",
+      "ok": "OK"
+    },
+    "signLanguageModal": {
+      "title": "Linguaggio dei segni",
+      "description": "Mi aiuterai a implementare questa funzionalità?",
+      "cancel": "Annulla",
+      "ok": "OK"
+    }
   },
   "footer": {
     "madeWith": "realizzato con ❤️",

@@ -3,6 +3,10 @@
     "title": "Progetto pilota E-Collecting"
   },
   "homepage": {
+    "hero": {
+      "title": "Sostenere iniziative e referendum",
+      "description": "Prova ora l'E-Collecting per sostenere digitalmente iniziative e referendum. Usa la Beta-ID federale per gli oggetti di votazione popolare. Non vengono memorizzati dati personali."
+    },
     "infoBox": {
       "title": "Progetto pilota E-Collecting",
       "description": "Questo sito web è un progetto senza scopo di lucro della società civile. Il nostro obiettivo è sostenere iniziative e referendum in modo sicuro, digitale e accessibile con la nuova e-ID.",
@@ -43,7 +47,7 @@
   "footer": {
     "projectDescription": "Il progetto pilota è iniziato a dicembre 2024. Vuole rendere la raccolta di firme per gli oggetti di votazione popolare digitale, sicura e accessibile - come complemento alla carta. Questo pilota testa una possibile variante di E-Collecting tramite la Beta-ID della Confederazione. Dietro il progetto senza scopo di lucro ci sono il Digital Democracy Hub Svizzera e la Fondazione per la democrazia diretta.",
     "copyright": "© 2025 un progetto del <a href=\"https://www.digitaldemocracyhub.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Digital Democracy Hub Svizzera</a> in cooperazione con la <a href=\"https://www.demokratie.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Fondazione per la democrazia diretta</a>",
-    "dataCredit": "© Dati: swisstopo",
+    "dataCredit": "© Dati: swisstopo & liip",
     "contact": {
       "organization": "Digital Democracy Hub Svizzera",
       "email": "E-mail: <a href=\"mailto:info@digitaldemocracyhub.ch\" class=\"text-white hover:text-white/80 underline underline-offset-4\">info@digitaldemocracyhub.ch</a>",

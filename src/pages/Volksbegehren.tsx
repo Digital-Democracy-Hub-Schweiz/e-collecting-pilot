@@ -4,9 +4,11 @@ import { useHealthStatus } from "@/hooks/use-health-status";
 import PageContainer from "@/components/PageContainer";
 import { Share2, Printer } from "lucide-react";
 import { useCurrentLanguage } from "@/utils/routing";
+import { useTranslation } from "react-i18next";
 import React from "react";
 
 const Volksbegehren = () => {
+  const { t } = useTranslation(['common', 'content']);
   const { data: healthStatus, isLoading: healthLoading } = useHealthStatus();
   const currentLang = useCurrentLanguage();
 
@@ -31,7 +33,7 @@ const Volksbegehren = () => {
   return (
     <body className="min-h-screen bg-white flex flex-col">
       <a href="#main-content" className="skip-to-content sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50">
-        Zum Hauptinhalt springen
+        {t('common:skipToMain')}
       </a>
 
       <Header />
@@ -41,7 +43,7 @@ const Volksbegehren = () => {
         <section className="bg-white">
           <PageContainer paddingYClassName="py-8">
             <nav className="text-[16px] leading-[24px] text-[#6b7280]">
-              <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">Startseite</a> <span className="inline-block mx-[7px]">›</span> Volksbegehren
+              <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">{t('common:breadcrumb.home')}</a> <span className="inline-block mx-[7px]">›</span> {t('common:breadcrumb.volksbegehren')}
             </nav>
           </PageContainer>
         </section>
