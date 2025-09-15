@@ -29,10 +29,8 @@ Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Für die T
 ### Gemeindedaten
 - **Amtliches Gemeindeverzeichnis der Schweiz**:  `https://opendata.swiss/de/dataset/historisiertes-gemeindeverzeichnis-der-schweiz/resource/a90c6d94-0bdd-4447-833a-81f1da3bcf11`, Datenstand https://www.agvchapp.bfs.admin.ch/api/communes/snapshot?date=01-01-2025
 
-### swissZIP
-Dieses Projekt nutzt die [swissZIP API](https://github.com/ganti/swissZIP)  
-Datenquelle: [Bundesamt für Landestopografie swisstopo](https://data.geo.admin.ch/)  
-Lizenz: [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
+### Open Buildings API by liip.ch
+Dieses Projekt verwendet die Open Buildings API für die Adresssuche. Herzlichen Dank liip!
 
 ## Routing & Deep‑Links
 Die Startseite (`src/pages/Index.tsx`) unterstützt Deep‑Links zur Vorbelegung:

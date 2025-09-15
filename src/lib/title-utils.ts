@@ -72,3 +72,4 @@ export function createTitleVariants(title: string, maxLength: number = 50): {
     display
   };
 }
+

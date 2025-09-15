@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-
 import { useTranslation } from "react-i18next";
 import Index from "./pages/Index";
 import Projekt from "./pages/Projekt";
+import Volksbegehren from "./pages/Volksbegehren";
 import Anleitung from "./pages/Anleitung";
 import NotFound from "./pages/NotFound";
 import Impressum from "./pages/Impressum";
@@ -90,6 +91,11 @@ const App = () => (
           <Route path="/:lang/anleitung" element={
             <LanguageWrapper>
               <Anleitung />
+            </LanguageWrapper>
+          } />
+          <Route path="/:lang/volksbegehren" element={
+            <LanguageWrapper>
+              <Volksbegehren />
             </LanguageWrapper>
           } />
           

@@ -16,11 +16,9 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-// Figma-Assets (Top-Bar Icons)
-const FIGMA_SIGN_LANGUAGE = 'http://localhost:3845/assets/f6f4ad8d9854a0e78aeec74f932142912c05a0c3.svg';
-// Easy Language icon in two layers from Figma (white)
-const FIGMA_EASY_LANG_P1 = 'http://localhost:3845/assets/6c04a8b7ac2de4e3e0cdd8fc9a5882340e688e1f.svg';
-const FIGMA_EASY_LANG_P2 = 'http://localhost:3845/assets/313555809d07f716becb4a960b4194b2268ae031.svg';
+// Local assets (Top-Bar Icons)
+const ICON_SIGN_LANGUAGE = '/icons/signlanguage.svg';
+const ICON_EASY_LANGUAGE = '/icons/easylanguage.svg';
 
 export const Header: React.FC = () => {
   const { t } = useTranslation(['common', 'content']);
@@ -34,6 +32,7 @@ export const Header: React.FC = () => {
     { label: 'Pilot', href: `/${currentLang}` },
     { label: 'Anleitung', href: `/${currentLang}/anleitung` },
     { label: 'Projekt', href: `/${currentLang}/projekt` },
+    { label: 'Volksbegehren', href: `/${currentLang}/volksbegehren` },
   ];
 
   const handleEasyLanguageOk = () => {
@@ -78,10 +77,7 @@ export const Header: React.FC = () => {
               >
                 {/* Label left (hidden on xs), icon right */}
                 <span className="hidden sm:inline text-[16px] leading-[24px] font-medium">Leichte Sprache</span>
-                <span className="relative inline-block w-[22px] h-[22px] shrink-0" aria-hidden>
-                  <img src={FIGMA_EASY_LANG_P1} alt="" className="absolute inset-0 w-full h-full object-contain pointer-events-none" />
-                  <img src={FIGMA_EASY_LANG_P2} alt="" className="absolute inset-0 w-full h-full object-contain pointer-events-none" />
-                </span>
+                <img src={ICON_EASY_LANGUAGE} alt="Leichte Sprache" className="w-[22px] h-[22px] invert" />
               </button>
               <button
                 type="button"
@@ -90,7 +86,7 @@ export const Header: React.FC = () => {
                 onClick={() => setSignLangOpen(true)}
               >
                 <span className="hidden sm:inline text-[16px] leading-[24px] font-medium">Gebärdensprache</span>
-                <img src={FIGMA_SIGN_LANGUAGE} alt="Gebärdensprache" className="w-[22px] h-[22px] invert" />
+                <img src={ICON_SIGN_LANGUAGE} alt="Gebärdensprache" className="w-[22px] h-[22px] invert" />
               </button>
               <div className="block">
                 <LanguageSwitcher variant="topbar" />

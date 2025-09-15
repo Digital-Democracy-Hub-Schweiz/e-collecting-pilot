@@ -520,7 +520,7 @@ export function ReceiptCredentialIssuer({
               {step === 1 && (
                 <div className="space-y-6 w-full">
                   <div>
-                    <h3 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step1.title')}</h3>
+                    <h2 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step1.title')}</h2>
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step1.selectType')}</Label>
@@ -569,7 +569,7 @@ export function ReceiptCredentialIssuer({
 
               {step === 2 && <div className="space-y-6 w-full">
                   <div>
-                    <h3 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step2.title')}</h3>
+                    <h2 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">{t('forms:step2.title')}</h2>
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
