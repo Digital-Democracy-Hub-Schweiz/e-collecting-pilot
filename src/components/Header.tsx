@@ -125,6 +125,14 @@ export const Header: React.FC = () => {
                 Newsletter
               </a>
               <a
+                href="https://buymeacoffee.com/digitaldemocracyhub/posts"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[16px] leading-[24px] font-semibold text-[#1f2937] hover:text-[#d8232a]"
+              >
+                Blog
+              </a>
+              <a
                 href={`/${currentLang}/impressum`}
                 className="text-[16px] leading-[24px] font-semibold text-[#1f2937] hover:text-[#d8232a]"
               >
@@ -247,6 +255,17 @@ export const Header: React.FC = () => {
                       className="block px-1 py-3 text-[18px] leading-[28px] text-[#1f2937] hover:text-[#d8232a] transition-colors"
                     >
                       Newsletter
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://buymeacoffee.com/digitaldemocracyhub/posts"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setMobileOpen(false)}
+                      className="block px-1 py-3 text-[18px] leading-[28px] text-[#1f2937] hover:text-[#d8232a] transition-colors"
+                    >
+                      Blog
                     </a>
                   </li>
                   <li>

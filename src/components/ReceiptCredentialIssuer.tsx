@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,10 +59,19 @@ export function ReceiptCredentialIssuer({
     bfs: string;
     cantonFromBfs?: string;
   } | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{
+    type?: string;
+    selectedId?: string;
+    streetAddress?: string;
+    postalCode?: string;
+    city?: string;
+  }>({});
   const [verificationId, setVerificationId] = useState<string | null>(null);
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
   const [isCreatingVerification, setIsCreatingVerification] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const stepTitleRef = useRef<HTMLHeadingElement | null>(null);
+  const bannerRef = useRef<HTMLDivElement | null>(null);
 
   // Handler for address selection
   const handleAddressSelect = async (address: AddressHit) => {
@@ -70,6 +79,7 @@ export function ReceiptCredentialIssuer({
     setStreetAddress(address.place.postalAddress.streetAddress);
     setPostalCode(address.place.postalAddress.postalCode);
     setCity(address.place.postalAddress.addressLocality);
+    setFieldErrors(prev => ({ ...prev, streetAddress: undefined, postalCode: undefined, city: undefined }));
     
     // Set municipality code for further processing
     const municipalityCode = address.place.additionalProperty.municipalityCode;
@@ -177,6 +187,31 @@ export function ReceiptCredentialIssuer({
     }
   }, [preselect, normalized]);
 
+  // Move focus to the step title when the step changes to improve SR/keyboard UX
+  useEffect(() => {
+    // Delay to ensure DOM is updated before focusing
+    requestAnimationFrame(() => {
+      stepTitleRef.current?.focus();
+    });
+  }, [step]);
+
+  // Focus error/warning banner when it appears (validation/network errors)
+  useEffect(() => {
+    if (!banner) return;
+    const isImportant = banner.type === 'error' || banner.type === 'warning';
+    if (!isImportant) return;
+    requestAnimationFrame(() => {
+      if (bannerRef?.current) {
+        try {
+          bannerRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        } catch (e) {
+          // no-op
+        }
+        bannerRef.current.focus();
+      }
+    });
+  }, [banner]);
+
   const handleIssue = async (credentialData?: {
     given_name?: string;
     family_name?: string;
@@ -256,11 +291,10 @@ export function ReceiptCredentialIssuer({
   };
   const handleNextFromStep1 = () => {
     if (!type || !selectedId) {
-      setBanner({
-        type: 'warning',
-        title: t('errors:validation.missingFields'),
-        description: t('errors:validation.selectTypeAndTitle')
-      });
+      const nextErrors: typeof fieldErrors = {};
+      if (!type) nextErrors.type = t('errors:validation.required');
+      if (!selectedId) nextErrors.selectedId = t('errors:validation.required');
+      setFieldErrors(prev => ({ ...prev, ...nextErrors }));
       setBanner({
         type: 'warning',
         title: t('errors:validation.missingFields'),
@@ -269,17 +303,18 @@ export function ReceiptCredentialIssuer({
       return;
     }
     setBanner(null);
+    setFieldErrors({});
     setStep(2);
   };
   // Address validation is now handled by the AddressAutocomplete component
   // via the handleAddressSelect callback which sets municipality and other details
   const handleNextFromStep2 = () => {
     if (!streetAddress || !postalCode || !city) {
-      setBanner({
-        type: 'warning',
-        title: t('errors:validation.addressIncomplete'),
-        description: t('errors:validation.fillAllAddressFields')
-      });
+      const nextErrors: typeof fieldErrors = {};
+      if (!streetAddress) nextErrors.streetAddress = t('errors:validation.required');
+      if (!postalCode) nextErrors.postalCode = t('errors:validation.required');
+      if (!city) nextErrors.city = t('errors:validation.required');
+      setFieldErrors(prev => ({ ...prev, ...nextErrors }));
       setBanner({
         type: 'warning',
         title: t('errors:validation.addressIncomplete'),
@@ -291,6 +326,7 @@ export function ReceiptCredentialIssuer({
     // Municipality details are set via handleAddressSelect callback
     // Clear any existing banner when going to step 3
     setBanner(null);
+    setFieldErrors({});
     setStep(3);
   };
   const handleStartVerification = async () => {
@@ -459,23 +495,33 @@ export function ReceiptCredentialIssuer({
   return <section aria-labelledby="issuer-section">
       <div className="space-y-4 sm:space-y-6 w-full max-w-[960px] mx-auto px-2 sm:px-4 md:px-6 lg:px-8 xl:px-12">
         <div className="w-full">
-          <div className="text-[24px] leading-[32px] sm:text-[28px] sm:leading-[36px] md:text-[32px] md:leading-[43px] font-semibold text-[#1f2937]">
+          <h1
+            id="issuer-section"
+            ref={stepTitleRef}
+            tabIndex={-1}
+            className="text-[24px] leading-[32px] sm:text-[28px] sm:leading-[36px] md:text-[32px] md:leading-[43px] font-semibold text-[#1f2937] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1f2937]/40"
+          >
             {t('forms:step', { current: step, total: 5 })}
-          </div>
+          </h1>
         </div>
 
 
         {/* Alert Banner gemäss Figma */}
         {banner && (
-          <div className={
-            banner.type === 'error'
-              ? 'bg-[#ffedee] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
-              : banner.type === 'warning'
-              ? 'bg-[#fff7ed] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
-              : banner.type === 'success'
-              ? 'bg-green-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
-              : 'bg-blue-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
-          }>
+          <div
+            ref={bannerRef}
+            role={(banner.type === 'error' || banner.type === 'warning') ? 'alert' : 'status'}
+            aria-live={(banner.type === 'error' || banner.type === 'warning') ? 'assertive' : 'polite'}
+            tabIndex={-1}
+            className={
+              banner.type === 'error'
+                ? 'bg-[#ffedee] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+                : banner.type === 'warning'
+                ? 'bg-[#fff7ed] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+                : banner.type === 'success'
+                ? 'bg-green-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+                : 'bg-blue-50 p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]'
+            }>
             <div className="flex items-start gap-3">
               {banner.type === 'error' && <AlertCircle className="w-8 h-8 text-[#d8232a]" />}
               {banner.type === 'warning' && <Info className="w-8 h-8 text-[#9a3412]" />}
@@ -530,11 +576,14 @@ export function ReceiptCredentialIssuer({
                             { value: "Referendum", label: t('forms:step1.types.referendum') }
                           ]}
                           value={type}
-                          onValueChange={(v) => setType(v as any)}
+                          onValueChange={(v) => { setType(v as any); setFieldErrors(prev => ({ ...prev, type: undefined })); }}
                           placeholder={t('forms:step1.selectType')}
                           aria-label={t('forms:step1.selectType')}
                           className="w-full"
                         />
+                        {fieldErrors.type && (
+                          <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.type}</p>
+                        )}
                       </div>
                       
                       <div className="space-y-2">
@@ -549,12 +598,15 @@ export function ReceiptCredentialIssuer({
                             };
                           })}
                           value={selectedId}
-                          onValueChange={setSelectedId}
+                          onValueChange={(v) => { setSelectedId(v); setFieldErrors(prev => ({ ...prev, selectedId: undefined })); }}
                           disabled={!type}
                           placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
                           aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
                           className="w-full"
                         />
+                        {fieldErrors.selectedId && (
+                          <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.selectedId}</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -575,21 +627,30 @@ export function ReceiptCredentialIssuer({
                         <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
                         <AddressAutocomplete 
                           value={streetAddress}
-                          onValueChange={setStreetAddress}
+                          onValueChange={(v) => { setStreetAddress(v); setFieldErrors(prev => ({ ...prev, streetAddress: undefined })); }}
                           onAddressSelect={handleAddressSelect}
                           placeholder={t('forms:step2.streetPlaceholder')}
                           className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]"
                         />
+                        {fieldErrors.streetAddress && (
+                          <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.streetAddress}</p>
+                        )}
                       </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-6 gap-4">
                         <div className="space-y-2 relative sm:col-span-2">
                           <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.postalCode')}</Label>
-                          <Input value={postalCode} inputMode="numeric" pattern="[0-9]*" onChange={e => handlePostalCodeChange(e.target.value)} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
+                          <Input value={postalCode} inputMode="numeric" pattern="[0-9]*" onChange={e => { handlePostalCodeChange(e.target.value); setFieldErrors(prev => ({ ...prev, postalCode: undefined })); }} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
+                          {fieldErrors.postalCode && (
+                            <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.postalCode}</p>
+                          )}
                         </div>
                         <div className="space-y-2 sm:col-span-4">
                           <Label className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.city')}</Label>
-                          <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
+                          <Input value={city} onChange={e => { setCity(e.target.value); setFieldErrors(prev => ({ ...prev, city: undefined })); }} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
+                          {fieldErrors.city && (
+                            <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.city}</p>
+                          )}
                         </div>
                       </div>
                     </div>
