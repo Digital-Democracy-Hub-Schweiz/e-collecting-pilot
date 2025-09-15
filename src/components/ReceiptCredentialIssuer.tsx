@@ -290,15 +290,25 @@ export function ReceiptCredentialIssuer({
     }
   };
   const handleNextFromStep1 = () => {
-    if (!type || !selectedId) {
+    const missingType = !type;
+    const missingTitle = !selectedId;
+    if (missingType || missingTitle) {
       const nextErrors: typeof fieldErrors = {};
-      if (!type) nextErrors.type = t('errors:validation.required');
-      if (!selectedId) nextErrors.selectedId = t('errors:validation.required');
+      if (missingType) nextErrors.type = t('errors:validation.required');
+      if (missingTitle) nextErrors.selectedId = t('errors:validation.required');
       setFieldErrors(prev => ({ ...prev, ...nextErrors }));
+      let description = '';
+      if (missingType && missingTitle) {
+        description = t('errors:validation.selectTypeAndTitle');
+      } else if (missingType) {
+        description = t('forms:step1.selectType');
+      } else if (missingTitle) {
+        description = t('forms:step1.selectTitle');
+      }
       setBanner({
         type: 'warning',
         title: t('errors:validation.missingFields'),
-        description: t('errors:validation.selectTypeAndTitle')
+        description
       });
       return;
     }
@@ -311,9 +321,9 @@ export function ReceiptCredentialIssuer({
   const handleNextFromStep2 = () => {
     if (!streetAddress || !postalCode || !city) {
       const nextErrors: typeof fieldErrors = {};
-      if (!streetAddress) nextErrors.streetAddress = t('errors:validation.required');
-      if (!postalCode) nextErrors.postalCode = t('errors:validation.required');
-      if (!city) nextErrors.city = t('errors:validation.required');
+      if (!streetAddress) nextErrors.streetAddress = `${t('errors:validation.required')}: ${t('forms:step2.street')}`;
+      if (!postalCode) nextErrors.postalCode = `${t('errors:validation.required')}: ${t('forms:step2.postalCode')}`;
+      if (!city) nextErrors.city = `${t('errors:validation.required')}: ${t('forms:step2.city')}`;
       setFieldErrors(prev => ({ ...prev, ...nextErrors }));
       setBanner({
         type: 'warning',
@@ -576,7 +586,12 @@ export function ReceiptCredentialIssuer({
                             { value: "Referendum", label: t('forms:step1.types.referendum') }
                           ]}
                           value={type}
-                          onValueChange={(v) => { setType(v as any); setFieldErrors(prev => ({ ...prev, type: undefined })); }}
+                          onValueChange={(v) => {
+                            setType(v as any);
+                            // Clear previously selected title if type changes to prevent stale selection
+                            setSelectedId("");
+                            setFieldErrors(prev => ({ ...prev, type: undefined, selectedId: undefined }));
+                          }}
                           placeholder={t('forms:step1.selectType')}
                           aria-label={t('forms:step1.selectType')}
                           className="w-full"
