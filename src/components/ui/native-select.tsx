@@ -65,14 +65,14 @@ export function NativeSelect({
             "text-[18px] leading-[27px] font-medium",
             "bg-white border border-[#6b7280] rounded-[1px]",
             "shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]",
-            // Focus styles
-            "focus:outline-none focus:ring-0 focus:border-[#d8232a]",
+            // Focus styles gemäss Figma: lila Ring 3px, 0px offset
+            "focus:outline-none focus:ring-0 focus:border-[#6b7280] focus:shadow-[0px_0px_0px_3px_#8655f6]",
             // Disabled styles
             "disabled:cursor-not-allowed disabled:opacity-50",
             // Text color
             "text-[#1f2937]",
-            // Focus state
-            isFocused && "border-[#d8232a]",
+            // Focus state gemäss Figma: lila Ring
+            isFocused && "border-[#6b7280] shadow-[0px_0px_0px_3px_#8655f6]",
             // Overflow handling
             "overflow-hidden"
           )}

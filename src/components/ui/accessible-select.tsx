@@ -63,10 +63,10 @@ export function AccessibleSelect({
             "appearance-none w-full h-12 pl-4 pr-12 py-0 text-[18px] leading-[27px] font-medium",
             "bg-white border border-[#6b7280] rounded-[1px]",
             "shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]",
-            "focus:outline-none focus:ring-0 focus:border-[#d8232a]",
+            "focus:outline-none focus:ring-0 focus:border-[#6b7280] focus:shadow-[0px_0px_0px_3px_#8655f6]",
             "disabled:cursor-not-allowed disabled:opacity-50",
             "text-[#1f2937]",
-            isFocused && "border-[#d8232a]",
+            isFocused && "border-[#6b7280] shadow-[0px_0px_0px_3px_#8655f6]",
             "overflow-hidden"
           )}
           style={{ width: '100%', maxWidth: '100%' }}

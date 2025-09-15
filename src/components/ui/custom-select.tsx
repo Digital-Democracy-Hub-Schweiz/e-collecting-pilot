@@ -145,8 +145,8 @@ export function CustomSelect({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         className={cn(
-          "flex h-12 w-full items-center rounded-[1px] border border-[#6b7280] bg-white pl-4 pr-0 py-0 text-[18px] leading-[27px] font-medium shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)] focus:outline-none focus:ring-0 focus:border-[#d8232a] disabled:cursor-not-allowed disabled:opacity-50 overflow-hidden",
-          isOpen && "border-[#d8232a]"
+          "flex h-12 w-full items-center rounded-[1px] border border-[#6b7280] bg-white pl-4 pr-0 py-0 text-[18px] leading-[27px] font-medium shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)] focus:outline-none focus:ring-0 focus:border-[#6b7280] focus:shadow-[0px_0px_0px_3px_#8655f6] disabled:cursor-not-allowed disabled:opacity-50 overflow-hidden",
+          isOpen && "border-[#6b7280] shadow-[0px_0px_0px_3px_#8655f6]"
         )}
         style={{ width: '100%', maxWidth: '100%' }}
       >

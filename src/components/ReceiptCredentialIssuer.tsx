@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { CustomSelect } from "@/components/ui/custom-select";
 import { NativeSelect } from "@/components/ui/native-select";
 import { AccessibleSelect } from "@/components/ui/accessible-select";
+import { ErrorBadge } from "@/components/ui/error-badge";
 import { SelectComparison } from "@/components/ui/select-comparison";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
@@ -601,7 +602,7 @@ export function ReceiptCredentialIssuer({
                           className="w-full"
                         />
                         {fieldErrors.type && (
-                          <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.type}</p>
+                          <ErrorBadge role="alert" aria-live="polite">{fieldErrors.type}</ErrorBadge>
                         )}
                       </div>
                       
@@ -625,7 +626,7 @@ export function ReceiptCredentialIssuer({
                           className="w-full"
                         />
                         {fieldErrors.selectedId && (
-                          <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.selectedId}</p>
+                          <ErrorBadge role="alert" aria-live="polite">{fieldErrors.selectedId}</ErrorBadge>
                         )}
                         
                         {/* Comparison: Accessible Select Variant - COMMENTED OUT */}
@@ -666,9 +667,15 @@ export function ReceiptCredentialIssuer({
                   </div>
                   
                   <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                    <button onClick={handleNextFromStep1} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]">
+                    <Button
+                      variant="filled"
+                      size="xl"
+                      onClick={handleNextFromStep1}
+                      className="w-full sm:w-auto"
+                    >
                       {t('common:next')}
-                    </button>
+                      <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                    </Button>
                   </div>
                 </div>
               )} 
@@ -687,9 +694,9 @@ export function ReceiptCredentialIssuer({
                           placeholder={t('forms:step2.streetPlaceholder')}
                           className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]"
                         />
-                        {fieldErrors.streetAddress && (
-                          <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.streetAddress}</p>
-                        )}
+                          {fieldErrors.streetAddress && (
+                            <ErrorBadge role="alert" aria-live="polite">{fieldErrors.streetAddress}</ErrorBadge>
+                          )}
                       </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-6 gap-4">
@@ -697,14 +704,14 @@ export function ReceiptCredentialIssuer({
                           <Label htmlFor="postal-code" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.postalCode')}</Label>
                           <Input id="postal-code" value={postalCode} inputMode="numeric" pattern="[0-9]*" onChange={e => { handlePostalCodeChange(e.target.value); setFieldErrors(prev => ({ ...prev, postalCode: undefined })); }} placeholder={t('forms:step2.postalCodePlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                           {fieldErrors.postalCode && (
-                            <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.postalCode}</p>
+                            <ErrorBadge role="alert" aria-live="polite">{fieldErrors.postalCode}</ErrorBadge>
                           )}
                         </div>
                         <div className="space-y-2 sm:col-span-4">
                           <Label htmlFor="city" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.city')}</Label>
                           <Input id="city" value={city} onChange={e => { setCity(e.target.value); setFieldErrors(prev => ({ ...prev, city: undefined })); }} placeholder={t('forms:step2.cityPlaceholder')} className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]" />
                           {fieldErrors.city && (
-                            <p className="text-[#d8232a] text-[14px] leading-[20px]" role="alert" aria-live="polite">{fieldErrors.city}</p>
+                            <ErrorBadge role="alert" aria-live="polite">{fieldErrors.city}</ErrorBadge>
                           )}
                         </div>
                       </div>
@@ -712,13 +719,25 @@ export function ReceiptCredentialIssuer({
                   </div>
                   
                   <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                    <button onClick={() => { setBanner(null); setStep(1); }} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px]">
+                    <Button
+                      variant="bare"
+                      size="xl"
+                      onClick={() => { setBanner(null); setStep(1); }}
+                      className="w-full sm:w-auto"
+                    >
                       {t('common:back')}
-                    </button>
-                    <button onClick={handleNextFromStep2} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]" disabled={isValidatingAddress}>
-                      {isValidatingAddress && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />} 
+                    </Button>
+                    <Button
+                      variant="filled"
+                      size="xl"
+                      onClick={handleNextFromStep2}
+                      disabled={isValidatingAddress}
+                      className="w-full sm:w-auto"
+                    >
+                      {isValidatingAddress && <RefreshCw className="w-5 h-5 mr-2 animate-spin" />} 
                       {t('common:next')}
-                    </button>
+                      <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                    </Button>
                   </div>
                 </div>}
 
@@ -821,11 +840,18 @@ export function ReceiptCredentialIssuer({
                       </div>
  
                     <div className="flex flex-col sm:flex-row gap-3 sm:justify-end">
-                      <button onClick={() => { setBanner(null); setStep(2); }} className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px]">
+                      <Button
+                        variant="bare"
+                        size="xl"
+                        onClick={() => { setBanner(null); setStep(2); }}
+                        className="w-full sm:w-auto"
+                      >
                         {t('common:back')}
-                      </button>
-                      <button 
-                        onClick={handleStartVerification} 
+                      </Button>
+                      <Button
+                        variant="filled"
+                        size="xl"
+                        onClick={handleStartVerification}
                         disabled={
                           isCreatingVerification || 
                           isValidatingAddress ||
@@ -842,12 +868,12 @@ export function ReceiptCredentialIssuer({
                             return false;
                           })()
                         }
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)]"
+                        className="w-full sm:w-auto"
                       >
-                        {isCreatingVerification && <RefreshCw className="w-4 h-4 mr-2 animate-spin" />}
+                        {isCreatingVerification && <RefreshCw className="w-5 h-5 mr-2 animate-spin" />}
                         {t('forms:step3.supportButton')}
                         <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>}

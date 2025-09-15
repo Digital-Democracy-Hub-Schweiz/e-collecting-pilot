@@ -14,7 +14,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
- 
+
 
 interface FooterProps {
   healthStatus?: SystemHealth;
@@ -51,9 +51,9 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
   );
 
   const SocialButton = ({ icon: Icon, children, href }: { icon: React.ElementType; children: React.ReactNode; href: string }) => (
-    <a 
-      href={href} 
-      target="_blank" 
+    <a
+      href={href}
+      target="_blank"
       rel="noopener noreferrer"
       className="flex items-center gap-1 text-white hover:text-white/80 transition-colors"
     >
@@ -113,19 +113,19 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                 <div className="space-y-[45px]">
                   <div className="flex gap-[33px] items-center">
                     <SocialButton icon={Linkedin} href="https://www.linkedin.com/company/digital-democracy-hub-schweiz-fachstelle-f%C3%BCr-demokratie-und-digitalisierung/">
-                      
+                      LinkedIn
                     </SocialButton>
                     <SocialButton icon={Youtube} href="https://youtu.be/WGUTi2jSaYw?feature=shared&t=7225">
-                      
+                      YouTube
                     </SocialButton>
                     <SocialButton icon={Github} href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot">
                       Code
                     </SocialButton>
                   </div>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="filled"
                     size="lg"
-                    className="bg-transparent border-white text-white hover:bg-white/10 px-5 py-2.5 rounded-sm"
+                    className="px-5 py-2.5"
                     asChild
                   >
                     <a href="https://links.ecollecting.ch/newsletter" target="_blank" rel="noopener noreferrer">
@@ -134,7 +134,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                     </a>
                   </Button>
                 </div>
-                
+
                 {/* Contact Information */}
                 <div className="space-y-4 pt-4 border-t border-white/20">
                   <h3 className="text-[16px] sm:text-[18px] font-medium text-white">{t('common:footer.contact')}</h3>
@@ -200,11 +200,14 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                   <SocialButton icon={Youtube} href="https://youtu.be/WGUTi2jSaYw?feature=shared&t=7225">
                     YouTube
                   </SocialButton>
+                  <SocialButton icon={Github} href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot">
+                    Code
+                  </SocialButton>
                 </div>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="filled"
                   size="lg"
-                  className="bg-transparent border-white text-white hover:bg-white/10 px-5 py-2.5 rounded-sm w-full"
+                  className="px-5 py-2.5 w-full"
                   asChild
                 >
                   <a href="https://links.ecollecting.ch/newsletter" target="_blank" rel="noopener noreferrer">
@@ -213,7 +216,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                   </a>
                 </Button>
               </div>
-              
+
               {/* Contact Information */}
               <div className="space-y-4 pt-4 border-t border-white/20">
                 <h3 className="text-[16px] sm:text-[18px] font-medium text-white">{t('common:footer.contact')}</h3>
@@ -261,10 +264,10 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                 <button type="button" onClick={() => setAccessibilityOpen(true)} className="hover:text-white/80 transition-colors">Barrierefreiheit</button>
               </div>
               <div className="text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
-                <a 
-                  href="https://buymeacoffee.com/digitaldemocracyhub" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://buymeacoffee.com/digitaldemocracyhub"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-white/80 transition-colors"
                 >
                   unterstütze uns mit einem Kaffee ☕️
@@ -283,13 +286,13 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
             <button type="button" onClick={() => setAccessibilityOpen(true)} className="hover:text-white/80 transition-colors">Barrierefreiheit</button>
           </div>
           <div className="w-full text-right text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
-            <a 
-              href="https://buymeacoffee.com/digitaldemocracyhub" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://buymeacoffee.com/digitaldemocracyhub"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-white/80 transition-colors"
             >
-              Kaffee? ☕️ 
+              Kaffee? ☕️
             </a>
           </div>
         </div>
