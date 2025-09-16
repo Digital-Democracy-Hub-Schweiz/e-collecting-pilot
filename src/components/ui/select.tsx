@@ -87,7 +87,6 @@ const SelectContent = React.forwardRef<
         className
       )}
       position="item-aligned"
-      onOpenAutoFocus={(e) => e.preventDefault()}
       onCloseAutoFocus={(e) => e.preventDefault()}
       {...props}
     >

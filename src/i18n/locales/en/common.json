@@ -11,6 +11,7 @@
   "open": "Open",
   "share": "Share",
   "copy": "Copy",
+  "print": "Print",
   "reset": "Reset",
   "restart": "Restart",
   "download": "Download",
@@ -21,7 +22,10 @@
     "en": "English"
   },
   "routes": {
-    "volksbegehren": "popular-vote"
+    "volksbegehren": "popular-vote",
+    "anleitung": "instructions",
+    "projekt": "project",
+    "impressum": "imprint"
   },
   "navigation": {
     "home": "Home page",
@@ -39,7 +43,9 @@
     "home": "Home",
     "instructions": "Instructions",
     "volksbegehren": "Popular Vote",
-    "pilot": "Pilot"
+    "pilot": "Pilot",
+    "project": "Project",
+    "impressum": "Imprint"
   },
   "accessibility": {
     "easyLanguage": "Easy Language",
@@ -66,6 +72,14 @@
     "contact": "Contact",
     "externalLinks": "External links",
     "systemStatus": "System status",
+    "legal": "Legal",
+    "privacy": "Privacy",
+    "imprint": "Imprint",
+    "accessibility": "Accessibility",
+    "supportCoffee": "support us with a coffee ☕️",
+    "linkedin": "LinkedIn",
+    "youtube": "YouTube",
+    "github": "GitHub",
     "services": {
       "verifierMgmt": "Verifier-Mgmt",
       "issuerMgmt": "Issuer-Mgmt",

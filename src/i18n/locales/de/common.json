@@ -11,6 +11,7 @@
   "open": "Öffnen",
   "share": "Teilen",
   "copy": "Kopieren",
+  "print": "Drucken",
   "reset": "Zurücksetzen",
   "restart": "Neu starten",
   "download": "Download",
@@ -21,7 +22,10 @@
     "en": "English"
   },
   "routes": {
-    "volksbegehren": "volksbegehren"
+    "volksbegehren": "volksbegehren",
+    "anleitung": "anleitung",
+    "projekt": "projekt",
+    "impressum": "impressum"
   },
   "navigation": {
     "home": "Hauptseite",
@@ -39,7 +43,9 @@
     "home": "Startseite",
     "instructions": "Anleitung",
     "volksbegehren": "Volksbegehren",
-    "pilot": "Pilot"
+    "pilot": "Pilot",
+    "project": "Projekt",
+    "impressum": "Impressum"
   },
   "accessibility": {
     "easyLanguage": "Leichte Sprache",
@@ -66,6 +72,14 @@
     "contact": "Kontakt",
     "externalLinks": "Externe Links",
     "systemStatus": "System Status",
+    "legal": "Rechtliches",
+    "privacy": "Datenschutz",
+    "imprint": "Impressum",
+    "accessibility": "Barrierefreiheit",
+    "supportCoffee": "unterstütze uns mit einem Kaffee ☕️",
+    "linkedin": "LinkedIn",
+    "youtube": "YouTube",
+    "github": "GitHub",
     "services": {
       "verifierMgmt": "Verifier-Mgmt",
       "issuerMgmt": "Issuer-Mgmt",

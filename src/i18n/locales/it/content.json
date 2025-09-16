@@ -58,6 +58,39 @@
       "betaIdService": "Servizio Beta-ID"
     }
   },
+  "project": {
+    "title": "Progetto pilota E-Collecting",
+    "description": "Questo sito web è un progetto senza scopo di lucro della società civile. Il nostro obiettivo è sostenere iniziative e referendum in modo sicuro, digitale e accessibile utilizzando la nuova e-ID.",
+    "participationTitle": "Informazioni sulla partecipazione",
+    "eidTitle": "e-ID",
+    "eidDescription": "L'e-ID è rilasciata dallo Stato. Completa la carta d'identità fisica ed è gratuita. Il 28 settembre la popolazione voterà sulla proposta.",
+    "swiyuTitle": "App swiyu-Wallet",
+    "swiyuDescription": "Questo progetto pilota utilizza il servizio Beta Credential della Confederazione. Per partecipare, un Beta-ID deve essere creato tramite l'app swiyu-Wallet. Nell'ambito del progetto vengono utilizzati esclusivamente modelli fittizi e il Beta-ID della Confederazione. Non vengono memorizzati dati personali.",
+    "links": {
+      "ios": "📱 App swiyu (iOS)",
+      "android": "🤖 App swiyu (Android)",
+      "betaId": "👉 Emettere Beta-ID"
+    }
+  },
+  "instructions": {
+    "title": "Prova E-Collecting con il Beta-ID",
+    "description": "Questo sito web è un progetto senza scopo di lucro della società civile. Il nostro obiettivo è sostenere iniziative e referendum in modo sicuro, digitale e accessibile utilizzando la nuova e-ID.",
+    "imageAlt": "E-Collecting Beta-ID – Anteprima app",
+    "downloadTitle": "Download",
+    "downloadDescription": "Scarica l'app swiyu gratuitamente dal Google Play Store o dall'Apple Store.",
+    "betaIdTitle": "Emettere Beta-ID",
+    "betaIdLink": "👉 Emettere Beta-ID",
+    "links": {
+      "ios": "📱 App swiyu (iOS)",
+      "android": "🤖 App swiyu (Android)"
+    }
+  },
+  "volksbegehren": {
+    "title": "Oggetto di votazione popolare",
+    "description": "Qui trovi una panoramica delle attuali iniziative e referendum che puoi sostenere digitalmente con la tua e-ID.",
+    "loading": "Caricamento…",
+    "error": "I dati non possono essere caricati."
+  },
   "impressum": {
     "title": "Colofone",
     "responsible": {

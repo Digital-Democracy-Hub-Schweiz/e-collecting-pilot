@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linkedin, Youtube, ChevronRight, Github } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { useCurrentLanguage } from "@/utils/routing";
+import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
 import type { SystemHealth } from "@/services/healthAPI";
 import {
   AlertDialog,
@@ -50,17 +50,22 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
     </div>
   );
 
-  const SocialButton = ({ icon: Icon, children, href }: { icon: React.ElementType; children: React.ReactNode; href: string }) => (
+  const SocialButton = ({ icon: Icon, children, href, ariaLabel }: { icon: React.ElementType; children?: React.ReactNode; href: string; ariaLabel: string }) => (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={ariaLabel}
       className="flex items-center gap-1 text-white hover:text-white/80 transition-colors"
     >
       <div className="w-6 h-6 overflow-hidden">
         <Icon className="w-full h-full" />
       </div>
-      <span className="text-[16px] sm:text-[18px] font-medium leading-[24px] sm:leading-[28px]">{children}</span>
+      {children ? (
+        <span className="text-[16px] sm:text-[18px] font-medium leading-[24px] sm:leading-[28px]">{children}</span>
+      ) : (
+        <span className="sr-only">{ariaLabel}</span>
+      )}
     </a>
   );
 
@@ -112,13 +117,21 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                 </h2>
                 <div className="space-y-[45px]">
                   <div className="flex gap-[33px] items-center">
-                    <SocialButton icon={Linkedin} href="https://www.linkedin.com/company/digital-democracy-hub-schweiz-fachstelle-f%C3%BCr-demokratie-und-digitalisierung/">
-                      
-                    </SocialButton>
-                    <SocialButton icon={Youtube} href="https://youtu.be/WGUTi2jSaYw?feature=shared&t=7225">
-                      
-                    </SocialButton>
-                    <SocialButton icon={Github} href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot">
+                    <SocialButton
+                      icon={Linkedin}
+                      href="https://www.linkedin.com/company/digital-democracy-hub-schweiz-fachstelle-f%C3%BCr-demokratie-und-digitalisierung/"
+                      ariaLabel={t('common:footer.linkedin', 'LinkedIn')}
+                    />
+                    <SocialButton
+                      icon={Youtube}
+                      href="https://youtu.be/WGUTi2jSaYw?feature=shared&t=7225"
+                      ariaLabel={t('common:footer.youtube', 'YouTube')}
+                    />
+                    <SocialButton
+                      icon={Github}
+                      href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot"
+                      ariaLabel={t('common:footer.github', 'GitHub')}
+                    >
                       Code
                     </SocialButton>
                   </div>
@@ -194,13 +207,21 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
               </h2>
               <div className="space-y-6">
                 <div className="flex flex-wrap gap-9 items-center">
-                  <SocialButton icon={Linkedin} href="https://www.linkedin.com/company/digital-democracy-hub-schweiz-fachstelle-f%C3%BCr-demokratie-und-digitalisierung/">
-                    
-                  </SocialButton>
-                  <SocialButton icon={Youtube} href="https://youtu.be/WGUTi2jSaYw?feature=shared&t=7225">
-                    
-                  </SocialButton>
-                  <SocialButton icon={Github} href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot">
+                  <SocialButton
+                    icon={Linkedin}
+                    href="https://www.linkedin.com/company/digital-democracy-hub-schweiz-fachstelle-f%C3%BCr-demokratie-und-digitalisierung/"
+                    ariaLabel={t('common:footer.linkedin', 'LinkedIn')}
+                  />
+                  <SocialButton
+                    icon={Youtube}
+                    href="https://youtu.be/WGUTi2jSaYw?feature=shared&t=7225"
+                    ariaLabel={t('common:footer.youtube', 'YouTube')}
+                  />
+                  <SocialButton
+                    icon={Github}
+                    href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot"
+                    ariaLabel={t('common:footer.github', 'GitHub')}
+                  >
                     Code
                   </SocialButton>
                 </div>
@@ -258,10 +279,10 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
           <div className="max-w-[2000px] mx-auto px-40 py-5">
             <div className="flex items-center justify-between">
               <div className="flex gap-8 items-start text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
-                <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Rechtliches</a>
-                <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Datenschutz</a>
-                <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Impressum</a>
-                <button type="button" onClick={() => setAccessibilityOpen(true)} className="hover:text-white/80 transition-colors">Barrierefreiheit</button>
+                <a href={getLocalizedPath(currentLang, 'impressum')} className="hover:text-white/80 transition-colors">{t('common:footer.legal')}</a>
+                <a href={getLocalizedPath(currentLang, 'impressum')} className="hover:text-white/80 transition-colors">{t('common:footer.privacy')}</a>
+                <a href={getLocalizedPath(currentLang, 'impressum')} className="hover:text-white/80 transition-colors">{t('common:footer.imprint')}</a>
+                <button type="button" onClick={() => setAccessibilityOpen(true)} className="hover:text-white/80 transition-colors">{t('common:footer.accessibility')}</button>
               </div>
               <div className="text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
                 <a
@@ -270,7 +291,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                   rel="noopener noreferrer"
                   className="hover:text-white/80 transition-colors"
                 >
-                  unterstütze uns mit einem Kaffee ☕️
+                  {t('common:footer.supportCoffee')}
                 </a>
               </div>
             </div>
@@ -280,10 +301,10 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
         {/* Mobile Layout */}
         <div className="block xl:hidden px-5 py-7 space-y-9">
           <div className="flex flex-wrap gap-9 text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
-            <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Rechtliches</a>
-            <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Datenschutz</a>
-            <a href={`/${currentLang}/impressum`} className="hover:text-white/80 transition-colors">Impressum</a>
-            <button type="button" onClick={() => setAccessibilityOpen(true)} className="hover:text-white/80 transition-colors">Barrierefreiheit</button>
+            <a href={getLocalizedPath(currentLang, 'impressum')} className="hover:text-white/80 transition-colors">{t('common:footer.legal')}</a>
+            <a href={getLocalizedPath(currentLang, 'impressum')} className="hover:text-white/80 transition-colors">{t('common:footer.privacy')}</a>
+            <a href={getLocalizedPath(currentLang, 'impressum')} className="hover:text-white/80 transition-colors">{t('common:footer.imprint')}</a>
+            <button type="button" onClick={() => setAccessibilityOpen(true)} className="hover:text-white/80 transition-colors">{t('common:footer.accessibility')}</button>
           </div>
           <div className="w-full text-right text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
             <a
@@ -292,7 +313,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
               rel="noopener noreferrer"
               className="hover:text-white/80 transition-colors"
             >
-              Kaffee? ☕️
+              {t('common:footer.buyMeCoffee')}
             </a>
           </div>
         </div>
@@ -302,14 +323,14 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
       <AlertDialog open={accessibilityOpen} onOpenChange={setAccessibilityOpen}>
         <AlertDialogContent className="max-w-[480px] rounded-[2px]">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-[20px] sm:text-[22px] leading-[32px] sm:leading-[33px] text-[#1f2937]">Barrierefreiheit</AlertDialogTitle>
+            <AlertDialogTitle className="text-[20px] sm:text-[22px] leading-[32px] sm:leading-[33px] text-[#1f2937]">{t('common:accessibility.easyLanguageModal.title')}</AlertDialogTitle>
             <AlertDialogDescription className="text-[16px] sm:text-[18px] leading-[24px] sm:leading-[28px] text-[#1f2937]">
-              Hilfst du mir bei der Umsetzung dieses Features?
+              {t('common:accessibility.easyLanguageModal.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="text-[16px] sm:text-[18px] leading-[24px] sm:leading-[28px]">Abbrechen</AlertDialogCancel>
-            <AlertDialogAction onClick={handleAccessibilityOk} className="bg-[#5c6977] hover:bg-[#4c5967] text-white text-[16px] sm:text-[18px] leading-[24px] sm:leading-[28px]">OK</AlertDialogAction>
+            <AlertDialogCancel className="text-[16px] sm:text-[18px] leading-[24px] sm:leading-[28px]">{t('common:accessibility.easyLanguageModal.cancel')}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleAccessibilityOk} className="bg-[#5c6977] hover:bg-[#4c5967] text-white text-[16px] sm:text-[18px] leading-[24px] sm:leading-[28px]">{t('common:accessibility.easyLanguageModal.ok')}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

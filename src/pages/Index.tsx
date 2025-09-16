@@ -1,17 +1,12 @@
-import { VerificationDashboard } from "@/components/VerificationDashboard";
 import { ReceiptCredentialIssuer } from "@/components/ReceiptCredentialIssuer";
-import { MediaCarousel } from "@/components/MediaCarousel";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Header } from "@/components/Header";
-import { VersionSwitcher } from "@/components/VersionSwitcher";
 import { Footer } from "@/components/Footer";
-import { Shield, Building2, Github, Coffee, Heart, Share2, Printer } from "lucide-react";
+import { Share2, Printer } from "lucide-react";
 import { useMatch, useLocation } from "react-router-dom";
 import { useHealthStatus } from "@/hooks/use-health-status";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
-import { format } from "date-fns";
 import { useTranslation } from 'react-i18next';
-import { parseRouteFromPath, getLocalizedPath, useCurrentLanguage } from "@/utils/routing";
+import { parseRouteFromPath, useCurrentLanguage, routeTranslations } from "@/utils/routing";
 import PageContainer from "@/components/PageContainer";
 const Index = () => {
   const { t } = useTranslation(['common', 'content']);
@@ -25,18 +20,11 @@ const Index = () => {
   const volksbegehrenMatch = useMatch("/volksbegehren/:id");
   
   // New localized route matching - use actual route translations
-  const routeTranslations = {
-    de: 'volksbegehren',
-    fr: 'objet-votation-populaire',
-    it: 'oggetto-votazione-popolare',
-    rm: 'dumonda-populara',
-    en: 'popular-vote'
-  };
-  const localizedVolksbegehrenMatch = useMatch(`/${currentLang}/${routeTranslations[currentLang as keyof typeof routeTranslations]}/:id`);
+  const normalizedVolksRoute = routeTranslations[currentLang]?.volksbegehren ?? 'volksbegehren';
+  const localizedVolksbegehrenMatch = useMatch(`/${currentLang}/${normalizedVolksRoute}/:id`);
   const {
     data: healthStatus,
-    isLoading: healthLoading,
-    isError: healthError
+    isLoading: healthLoading
   } = useHealthStatus();
   const volksbegehren = useVolksbegehren();
   
@@ -65,26 +53,6 @@ const Index = () => {
     if (!value) return undefined;
     const found = list.find(item => item?.id === value || item?.slug === value);
     return found?.id;
-  };
-  const formatDate = (dateString: string) => {
-    if (!dateString) return '';
-    try {
-      return format(new Date(dateString), 'dd.MM.yyyy');
-    } catch {
-      return '';
-    }
-  };
-  const getDateRange = (startDate: string, endDate: string) => {
-    const start = formatDate(startDate);
-    const end = formatDate(endDate);
-    if (start && end) {
-      return `${start} - ${end}`;
-    } else if (start) {
-      return `ab ${start}`;
-    } else if (end) {
-      return `bis ${end}`;
-    }
-    return '';
   };
   const preselect: {
     type: "Initiative" | "Referendum";
@@ -131,25 +99,6 @@ const Index = () => {
     return undefined;
   })();
   
-  // Prepare data for carousel - only show items with show: true
-  const carouselItems = normalized.filter((item: any) => volksbegehren.find((vb: any) => vb.title === item.title)?.show === true).map((item: any) => {
-    const dateRange = getDateRange(item.startDate, item.endDate);
-    return {
-      id: item.id,
-      title: item.title,
-      summary: `${item.type}: ${item.wording}`,
-      dateRange: dateRange,
-      url: getLocalizedPath(currentLang, 'volksbegehren', { id: item.slug }),
-      image: "/placeholder.svg",
-      slug: item.slug,
-      type: item.type as "Initiative" | "Referendum",
-      level: item.level,
-      pdf: item.pdf
-    };
-  });
-
-  // Extract unique levels from the displayed items
-  const availableLevels = Array.from(new Set(carouselItems.map(item => item.level).filter(Boolean))).sort();
   const handleShare = async () => {
     try {
       const url = window.location.href;

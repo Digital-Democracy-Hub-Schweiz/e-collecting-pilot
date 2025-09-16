@@ -14,14 +14,14 @@ const Anleitung = () => {
   const handleShare = async () => {
     try {
       const url = window.location.href;
-      const title = document.title || 'Teilen';
+      const title = document.title || t('common:share');
       if (navigator.share) {
         await navigator.share({ title, url });
       } else if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(url);
-        alert('Link kopiert.');
+        alert(t('common:copy') + ' ' + url);
       } else {
-        window.prompt('Link kopieren:', url);
+        window.prompt(t('common:copy') + ':', url);
       }
     } catch (_) {}
   };
@@ -48,10 +48,10 @@ const Anleitung = () => {
         {/* Print/Share-Leiste (Figma) */}
         <section className="bg-white">
           <PageContainer className="h-[52px] flex items-center justify-end gap-3">
-            <button type="button" aria-label="Teilen" onClick={handleShare} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
+            <button type="button" aria-label={t('common:share')} onClick={handleShare} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
               <Share2 className="w-5 h-5" aria-hidden />
             </button>
-            <button type="button" aria-label="Drucken" onClick={handlePrint} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
+            <button type="button" aria-label={t('common:print')} onClick={handlePrint} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
               <Printer className="w-5 h-5" aria-hidden />
             </button>
           </PageContainer>
@@ -62,14 +62,14 @@ const Anleitung = () => {
           <PageContainer paddingYClassName="py-0">
             <div className="py-14 md:py-16 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center">
               <div className="md:col-span-7">
-                <h1 className="text-[28px] leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">E-Collecting mit der Beta-ID ausprobieren</h1>
+                <h1 className="text-[28px] leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">{t('content:instructions.title')}</h1>
                 <div className="h-6 md:h-10" />
                 <p className="text-[18px] leading-[28px] md:text-[22px] md:leading-[33px] font-medium text-[#1f2937] max-w-[1024px]">
-                  Diese Website ist ein gemeinnütziges Projekt der Zivilgesellschaft. Unser Ziel ist es, Initiativen und Referenden mithilfe der neuen E-ID sicher, digital und barrierefrei zu unterstützen.
+                  {t('content:instructions.description')}
                 </p>
               </div>
               <div className="md:col-span-5 flex justify-start md:justify-end">
-                <img src="/lovable-uploads/f29ac8cf-3603-4085-b35e-af7ed0bee35b.png" alt="E-Collecting Beta-ID – App Vorschau" className="max-w-[520px] w-full h-auto" />
+                <img src="/lovable-uploads/f29ac8cf-3603-4085-b35e-af7ed0bee35b.png" alt={t('content:instructions.imageAlt')} className="max-w-[520px] w-full h-auto" />
               </div>
             </div>
           </PageContainer>
@@ -80,16 +80,16 @@ const Anleitung = () => {
           <PageContainer>
             <div className="w-full max-w-[805px]">
               <div className="prose prose-lg max-w-none">
-                <h2 className="text-2xl font-semibold text-foreground mt-0 mb-3">Download</h2>
-                <p>Laden Sie die swiyu App kostenlos im Google Play Store oder Apple Store herunter.</p>
+                <h2 className="text-2xl font-semibold text-foreground mt-0 mb-3">{t('content:instructions.downloadTitle')}</h2>
+                <p>{t('content:instructions.downloadDescription')}</p>
 
                 <div className="mt-4 space-y-2">
-                  <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">📱 swiyu App (iOS)</a>
-                  <a href="https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pli=1" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">🤖 swiyu App (Android)</a>
+                  <a href="https://apps.apple.com/ch/app/swiyu/id6737259614" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">{t('content:instructions.links.ios')}</a>
+                  <a href="https://play.google.com/store/apps/details?id=ch.admin.foitt.swiyu&pli=1" target="_blank" rel="noopener noreferrer" className="block text-primary hover:text-primary/80 underline underline-offset-4">{t('content:instructions.links.android')}</a>
                 </div>
 
-                <h2 className="text-2xl font-semibold text-foreground mt-10 mb-3">Beta-ID ausstellen</h2>
-                <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="inline-block text-primary hover:text-primary/80 underline underline-offset-4">👉 Beta-ID ausstellen</a>
+                <h2 className="text-2xl font-semibold text-foreground mt-10 mb-3">{t('content:instructions.betaIdTitle')}</h2>
+                <a href="https://www.bcs.admin.ch/bcs-web/" target="_blank" rel="noopener noreferrer" className="inline-block text-primary hover:text-primary/80 underline underline-offset-4">{t('content:instructions.betaIdLink')}</a>
               </div>
             </div>
           </PageContainer>
@@ -98,7 +98,7 @@ const Anleitung = () => {
 
       {/* Spacer vor Footer (Figma: 96px) */}
       <section className="bg-white">
-        <PageContainer paddingYClassName="py-24" />
+        <PageContainer paddingYClassName="py-24">{null}</PageContainer>
       </section>
 
       <Footer healthStatus={healthStatus} healthLoading={healthLoading} />
@@ -107,5 +107,4 @@ const Anleitung = () => {
 };
 
 export default Anleitung;
-
 

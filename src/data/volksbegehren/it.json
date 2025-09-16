@@ -46,5 +46,17 @@
     "start_date": "2025-03-25",
     "end_date": "2026-09-25",
     "show": true
+  },
+  {
+    "id": "referendum-individualbesteuerung",
+    "type": "referendum",
+    "level": "Confederazione",
+    "title": "Referendum contro la legge federale sulla tassazione individuale",
+    "slug": "referendum-contro-la-legge-federale-sulla-tassazione-individuale",
+    "comitee": "Comitato trasversale 'Truffa fiscale No', Comitato 'Famiglie contro la tassazione individuale', Unione Democratica Federale (UDF)",
+    "wording": "Il referendum chiede che la legge federale sulla tassazione individuale, adottata il 20 giugno 2025, sia sottoposta a votazione popolare.",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-09",
+    "show": true
   }
 ]

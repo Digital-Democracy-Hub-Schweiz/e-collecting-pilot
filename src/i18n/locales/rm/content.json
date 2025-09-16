@@ -58,6 +58,39 @@
       "betaIdService": "Servetsch Beta-ID"
     }
   },
+  "project": {
+    "title": "Project pilot E-Collecting",
+    "description": "Questa website è in project senza intent da profit da la societad civila. Nossa finamira è da sustentar iniziativas e referendums a moda segira, digitala ed accessibla cun la nova e-ID.",
+    "participationTitle": "Infurmaziuns davart la participaziun",
+    "eidTitle": "e-ID",
+    "eidDescription": "L'e-ID vegn emessa dal stadi. Ella cumplettescha la carta d'identitad fisica ed è gratuita. Ils 28 da settember vota la populaziun davart la proposta.",
+    "swiyuTitle": "App swiyu-Wallet",
+    "swiyuDescription": "Quest project pilot dovra il servetsch Beta Credential da la Confederaziun. Per participar sto vegnir creà in Beta-ID via l'app swiyu-Wallet. En il rom dal project vegnan duvradas mo templates fictizias ed il Beta-ID da la Confederaziun. Naginas datas persunalas vegnan memorisadas.",
+    "links": {
+      "ios": "📱 App swiyu (iOS)",
+      "android": "🤖 App swiyu (Android)",
+      "betaId": "👉 Emetter Beta-ID"
+    }
+  },
+  "instructions": {
+    "title": "Empruvar E-Collecting cun il Beta-ID",
+    "description": "Questa website è in project senza intent da profit da la societad civila. Nossa finamira è da sustentar iniziativas e referendums a moda segira, digitala ed accessibla cun la nova e-ID.",
+    "imageAlt": "E-Collecting Beta-ID – Prevista da l'app",
+    "downloadTitle": "Telechargiar",
+    "downloadDescription": "Telechargiai l'app swiyu gratuitamain dal Google Play Store u da l'Apple Store.",
+    "betaIdTitle": "Emetter Beta-ID",
+    "betaIdLink": "👉 Emetter Beta-ID",
+    "links": {
+      "ios": "📱 App swiyu (iOS)",
+      "android": "🤖 App swiyu (Android)"
+    }
+  },
+  "volksbegehren": {
+    "title": "Dumonda populara",
+    "description": "Qua chattais vus ina survista da las iniziativas ed ils referendums actuals che vus pudais sustentar digitalamain cun vossa e-ID.",
+    "loading": "Chargiar…",
+    "error": "Las datas n'han betg pudì vegnir chargiadas."
+  },
   "impressum": {
     "title": "Impressum",
     "responsible": {

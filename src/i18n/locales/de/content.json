@@ -58,6 +58,39 @@
       "betaIdService": "Beta-ID Service"
     }
   },
+  "project": {
+    "title": "E-Collecting Pilotprojekt",
+    "description": "Diese Website ist ein gemeinnütziges Projekt der Zivilgesellschaft. Unser Ziel ist es, Initiativen und Referenden mithilfe der neuen E-ID sicher, digital und barrierefrei zu unterstützen.",
+    "participationTitle": "Informationen zur Teilnahme",
+    "eidTitle": "e-ID",
+    "eidDescription": "Die e-ID wird vom Staat herausgegeben. Sie ergänzt die physische Identitätskarte und ist kostenlos. Am 28. September stimmt die Bevölkerung über die Vorlage ab.",
+    "swiyuTitle": "swiyu-Wallet App",
+    "swiyuDescription": "Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Für die Teilnahme muss eine Beta-ID über die swiyu-Wallet App erstellt werden. Im Rahmen des Projekts werden ausschliesslich fiktive Vorlagen und die Beta-ID des Bundes genutzt. Es werden keine persönlichen Daten gespeichert.",
+    "links": {
+      "ios": "📱 swiyu App (iOS)",
+      "android": "🤖 swiyu App (Android)",
+      "betaId": "👉 Beta-ID ausstellen"
+    }
+  },
+  "instructions": {
+    "title": "E-Collecting mit der Beta-ID ausprobieren",
+    "description": "Diese Website ist ein gemeinnütziges Projekt der Zivilgesellschaft. Unser Ziel ist es, Initiativen und Referenden mithilfe der neuen E-ID sicher, digital und barrierefrei zu unterstützen.",
+    "imageAlt": "E-Collecting Beta-ID – App Vorschau",
+    "downloadTitle": "Download",
+    "downloadDescription": "Laden Sie die swiyu App kostenlos im Google Play Store oder Apple Store herunter.",
+    "betaIdTitle": "Beta-ID ausstellen",
+    "betaIdLink": "👉 Beta-ID ausstellen",
+    "links": {
+      "ios": "📱 swiyu App (iOS)",
+      "android": "🤖 swiyu App (Android)"
+    }
+  },
+  "volksbegehren": {
+    "title": "Volksbegehren",
+    "description": "Hier finden Sie eine Übersicht über aktuelle Initiativen und Referenden, die Sie mit Ihrer E-ID digital unterstützen können.",
+    "loading": "Laden…",
+    "error": "Daten konnten nicht geladen werden."
+  },
   "impressum": {
     "title": "Impressum",
     "responsible": {

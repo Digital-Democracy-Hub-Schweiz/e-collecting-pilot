@@ -1,22 +1,17 @@
 import { useEffect, useMemo, useState, useRef } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CustomSelect } from "@/components/ui/custom-select";
 import { NativeSelect } from "@/components/ui/native-select";
-import { AccessibleSelect } from "@/components/ui/accessible-select";
 import { ErrorBadge } from "@/components/ui/error-badge";
-import { SelectComparison } from "@/components/ui/select-comparison";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { issuerBusinessAPI } from "@/services/issuerAPI";
 import { verificationBusinessAPI } from "@/services/verificationAPI";
 // import { useToast } from "@/hooks/use-toast";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
 import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
-import { ShieldCheck, QrCode, RefreshCw, Share2, AlertTriangle, AlertCircle, CheckCircle2, Info, ArrowRight } from "lucide-react";
+import { RefreshCw, Share2, AlertCircle, CheckCircle2, Info, ArrowRight } from "lucide-react";
 import { determineCantonFromBfs } from "@/utils/cantonUtils";
 import { useTranslation } from 'react-i18next';
 import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
@@ -44,19 +39,14 @@ export function ReceiptCredentialIssuer({
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const [signDate, setSignDate] = useState<string>(new Date().toISOString().slice(0, 10));
   const [streetAddress, setStreetAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
-  const [statusListUrl, setStatusListUrl] = useState("https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/3e6fc90b-bb80-4112-aa4e-940cda4616d7.jwt");
-  const [isIssuing, setIsIssuing] = useState(false);
-  const [isChecking, setIsChecking] = useState(false);
+  const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/3e6fc90b-bb80-4112-aa4e-940cda4616d7.jwt";
   const [issuedId, setIssuedId] = useState<string | null>(null);
   const [offerDeeplink, setOfferDeeplink] = useState<string | null>(null);
-  const [statusResult, setStatusResult] = useState<any>(null);
   const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
-  const [isValidatingAddress, setIsValidatingAddress] = useState(false);
-  const [municipality, setMunicipality] = useState<string | null>(null);
+  const isValidatingAddress = false;
   const [municipalityDetails, setMunicipalityDetails] = useState<{
     town: string;
     canton: string;
@@ -70,7 +60,6 @@ export function ReceiptCredentialIssuer({
     postalCode?: string;
     city?: string;
   }>({});
-  const [verificationId, setVerificationId] = useState<string | null>(null);
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
   const [isCreatingVerification, setIsCreatingVerification] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -88,8 +77,6 @@ export function ReceiptCredentialIssuer({
     // Set municipality code for further processing
     const municipalityCode = address.place.additionalProperty.municipalityCode;
     console.log('Municipality code:', municipalityCode);
-    setMunicipality(municipalityCode);
-
     // Set municipality details including canton determination
     const town = address.place.postalAddress.addressLocality;
     const canton = address.place.postalAddress.addressRegion || "";
@@ -114,7 +101,6 @@ export function ReceiptCredentialIssuer({
       cantonFromBfs: cantonFromBfs || canton
     });
   };
-  const [isPollingVerification, setIsPollingVerification] = useState(false);
   // Legal notice checkbox removed; button always enabled
   // Postal suggestions removed - PLZ is now auto-filled by AddressAutocomplete
   const [banner, setBanner] = useState<{
@@ -235,8 +221,6 @@ export function ReceiptCredentialIssuer({
       });
       return;
     }
-    setIsIssuing(true);
-    setStatusResult(null);
     try {
       const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
       const selectedTitle = selectedItem?.title || "";
@@ -292,8 +276,6 @@ export function ReceiptCredentialIssuer({
         title: t('errors:api.credentialError'),
         description: e?.message ?? t('errors:api.unknownError')
       });
-    } finally {
-      setIsIssuing(false);
     }
   };
   const handleNextFromStep1 = () => {
@@ -351,7 +333,6 @@ export function ReceiptCredentialIssuer({
     // Entfernt: Address validation banner & step 4 info banner
     try {
       const verification = await verificationBusinessAPI.createVerification();
-      setVerificationId(verification.id);
       setVerificationUrl(verification.verification_url);
       setStep(4);
       setBanner(null);
@@ -375,13 +356,11 @@ export function ReceiptCredentialIssuer({
     }
   };
   const startPollingVerification = (verificationId: string) => {
-    setIsPollingVerification(true);
     const pollInterval = setInterval(async () => {
       try {
         const result = await verificationBusinessAPI.getVerification(verificationId);
         if (result.state === 'SUCCESS' && result.wallet_response) {
           clearInterval(pollInterval);
-          setIsPollingVerification(false);
 
           // Extract data from wallet response
           const credentialData = result.wallet_response?.credential_subject_data;
@@ -400,7 +379,6 @@ export function ReceiptCredentialIssuer({
           handleIssue(credentialData);
         } else if (result.state === 'FAILED') {
           clearInterval(pollInterval);
-          setIsPollingVerification(false);
           setBanner({
             type: 'error',
             title: t('common:error', 'Fehler'),
@@ -415,35 +393,7 @@ export function ReceiptCredentialIssuer({
     // Stop polling after 5 minutes
     setTimeout(() => {
       clearInterval(pollInterval);
-      setIsPollingVerification(false);
     }, 300000);
-  };
-  const handleCheckStatus = async () => {
-    if (!issuedId) return;
-    setIsChecking(true);
-    try {
-      const res = await issuerBusinessAPI.checkCredentialStatus(issuedId);
-      setStatusResult(res);
-      setBanner({
-        type: 'success',
-        title: t('forms:statusChecked', 'Status abgefragt'),
-        description: t('forms:statusUpdated', 'Statusinformationen aktualisiert.')
-      });
-      // Entfernt: Toast
-    } catch (e: any) {
-      setBanner({
-        type: 'error',
-        title: t('common:error', 'Fehler'),
-        description: e?.message ?? t('errors:api.unknownError')
-      });
-      setBanner({
-        type: 'error',
-        title: t('common:error', 'Fehler'),
-        description: e?.message ?? t('errors:api.unknownError')
-      });
-    } finally {
-      setIsChecking(false);
-    }
   };
   const handleShare = async () => {
     try {
@@ -471,37 +421,6 @@ export function ReceiptCredentialIssuer({
         description: e?.message ?? t('errors:api.unknownError')
       });
     }
-  };
-  const resetForm = () => {
-    setType("");
-    setSelectedId("");
-    setFirstName("");
-    setLastName("");
-    setBirthDate("");
-    setSignDate(new Date().toISOString().slice(0, 10));
-    setStreetAddress("");
-    setPostalCode("");
-    setCity("");
-    setStatusListUrl("https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/df7f2a3d-86bc-4002-aa81-9e147f340453.jwt");
-    setIsIssuing(false);
-    setIsChecking(false);
-    setIssuedId(null);
-    setOfferDeeplink(null);
-    setStatusResult(null);
-    setStep(1);
-    setIsValidatingAddress(false);
-    setMunicipality(null);
-    setMunicipalityDetails(null);
-    setVerificationId(null);
-    setVerificationUrl(null);
-    setIsCreatingVerification(false);
-    setIsPollingVerification(false);
-    // Postal suggestions functionality removed
-    setBanner({
-      type: 'info',
-      title: t('forms.restart', 'Neu starten'),
-      description: t('forms.confirmRestartDescription', 'Dadurch werden alle Eingaben gelöscht.')
-    });
   };
   // Postal code search functionality removed - now handled by AddressAutocomplete
   const handlePostalCodeChange = (value: string) => {
@@ -632,39 +551,6 @@ export function ReceiptCredentialIssuer({
                           <ErrorBadge role="alert" aria-live="polite">{fieldErrors.selectedId}</ErrorBadge>
                         )}
                         
-                        {/* Comparison: Accessible Select Variant - COMMENTED OUT */}
-                        {/* 
-                        <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                          <h4 className="text-sm font-semibold text-gray-700 mb-3">Comparison: Accessible Select Variant</h4>
-                          <AccessibleSelect
-                            id="title-select-accessible"
-                            options={options.map(o => {
-                              const titleVariants = createTitleVariants(o.title, 45);
-                              return { 
-                                value: o.id, 
-                                label: o.title, // Full title for dropdown options
-                                displayLabel: titleVariants.short // Short title for input field display
-                              };
-                            })}
-                            value={selectedId}
-                            onValueChange={(v) => { setSelectedId(v); setFieldErrors(prev => ({ ...prev, selectedId: undefined })); }}
-                            disabled={!type}
-                            placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
-                            aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
-                            className="w-full"
-                          />
-                          <p className="text-xs text-gray-500 mt-2">
-                            This is the AccessibleSelect variant for comparison. Both dropdowns are synchronized.
-                          </p>
-                        </div>
-                        */}
-
-                        {/* Full Comparison Component - COMMENTED OUT */}
-                        {/* 
-                        <div className="mt-6">
-                          <SelectComparison />
-                        </div>
-                        */}
                       </div>
                     </div>
                   </div>

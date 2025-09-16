@@ -11,6 +11,7 @@
   "open": "Avrir",
   "share": "Cundivider",
   "copy": "Copiar",
+  "print": "Stampar",
   "reset": "Reinizialisar",
   "restart": "Nov cumenzament",
   "download": "Telechargiar",
@@ -22,7 +23,10 @@
     "en": "English"
   },
   "routes": {
-    "volksbegehren": "dumonda-populara"
+    "volksbegehren": "dumonda-populara",
+    "anleitung": "instrucziuns",
+    "projekt": "project",
+    "impressum": "impressum"
   },
   "navigation": {
     "home": "Pagina principala",
@@ -40,7 +44,9 @@
     "home": "Pagina principala",
     "instructions": "Instrucziuns",
     "volksbegehren": "Dumonda populara",
-    "pilot": "Pilot"
+    "pilot": "Pilot",
+    "project": "Project",
+    "impressum": "Impressum"
   },
   "accessibility": {
     "easyLanguage": "Linguatg simpel",
@@ -67,6 +73,14 @@
     "contact": "Contact",
     "externalLinks": "Colliaziuns externas",
     "systemStatus": "Status dal sistem",
+    "legal": "Giuridic",
+    "privacy": "Protecziun da datas",
+    "imprint": "Impressum",
+    "accessibility": "Accessibilità",
+    "supportCoffee": "sustegna nus cun in caffè ☕️",
+    "linkedin": "LinkedIn",
+    "youtube": "YouTube",
+    "github": "GitHub",
     "services": {
       "verifierMgmt": "Verifier-Mgmt",
       "issuerMgmt": "Issuer-Mgmt",

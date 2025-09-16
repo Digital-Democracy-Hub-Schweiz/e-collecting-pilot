@@ -1,27 +1,36 @@
-import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 // Route translations mapping
 export const routeTranslations = {
   de: {
     volksbegehren: 'volksbegehren',
+    anleitung: 'anleitung',
+    projekt: 'projekt',
     impressum: 'impressum'
   },
   fr: {
     volksbegehren: 'objet-votation-populaire',
-    impressum: 'impressum'
+    anleitung: 'instructions',
+    projekt: 'projet',
+    impressum: 'mentions-legales'
   },
   it: {
     volksbegehren: 'oggetto-votazione-popolare',
-    impressum: 'impressum'
+    anleitung: 'istruzioni',
+    projekt: 'progetto',
+    impressum: 'colofone'
   },
   rm: {
     volksbegehren: 'dumonda-populara',
+    anleitung: 'instrucziuns',
+    projekt: 'project',
     impressum: 'impressum'
   },
   en: {
     volksbegehren: 'popular-vote',
-    impressum: 'impressum'
+    anleitung: 'instructions',
+    projekt: 'project',
+    impressum: 'imprint'
   }
 };
 
