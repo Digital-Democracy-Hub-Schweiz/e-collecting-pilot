@@ -15,7 +15,7 @@ import { RefreshCw, Share2, AlertCircle, CheckCircle2, Info, ArrowRight } from "
 import { determineCantonFromBfs } from "@/utils/cantonUtils";
 import { useTranslation } from 'react-i18next';
 import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
-import { AddressAutocomplete } from "@/components/ui/address-autocomplete";
+import { NativeAddressSearch } from "@/components/ui/native-address-search";
 import { AddressHit } from "@/services/addressAPI";
 import { createTitleVariants } from "@/lib/title-utils";
 type Option = {
@@ -575,10 +575,13 @@ export function ReceiptCredentialIssuer({
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="street-address" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
-                        <AddressAutocomplete 
+                        <NativeAddressSearch 
                           id="street-address"
                           value={streetAddress}
-                          onValueChange={(v) => { setStreetAddress(v); setFieldErrors(prev => ({ ...prev, streetAddress: undefined })); }}
+                          onValueChange={(v) => { 
+                            setStreetAddress(v); 
+                            setFieldErrors(prev => ({ ...prev, streetAddress: undefined })); 
+                          }}
                           onAddressSelect={handleAddressSelect}
                           placeholder={t('forms:step2.streetPlaceholder')}
                           className="h-12 text-[16px] sm:text-[18px] border-[#6b7280] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)]"
