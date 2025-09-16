@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { searchAddresses, AddressHit } from "@/services/addressAPI";
 
-interface NativeAddressSearchProps {
+interface AddressAutocompleteProps {
   value?: string;
   onValueChange?: (value: string) => void;
   onAddressSelect?: (address: AddressHit) => void;
@@ -13,7 +13,7 @@ interface NativeAddressSearchProps {
   id?: string;
 }
 
-export function NativeAddressSearch({
+export function AddressAutocomplete({
   value = "",
   onValueChange,
   onAddressSelect,
@@ -22,7 +22,7 @@ export function NativeAddressSearch({
   className,
   "aria-label": ariaLabel,
   id
-}: NativeAddressSearchProps) {
+}: AddressAutocompleteProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const listRef = React.useRef<HTMLUListElement>(null);
   const [isFocused, setIsFocused] = React.useState(false);
@@ -31,6 +31,9 @@ export function NativeAddressSearch({
   const [searchQuery, setSearchQuery] = React.useState(value);
   const [focusedIndex, setFocusedIndex] = React.useState(-1);
   const [isListOpen, setIsListOpen] = React.useState(false);
+
+  // Generate unique ID if not provided
+  const componentId = React.useMemo(() => id || `address-search-${Math.random().toString(36).substr(2, 9)}`, [id]);
 
   // Debounce timer ref
   const timeoutRef = React.useRef<NodeJS.Timeout>();
@@ -97,13 +100,15 @@ export function NativeAddressSearch({
   const handleAddressSelect = (address: AddressHit) => {
     const fullAddress = address.place.postalAddress.streetAddress;
     
-    // Only call onAddressSelect - this will set street, PLZ and city
+    // Update local state
+    setSearchQuery(fullAddress);
+    
+    // Call parent callbacks in the correct order
+    // First set the street address value, then notify about the full address selection
+    onValueChange?.(fullAddress);
     onAddressSelect?.(address);
     
-    // Don't call onValueChange here to avoid conflicts
-    // The onAddressSelect callback will handle setting the street address
-    
-    setSearchQuery(fullAddress);
+    // Clean up dropdown state
     setAddressOptions([]);
     setIsListOpen(false);
     setFocusedIndex(-1);
@@ -178,7 +183,7 @@ export function NativeAddressSearch({
         <input
           ref={inputRef}
           type="text"
-          id={id}
+          id={componentId}
           value={searchQuery}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
@@ -189,6 +194,7 @@ export function NativeAddressSearch({
           aria-expanded={isListOpen}
           aria-haspopup="listbox"
           aria-activedescendant={focusedIndex >= 0 ? `address-option-${focusedIndex}` : undefined}
+          aria-describedby={`${componentId}-status ${componentId}-instructions`}
           placeholder={placeholder}
           className={cn(
             // Base styles
@@ -211,9 +217,14 @@ export function NativeAddressSearch({
         />
         {isLoading && (
           <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#8655f6]"></div>
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#8655f6]" aria-hidden="true"></div>
           </div>
         )}
+      </div>
+
+      {/* Screen reader instructions (hidden) */}
+      <div id={`${componentId}-instructions`} className="sr-only">
+        Beginnen Sie mit der Eingabe, um Adressvorschläge zu erhalten. Verwenden Sie die Pfeiltasten zum Navigieren und Enter zum Auswählen.
       </div>
 
       {/* Address results list */}
@@ -255,16 +266,21 @@ export function NativeAddressSearch({
         </div>
       )}
 
-      {/* Screen reader announcement for search results */}
-      {isListOpen && addressOptions.length > 0 && (
-        <div 
-          className="sr-only" 
-          aria-live="polite" 
-          aria-atomic="true"
-        >
-          {addressOptions.length} Adressvorschläge gefunden für "{searchQuery}"
-        </div>
-      )}
+      {/* Screen reader status and announcement */}
+      <div 
+        id={`${componentId}-status`}
+        className="sr-only" 
+        aria-live="polite" 
+        aria-atomic="true"
+      >
+        {isLoading && "Adresssuche läuft..."}
+        {!isLoading && isListOpen && addressOptions.length > 0 && 
+          `${addressOptions.length} Adressvorschläge gefunden für "${searchQuery}"`
+        }
+        {!isLoading && searchQuery.length >= 5 && addressOptions.length === 0 && !isListOpen &&
+          "Keine Adressen gefunden"
+        }
+      </div>
     </div>
   );
 }

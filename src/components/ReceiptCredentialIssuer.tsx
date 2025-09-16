@@ -15,7 +15,7 @@ import { RefreshCw, Share2, AlertCircle, CheckCircle2, Info, ArrowRight } from "
 import { determineCantonFromBfs } from "@/utils/cantonUtils";
 import { useTranslation } from 'react-i18next';
 import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
-import { NativeAddressSearch } from "@/components/ui/native-address-search";
+import { AddressAutocomplete } from "@/components/ui/native-address-search";
 import { AddressHit } from "@/services/addressAPI";
 import { createTitleVariants } from "@/lib/title-utils";
 type Option = {
@@ -575,7 +575,7 @@ export function ReceiptCredentialIssuer({
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="street-address" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">{t('forms:step2.street')}</Label>
-                        <NativeAddressSearch 
+                        <AddressAutocomplete 
                           id="street-address"
                           value={streetAddress}
                           onValueChange={(v) => { 
