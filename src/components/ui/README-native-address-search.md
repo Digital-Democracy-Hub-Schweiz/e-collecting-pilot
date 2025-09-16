@@ -1,21 +1,21 @@
-# Native Address Search Component
+# Address Autocomplete Component
 
 ## Übersicht
 
-Die `NativeAddressSearch`-Komponente ist eine neue Adresssuch-Komponente, die die native HTML `<select>`-Dropdown des Betriebssystems für die Adressauswahl verwendet. Sie kombiniert ein Eingabefeld für die Adresssuche mit einer nativen Dropdown-Auswahl für bessere Barrierefreiheit und Benutzerfreundlichkeit.
+Die `AddressAutocomplete`-Komponente ist eine Adresssuch-Komponente, die ein Eingabefeld mit automatischer Vervollständigung für die Adresssuche verwendet. Sie kombiniert ein Eingabefeld für die Adresssuche mit einer benutzerdefinierten Dropdown-Liste für bessere Benutzerfreundlichkeit und flexible Gestaltung.
 
 ## Features
 
 ### Barrierefreiheit
-- **Native Tastaturnavigation**: Pfeiltasten, Enter, Escape funktionieren out-of-the-box
-- **Screen Reader Support**: Korrekte ARIA-Attribute und semantisches HTML
-- **Focus Management**: Wird vom Browser gehandhabt, keine benutzerdefinierte JavaScript-Logik erforderlich
-- **Mobile-freundlich**: Native Touch-Interaktionen auf mobilen Geräten
-- **Konsistentes Verhalten**: Funktioniert gleich in allen Browsern und Plattformen
+- **Tastaturnavigation**: Pfeiltasten, Enter, Escape funktionieren korrekt
+- **Screen Reader Support**: Umfassende ARIA-Attribute und semantisches HTML
+- **Focus Management**: Professionelle Focus-Verwaltung mit JavaScript
+- **Status-Ankündigungen**: Live-Ankündigungen für Suchergebnisse und Ladezustände
+- **Anweisungen**: Versteckte Anweisungen für Bildschirmleser
 
 ### Design
 - **Figma-konforme Gestaltung**: Entspricht den Design-System-Spezifikationen
-- **Benutzerdefiniertes Chevron-Icon**: Positioniert über der nativen Select für visuelle Konsistenz
+- **Benutzerdefinierte Dropdown**: Vollständig anpassbare Darstellung der Suchergebnisse
 - **Focus-Zustände**: Korrekte Focus-Indikatoren mit lila Ring
 - **Deaktivierte Zustände**: Klare visuelle Rückmeldung bei Deaktivierung
 - **Lade-Indikator**: Zeigt Ladezustand während der Adresssuche
@@ -23,15 +23,15 @@ Die `NativeAddressSearch`-Komponente ist eine neue Adresssuch-Komponente, die di
 ### Funktionalität
 - **Debounced Search**: Verzögerte Suche nach 300ms für bessere Performance
 - **Minimale Suchlänge**: Sucht erst ab 5 Zeichen
-- **Native Dropdown**: Verwendet native Betriebssystem-Dropdown für Adressauswahl
-- **Automatische Vervollständigung**: Zeigt Suchergebnisse in nativer Dropdown an
+- **Benutzerdefinierte Dropdown**: Verwendet ul/li-Elemente für maximale Flexibilität
+- **Automatische Vervollständigung**: Zeigt Suchergebnisse in anpassbarer Dropdown an
 
 ## Verwendung
 
 ```tsx
-import { NativeAddressSearch } from "@/components/ui/native-address-search";
+import { AddressAutocomplete } from "@/components/ui/native-address-search";
 
-<NativeAddressSearch
+<AddressAutocomplete
   id="street-address"
   value={streetAddress}
   onValueChange={setStreetAddress}
@@ -60,44 +60,44 @@ import { NativeAddressSearch } from "@/components/ui/native-address-search";
 
 Die Komponente verwendet eine Kombination aus:
 1. **Eingabefeld**: Für die manuelle Eingabe und Suche von Adressen
-2. **Native Select**: Für die Auswahl aus den Suchergebnissen
+2. **Benutzerdefinierte Dropdown**: Für die Auswahl aus den Suchergebnissen (ul/li-Elemente)
 3. **Debounced Search**: Für optimierte API-Aufrufe
 4. **Lade-Indikator**: Für visuelles Feedback während der Suche
 
 ### Wichtige Implementierungspunkte:
-1. **appearance: none** - Entfernt Standard-Browser-Styling
-2. **Benutzerdefinierte Positionierung** - Chevron-Icon über der Select positioniert
-3. **Focus Management** - Verwendet native Focus-Events
-4. **Barrierefreiheit** - Korrekte Beschriftung und ARIA-Attribute
+1. **Custom Dropdown** - Verwendet ul/li-Elemente für maximale Flexibilität
+2. **ARIA-Unterstützung** - Umfassende Barrierefreiheit mit listbox/option Pattern
+3. **Focus Management** - Professionelle Keyboard-Navigation
+4. **Status-Ankündigungen** - Live-Updates für Bildschirmleser
 5. **Debounced Search** - Verzögerte Suche für bessere Performance
 
-## Migration von AddressAutocomplete
+## Migration von AddressAutocomplete (alte Version)
 
-Um von `AddressAutocomplete` zu `NativeAddressSearch` zu migrieren:
+Um von der alten `AddressAutocomplete` zur verbesserten Version zu migrieren:
 
-1. Import der neuen Komponente:
+1. Import der Komponente:
    ```tsx
-   import { NativeAddressSearch } from "@/components/ui/native-address-search";
+   import { AddressAutocomplete } from "@/components/ui/native-address-search";
    ```
 
 2. Ersetzen der Komponentenverwendung:
    ```tsx
-   // Vorher
+   // Vorher (alte Version)
    <AddressAutocomplete 
      value={streetAddress}
      onValueChange={setStreetAddress}
      onAddressSelect={handleAddressSelect}
    />
    
-   // Nachher
-   <NativeAddressSearch 
+   // Nachher (neue Version)
+   <AddressAutocomplete 
      value={streetAddress}
      onValueChange={setStreetAddress}
      onAddressSelect={handleAddressSelect}
    />
    ```
 
-3. Die Props-Schnittstelle ist identisch, daher sind keine weiteren Änderungen erforderlich.
+3. Die Props-Schnittstelle ist kompatibel, verbesserte Barrierefreiheit ist automatisch verfügbar.
 
 ## Testing
 
@@ -119,13 +119,13 @@ Das native Select-Element wird in allen modernen Browsern unterstützt. Das benu
 - CSS Grid und Flexbox - Für Layout verwendet
 - CSS Custom Properties - Für Theming verwendet
 
-## Unterschiede zu AddressAutocomplete
+## Unterschiede zur ursprünglichen AddressAutocomplete
 
-| Feature | AddressAutocomplete | NativeAddressSearch |
+| Feature | Ursprüngliche Version | Neue Version |
 |---------|-------------------|-------------------|
-| Dropdown-Typ | Custom | Native OS |
-| Tastaturnavigation | Custom implementiert | Native |
-| Mobile UX | Custom Touch | Native Touch |
-| Barrierefreiheit | Custom ARIA | Native + ARIA |
-| Performance | Custom Rendering | Native Rendering |
-| Browser-Konsistenz | Variiert | Konsistent |
+| Dropdown-Typ | Custom ul/li | Custom ul/li (verbessert) |
+| Tastaturnavigation | Basic implementiert | Verbessert implementiert |
+| Barrierefreiheit | Basic ARIA | Umfassende ARIA-Unterstützung |
+| Status-Ankündigungen | Begrenzt | Live-Updates für alle Zustände |
+| State Management | Inkonsistent | Korrekte Synchronisation |
+| Error Handling | Basic | Robuste Fehlerbehandlung |
