@@ -44,7 +44,7 @@ export const VersionSwitcher = () => {
   const handleVersionSelect = (version: string, release?: GitHubRelease) => {
     setSelectedVersion(version);
     setIsOpen(false);
-    console.log('Version selected:', version, release);
+    // console.log('Version selected:', version, release);
   };
 
   // Close dropdown when clicking outside
@@ -69,7 +69,7 @@ export const VersionSwitcher = () => {
     if (releases && releases.length > 0 && !selectedVersion) {
       const latestRelease = releases[0]; // GitHub returns releases sorted by date (newest first)
       setSelectedVersion(latestRelease.tag_name);
-      console.log('Latest release selected:', latestRelease.tag_name);
+      // console.log('Latest release selected:', latestRelease.tag_name);
     }
     if (error) {
       console.error('Error loading releases:', error);

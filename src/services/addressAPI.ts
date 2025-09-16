@@ -44,7 +44,7 @@ export const searchAddresses = async (
   const baseUrl = '/api/address-search';
     
   const url = `${baseUrl}/find?${params}`;
-  console.log('Fetching URL:', url);
+  // console.log('Fetching URL:', url);
 
   const response = await fetch(url, {
     method: 'GET',
@@ -53,8 +53,8 @@ export const searchAddresses = async (
     },
   });
 
-  console.log('Response status:', response.status);
-  console.log('Response ok:', response.ok);
+  // console.log('Response status:', response.status);
+  // console.log('Response ok:', response.ok);
 
   if (!response.ok) {
     const errorText = await response.text();
@@ -63,6 +63,6 @@ export const searchAddresses = async (
   }
 
   const data = await response.json();
-  console.log('Response data:', data);
+  // console.log('Response data:', data);
   return data;
 };

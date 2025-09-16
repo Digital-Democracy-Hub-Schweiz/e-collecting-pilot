@@ -18,6 +18,55 @@ const queryClient = new QueryClient();
 
 const supportedLanguages: SupportedLanguage[] = ['de', 'fr', 'it', 'rm', 'en'];
 
+// Developer console message
+const showDeveloperMessage = () => {
+  if (typeof console === 'undefined') return;
+  
+  // Detect dark mode
+  const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  const styles = isDarkMode ? {
+    title: 'background: linear-gradient(45deg, #4a9eff, #7c7cff); color: white; padding: 10px 16px; border-radius: 6px; font-size: 18px; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.3);',
+    subtitle: 'background: #5ba3f5; color: white; padding: 8px 12px; border-radius: 4px; font-size: 14px; font-weight: bold;',
+    text: 'color: #e2e8f0; font-size: 14px; line-height: 1.5; font-weight: 500;',
+    link: 'color: #63b3ed; font-size: 14px; font-weight: bold; text-decoration: underline;',
+    highlight: 'background: linear-gradient(120deg, #68d391 0%, #4fd1c7 100%); color: #1a202c; padding: 4px 8px; border-radius: 4px; font-weight: bold;'
+  } : {
+    title: 'background: linear-gradient(45deg, #007aff, #5856d6); color: white; padding: 10px 16px; border-radius: 6px; font-size: 18px; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.3);',
+    subtitle: 'background: #4a90e2; color: white; padding: 8px 12px; border-radius: 4px; font-size: 14px; font-weight: bold;',
+    text: 'color: #1a202c; font-size: 14px; line-height: 1.5; font-weight: 500;',
+    link: 'color: #2b6cb0; font-size: 14px; font-weight: bold; text-decoration: underline;',
+    highlight: 'background: linear-gradient(120deg, #48bb78 0%, #38a169 100%); color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold;'
+  };
+
+  console.log('%c🗳️ E-Collecting Pilot Project', styles.title);
+  console.log('%c👋 Hey Developer!', styles.subtitle);
+  console.log('%cGreat to see you exploring behind the scenes! 🕵️‍♂️', styles.text);
+  console.log('%c─────────────────────────────────────────', isDarkMode ? 'color: #4a5568;' : 'color: #cbd5e0;');
+  
+  console.log('%c🚀 Want to contribute?', styles.highlight);
+  console.log('%c📂 GitHub Repository:', styles.text);
+  console.log('%chttps://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot', styles.link);
+  console.log('%c• Fork it, create issues, or send pull requests!', styles.text);
+  console.log('%c─────────────────────────────────────────', isDarkMode ? 'color: #4a5568;' : 'color: #cbd5e0;');
+  
+  console.log('%c☕ Support our work!', styles.highlight);
+  console.log('%cIf you find this project interesting, consider buying us a coffee:', styles.text);
+  console.log('%chttps://buymeacoffee.com/digitaldemocracyhub', styles.link);
+  console.log('%c─────────────────────────────────────────', isDarkMode ? 'color: #4a5568;' : 'color: #cbd5e0;');
+  
+  console.log('%c🛠️ Tech Stack:', styles.text);
+  console.log('%c• React + TypeScript', styles.text);
+  console.log('%c• Tailwind CSS + Swiss Design System', styles.text);
+  console.log('%c• React i18next (5 languages: DE, FR, IT, RM, EN)', styles.text);
+  console.log('%c• Verifiable Credentials & Swiss Beta-ID', styles.text);
+  console.log('%c• React Router with localized routes', styles.text);
+  console.log('%c─────────────────────────────────────────', isDarkMode ? 'color: #4a5568;' : 'color: #cbd5e0;');
+  
+  console.log('%c🎯 Mission: Making democracy digital & accessible for everyone!', styles.highlight);
+  console.log('%cBuilt with ❤️ by Digital Democracy Hub Switzerland', styles.text);
+};
+
 // Helper function to detect user language
 const detectUserLanguage = (): SupportedLanguage => {
   const savedLang = localStorage.getItem('i18nextLng');
@@ -72,14 +121,20 @@ const LegacyImpressumRedirect = () => {
   return <Navigate to={target} replace />;
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <LanguageDetector>
-          <Routes>
+const App = () => {
+  // Show developer message on app start
+  useEffect(() => {
+    showDeveloperMessage();
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <LanguageDetector>
+            <Routes>
             {/* Root and routes without language prefix will be handled by LanguageDetector */}
           
           {/* Language-prefixed routes */}
@@ -237,11 +292,12 @@ const App = () => (
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
-          </Routes>
-        </LanguageDetector>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+            </Routes>
+          </LanguageDetector>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

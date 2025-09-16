@@ -41,11 +41,11 @@ export function AddressAutocomplete({
       return;
     }
 
-    console.log('Searching for:', query);
+    // console.log('Searching for:', query);
     setIsLoading(true);
     try {
       const response = await searchAddresses(query);
-      console.log('Search response:', response);
+      // console.log('Search response:', response);
       setSearchResults(response.hits);
       setOpen(response.hits.length > 0);
       setFocusedIndex(-1);
@@ -59,12 +59,12 @@ export function AddressAutocomplete({
   }, []);
 
   const debouncedSearch = useCallback((query: string) => {
-    console.log('debouncedSearch called with:', query);
+    // console.log('debouncedSearch called with:', query);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
     timeoutRef.current = setTimeout(() => {
-      console.log('Timeout fired, calling performSearch with:', query);
+      // console.log('Timeout fired, calling performSearch with:', query);
       performSearch(query);
     }, 300);
   }, [performSearch]);
@@ -80,14 +80,14 @@ export function AddressAutocomplete({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    console.log('Input changed:', newValue, 'length:', newValue.length);
+    // console.log('Input changed:', newValue, 'length:', newValue.length);
     onValueChange?.(newValue);
     debouncedSearch(newValue);
   };
 
   const handleAddressSelect = (address: AddressHit) => {
     const fullAddress = address.place.postalAddress.streetAddress;
-    console.log('Address selected:', address);
+    // console.log('Address selected:', address);
     onValueChange?.(fullAddress);
     onAddressSelect?.(address);
     setOpen(false);

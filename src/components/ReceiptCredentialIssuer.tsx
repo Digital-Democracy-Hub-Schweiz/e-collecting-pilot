@@ -68,7 +68,7 @@ export function ReceiptCredentialIssuer({
 
   // Handler for address selection
   const handleAddressSelect = async (address: AddressHit) => {
-    console.log('Address selected:', address);
+    // console.log('Address selected:', address);
     setStreetAddress(address.place.postalAddress.streetAddress);
     setPostalCode(address.place.postalAddress.postalCode);
     setCity(address.place.postalAddress.addressLocality);
@@ -76,7 +76,7 @@ export function ReceiptCredentialIssuer({
     
     // Set municipality code for further processing
     const municipalityCode = address.place.additionalProperty.municipalityCode;
-    console.log('Municipality code:', municipalityCode);
+    // console.log('Municipality code:', municipalityCode);
     // Set municipality details including canton determination
     const town = address.place.postalAddress.addressLocality;
     const canton = address.place.postalAddress.addressRegion || "";
@@ -87,7 +87,7 @@ export function ReceiptCredentialIssuer({
     if (bfs && !isNaN(Number(bfs))) {
       try {
         cantonFromBfs = await determineCantonFromBfs(Number(bfs));
-        console.log('Canton from BFS:', cantonFromBfs);
+        // console.log('Canton from BFS:', cantonFromBfs);
       } catch (error) {
         console.warn("Canton determination from BFS failed:", error);
         cantonFromBfs = canton; // Fallback to original canton
@@ -156,8 +156,8 @@ export function ReceiptCredentialIssuer({
 
   // Vorbelegung via URL
   useEffect(() => {
-    console.log('Preselect data:', preselect);
-    console.log('Normalized array:', normalized.map(n => ({ id: n.id, slug: n.slug, type: n.type })));
+    // console.log('Preselect data:', preselect);
+    // console.log('Normalized array:', normalized.map(n => ({ id: n.id, slug: n.slug, type: n.type })));
     if (preselect?.type) {
       setType(preselect.type);
       if (preselect.id) {
@@ -165,13 +165,13 @@ export function ReceiptCredentialIssuer({
         const matchingItem = normalized.find(item => 
           item.id === preselect.id || item.slug === preselect.id
         );
-        console.log('Matching item found:', matchingItem);
+        // console.log('Matching item found:', matchingItem);
         if (matchingItem) {
           setSelectedId(matchingItem.id);
-          console.log('Set selectedId to:', matchingItem.id);
+          // console.log('Set selectedId to:', matchingItem.id);
         } else {
           setSelectedId(preselect.id);
-          console.log('No match found, set selectedId to preselect.id:', preselect.id);
+          // console.log('No match found, set selectedId to preselect.id:', preselect.id);
         }
       }
     }
