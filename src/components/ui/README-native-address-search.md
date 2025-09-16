@@ -2,20 +2,20 @@
 
 ## Übersicht
 
-Die `NativeAddressSearch`-Komponente ist eine neue Adresssuch-Komponente, die die native HTML `<select>`-Dropdown des Betriebssystems für die Adressauswahl verwendet. Sie kombiniert ein Eingabefeld für die Adresssuche mit einer nativen Dropdown-Auswahl für bessere Barrierefreiheit und Benutzerfreundlichkeit.
+Die `NativeAddressSearch`-Komponente ist eine Adresssuch-Komponente mit verbesserter Barrierefreiheit. Sie kombiniert ein Eingabefeld für die Adresssuche mit einem benutzerdefinierten Dropdown für die Adressauswahl, das ARIA-Standards und semantisches HTML für bessere Barrierefreiheit verwendet.
 
 ## Features
 
 ### Barrierefreiheit
-- **Native Tastaturnavigation**: Pfeiltasten, Enter, Escape funktionieren out-of-the-box
-- **Screen Reader Support**: Korrekte ARIA-Attribute und semantisches HTML
-- **Focus Management**: Wird vom Browser gehandhabt, keine benutzerdefinierte JavaScript-Logik erforderlich
-- **Mobile-freundlich**: Native Touch-Interaktionen auf mobilen Geräten
-- **Konsistentes Verhalten**: Funktioniert gleich in allen Browsern und Plattformen
+- **Tastaturnavigation**: Pfeiltasten, Enter, Escape für Navigation durch Optionen
+- **Screen Reader Support**: ARIA-Attribute und semantisches HTML (listbox, option roles)
+- **Focus Management**: Programmtisch verwalteter Focus für bessere Benutzerführung
+- **Mobile-freundlich**: Touch-freundliche Interaktionen
+- **ARIA-Unterstützung**: aria-expanded, aria-activedescendant, und Live-Regionen
 
 ### Design
 - **Figma-konforme Gestaltung**: Entspricht den Design-System-Spezifikationen
-- **Benutzerdefiniertes Chevron-Icon**: Positioniert über der nativen Select für visuelle Konsistenz
+- **Benutzerdefinieres Dropdown**: Konsistentes Styling für alle Browser
 - **Focus-Zustände**: Korrekte Focus-Indikatoren mit lila Ring
 - **Deaktivierte Zustände**: Klare visuelle Rückmeldung bei Deaktivierung
 - **Lade-Indikator**: Zeigt Ladezustand während der Adresssuche
@@ -23,8 +23,8 @@ Die `NativeAddressSearch`-Komponente ist eine neue Adresssuch-Komponente, die di
 ### Funktionalität
 - **Debounced Search**: Verzögerte Suche nach 300ms für bessere Performance
 - **Minimale Suchlänge**: Sucht erst ab 5 Zeichen
-- **Native Dropdown**: Verwendet native Betriebssystem-Dropdown für Adressauswahl
-- **Automatische Vervollständigung**: Zeigt Suchergebnisse in nativer Dropdown an
+- **Benutzerdefiniertes Dropdown**: Verwendet ul/li-basierte Dropdown-Liste für Adressauswahl
+- **Automatische Vervollständigung**: Zeigt Suchergebnisse in zugänglichem Dropdown an
 
 ## Verwendung
 
@@ -60,15 +60,15 @@ import { NativeAddressSearch } from "@/components/ui/native-address-search";
 
 Die Komponente verwendet eine Kombination aus:
 1. **Eingabefeld**: Für die manuelle Eingabe und Suche von Adressen
-2. **Native Select**: Für die Auswahl aus den Suchergebnissen
+2. **Benutzerdefiniertes Dropdown**: ul/li-basierte Liste für die Auswahl aus den Suchergebnissen
 3. **Debounced Search**: Für optimierte API-Aufrufe
 4. **Lade-Indikator**: Für visuelles Feedback während der Suche
 
 ### Wichtige Implementierungspunkte:
-1. **appearance: none** - Entfernt Standard-Browser-Styling
-2. **Benutzerdefinierte Positionierung** - Chevron-Icon über der Select positioniert
-3. **Focus Management** - Verwendet native Focus-Events
-4. **Barrierefreiheit** - Korrekte Beschriftung und ARIA-Attribute
+1. **ARIA-Rollen** - listbox/option Rollen für Screen Reader-Unterstützung
+2. **Tastaturnavigation** - Pfeiltasten für Navigation, Enter für Auswahl
+3. **Focus Management** - Programmtische Focus-Verwaltung
+4. **Barrierefreiheit** - ARIA-Attribute und Live-Regionen
 5. **Debounced Search** - Verzögerte Suche für bessere Performance
 
 ## Migration von AddressAutocomplete
@@ -123,9 +123,9 @@ Das native Select-Element wird in allen modernen Browsern unterstützt. Das benu
 
 | Feature | AddressAutocomplete | NativeAddressSearch |
 |---------|-------------------|-------------------|
-| Dropdown-Typ | Custom | Native OS |
-| Tastaturnavigation | Custom implementiert | Native |
-| Mobile UX | Custom Touch | Native Touch |
-| Barrierefreiheit | Custom ARIA | Native + ARIA |
-| Performance | Custom Rendering | Native Rendering |
-| Browser-Konsistenz | Variiert | Konsistent |
+| Dropdown-Typ | Custom | Custom (verbessert) |
+| Tastaturnavigation | Custom implementiert | Verbessertes Custom |
+| Mobile UX | Custom Touch | Optimierte Touch-Interaktionen |
+| Barrierefreiheit | Custom ARIA | Verbesserte ARIA-Unterstützung |
+| Performance | Custom Rendering | Optimiertes Custom Rendering |
+| Screen Reader | Basis-Unterstützung | Erweiterte Live-Regionen |

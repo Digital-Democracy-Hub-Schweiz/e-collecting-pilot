@@ -11,6 +11,8 @@ interface NativeAddressSearchProps {
   className?: string;
   "aria-label"?: string;
   id?: string;
+  debounceMs?: number;
+  minSearchLength?: number;
 }
 
 export function NativeAddressSearch({
@@ -21,7 +23,9 @@ export function NativeAddressSearch({
   disabled = false,
   className,
   "aria-label": ariaLabel,
-  id
+  id,
+  debounceMs = 300,
+  minSearchLength = 5
 }: NativeAddressSearchProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const listRef = React.useRef<HTMLUListElement>(null);
@@ -36,7 +40,7 @@ export function NativeAddressSearch({
   const timeoutRef = React.useRef<NodeJS.Timeout>();
 
   const performSearch = React.useCallback(async (query: string) => {
-    if (query.length < 5) {
+    if (query.length < minSearchLength) {
       setAddressOptions([]);
       setIsListOpen(false);
       return;
@@ -48,14 +52,21 @@ export function NativeAddressSearch({
       setAddressOptions(response.hits);
       setIsListOpen(response.hits.length > 0);
       setFocusedIndex(-1);
+      
+      // Announce search results to screen readers
+      if (response.hits.length === 0) {
+        // This will be announced by the screen reader announcement region
+        return;
+      }
     } catch (error) {
       console.error('Address search failed:', error);
       setAddressOptions([]);
       setIsListOpen(false);
+      // In a production app, you might want to show user-friendly error messages
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [minSearchLength]);
 
   const debouncedSearch = React.useCallback((query: string) => {
     if (timeoutRef.current) {
@@ -63,8 +74,8 @@ export function NativeAddressSearch({
     }
     timeoutRef.current = setTimeout(() => {
       performSearch(query);
-    }, 300);
-  }, [performSearch]);
+    }, debounceMs);
+  }, [performSearch, debounceMs]);
 
   // Cleanup timeout on unmount
   React.useEffect(() => {
@@ -78,13 +89,13 @@ export function NativeAddressSearch({
   // Update search when value changes externally
   React.useEffect(() => {
     setSearchQuery(value);
-    if (value.length >= 5) {
+    if (value.length >= minSearchLength) {
       debouncedSearch(value);
     } else {
       setAddressOptions([]);
       setIsListOpen(false);
     }
-  }, [value, debouncedSearch]);
+  }, [value, debouncedSearch, minSearchLength]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -97,16 +108,16 @@ export function NativeAddressSearch({
   const handleAddressSelect = (address: AddressHit) => {
     const fullAddress = address.place.postalAddress.streetAddress;
     
-    // Only call onAddressSelect - this will set street, PLZ and city
-    onAddressSelect?.(address);
-    
-    // Don't call onValueChange here to avoid conflicts
-    // The onAddressSelect callback will handle setting the street address
-    
+    // Update internal state first
     setSearchQuery(fullAddress);
     setAddressOptions([]);
     setIsListOpen(false);
     setFocusedIndex(-1);
+    
+    // Call parent callbacks to ensure consistent state
+    onValueChange?.(fullAddress);
+    onAddressSelect?.(address);
+    
     inputRef.current?.focus();
   };
 
@@ -256,15 +267,17 @@ export function NativeAddressSearch({
       )}
 
       {/* Screen reader announcement for search results */}
-      {isListOpen && addressOptions.length > 0 && (
-        <div 
-          className="sr-only" 
-          aria-live="polite" 
-          aria-atomic="true"
-        >
-          {addressOptions.length} Adressvorschläge gefunden für "{searchQuery}"
-        </div>
-      )}
+      <div 
+        className="sr-only" 
+        aria-live="polite" 
+        aria-atomic="true"
+      >
+        {isLoading && "Suche Adressen..."}
+        {!isLoading && isListOpen && addressOptions.length > 0 && 
+          `${addressOptions.length} Adressvorschläge gefunden für "${searchQuery}"`}
+        {!isLoading && searchQuery.length >= minSearchLength && addressOptions.length === 0 && 
+          `Keine Adressvorschläge gefunden für "${searchQuery}"`}
+      </div>
     </div>
   );
 }
