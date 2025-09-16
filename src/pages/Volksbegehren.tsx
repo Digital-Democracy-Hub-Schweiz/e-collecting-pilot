@@ -63,9 +63,13 @@ const Volksbegehren = () => {
         {/* Hero Titelblock (wie Projekt) */}
         <section className="bg-white">
           <PageContainer paddingYClassName="py-0">
-            <div className="py-14 md:py-16 flex flex-col items-start">
-              <h1 className="text-[28px] leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">Volksbegehren</h1>
-              <div className="h-12 md:h-24" />
+            <div className="py-8 md:py-14 lg:py-16 flex flex-col items-start">
+              <h1 className="text-[24px] leading-[32px] sm:text-[28px] sm:leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">Volksbegehren</h1>
+              <div className="h-4 md:h-6 lg:h-10" />
+              <p className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] font-medium text-[#1f2937] max-w-[1024px]">
+                Hier finden Sie eine Übersicht über aktuelle Initiativen und Referenden, die Sie mit Ihrer E-ID digital unterstützen können.
+              </p>
+              <div className="h-4 md:h-6 lg:h-14" />
             </div>
           </PageContainer>
         </section>
@@ -76,7 +80,7 @@ const Volksbegehren = () => {
 
       {/* Spacer vor Footer */}
       <section className="bg-white">
-        <PageContainer paddingYClassName="py-24">{null}</PageContainer>
+        <PageContainer paddingYClassName="py-12 sm:py-16 md:py-20 lg:py-24">{null}</PageContainer>
       </section>
 
       <Footer healthStatus={healthStatus} healthLoading={healthLoading} />
@@ -180,56 +184,56 @@ const SectionCardRow: React.FC<SectionCardRowProps> = ({ title, items, lang }) =
     <section className="bg-white">
       <PageContainer>
         {/* Section title */}
-        <div className="py-8">
-          <h2 className="text-[28px] leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937]">
+        <div className="py-6 md:py-8">
+          <h2 className="text-[24px] leading-[32px] sm:text-[28px] sm:leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937]">
             {title}
           </h2>
         </div>
 
         {/* Carousel row with nav arrows */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <button
             type="button"
             aria-label="Zurück"
             onClick={() => setPage(p => Math.max(0, p - 1))}
             disabled={page === 0}
-            className="w-14 h-14 flex items-center justify-center text-[#5c6977] hover:text-[#1f2937] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center text-[#5c6977] hover:text-[#1f2937] disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97 96" className="w-8 h-8" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97 96" className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" fill="currentColor">
               <path d="M59.4324 22.816L44.0324 49.492L59.4324 76.168L56.8364 77.668L40.5684 49.492L56.8364 21.316L59.4324 22.816Z" />
             </svg>
           </button>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 flex-1">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 md:gap-8 flex-1 min-w-0">
           {visible.map(card => (
-            <article key={card.id} className="bg-white shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]">
-              <div className="pt-9 px-7 pb-7">
+            <article key={card.id} className="bg-white shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)] w-full">
+              <div className="pt-6 px-4 pb-6 sm:pt-7 sm:px-5 sm:pb-7 md:pt-9 md:px-7 md:pb-7">
                 {/* Meta */}
-                <div className="text-[14px] leading-[18px] text-[#6b7280] flex items-center gap-[10px]">
+                <div className="text-[12px] leading-[16px] sm:text-[14px] sm:leading-[18px] text-[#6b7280] flex items-center gap-[8px] sm:gap-[10px]">
                   <span className="font-medium">{card.level}</span>
-                  <span aria-hidden className="text-center w-[21px]">|</span>
+                  <span aria-hidden className="text-center w-[16px] sm:w-[21px]">|</span>
                   <span className="font-medium">{`${formatDate(card.start_date, lang)} bis ${formatDate(card.end_date, lang)}`}</span>
                 </div>
-                <div className="h-4" />
+                <div className="h-3 sm:h-4" />
                 {/* Title */}
-                <h3 className="text-[24px] font-semibold text-[#1f2937] leading-snug">{card.title}</h3>
-                <div className="h-4" />
+                <h3 className="text-[20px] leading-[28px] sm:text-[22px] sm:leading-[30px] md:text-[24px] md:leading-[32px] font-semibold text-[#1f2937] leading-snug">{card.title}</h3>
+                <div className="h-3 sm:h-4" />
                 {/* Description */}
-                <p className="text-[18px] leading-[28px] text-[#1f2937]">{card.wording}</p>
-                <div className="h-4" />
+                <p className="text-[16px] leading-[24px] sm:text-[17px] sm:leading-[26px] md:text-[18px] md:leading-[28px] text-[#1f2937]">{card.wording}</p>
+                <div className="h-3 sm:h-4" />
                 {/* Image (optional) */}
                 {card.image ? (
-                  <div className="bg-[#f1f4f7] h-[280px] w-full flex items-center justify-center rounded-t-[2px] overflow-hidden">
+                  <div className="bg-[#f1f4f7] h-[200px] sm:h-[240px] md:h-[280px] w-full flex items-center justify-center rounded-t-[2px] overflow-hidden">
                     <img src={card.image} alt="" className="h-full object-contain" />
                   </div>
                 ) : null}
-                <div className="h-6" />
-                <div className="h-10" />
+                <div className="h-4 sm:h-6" />
+                <div className="h-6 sm:h-8 md:h-10" />
                 {/* Button (icon-only, bordered) */}
                 <div className="flex justify-end">
                   <a href={`/${lang}/volksbegehren/${card.id}`} aria-label="Mehr"
-                    className="relative border border-[#d8232a] rounded-[1px] p-2 text-[#d8232a] hover:bg-[#d8232a]/5">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right">
+                    className="relative border border-[#d8232a] rounded-[1px] p-1.5 sm:p-2 text-[#d8232a] hover:bg-[#d8232a]/5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right sm:w-5 sm:h-5">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
@@ -245,16 +249,16 @@ const SectionCardRow: React.FC<SectionCardRowProps> = ({ title, items, lang }) =
             aria-label="Weiter"
             onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
             disabled={page >= totalPages - 1}
-            className="w-14 h-14 flex items-center justify-center text-[#5c6977] hover:text-[#1f2937] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center text-[#5c6977] hover:text-[#1f2937] disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97 96" className="w-8 h-8 rotate-180" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97 96" className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rotate-180" fill="currentColor">
               <path d="M59.4324 22.816L44.0324 49.492L59.4324 76.168L56.8364 77.668L40.5684 49.492L56.8364 21.316L59.4324 22.816Z" />
             </svg>
           </button>
         </div>
 
         {/* Dots (dynamic) */}
-        <div className="flex items-center justify-center gap-2 py-10">
+        <div className="flex items-center justify-center gap-2 py-6 sm:py-8 md:py-10">
           {Array.from({ length: totalPages }).map((_, i) => (
             <button
               key={i}

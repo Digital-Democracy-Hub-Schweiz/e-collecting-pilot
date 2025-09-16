@@ -180,7 +180,7 @@ const Index = () => {
       <main id="main-content">
         {/* Breadcrumb Section (Figma) */}
         <section className="bg-white">
-          <PageContainer paddingYClassName="sd-section-py-compact">
+          <PageContainer paddingYClassName="py-8">
             <nav className="text-[16px] leading-[24px] text-[#6b7280]">
               <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">{t('common:breadcrumb.home')}</a> <span className="inline-block mx-[7px]">›</span> {t('common:breadcrumb.pilot')}
             </nav>
@@ -201,7 +201,7 @@ const Index = () => {
 
         {/* Hero-Abschnitt (Figma, responsive Container/Typo) */}
         <section className="bg-white">
-          <PageContainer paddingYClassName="sd-section-py">
+          <PageContainer paddingYClassName="py-0">
             <div className="py-14 md:py-16 flex flex-col items-start">
               <h1 className="sd-h1 max-w-[1024px]">
                 {t('content:homepage.hero.title')}

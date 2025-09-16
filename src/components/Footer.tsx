@@ -113,10 +113,10 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                 <div className="space-y-[45px]">
                   <div className="flex gap-[33px] items-center">
                     <SocialButton icon={Linkedin} href="https://www.linkedin.com/company/digital-democracy-hub-schweiz-fachstelle-f%C3%BCr-demokratie-und-digitalisierung/">
-                      LinkedIn
+                      
                     </SocialButton>
                     <SocialButton icon={Youtube} href="https://youtu.be/WGUTi2jSaYw?feature=shared&t=7225">
-                      YouTube
+                      
                     </SocialButton>
                     <SocialButton icon={Github} href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot">
                       Code
@@ -195,10 +195,10 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
               <div className="space-y-6">
                 <div className="flex flex-wrap gap-9 items-center">
                   <SocialButton icon={Linkedin} href="https://www.linkedin.com/company/digital-democracy-hub-schweiz-fachstelle-f%C3%BCr-demokratie-und-digitalisierung/">
-                    LinkedIn
+                    
                   </SocialButton>
                   <SocialButton icon={Youtube} href="https://youtu.be/WGUTi2jSaYw?feature=shared&t=7225">
-                    YouTube
+                    
                   </SocialButton>
                   <SocialButton icon={Github} href="https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot">
                     Code
