@@ -192,11 +192,14 @@ export function ReceiptCredentialIssuer({
   }, [preselect, normalized]);
 
   // Move focus to the step title when the step changes to improve SR/keyboard UX
+  // Only focus from step 2 onwards, not on the first page
   useEffect(() => {
-    // Delay to ensure DOM is updated before focusing
-    requestAnimationFrame(() => {
-      stepTitleRef.current?.focus();
-    });
+    if (step > 1) {
+      // Delay to ensure DOM is updated before focusing
+      requestAnimationFrame(() => {
+        stepTitleRef.current?.focus();
+      });
+    }
   }, [step]);
 
   // Focus error/warning banner when it appears (validation/network errors)
