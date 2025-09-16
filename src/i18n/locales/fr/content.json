@@ -58,6 +58,39 @@
       "betaIdService": "Service Beta-ID"
     }
   },
+  "project": {
+    "title": "Projet pilote E-Collecting",
+    "description": "Ce site web est un projet à but non lucratif de la société civile. Notre objectif est de soutenir les initiatives et référendums de manière sécurisée, numérique et accessible grâce à la nouvelle e-ID.",
+    "participationTitle": "Informations sur la participation",
+    "eidTitle": "e-ID",
+    "eidDescription": "L'e-ID est émise par l'État. Elle complète la carte d'identité physique et est gratuite. Le 28 septembre, la population votera sur le projet.",
+    "swiyuTitle": "Application swiyu-Wallet",
+    "swiyuDescription": "Ce projet pilote utilise le service Beta Credential de la Confédération. Pour participer, un Beta-ID doit être créé via l'application swiyu-Wallet. Dans le cadre du projet, seuls des modèles fictifs et le Beta-ID de la Confédération sont utilisés. Aucune donnée personnelle n'est stockée.",
+    "links": {
+      "ios": "📱 Application swiyu (iOS)",
+      "android": "🤖 Application swiyu (Android)",
+      "betaId": "👉 Émettre un Beta-ID"
+    }
+  },
+  "instructions": {
+    "title": "Essayer E-Collecting avec le Beta-ID",
+    "description": "Ce site web est un projet à but non lucratif de la société civile. Notre objectif est de soutenir les initiatives et référendums de manière sécurisée, numérique et accessible grâce à la nouvelle e-ID.",
+    "imageAlt": "E-Collecting Beta-ID – Aperçu de l'app",
+    "downloadTitle": "Téléchargement",
+    "downloadDescription": "Téléchargez l'application swiyu gratuitement sur le Google Play Store ou l'Apple Store.",
+    "betaIdTitle": "Émettre un Beta-ID",
+    "betaIdLink": "👉 Émettre un Beta-ID",
+    "links": {
+      "ios": "📱 Application swiyu (iOS)",
+      "android": "🤖 Application swiyu (Android)"
+    }
+  },
+  "volksbegehren": {
+    "title": "Objet de votation populaire",
+    "description": "Vous trouverez ici un aperçu des initiatives et référendums actuels que vous pouvez soutenir numériquement avec votre e-ID.",
+    "loading": "Chargement…",
+    "error": "Les données n'ont pas pu être chargées."
+  },
   "impressum": {
     "title": "Mentions légales",
     "responsible": {

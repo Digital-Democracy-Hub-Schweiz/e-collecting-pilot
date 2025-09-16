@@ -12,14 +12,17 @@ import NotFound from "./pages/NotFound";
 import Impressum from "./pages/Impressum";
 import { LanguageDetector } from "@/components/LanguageDetector";
 import { useEffect } from "react";
+import { getLocalizedPath, type SupportedLanguage } from "@/utils/routing";
 
 const queryClient = new QueryClient();
 
+const supportedLanguages: SupportedLanguage[] = ['de', 'fr', 'it', 'rm', 'en'];
+
 // Helper function to detect user language
-const detectUserLanguage = () => {
+const detectUserLanguage = (): SupportedLanguage => {
   const savedLang = localStorage.getItem('i18nextLng');
-  if (savedLang && ['de', 'fr', 'it', 'rm', 'en'].includes(savedLang)) {
-    return savedLang;
+  if (savedLang && supportedLanguages.includes(savedLang as SupportedLanguage)) {
+    return savedLang as SupportedLanguage;
   }
   
   const browserLang = navigator.language.toLowerCase();
@@ -55,16 +58,18 @@ const LanguageWrapper = ({ children }: { children: React.ReactNode }) => {
 };
 
 // Component to handle legacy route redirects with parameters
-const LegacyRedirect = ({ type }: { type: 'initiative' | 'referendum' | 'volksbegehren' }) => {
+const LegacyRedirect = () => {
   const { id } = useParams<{ id: string }>();
   const detectedLang = detectUserLanguage();
-  return <Navigate to={`/${detectedLang}/volksbegehren/${id}`} replace />;
+  const target = getLocalizedPath(detectedLang, 'volksbegehren', { id: id ?? '' });
+  return <Navigate to={target} replace />;
 };
 
 // Component to handle legacy impressum redirect
 const LegacyImpressumRedirect = () => {
   const detectedLang = detectUserLanguage();
-  return <Navigate to={`/${detectedLang}/impressum`} replace />;
+  const target = getLocalizedPath(detectedLang, 'impressum');
+  return <Navigate to={target} replace />;
 };
 
 const App = () => (
@@ -83,6 +88,7 @@ const App = () => (
               <Index />
             </LanguageWrapper>
           } />
+          {/* German routes */}
           <Route path="/:lang/projekt" element={
             <LanguageWrapper>
               <Projekt />
@@ -99,10 +105,73 @@ const App = () => (
             </LanguageWrapper>
           } />
           
+          {/* English routes */}
+          <Route path="/:lang/project" element={
+            <LanguageWrapper>
+              <Projekt />
+            </LanguageWrapper>
+          } />
+          <Route path="/:lang/instructions" element={
+            <LanguageWrapper>
+              <Anleitung />
+            </LanguageWrapper>
+          } />
+          <Route path="/:lang/popular-vote" element={
+            <LanguageWrapper>
+              <Volksbegehren />
+            </LanguageWrapper>
+          } />
+          
+          {/* French routes */}
+          <Route path="/:lang/projet" element={
+            <LanguageWrapper>
+              <Projekt />
+            </LanguageWrapper>
+          } />
+          <Route path="/:lang/instructions" element={
+            <LanguageWrapper>
+              <Anleitung />
+            </LanguageWrapper>
+          } />
+          <Route path="/:lang/objet-votation-populaire" element={
+            <LanguageWrapper>
+              <Volksbegehren />
+            </LanguageWrapper>
+          } />
+          
+          {/* Italian routes */}
+          <Route path="/:lang/progetto" element={
+            <LanguageWrapper>
+              <Projekt />
+            </LanguageWrapper>
+          } />
+          <Route path="/:lang/istruzioni" element={
+            <LanguageWrapper>
+              <Anleitung />
+            </LanguageWrapper>
+          } />
+          <Route path="/:lang/oggetto-votazione-popolare" element={
+            <LanguageWrapper>
+              <Volksbegehren />
+            </LanguageWrapper>
+          } />
+          
+          {/* Romansh routes */}
+          <Route path="/:lang/instrucziuns" element={
+            <LanguageWrapper>
+              <Anleitung />
+            </LanguageWrapper>
+          } />
+          <Route path="/:lang/dumonda-populara" element={
+            <LanguageWrapper>
+              <Volksbegehren />
+            </LanguageWrapper>
+          } />
+          
           {/* Legacy routes without language prefix (redirect to German) */}
-          <Route path="/initiative/:id" element={<LegacyRedirect type="initiative" />} />
-          <Route path="/referendum/:id" element={<LegacyRedirect type="referendum" />} />
-          <Route path="/volksbegehren/:id" element={<LegacyRedirect type="volksbegehren" />} />
+          <Route path="/initiative/:id" element={<LegacyRedirect />} />
+          <Route path="/referendum/:id" element={<LegacyRedirect />} />
+          <Route path="/volksbegehren/:id" element={<LegacyRedirect />} />
           
           {/* Language-prefixed volksbegehren routes */}
           <Route path="/:lang/volksbegehren/:id" element={
@@ -132,6 +201,31 @@ const App = () => (
           } />
           
           {/* Language-prefixed impressum routes */}
+          {/* German */}
+          <Route path="/:lang/impressum" element={
+            <LanguageWrapper>
+              <Impressum />
+            </LanguageWrapper>
+          } />
+          {/* English */}
+          <Route path="/:lang/imprint" element={
+            <LanguageWrapper>
+              <Impressum />
+            </LanguageWrapper>
+          } />
+          {/* French */}
+          <Route path="/:lang/mentions-legales" element={
+            <LanguageWrapper>
+              <Impressum />
+            </LanguageWrapper>
+          } />
+          {/* Italian */}
+          <Route path="/:lang/colofone" element={
+            <LanguageWrapper>
+              <Impressum />
+            </LanguageWrapper>
+          } />
+          {/* Romansh uses impressum like German */}
           <Route path="/:lang/impressum" element={
             <LanguageWrapper>
               <Impressum />

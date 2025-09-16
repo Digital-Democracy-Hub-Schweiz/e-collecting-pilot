@@ -32,8 +32,6 @@ export function NativeSelect({
   const selectRef = React.useRef<HTMLSelectElement>(null);
   const [isFocused, setIsFocused] = React.useState(false);
 
-  const selectedOption = options.find(option => option.value === value);
-
   const handleChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     onValueChange?.(e.target.value);
   }, [onValueChange]);

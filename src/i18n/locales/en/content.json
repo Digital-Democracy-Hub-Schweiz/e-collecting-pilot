@@ -58,6 +58,39 @@
       "betaIdService": "Beta-ID Service"
     }
   },
+  "project": {
+    "title": "E-Collecting Pilot Project",
+    "description": "This website is a non-profit project of civil society. Our goal is to support initiatives and referendums securely, digitally and accessibly using the new e-ID.",
+    "participationTitle": "Participation Information",
+    "eidTitle": "e-ID",
+    "eidDescription": "The e-ID is issued by the state. It complements the physical identity card and is free of charge. On September 28, the population will vote on the proposal.",
+    "swiyuTitle": "swiyu-Wallet App",
+    "swiyuDescription": "This pilot project uses the Confederation's Beta Credential Service. To participate, a Beta-ID must be created via the swiyu-Wallet App. The project exclusively uses fictional templates and the Confederation's Beta-ID. No personal data is stored.",
+    "links": {
+      "ios": "📱 swiyu App (iOS)",
+      "android": "🤖 swiyu App (Android)",
+      "betaId": "👉 Issue Beta-ID"
+    }
+  },
+  "instructions": {
+    "title": "Try E-Collecting with the Beta-ID",
+    "description": "This website is a non-profit project of civil society. Our goal is to support initiatives and referendums securely, digitally and accessibly using the new e-ID.",
+    "imageAlt": "E-Collecting Beta-ID – App Preview",
+    "downloadTitle": "Download",
+    "downloadDescription": "Download the swiyu app for free from the Google Play Store or Apple Store.",
+    "betaIdTitle": "Issue Beta-ID",
+    "betaIdLink": "👉 Issue Beta-ID",
+    "links": {
+      "ios": "📱 swiyu App (iOS)",
+      "android": "🤖 swiyu App (Android)"
+    }
+  },
+  "volksbegehren": {
+    "title": "Popular Vote",
+    "description": "Here you will find an overview of current initiatives and referendums that you can digitally support with your e-ID.",
+    "loading": "Loading…",
+    "error": "Data could not be loaded."
+  },
   "impressum": {
     "title": "Imprint",
     "responsible": {

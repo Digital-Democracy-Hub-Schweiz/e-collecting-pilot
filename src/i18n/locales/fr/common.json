@@ -11,6 +11,7 @@
   "open": "Ouvrir",
   "share": "Partager",
   "copy": "Copier",
+  "print": "Imprimer",
   "reset": "Réinitialiser",
   "restart": "Nouveau départ",
   "download": "Télécharger",
@@ -21,7 +22,10 @@
     "en": "English"
   },
   "routes": {
-    "volksbegehren": "objet-votation-populaire"
+    "volksbegehren": "objet-votation-populaire",
+    "anleitung": "instructions",
+    "projekt": "projet",
+    "impressum": "mentions-legales"
   },
   "navigation": {
     "home": "Page principale",
@@ -39,7 +43,9 @@
     "home": "Accueil",
     "instructions": "Instructions",
     "volksbegehren": "Objet de votation populaire",
-    "pilot": "Pilote"
+    "pilot": "Pilote",
+    "project": "Projet",
+    "impressum": "Mentions légales"
   },
   "accessibility": {
     "easyLanguage": "Langage simple",
@@ -66,6 +72,14 @@
     "contact": "Contact",
     "externalLinks": "Liens externes",
     "systemStatus": "État du système",
+    "legal": "Légal",
+    "privacy": "Confidentialité",
+    "imprint": "Mentions légales",
+    "accessibility": "Accessibilité",
+    "supportCoffee": "soutenez-nous avec un café ☕️",
+    "linkedin": "LinkedIn",
+    "youtube": "YouTube",
+    "github": "GitHub",
     "services": {
       "verifierMgmt": "Verifier-Mgmt",
       "issuerMgmt": "Issuer-Mgmt",

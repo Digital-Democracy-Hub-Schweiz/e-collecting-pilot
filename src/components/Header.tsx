@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import { useCurrentLanguage } from '@/utils/routing';
+import { useCurrentLanguage, getLocalizedPath } from '@/utils/routing';
 import { useLocation } from 'react-router-dom';
 import PageContainer from '@/components/PageContainer';
 import {
@@ -30,9 +30,9 @@ export const Header: React.FC = () => {
 
   const navItems: { label: string; href: string }[] = [
     { label: t('common:navigation.pilot'), href: `/${currentLang}` },
-    { label: t('common:navigation.instructions'), href: `/${currentLang}/anleitung` },
-    { label: t('common:navigation.project'), href: `/${currentLang}/projekt` },
-    { label: t('common:navigation.volksbegehren'), href: `/${currentLang}/volksbegehren` },
+    { label: t('common:navigation.instructions'), href: getLocalizedPath(currentLang, 'anleitung') },
+    { label: t('common:navigation.project'), href: getLocalizedPath(currentLang, 'projekt') },
+    { label: t('common:navigation.volksbegehren'), href: getLocalizedPath(currentLang, 'volksbegehren') },
   ];
 
   const handleEasyLanguageOk = () => {
@@ -133,7 +133,7 @@ export const Header: React.FC = () => {
                 {t('common:navigation.blog')}
               </a>
               <a
-                href={`/${currentLang}/impressum`}
+                href={getLocalizedPath(currentLang, 'impressum')}
                 className="text-[16px] leading-[24px] font-semibold text-[#1f2937] hover:text-[#d8232a]"
               >
                 {t('common:navigation.contact')}
@@ -270,7 +270,7 @@ export const Header: React.FC = () => {
                   </li>
                   <li>
                     <a
-                      href={`/${currentLang}/impressum`}
+                      href={getLocalizedPath(currentLang, 'impressum')}
                       onClick={() => setMobileOpen(false)}
                       className="block px-1 py-3 text-[18px] leading-[28px] text-[#1f2937] hover:text-[#d8232a] transition-colors"
                     >

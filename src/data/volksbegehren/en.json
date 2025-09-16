@@ -46,5 +46,17 @@
     "start_date": "2025-03-25",
     "end_date": "2026-09-25",
     "show": true
+  },
+  {
+    "id": "referendum-individualbesteuerung",
+    "type": "referendum",
+    "level": "Federal",
+    "title": "Referendum against the Federal Act on Individual Taxation",
+    "slug": "referendum-against-federal-act-individual-taxation",
+    "comitee": "Cross-party Committee 'Tax Fraud No', Committee 'Families against Individual Taxation', Federal Democratic Union (EDU)",
+    "wording": "The referendum demands that the Federal Act on Individual Taxation, passed on June 20, 2025, be submitted to a popular vote.",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-09",
+    "show": true
   }
 ]

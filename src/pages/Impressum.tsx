@@ -14,14 +14,14 @@ const Impressum = () => {
   const handleShare = async () => {
     try {
       const url = window.location.href;
-      const title = document.title || 'Teilen';
+      const title = document.title || t('common:share');
       if (navigator.share) {
         await navigator.share({ title, url });
       } else if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(url);
-        alert('Link kopiert.');
+        alert(t('common:copy') + ' ' + url);
       } else {
-        window.prompt('Link kopieren:', url);
+        window.prompt(t('common:copy') + ':', url);
       }
     } catch (_) {}
   };
@@ -42,7 +42,7 @@ const Impressum = () => {
         <section className="bg-white">
           <PageContainer paddingYClassName="py-8">
             <nav className="text-[16px] leading-[24px] text-[#6b7280]">
-              <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">Startseite</a> <span className="inline-block mx-[7px]">›</span> Impressum
+              <a href={`/${currentLang}`} className="hover:text-[#1f2937] underline underline-offset-4">{t('common:breadcrumb.home')}</a> <span className="inline-block mx-[7px]">›</span> {t('common:breadcrumb.impressum')}
             </nav>
           </PageContainer>
         </section>
@@ -50,10 +50,10 @@ const Impressum = () => {
         {/* Print/Share Section (Figma) */}
         <section className="bg-white">
           <PageContainer className="h-[52px] flex items-center justify-end gap-3">
-            <button type="button" aria-label="Teilen" onClick={handleShare} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
+            <button type="button" aria-label={t('common:share')} onClick={handleShare} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
               <Share2 className="w-5 h-5" aria-hidden />
             </button>
-            <button type="button" aria-label="Drucken" onClick={handlePrint} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
+            <button type="button" aria-label={t('common:print')} onClick={handlePrint} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
               <Printer className="w-5 h-5" aria-hidden />
             </button>
           </PageContainer>
@@ -113,7 +113,7 @@ const Impressum = () => {
 
       {/* Spacer vor Footer (Figma: 96px) */}
       <section className="bg-white">
-        <PageContainer paddingYClassName="py-24" />
+        <PageContainer paddingYClassName="py-24">{null}</PageContainer>
       </section>
 
       {/* Footer */}

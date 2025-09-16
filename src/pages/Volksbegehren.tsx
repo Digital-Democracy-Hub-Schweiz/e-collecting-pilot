@@ -3,7 +3,7 @@ import { Footer } from "@/components/Footer";
 import { useHealthStatus } from "@/hooks/use-health-status";
 import PageContainer from "@/components/PageContainer";
 import { Share2, Printer } from "lucide-react";
-import { useCurrentLanguage } from "@/utils/routing";
+import { useCurrentLanguage, getLocalizedPath, type SupportedLanguage } from "@/utils/routing";
 import { useTranslation } from "react-i18next";
 import React from "react";
 
@@ -15,14 +15,14 @@ const Volksbegehren = () => {
   const handleShare = async () => {
     try {
       const url = window.location.href;
-      const title = document.title || "Teilen";
+      const title = document.title || t('common:share');
       if (navigator.share) {
         await navigator.share({ title, url });
       } else if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(url);
-        alert("Link kopiert.");
+        alert(t('common:copy') + ' ' + url);
       } else {
-        window.prompt("Link kopieren:", url);
+        window.prompt(t('common:copy') + ':', url);
       }
     } catch (_err) {
       // ignore share errors
@@ -51,10 +51,10 @@ const Volksbegehren = () => {
         {/* Print/Share Section (wie Projekt) */}
         <section className="bg-white">
           <PageContainer className="h-[52px] flex items-center justify-end gap-3">
-            <button type="button" aria-label="Teilen" onClick={handleShare} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
+            <button type="button" aria-label={t('common:share')} onClick={handleShare} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
               <Share2 className="w-5 h-5" aria-hidden />
             </button>
-            <button type="button" aria-label="Drucken" onClick={handlePrint} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
+            <button type="button" aria-label={t('common:print')} onClick={handlePrint} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
               <Printer className="w-5 h-5" aria-hidden />
             </button>
           </PageContainer>
@@ -64,10 +64,10 @@ const Volksbegehren = () => {
         <section className="bg-white">
           <PageContainer paddingYClassName="py-0">
             <div className="py-8 md:py-14 lg:py-16 flex flex-col items-start">
-              <h1 className="text-[24px] leading-[32px] sm:text-[28px] sm:leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">Volksbegehren</h1>
+              <h1 className="text-[24px] leading-[32px] sm:text-[28px] sm:leading-[36px] md:text-[40px] md:leading-[48px] font-semibold text-[#1f2937] max-w-[1024px]">{t('content:volksbegehren.title')}</h1>
               <div className="h-4 md:h-6 lg:h-10" />
               <p className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] font-medium text-[#1f2937] max-w-[1024px]">
-                Hier finden Sie eine Übersicht über aktuelle Initiativen und Referenden, die Sie mit Ihrer E-ID digital unterstützen können.
+                {t('content:volksbegehren.description')}
               </p>
               <div className="h-4 md:h-6 lg:h-14" />
             </div>
@@ -105,7 +105,8 @@ type VolksbegehrenItem = {
 };
 
 const DataDrivenSections: React.FC = () => {
-  const lang = useCurrentLanguage();
+  const { t } = useTranslation(['content']);
+  const lang: SupportedLanguage = useCurrentLanguage();
   const [items, setItems] = React.useState<VolksbegehrenItem[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
@@ -127,7 +128,7 @@ const DataDrivenSections: React.FC = () => {
       }
     } catch (e) {
       if (!canceled) {
-        setError('Daten konnten nicht geladen werden.');
+        setError(t('content:volksbegehren.error'));
         setLoading(false);
       }
     }
@@ -140,7 +141,7 @@ const DataDrivenSections: React.FC = () => {
     return (
       <section className="bg-white">
         <PageContainer paddingYClassName="py-8">
-          <div className="text-[#6b7280]">Laden…</div>
+          <div className="text-[#6b7280]">{t('content:volksbegehren.loading')}</div>
         </PageContainer>
       </section>
     );
@@ -231,7 +232,9 @@ const SectionCardRow: React.FC<SectionCardRowProps> = ({ title, items, lang }) =
                 <div className="h-6 sm:h-8 md:h-10" />
                 {/* Button (icon-only, bordered) */}
                 <div className="flex justify-end">
-                  <a href={`/${lang}/volksbegehren/${card.id}`} aria-label="Mehr"
+                  <a
+                    href={getLocalizedPath(lang as SupportedLanguage, 'volksbegehren', { id: card.slug || card.id })}
+                    aria-label="Mehr"
                     className="relative border border-[#d8232a] rounded-[1px] p-1.5 sm:p-2 text-[#d8232a] hover:bg-[#d8232a]/5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right sm:w-5 sm:h-5">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -281,5 +284,3 @@ function formatDate(iso: string, lang: string) {
     return iso;
   }
 }
-
-

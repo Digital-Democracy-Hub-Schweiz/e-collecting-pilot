@@ -46,5 +46,17 @@
     "start_date": "2025-03-25",
     "end_date": "2026-09-25",
     "show": true
+  },
+  {
+    "id": "referendum-individualbesteuerung",
+    "type": "referendum",
+    "level": "Confédération",
+    "title": "Référendum contre la loi fédérale sur l'imposition individuelle",
+    "slug": "referendum-contre-la-loi-federale-sur-limposition-individuelle",
+    "comitee": "Comité transpartisan 'Arnaque fiscale Non', Comité 'Familles contre l'imposition individuelle', Union démocratique fédérale (UDF)",
+    "wording": "Le référendum demande que la loi fédérale sur l'imposition individuelle, adoptée le 20 juin 2025, soit soumise à la votation populaire.",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-09",
+    "show": true
   }
 ]
