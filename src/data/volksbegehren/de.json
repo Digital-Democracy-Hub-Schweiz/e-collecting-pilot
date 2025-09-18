@@ -1,62 +1,62 @@
 [
-    {
-        "id": "bitcoin-initiative",
-        "type": "initiative",
-        "level": "Bund",
-        "title": "Für eine finanziell starke, souveräne und verantwortungsvolle Schweiz (Bitcoin-Initiative)",
-        "slug": "fuer-eine-finanziell-starke-souveraene-und-verantwortungsvolle-schweiz-bitcoin-initiative",
-        "comitee": "Initiativkomitee Schweiz",
-        "wording": "Die Nationalbank hält Goldreserven. Neu soll auch Bitcoin als strategisches Reservevermögen in die Verfassung aufgenommen werden – für eine starke und unabhängige Schweiz.",
-        "start_date": "2024-12-31",
-        "end_date": "2026-06-30",
-        "show": true
-      },
-      {
-        "id": "familienzeit-initiative",
-        "type": "initiative",
-        "level": "Bund",
-        "title": "Starke Gesellschaft und Wirtschaft dank Elternzeit (Familienzeit-Initiative)",
-        "slug": "starke-gesellschaft-und-wirtschaft-dank-elternzeit-familienzeit-initiative",
-        "comitee": "Initiativkomitee Schweiz",
-        "wording": "Bei der Elternzeit und der Gleichstellung hinkt die Schweiz weit hinterher. In kaum einem anderen Land erhalten Eltern so wenig Zeit bei der Geburt ihrer Kinder. Damit soll Schluss sein!",
-        "start_date": "2025-04-01",
-        "end_date": "2026-10-01",
-        "show": true
-      },
-      {
-        "id": "lebensmittelschutz-initiative",
-        "type": "initiative",
-        "level": "Bund",
-        "title": "Für gentechnikfreie Lebensmittel (Lebensmittelschutz-Initiative)",
-        "slug": "fuer-gentechnikfreie-lebensmittel-lebensmittelschutz-initiative",
-        "comitee": "Initiativkomitee Schweiz",
-        "wording": "Die Mehrheit der Bevölkerung will gentechfreie Lebensmittel. Die Initiative fordert strenge Regeln zum Schutz von Mensch, Tier und Umwelt.",
-        "start_date": "2024-09-03",
-        "end_date": "2026-03-03",
-        "show": true
-      },
-      {
-        "id": "no-lobbying-initiative",
-        "type": "initiative",
-        "level": "Bund",
-        "title": "Für eine volksorientierte Politik (No Lobbying)",
-        "slug": "fuer-eine-volksorientierte-politik-no-lobbying",
-        "comitee": "Initiativkomitee Schweiz",
-        "wording": "Die No-Lobbying-Initiative verhindert, dass Ratsmitglieder in Kommissionen über ihre eigenen Lobby-Mandate entscheiden – damit das Parlament wieder die Bürger:innen statt die Lobby vertritt.",
-        "start_date": "2025-03-25",
-        "end_date": "2026-09-25",
-        "show": true
-      },
-      {
-        "id": "referendum-individualbesteuerung",
-        "type": "referendum",
-        "level": "Bund",
-        "title": "Referendum gegen das Bundesgesetz über die Individualbesteuerung",
-        "slug": "referendum-gegen-das-bundesgesetz-ueber-die-individualbesteuerung",
-        "comitee": "Überparteiliches Komitee 'Steuer-Schwindel Nein', Komitee 'Familien gegen die Individualbesteuerung', Eidgenössisch-Demokratische Union (EDU)",
-        "wording": "Das Referendum verlangt, dass das am 20. Juni 2025 verabschiedete Bundesgesetz über die Individualbesteuerung der Volksabstimmung unterbreitet wird.",
-        "start_date": "2025-07-01",
-        "end_date": "2025-10-09",
-        "show": true
-      }      
+  {
+    "id": "bitcoin-initiative",
+    "type": "initiative",
+    "level": "Bund",
+    "title": "Für eine finanziell starke, souveräne und verantwortungsvolle Schweiz (Bitcoin-Initiative)",
+    "slug": "fuer-eine-finanziell-starke-souveraene-und-verantwortungsvolle-schweiz-bitcoin-initiative",
+    "comitee": "Initiativkomitee Schweiz",
+    "wording": "Die Nationalbank hält Goldreserven. Neu soll auch Bitcoin als strategisches Reservevermögen in die Verfassung aufgenommen werden – für eine starke und unabhängige Schweiz.",
+    "start_date": "2024-12-31",
+    "end_date": "2026-06-30",
+    "show": true
+  },
+  {
+    "id": "familienzeit-initiative",
+    "type": "initiative",
+    "level": "Bund",
+    "title": "Starke Gesellschaft und Wirtschaft dank Elternzeit (Familienzeit-Initiative)",
+    "slug": "starke-gesellschaft-und-wirtschaft-dank-elternzeit-familienzeit-initiative",
+    "comitee": "Initiativkomitee Schweiz",
+    "wording": "Bei der Elternzeit und der Gleichstellung hinkt die Schweiz weit hinterher. In kaum einem anderen Land erhalten Eltern so wenig Zeit bei der Geburt ihrer Kinder. Damit soll Schluss sein!",
+    "start_date": "2025-04-01",
+    "end_date": "2026-10-01",
+    "show": true
+  },
+  {
+    "id": "lebensmittelschutz-initiative",
+    "type": "initiative",
+    "level": "Bund",
+    "title": "Für gentechnikfreie Lebensmittel (Lebensmittelschutz-Initiative)",
+    "slug": "fuer-gentechnikfreie-lebensmittel-lebensmittelschutz-initiative",
+    "comitee": "Initiativkomitee Schweiz",
+    "wording": "Die Mehrheit der Bevölkerung will gentechfreie Lebensmittel. Die Initiative fordert strenge Regeln zum Schutz von Mensch, Tier und Umwelt.",
+    "start_date": "2024-09-03",
+    "end_date": "2026-03-03",
+    "show": true
+  },
+  {
+    "id": "no-lobbying-initiative",
+    "type": "initiative",
+    "level": "Bund",
+    "title": "Für eine volksorientierte Politik (No Lobbying)",
+    "slug": "fuer-eine-volksorientierte-politik-no-lobbying",
+    "comitee": "Initiativkomitee Schweiz",
+    "wording": "Die No-Lobbying-Initiative verhindert, dass Ratsmitglieder in Kommissionen über ihre eigenen Lobby-Mandate entscheiden – damit das Parlament wieder die Bürger:innen statt die Lobby vertritt.",
+    "start_date": "2025-03-25",
+    "end_date": "2026-09-25",
+    "show": true
+  },
+  {
+    "id": "referendum-individualbesteuerung",
+    "type": "referendum",
+    "level": "Bund",
+    "title": "Referendum gegen das Bundesgesetz über die Individualbesteuerung",
+    "slug": "referendum-gegen-das-bundesgesetz-ueber-die-individualbesteuerung",
+    "comitee": "Überparteiliches Komitee 'Steuer-Schwindel Nein', Komitee 'Familien gegen die Individualbesteuerung', Eidgenössisch-Demokratische Union (EDU)",
+    "wording": "Das Referendum verlangt, dass das am 20. Juni 2025 verabschiedete Bundesgesetz über die Individualbesteuerung der Volksabstimmung unterbreitet wird.",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-09",
+    "show": true
+  }
 ]

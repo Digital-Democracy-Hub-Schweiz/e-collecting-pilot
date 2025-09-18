@@ -2,7 +2,7 @@
   {
     "id": "bitcoin-initiative",
     "type": "initiative",
-"level": "Bund",
+    "level": "Bund",
     "title": "For a financially strong, sovereign and responsible Switzerland (Bitcoin Initiative)",
     "slug": "financially-strong-sovereign-responsible-switzerland-bitcoin-initiative",
     "comitee": "Initiative Committee Switzerland",
@@ -14,7 +14,7 @@
   {
     "id": "familienzeit-initiative",
     "type": "initiative",
-"level": "Bund",
+    "level": "Bund",
     "title": "Strong society and economy thanks to parental leave (Family time initiative)",
     "slug": "strong-society-economy-parental-leave-family-time-initiative",
     "comitee": "Initiative Committee Switzerland",
@@ -26,7 +26,7 @@
   {
     "id": "lebensmittelschutz-initiative",
     "type": "initiative",
-"level": "Bund",
+    "level": "Bund",
     "title": "For GMO-free food (Food protection initiative)",
     "slug": "gmo-free-food-food-protection-initiative",
     "comitee": "Initiative Committee Switzerland",
@@ -38,7 +38,7 @@
   {
     "id": "no-lobbying-initiative",
     "type": "initiative",
-"level": "Bund",
+    "level": "Bund",
     "title": "For people-oriented politics (No Lobbying)",
     "slug": "people-oriented-politics-no-lobbying",
     "comitee": "Initiative Committee Switzerland",
@@ -50,7 +50,7 @@
   {
     "id": "referendum-individualbesteuerung",
     "type": "referendum",
-"level": "Bund",
+    "level": "Bund",
     "title": "Referendum against the Federal Act on Individual Taxation",
     "slug": "referendum-against-federal-act-individual-taxation",
     "comitee": "Cross-party Committee 'Tax Fraud No', Committee 'Families against Individual Taxation', Federal Democratic Union (EDU)",
