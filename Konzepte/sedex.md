@@ -19,25 +19,28 @@ Original mit Kommentarfunktion: [Google Docs](https://docs.google.com/document/d
 
 ## Umsetzungsschritte für eine digitale Willensbekundung
 
-1.        **sedex‑Teilnehmer werden**
+1.  **sedex‑Teilnehmer werden**
 
-2.        Vertrag mit dem BFS abschliessen; sedex‑ID und Zertifikat erhalten.
+2. Vertrag mit dem BFS abschliessen; sedex‑ID und Zertifikat erhalten.
 
 3. sedex‑Client (Server oder Docker) installieren und konfigurieren.
 4. **Umschlag nach eCH‑0090 erstellen**
 
-5.        messageId (einzigartig), messageType (Wert mit Empfänger vereinbaren), messageClass (0 = Erstmeldung), senderId, recipientId, eventDate, messageDate füllen[[6]](https://docs.sedex.admin.ch/reference/sedex-envelope/#:~:text=,when%20the%20message%20was%20created).
+5. messageId (einzigartig), messageType (Wert mit Empfänger vereinbaren), messageClass (0 = Erstmeldung), senderId, recipientId, eventDate, messageDate füllen[[6]](https://docs.sedex.admin.ch/reference/sedex-envelope/#:~:text=,when%20the%20message%20was%20created).
 
-6.        Beispiel:
+6. Beispiel:
 
-<envelope xmlns="http://www.ech.ch/xmlns/eCH-0090/1" version="1.0">  <messageId>123e4567-e89b-12d3-a456-426614174000</messageId>  
-  <messageType>99</messageType>  
-  <messageClass>0</messageClass>  
-  <senderId>1-1234-1</senderId>  
-  <recipientId>3-CH-1</recipientId>  
-  <eventDate>2025-09-16T10:00:00</eventDate>  
-  <messageDate>2025-09-16T10:01:00</messageDate>  
+```xml
+<envelope xmlns="http://www.ech.ch/xmlns/eCH-0090/1" version="1.0">
+  <messageId>123e4567-e89b-12d3-a456-426614174000</messageId>
+  <messageType>99</messageType>
+  <messageClass>0</messageClass>
+  <senderId>1-1234-1</senderId>
+  <recipientId>3-CH-1</recipientId>
+  <eventDate>2025-09-16T10:00:00</eventDate>
+  <messageDate>2025-09-16T10:01:00</messageDate>
 </envelope>
+```
 
 1.        **Payload mit Willensbekundung definieren**
 
