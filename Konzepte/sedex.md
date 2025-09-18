@@ -1,8 +1,5 @@
-### Umsetzung einer Willensbekundung über die SEDEX‑Schnittstelle
-
-Original mit Kommentarfunktion: [Google Docs](https://docs.google.com/document/d/1sW154f2RdD9syY5mu_LkxUkquaYUq4mMTWYrW7sLHTE/edit?usp=sharing)
-
 # Umsetzung einer Willensbekundung über die SEDEX‑Schnittstelle
+Original mit Kommentarfunktion: [Google Docs](https://docs.google.com/document/d/1sW154f2RdD9syY5mu_LkxUkquaYUq4mMTWYrW7sLHTE/edit?usp=sharing)
 
 ## Bedeutung von SEDEX und eCH‑Standards
 
