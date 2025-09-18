@@ -2,7 +2,7 @@
   {
     "id": "bitcoin-initiative",
     "type": "initiative",
-    "level": "Confederaziun",
+"level": "Bund",
     "title": "Per ina Svizra finanziarmain ferma, suverana e responsabla (Iniziativa Bitcoin)",
     "slug": "per-ina-svizra-finanziarmain-ferma-suverana-e-responsabla-iniziativa-bitcoin",
     "comitee": "Comité da l'iniziativa Svizra",
@@ -14,7 +14,7 @@
   {
     "id": "familienzeit-initiative",
     "type": "initiative",
-    "level": "Confederaziun",
+"level": "Bund",
     "title": "Societad e economia fermas grazia al congedi parental (Iniziativa temp da famiglia)",
     "slug": "societad-e-economia-fermas-grazia-al-congedi-parental-iniziativa-temp-da-famiglia",
     "comitee": "Comité da l'iniziativa Svizra",
@@ -26,7 +26,7 @@
   {
     "id": "lebensmittelschutz-initiative",
     "type": "initiative",
-    "level": "Confederaziun",
+"level": "Bund",
     "title": "Per victualias senza OGM (Iniziativa protecziun d'alimentaziun)",
     "slug": "per-victualias-senza-ogm-iniziativa-protecziun-dalimentaziun",
     "comitee": "Comité da l'iniziativa Svizra",
@@ -38,7 +38,7 @@
   {
     "id": "no-lobbying-initiative",
     "type": "initiative",
-    "level": "Confederaziun",
+"level": "Bund",
     "title": "Per ina politica orientada al pievel (No Lobbying)",
     "slug": "per-ina-politica-orientada-al-pievel-no-lobbying",
     "comitee": "Comité da l'iniziativa Svizra",
@@ -50,7 +50,7 @@
   {
     "id": "referendum-individualbesteuerung",
     "type": "referendum",
-    "level": "Confederaziun",
+"level": "Bund",
     "title": "Referendum cunter la lescha federala davart l'imposiziun individuala",
     "slug": "referendum-cunter-la-lescha-federala-davart-limposiziun-individuala",
     "comitee": "Comité transpartidari 'Betschina d'impostas Na', Comité 'Famiglias cunter l'imposiziun individuala', Uniun Democratica Federala (UDF)",

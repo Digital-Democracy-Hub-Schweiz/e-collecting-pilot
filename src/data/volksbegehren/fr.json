@@ -2,7 +2,7 @@
   {
     "id": "bitcoin-initiative",
     "type": "initiative",
-    "level": "Confédération",
+    "level": "Bund",
     "title": "Pour une Suisse financièrement forte, souveraine et responsable (Initiative Bitcoin)",
     "slug": "pour-suisse-financierement-forte-souveraine-responsable-initiative-bitcoin",
     "comitee": "Comité d'initiative Suisse",
@@ -14,7 +14,7 @@
   {
     "id": "familienzeit-initiative",
     "type": "initiative",
-    "level": "Confédération",
+    "level": "Bund",
     "title": "Société et économie fortes grâce au congé parental (Initiative temps familial)",
     "slug": "societe-economie-fortes-grace-conge-parental-initiative-temps-familial",
     "comitee": "Comité d'initiative Suisse",
@@ -26,7 +26,7 @@
   {
     "id": "lebensmittelschutz-initiative",
     "type": "initiative",
-    "level": "Confédération",
+    "level": "Bund",
     "title": "Pour des aliments sans OGM (Initiative protection alimentaire)",
     "slug": "pour-aliments-sans-ogm-initiative-protection-alimentaire",
     "comitee": "Comité d'initiative Suisse",
@@ -38,7 +38,7 @@
   {
     "id": "no-lobbying-initiative",
     "type": "initiative",
-    "level": "Confédération",
+    "level": "Bund",
     "title": "Pour une politique orientée vers le peuple (No Lobbying)",
     "slug": "pour-politique-orientee-vers-le-peuple-no-lobbying",
     "comitee": "Comité d'initiative Suisse",
@@ -50,7 +50,7 @@
   {
     "id": "referendum-individualbesteuerung",
     "type": "referendum",
-    "level": "Confédération",
+    "level": "Bund",
     "title": "Référendum contre la loi fédérale sur l'imposition individuelle",
     "slug": "referendum-contre-la-loi-federale-sur-limposition-individuelle",
     "comitee": "Comité transpartisan 'Arnaque fiscale Non', Comité 'Familles contre l'imposition individuelle', Union démocratique fédérale (UDF)",
