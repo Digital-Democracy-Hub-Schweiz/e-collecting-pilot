@@ -24,8 +24,11 @@
   },
   "step3": {
     "title": "I tuoi dati",
+    "sectionVolksbegehren": "Oggetto di votazione popolare",
+    "sectionAddressData": "Dati dell'indirizzo",
     "volksbegehren": "Oggetto di votazione popolare",
     "address": "Indirizzo",
+    "canton": "Cantone",
     "municipality": "Comune politico",
     "cantonConflict": {
       "title": "Conflitto cantonale",
@@ -33,6 +36,11 @@
     },
     "legalNotice": "Chiunque corrompe o si lascia corrompere durante una raccolta di firme o falsifica il risultato di una raccolta di firme per un'iniziativa popolare commette un reato secondo l'art. 281 rispettivamente l'art. 282 del Codice penale.",
     "supportButton": "Sostieni ora l'oggetto di votazione popolare"
+  },
+  "type": "Tipo",
+  "title": "Titolo",
+  "level": {
+    "label": "Livello"
   },
   "step4": {
     "verification": {

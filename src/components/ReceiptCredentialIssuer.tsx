@@ -681,7 +681,7 @@ export function ReceiptCredentialIssuer({
                           <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{municipalityDetails?.bfs || '—'}</div>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
-                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">Kanton:</div>
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">{t('forms:step3.canton', 'Kanton')}:</div>
                           <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
                             {municipalityDetails?.cantonFromBfs || municipalityDetails?.canton || '—'}
                             {isValidatingAddress && <RefreshCw className="w-4 h-4 ml-2 inline align-middle animate-spin" />}

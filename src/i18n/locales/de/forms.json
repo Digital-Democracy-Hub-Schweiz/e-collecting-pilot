@@ -24,8 +24,11 @@
   },
   "step3": {
     "title": "Ihre Angaben",
+    "sectionVolksbegehren": "Volksbegehren",
+    "sectionAddressData": "Adressdaten",
     "volksbegehren": "Volksbegehren",
     "address": "Adresse",
+    "canton": "Kanton",
     "municipality": "Politische Gemeinde",
     "cantonConflict": {
       "title": "Kantonskonflikt",
@@ -33,6 +36,11 @@
     },
     "legalNotice": "Wer bei einer Unterschriftensammlung besticht oder sich bestechen lässt oder wer das Ergebnis einer Unterschriftensammlung für eine Volksinitiative fälscht, macht sich strafbar nach Art. 281 beziehungsweise nach Art. 282 des Strafgesetzbuches.",
     "supportButton": "Jetzt Volksbegehren unterstützen"
+  },
+  "type": "Typ",
+  "title": "Titel",
+  "level": {
+    "label": "Ebene"
   },
   "step4": {
     "verification": {

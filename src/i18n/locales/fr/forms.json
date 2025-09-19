@@ -24,8 +24,11 @@
   },
   "step3": {
     "title": "Vos données",
+    "sectionVolksbegehren": "Objet de votation populaire",
+    "sectionAddressData": "Données d'adresse",
     "volksbegehren": "Objet de votation populaire",
     "address": "Adresse",
+    "canton": "Canton",
     "municipality": "Commune politique",
     "cantonConflict": {
       "title": "Conflit cantonal",
@@ -33,6 +36,11 @@
     },
     "legalNotice": "Quiconque corrompt ou se laisse corrompre lors d'une récolte de signatures ou falsifie le résultat d'une récolte de signatures pour une initiative populaire commet une infraction selon l'art. 281 respectivement l'art. 282 du Code pénal.",
     "supportButton": "Soutenir maintenant l'objet de votation populaire"
+  },
+  "type": "Type",
+  "title": "Titre",
+  "level": {
+    "label": "Niveau"
   },
   "step4": {
     "verification": {

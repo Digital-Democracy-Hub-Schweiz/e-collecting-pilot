@@ -24,8 +24,11 @@
   },
   "step3": {
     "title": "Tias datas",
+    "sectionVolksbegehren": "Dumonda populara",
+    "sectionAddressData": "Datas d'adressa",
     "volksbegehren": "Dumonda populara",
     "address": "Adressa",
+    "canton": "Chantun",
     "municipality": "Vischnanca politica",
     "cantonConflict": {
       "title": "Conflict dal chantun",
@@ -33,6 +36,11 @@
     },
     "legalNotice": "Tgi che corrumpa u sa lascha corrumper durant ina collecziun da suttascripziuns u falsifitgescha il resultat d'ina collecziun da suttascripziuns per ina iniziativa populara commetta in crim tenor l'art. 281 respectivamain tenor l'art. 282 dal Cudesch penal.",
     "supportButton": "Sustegnair uss la dumonda populara"
+  },
+  "type": "Tip",
+  "title": "Titel",
+  "level": {
+    "label": "Nivel"
   },
   "step4": {
     "verification": {

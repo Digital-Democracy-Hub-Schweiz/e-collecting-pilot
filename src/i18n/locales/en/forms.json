@@ -24,8 +24,11 @@
   },
   "step3": {
     "title": "Your data",
+    "sectionVolksbegehren": "Popular vote",
+    "sectionAddressData": "Address data",
     "volksbegehren": "Popular vote",
     "address": "Address",
+    "canton": "Canton",
     "municipality": "Political municipality",
     "cantonConflict": {
       "title": "Canton conflict",
@@ -33,6 +36,11 @@
     },
     "legalNotice": "Anyone who bribes or allows themselves to be bribed during signature collection or falsifies the result of signature collection for a popular initiative commits a criminal offense according to Art. 281 or Art. 282 of the Criminal Code.",
     "supportButton": "Support popular vote now"
+  },
+  "type": "Type",
+  "title": "Title",
+  "level": {
+    "label": "Level"
   },
   "step4": {
     "verification": {
