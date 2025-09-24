@@ -58,11 +58,12 @@ export function GemeindeCredentialIssuer() {
   const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/8e4f0f38-f2ed-453c-899d-e5619535efe2.jwt";
   
   // Form state
+  const [type, setType] = useState<"Initiative" | "Referendum" | "">("");
   const [selectedVolksbegehrenId, setSelectedVolksbegehrenId] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
-  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5 | 6>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
   // E-ID verification state
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
@@ -85,6 +86,7 @@ export function GemeindeCredentialIssuer() {
     cantonFromBfs?: string;
   } | null>(null);
   const [fieldErrors, setFieldErrors] = useState<{
+    type?: string;
     selectedVolksbegehrenId?: string;
     streetAddress?: string;
     postalCode?: string;
@@ -126,47 +128,55 @@ export function GemeindeCredentialIssuer() {
   }, [volksbegehren]);
 
   const volksbegehrenOptions: Option[] = useMemo(() => {
-    return normalizedVolksbegehren.map(({ id, title }) => ({
+    if (!type) return [];
+    return normalizedVolksbegehren.filter(i => i.type === type).map(({
+      id,
+      title
+    }) => ({
       id,
       title
     }));
-  }, [normalizedVolksbegehren]);
+  }, [type, normalizedVolksbegehren]);
 
-  // Gefilterte Volksbegehren basierend auf Gemeinde/Kanton
+  // Gefilterte Volksbegehren basierend auf Typ, Gemeinde/Kanton
   const filteredVolksbegehrenOptions: Option[] = useMemo(() => {
-    if (!municipalityDetails) {
-      return volksbegehrenOptions; // Wenn keine Gemeinde bekannt, zeige alle
-    }
-
-    const userCanton = municipalityDetails.cantonFromBfs || municipalityDetails.canton;
+    if (!type) return [];
     
-    return volksbegehrenOptions.filter(option => {
-      const volksbegehren = normalizedVolksbegehren.find(v => v.id === option.id);
-      if (!volksbegehren?.level) return true; // Wenn kein Level definiert, zeige an
+    let baseOptions = volksbegehrenOptions;
+    
+    if (municipalityDetails) {
+      const userCanton = municipalityDetails.cantonFromBfs || municipalityDetails.canton;
       
-      // "Bund" Level -> für alle Kantone verfügbar
-      if (volksbegehren.level === "Bund") return true;
-      
-      // Kanton-spezifisch -> prüfe ob Kanton übereinstimmt
-      if (volksbegehren.level.includes("Kanton")) {
-        const cantonInLevel = volksbegehren.level.replace("Kanton ", "");
-        return userCanton.includes(cantonInLevel) || cantonInLevel.includes(userCanton);
-      }
-      
-      // Gemeinde-spezifisch -> prüfe ob Gemeinde übereinstimmt
-      if (volksbegehren.level.includes(municipalityDetails.town)) {
+      baseOptions = volksbegehrenOptions.filter(option => {
+        const volksbegehren = normalizedVolksbegehren.find(v => v.id === option.id);
+        if (!volksbegehren?.level) return true; // Wenn kein Level definiert, zeige an
+        
+        // "Bund" Level -> für alle Kantone verfügbar
+        if (volksbegehren.level === "Bund") return true;
+        
+        // Kanton-spezifisch -> prüfe ob Kanton übereinstimmt
+        if (volksbegehren.level.includes("Kanton")) {
+          const cantonInLevel = volksbegehren.level.replace("Kanton ", "");
+          return userCanton.includes(cantonInLevel) || cantonInLevel.includes(userCanton);
+        }
+        
+        // Gemeinde-spezifisch -> prüfe ob Gemeinde übereinstimmt
+        if (volksbegehren.level.includes(municipalityDetails.town)) {
+          return true;
+        }
+        
+        // Default: zeige wenn unklar
         return true;
-      }
-      
-      // Default: zeige wenn unklar
-      return true;
-    });
-  }, [volksbegehrenOptions, normalizedVolksbegehren, municipalityDetails]);
+      });
+    }
+    
+    return baseOptions;
+  }, [type, volksbegehrenOptions, normalizedVolksbegehren, municipalityDetails]);
 
   // Selected item for summary display
   const selectedItem = useMemo(() => {
-    return normalizedVolksbegehren.find(o => o.id === selectedVolksbegehrenId) || null;
-  }, [normalizedVolksbegehren, selectedVolksbegehrenId]);
+    return normalizedVolksbegehren.find(o => o.type === type && o.id === selectedVolksbegehrenId) || null;
+  }, [normalizedVolksbegehren, type, selectedVolksbegehrenId]);
 
   // Handler für Adressauswahl
   const handleAddressSelect = async (address: AddressHit) => {
@@ -376,8 +386,8 @@ export function GemeindeCredentialIssuer() {
         description: t('forms:gemeinde.success.description')
       });
 
-      // Gehe zu Step 6 (Erfolg)
-      setStep(6);
+      // Gehe zu Step 4 (Erfolg)
+      setStep(4);
 
     } catch (e: any) {
       setBanner({
@@ -431,7 +441,7 @@ export function GemeindeCredentialIssuer() {
             tabIndex={-1}
             className="text-[24px] leading-[32px] sm:text-[28px] sm:leading-[36px] md:text-[32px] md:leading-[43px] font-semibold text-[#1f2937] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1f2937]/40"
           >
-{t('forms:step', { current: step, total: 6 })}
+{t('forms:step', { current: step, total: 4 })}
           </h1>
         </div>
 
@@ -580,14 +590,14 @@ export function GemeindeCredentialIssuer() {
                       disabled={isCreatingVerification || !streetAddress || !postalCode || !city}
                       className="w-full sm:w-auto"
                     >
-                      {t('common:next')}
+                      {t('forms:gemeinde.step2.startVerification', 'E-ID Verifikation starten')}
                       <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                     </Button>
                   </div>
                 </div>
               )}
 
-              {/* Step 2: Gemeinde/Adress-Übersicht + E-ID Verifikation */}
+              {/* Step 2: Adress-Übersicht + E-ID Verifikation mit swiyu-Wallet */}
               {step === 2 && (
                 <div className="space-y-6 w-full">
                   <div className="space-y-4">
@@ -649,115 +659,8 @@ export function GemeindeCredentialIssuer() {
                         </div>
                       </div>
 
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                    <Button
-                      variant="bare"
-                      size="xl"
-                      onClick={() => { setBanner(null); setStep(1); }}
-                      className="w-full sm:w-auto"
-                    >
-                      {t('common:back')}
-                    </Button>
-                    <Button
-                      variant="filled"
-                      size="xl"
-                      onClick={() => setStep(3)}
-                      className="w-full sm:w-auto"
-                    >
-                      {t('common:next')}
-                      <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 3: Volksbegehren auswählen (nach E-ID) */}
-              {step === 3 && (
-                <div className="space-y-6 w-full">
-                  <div>
-                    <h2 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">
-                      {t('forms:step1.title')}
-                    </h2>
-                    
-                    {/* Gemeinde-Info Reminder */}
-                    {municipalityDetails && (
-                      <div className="p-3 bg-blue-50 rounded-[3px] border border-blue-200 mb-4">
-                        <div className="text-[14px] text-blue-800">
-                          <strong>{t('forms:gemeinde.step2.yourMunicipality', 'Ihre Gemeinde')}:</strong> {municipalityDetails.town}, {municipalityDetails.cantonFromBfs || municipalityDetails.canton}
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="volksbegehren-select" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">
-                          {t('forms:step1.selectTitle')}
-                        </Label>
-                        <NativeSelect
-                          id="volksbegehren-select"
-                          options={filteredVolksbegehrenOptions.map(o => {
-                            const titleVariants = createTitleVariants(o.title, 45);
-                            return { 
-                              value: o.id, 
-                              label: o.title,
-                              displayLabel: titleVariants.short
-                            };
-                          })}
-                          value={selectedVolksbegehrenId}
-                          onValueChange={(v) => { 
-                            setSelectedVolksbegehrenId(v); 
-                            setFieldErrors(prev => ({ ...prev, selectedVolksbegehrenId: undefined })); 
-                          }}
-                          placeholder={t('forms:gemeinde.step2.selectVolksbegehrenlaceholder', 'Wählen Sie ein Volksbegehren')}
-                          className="w-full"
-                        />
-                        {fieldErrors.selectedVolksbegehrenId && (
-                          <ErrorBadge role="alert" aria-live="polite">{fieldErrors.selectedVolksbegehrenId}</ErrorBadge>
-                        )}
-
-                        {filteredVolksbegehrenOptions.length === 0 && (
-                          <div className="p-4 bg-amber-50 border border-amber-200 rounded-[3px]">
-                            <p className="text-[14px] text-amber-800">
-                              {t('forms:gemeinde.step2.noVolksbegehren', 'Für Ihre Gemeinde sind aktuell keine Volksbegehren verfügbar.')}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                    <Button
-                      variant="bare"
-                      size="xl"
-                      onClick={() => { setBanner(null); setStep(2); }}
-                      className="w-full sm:w-auto"
-                    >
-                      {t('common:back')}
-                    </Button>
-                    <Button
-                      variant="filled"
-                      size="xl"
-                      onClick={() => setStep(4)}
-                      disabled={filteredVolksbegehrenOptions.length === 0 || !selectedVolksbegehrenId}
-                      className="w-full sm:w-auto"
-                    >
-                      {t('common:next')}
-                      <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 4: E-ID Verifikation mit swiyu-Wallet */}
-              {step === 4 && (
-                <div className="space-y-6 w-full">
-                  <div className="space-y-4">
-                    <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
-                      <div className="py-4">
+                      {/* E-ID Verification Section */}
+                      <div className="py-4 mt-8">
                         <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
                           {t('forms:step4.verification.title', 'Verifikation mit swiyu-Wallet')}
                         </div>
@@ -807,7 +710,7 @@ export function GemeindeCredentialIssuer() {
                     <Button
                       variant="bare"
                       size="xl"
-                      onClick={() => { setBanner(null); setStep(3); }}
+                      onClick={() => { setBanner(null); setStep(1); }}
                       className="w-full sm:w-auto"
                     >
                       {t('common:back')}
@@ -842,10 +745,10 @@ export function GemeindeCredentialIssuer() {
                       <Button
                         variant="filled"
                         size="xl"
-                        onClick={handleNextFromStep3}
+                        onClick={() => setStep(3)}
                         className="w-full sm:w-auto"
                       >
-                        Stimmregister-VC ausstellen
+                        {t('common:next')}
                         <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                       </Button>
                     )}
@@ -853,8 +756,140 @@ export function GemeindeCredentialIssuer() {
                 </div>
               )}
 
-              {/* Step 5: Zusammenfassung (optional) */}
-              {step === 5 && (
+              {/* Step 3: Volksbegehren auswählen */}
+              {step === 3 && (
+                <div className="space-y-6 w-full">
+                  <div>
+                    <h2 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">
+                      {t('forms:step1.title')}
+                    </h2>
+                    
+                    {/* Gemeinde-Info Reminder */}
+                    {municipalityDetails && (
+                      <div className="p-3 bg-blue-50 rounded-[3px] border border-blue-200 mb-4">
+                        <div className="text-[14px] text-blue-800">
+                          <strong>{t('forms:gemeinde.step2.yourMunicipality', 'Ihre Gemeinde')}:</strong> {municipalityDetails.town}, {municipalityDetails.cantonFromBfs || municipalityDetails.canton}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="type-select" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">
+                          {t('forms:step1.selectType')}
+                        </Label>
+                        <NativeSelect
+                          id="type-select"
+                          options={[
+                            { value: "Initiative", label: t('forms:step1.types.initiative') },
+                            { value: "Referendum", label: t('forms:step1.types.referendum') }
+                          ]}
+                          value={type}
+                          onValueChange={(v) => {
+                            setType(v as any);
+                            // Clear previously selected title if type changes to prevent stale selection
+                            setSelectedVolksbegehrenId("");
+                            setFieldErrors(prev => ({ ...prev, type: undefined, selectedVolksbegehrenId: undefined }));
+                          }}
+                          placeholder={t('forms:step1.selectType')}
+                          aria-label={t('forms:step1.selectType')}
+                          className="w-full"
+                        />
+                        {fieldErrors.type && (
+                          <ErrorBadge role="alert" aria-live="polite">{fieldErrors.type}</ErrorBadge>
+                        )}
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="title-select" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">
+                          {t('forms:step1.selectTitle')}
+                        </Label>
+                        <NativeSelect
+                          id="title-select"
+                          options={filteredVolksbegehrenOptions.map(o => {
+                            const titleVariants = createTitleVariants(o.title, 45);
+                            return { 
+                              value: o.id, 
+                              label: o.title, // Full title for dropdown options
+                              displayLabel: titleVariants.short // Short title for input field display
+                            };
+                          })}
+                          value={selectedVolksbegehrenId}
+                          onValueChange={(v) => { 
+                            setSelectedVolksbegehrenId(v); 
+                            setFieldErrors(prev => ({ ...prev, selectedVolksbegehrenId: undefined })); 
+                          }}
+                          disabled={!type}
+                          placeholder={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                          aria-label={type ? t('forms:step1.selectTitlePlaceholder') : t('forms:step1.selectTypeFirst')}
+                          className="w-full"
+                        />
+                        {fieldErrors.selectedVolksbegehrenId && (
+                          <ErrorBadge role="alert" aria-live="polite">{fieldErrors.selectedVolksbegehrenId}</ErrorBadge>
+                        )}
+
+                        {type && filteredVolksbegehrenOptions.length === 0 && (
+                          <div className="p-4 bg-amber-50 border border-amber-200 rounded-[3px]">
+                            <p className="text-[14px] text-amber-800">
+                              {t('forms:gemeinde.step2.noVolksbegehren', 'Für Ihre Gemeinde sind aktuell keine Volksbegehren verfügbar.')}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                    <Button
+                      variant="bare"
+                      size="xl"
+                      onClick={() => { setBanner(null); setStep(2); }}
+                      className="w-full sm:w-auto"
+                    >
+                      {t('common:back')}
+                    </Button>
+                    <Button
+                      variant="filled"
+                      size="xl"
+                      onClick={() => {
+                        const missingType = !type;
+                        const missingTitle = !selectedVolksbegehrenId;
+                        if (missingType || missingTitle) {
+                          const nextErrors: typeof fieldErrors = {};
+                          if (missingType) nextErrors.type = t('errors:validation.required');
+                          if (missingTitle) nextErrors.selectedVolksbegehrenId = t('errors:validation.required');
+                          setFieldErrors(prev => ({ ...prev, ...nextErrors }));
+                          let description = '';
+                          if (missingType && missingTitle) {
+                            description = t('errors:validation.selectTypeAndTitle');
+                          } else if (missingType) {
+                            description = t('forms:step1.selectType');
+                          } else if (missingTitle) {
+                            description = t('forms:step1.selectTitle');
+                          }
+                          setBanner({
+                            type: 'warning',
+                            title: t('errors:validation.missingFields'),
+                            description
+                          });
+                          return;
+                        }
+                        setBanner(null);
+                        setFieldErrors({});
+                        handleNextFromStep3();
+                      }}
+                      disabled={filteredVolksbegehrenOptions.length === 0 && type !== ""}
+                      className="w-full sm:w-auto"
+                    >
+                      {t('common:next')}
+                      <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4: Erfolg - Stimmregister-VC ausgestellt */}
+              {step === 4 && (
                 <div className="space-y-6 w-full">
                   <div className="space-y-4">
                     <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
@@ -954,48 +989,6 @@ export function GemeindeCredentialIssuer() {
                   </div>
                 </div>
               )}
-
-              {/* Step 6: Erfolg - Stimmregister-VC ausgestellt */}
-              {step === 6 && (
-                <div className="space-y-6 w-full">
-                  <div className="space-y-4">
-                    <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
-                      {!issuedCredentialId ? (
-                        // E-ID Verification
-                        <>
-                          <div className="py-4">
-                            <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
-                              {t('forms:gemeinde.step4.verification.title', 'E-ID Ausweis')}
-                            </div>
-                          </div>
-                          <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
-                            {t('forms:gemeinde.step4.verification.description', 'Scannen Sie den QR-Code mit Ihrer swiyu E-ID App oder klicken Sie auf den Button.')}
-                          </div>
-                          {verificationUrl && (
-                            <div className="flex items-center justify-center py-6">
-                              <QRCode value={verificationUrl} size={192} />
-                            </div>
-                          )}
-                          <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                            <button
-                              onClick={() => { setBanner(null); setStep(3); }}
-                              className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px]"
-                            >
-                              {t('common:back')}
-                            </button>
-                            <button
-                              onClick={() => verificationUrl && (window.location.href = `swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`)}
-                              disabled={!verificationUrl}
-                              className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              {t('forms:gemeinde.step4.verification.openWallet', 'E-ID App öffnen')}
-                              <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                            </button>
-                          </div>
-                        </>
-                      ) : (
-                        // Erfolg - Stimmregister-VC ausgestellt
-                        <>
                           <div className="py-4">
                             <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
                               {t('forms:gemeinde.success.title', 'Stimmregister-Credential ausgestellt')}
