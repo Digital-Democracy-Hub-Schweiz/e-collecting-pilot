@@ -17,6 +17,15 @@ import { NativeAddressSearch } from "@/components/ui/native-address-search";
 import { AddressHit } from "@/services/addressAPI";
 import { createTitleVariants } from "@/lib/title-utils";
 
+// Hash-Funktion für Volksbegehren-ID
+const hashString = async (str: string): Promise<string> => {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(str);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+};
+
 // Gemeinde Issuer API Service
 const gemeindeIssuerAPI = {
   async issueStimmregisterCredential(payload: any) {
@@ -331,20 +340,15 @@ export function GemeindeCredentialIssuer() {
         throw new Error('Missing required data for credential issuance');
       }
 
-      // Payload nach den angegebenen Claims
+      // Hash der Volksbegehren-ID generieren
+      const volksbegehrenhash = await hashString(selectedVolksbegehren.id);
+
+      // Payload mit nur den erforderlichen Claims
       const payload = {
         metadata_credential_supported_id: ["stimmregister-credential"],
         credential_subject_data: {
-          volksbegehren: selectedVolksbegehren.title,
-          issuedDate: new Date().toISOString().slice(0, 10),
-          // E-ID Daten
-          given_name: verifiedEIdData.given_name,
-          family_name: verifiedEIdData.family_name,
-          birth_date: verifiedEIdData.birth_date,
-          // Gemeinde-Daten
-          municipality: municipalityDetails?.town,
-          canton: municipalityDetails?.cantonFromBfs || municipalityDetails?.canton,
-          bfs_number: municipalityDetails?.bfs
+          volksbegehren: volksbegehrenhash,
+          issuedDate: new Date().toISOString().slice(0, 10)
         },
         offer_validity_seconds: 86400,
         credential_valid_from: new Date().toISOString(),
