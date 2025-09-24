@@ -6,6 +6,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { ErrorBadge } from "@/components/ui/error-badge";
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { verificationBusinessAPI } from "@/services/verificationAPI";
+import { issuerBusinessAPI } from "@/services/issuerAPI";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
 import { cn } from "@/lib/utils";
 import QRCode from "react-qr-code";
@@ -26,24 +27,6 @@ const hashString = async (str: string): Promise<string> => {
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 };
 
-// Gemeinde Issuer API Service
-const gemeindeIssuerAPI = {
-  async issueStimmregisterCredential(payload: any) {
-    const response = await fetch('https://issuer-gemeinde.ecollecting.ch/api/v1/credentials/issue', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-
-    return await response.json();
-  }
-};
 
 type Option = {
   id: string;
@@ -345,7 +328,7 @@ export function GemeindeCredentialIssuer() {
 
       // Payload mit nur den erforderlichen Claims
       const payload = {
-        metadata_credential_supported_id: ["stimmregister-credential"],
+        metadata_credential_supported_id: ["stimmregister-vc"],
         credential_subject_data: {
           volksbegehren: volksbegehrenhash,
           issuedDate: new Date().toISOString().slice(0, 10)
@@ -355,7 +338,7 @@ export function GemeindeCredentialIssuer() {
         credential_valid_until: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
       };
 
-      const response = await gemeindeIssuerAPI.issueStimmregisterCredential(payload);
+      const response = await issuerBusinessAPI.issueCredential(payload);
       
       setIssuedCredentialId(response.id || response.management_id || null);
       setOfferDeeplink(response.offer_deeplink || null);
