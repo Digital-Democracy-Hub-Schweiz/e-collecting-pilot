@@ -62,7 +62,7 @@ export function GemeindeCredentialIssuer() {
   const [streetAddress, setStreetAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
-  const [step, setStep] = useState<1 | 3 | 4 | 5>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
 
   // E-ID verification state
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
@@ -245,12 +245,19 @@ export function GemeindeCredentialIssuer() {
     return true;
   };
 
-  // E-ID Verification starten (direkt von Step 1)
+  // E-ID Verification starten (von Step 1 zu Step 2)
   const handleStartEIdVerification = async () => {
     if (!handleValidateAddress()) {
       return;
     }
 
+    setBanner(null);
+    setFieldErrors({});
+    setStep(2);
+  };
+
+  // E-ID Verification QR-Code erstellen (in Step 2)
+  const handleCreateEIdVerification = async () => {
     setIsCreatingVerification(true);
     try {
       const verification = await verificationBusinessAPI.createVerification();
@@ -424,13 +431,7 @@ export function GemeindeCredentialIssuer() {
             tabIndex={-1}
             className="text-[24px] leading-[32px] sm:text-[28px] sm:leading-[36px] md:text-[32px] md:leading-[43px] font-semibold text-[#1f2937] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1f2937]/40"
           >
-            {t('forms:gemeinde.step', { current: step === 1 ? 1 : step === 3 ? 2 : step === 4 ? 3 : step === 5 ? 4 : step, total: 4 })} - {
-              step === 1 ? t('forms:gemeinde.stepTitles.address', 'Adresse') :
-              step === 3 ? t('forms:gemeinde.stepTitles.volksbegehren', 'Volksbegehren') :
-              step === 4 ? t('forms:gemeinde.stepTitles.summary', 'Zusammenfassung') :
-              step === 5 ? t('forms:gemeinde.stepTitles.success', 'Erfolgreich') :
-              ''
-            }
+{t('forms:step', { current: step, total: 5 })}
           </h1>
         </div>
 
@@ -485,16 +486,13 @@ export function GemeindeCredentialIssuer() {
           <div className={cn("grid gap-6 md:gap-8", issuedCredentialId ? "md:grid-cols-2" : "")}> 
             <div className="space-y-4 w-full">
 
-              {/* Step 1: Adresse eingeben (neue Reihenfolge) */}
+              {/* Step 1: Adresse eingeben */}
               {step === 1 && (
                 <div className="space-y-6 w-full">
                   <div>
                     <h2 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">
-                      {t('forms:gemeinde.step1.addressTitle', 'Adresse eingeben')}
+                      {t('forms:step2.title')}
                     </h2>
-                    <p className="text-[16px] leading-[24px] text-[#6b7280] mb-4">
-                      {t('forms:gemeinde.step1.addressDescription', 'Geben Sie Ihre Adresse ein, um Ihre Gemeinde zu ermitteln und die verfügbaren Volksbegehren anzuzeigen.')}
-                    </p>
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="street-address" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">
@@ -573,82 +571,179 @@ export function GemeindeCredentialIssuer() {
                     </div>
                   </div>
 
-                  {/* E-ID Verification Button - standard form layout */}
-                  {!verifiedEIdData && !verificationUrl && (
-                    <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                  {/* Navigation Button */}
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                    <Button
+                      variant="filled"
+                      size="xl"
+                      onClick={handleStartEIdVerification}
+                      disabled={isCreatingVerification || !streetAddress || !postalCode || !city}
+                      className="w-full sm:w-auto"
+                    >
+                      {t('common:next')}
+                      <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 2: Gemeinde/Adress-Übersicht + E-ID Verifikation */}
+              {step === 2 && (
+                <div className="space-y-6 w-full">
+                  <div className="space-y-4">
+                    <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
+                      {/* Adressdaten Section */}
+                      <div className="py-4">
+                        <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
+                          {t('forms:step3.sectionAddressData', 'Adressdaten')}
+                        </div>
+                      </div>
+                      <div className="border-t border-[#adb4bc] divide-y divide-[#adb4bc]">
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">
+                            {t('forms:step2.street', 'Strasse / Nr.')}:
+                          </div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
+                            {streetAddress || '—'}
+                          </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">
+                            {t('forms:step2.postalCode', 'PLZ')}:
+                          </div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
+                            {postalCode || '—'}
+                          </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">
+                            {t('forms:step2.city', 'Ort')}:
+                          </div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
+                            {city || '—'}
+                          </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">
+                            {t('forms:step3.municipality', 'Politische Gemeinde')}:
+                          </div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
+                            {municipalityDetails?.town || '—'}
+                          </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">
+                            {t('forms:step3.canton', 'Kanton')}:
+                          </div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
+                            {municipalityDetails?.cantonFromBfs || municipalityDetails?.canton || '—'}
+                          </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
+                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">
+                            BFS-Nr.:
+                          </div>
+                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
+                            {municipalityDetails?.bfs || '—'}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* E-ID Verification Section */}
+                      <div className="py-4 mt-8">
+                        <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
+                          {t('forms:step4.verification.title', 'E-ID Ausweis')}
+                        </div>
+                      </div>
+                      
+                      {!verifiedEIdData && !verificationUrl && (
+                        <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
+                          {t('forms:gemeinde.step2.verificationDescription', 'Bitte weisen Sie sich mit Ihrer E-ID aus, um fortzufahren.')}
+                        </div>
+                      )}
+
+                      {verificationUrl && !verifiedEIdData && (
+                        <>
+                          <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
+                            {t('forms:step4.verification.description')}
+                          </div>
+                          <div className="flex items-center justify-center py-6">
+                            <QRCode value={verificationUrl} size={192} />
+                          </div>
+                        </>
+                      )}
+
+                      {verifiedEIdData && (
+                        <div className="p-4 bg-green-50 rounded-[3px] border border-green-200 mb-6">
+                          <h4 className="text-[18px] font-semibold text-green-800 mb-2">
+                            {t('forms:gemeinde.step2.verification.success')}
+                          </h4>
+                          <div className="space-y-1 text-green-700 text-[14px]">
+                            <div><strong>{t('forms:gemeinde.firstName', 'Vorname')}:</strong> {verifiedEIdData.given_name}</div>
+                            <div><strong>{t('forms:gemeinde.lastName', 'Name')}:</strong> {verifiedEIdData.family_name}</div>
+                            <div><strong>{t('forms:gemeinde.birthDate', 'Geburtsdatum')}:</strong> {verifiedEIdData.birth_date}</div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                    <Button
+                      variant="bare"
+                      size="xl"
+                      onClick={() => { setBanner(null); setStep(1); }}
+                      className="w-full sm:w-auto"
+                    >
+                      {t('common:back')}
+                    </Button>
+                    
+                    {!verifiedEIdData && !verificationUrl && (
                       <Button
                         variant="filled"
                         size="xl"
-                        onClick={handleStartEIdVerification}
-                        disabled={isCreatingVerification || !streetAddress || !postalCode || !city}
+                        onClick={handleCreateEIdVerification}
+                        disabled={isCreatingVerification}
                         className="w-full sm:w-auto"
                       >
                         {isCreatingVerification && <RefreshCw className="w-5 h-5 mr-2 animate-spin" />}
                         {t('forms:gemeinde.step2.startVerification', 'E-ID Verifikation starten')}
                         <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                       </Button>
-                    </div>
-                  )}
+                    )}
 
-                  {/* QR Code für E-ID Verification - zeigen wenn URL vorhanden */}
-                  {verificationUrl && !verifiedEIdData && (
-                    <div className="mt-8 p-6 bg-white border border-blue-200 rounded-[3px]">
-                      <h3 className="text-[18px] font-semibold text-[#1f2937] mb-2">
-                        {t('forms:step4.verification.title')}
-                      </h3>
-                      <p className="text-[14px] text-[#6b7280] mb-4">
-                        {t('forms:step4.verification.description')}
-                      </p>
-                      <div className="flex items-center justify-center py-4">
-                        <QRCode value={verificationUrl} size={192} />
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                        <button
-                          onClick={() => verificationUrl && (window.location.href = `swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`)}
-                          disabled={!verificationUrl}
-                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {t('forms:step4.verification.openWallet')}
-                          <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                    {verificationUrl && !verifiedEIdData && (
+                      <button
+                        onClick={() => verificationUrl && (window.location.href = `swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`)}
+                        disabled={!verificationUrl}
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {t('forms:step4.verification.openWallet')}
+                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                      </button>
+                    )}
 
-                  {/* Erfolgsmeldung nach E-ID Verifikation */}
-                  {verifiedEIdData && (
-                    <div className="mt-8 p-6 bg-green-50 rounded-[3px] border border-green-200">
-                      <h3 className="text-[18px] font-semibold text-green-800 mb-2">
-                        {t('forms:gemeinde.step2.verification.success')}
-                      </h3>
-                      <div className="space-y-1 text-green-700 text-[14px] mb-4">
-                        <div><strong>{t('forms:gemeinde.firstName', 'Vorname')}:</strong> {verifiedEIdData.given_name}</div>
-                        <div><strong>{t('forms:gemeinde.lastName', 'Name')}:</strong> {verifiedEIdData.family_name}</div>
-                        <div><strong>{t('forms:gemeinde.birthDate', 'Geburtsdatum')}:</strong> {verifiedEIdData.birth_date}</div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3">
-                        <Button
-                          variant="filled"
-                          size="xl"
-                          onClick={() => setStep(3)}
-                          className="w-full sm:w-auto"
-                        >
-                          {t('forms:gemeinde.step1.nextToVolksbegehren', 'Zu Volksbegehren-Auswahl')}
-                          <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                        </Button>
-                      </div>
-                    </div>
-                  )}
+                    {verifiedEIdData && (
+                      <Button
+                        variant="filled"
+                        size="xl"
+                        onClick={() => setStep(3)}
+                        className="w-full sm:w-auto"
+                      >
+                        {t('common:next')}
+                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                      </Button>
+                    )}
+                  </div>
                 </div>
               )}
-
 
               {/* Step 3: Volksbegehren auswählen (nach E-ID) */}
               {step === 3 && (
                 <div className="space-y-6 w-full">
                   <div>
                     <h2 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">
-                      {t('forms:gemeinde.step2.title', 'Volksbegehren auswählen')}
+                      {t('forms:step1.title')}
                     </h2>
                     
                     {/* Gemeinde-Info Reminder */}
@@ -663,7 +758,7 @@ export function GemeindeCredentialIssuer() {
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="volksbegehren-select" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">
-                          {t('forms:gemeinde.step2.selectVolksbegehren', 'Verfügbare Volksbegehren für Ihre Gemeinde')}
+                          {t('forms:step1.selectTitle')}
                         </Label>
                         <NativeSelect
                           id="volksbegehren-select"
@@ -702,7 +797,7 @@ export function GemeindeCredentialIssuer() {
                     <Button
                       variant="bare"
                       size="xl"
-                      onClick={() => { setBanner(null); setStep(1); }}
+                      onClick={() => { setBanner(null); setStep(2); }}
                       className="w-full sm:w-auto"
                     >
                       {t('common:back')}
