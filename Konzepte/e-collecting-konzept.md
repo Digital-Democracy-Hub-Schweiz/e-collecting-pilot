@@ -1,21 +1,22 @@
-# Pflichtenheft – Digitale Volksinitiative mit swiyu eID (SSI-basiert)
+# E-Collecting mit swiyu E-ID (SSI-basiert)
 
 ## 1. Zielsetzung
-Die digitale Volksinitiative ermöglicht es Bürger:innen, mit Hilfe der
-SSI-basierten **swiyu eID-App** ihre Stimmberechtigung nachzuweisen und
-Unterstützungsunterschriften **fälschungssicher, anonym und einmalig** für ein
+E-Collecting ermöglicht es Bürger:innen, mit Hilfe der
+SSI-basierten **swiyu E-ID App** ihre Stimmberechtigung nachzuweisen und
+Willensbekundungen **fälschungssicher, anonym und einmalig** für ein
 konkretes Volksbegehren abzugeben.
 
 Die Lösung soll:
 - **Anonymität** der Bürger:innen gewährleisten.
 - **Einmaligkeit** sicherstellen (keine Doppelunterzeichnung).
 - **Öffentliche Verifizierbarkeit** der Resultate bieten.
-- In die bestehende Schweizer Tradition von direkter Demokratie passen.
+- die Direkte Demokratie der Schweiz abbilden.
+- die möglichkeit bieten, dass auch der Papierbasierte Prozess abgebildet werden kann.
 
 ---
 
 ## 2. Beteiligte Rollen
-- **Bürger:innen**: Stimmberechtigte Einwohner:innen mit swiyu eID-App.
+- **Bürger:innen**: Stimmberechtigte Einwohner:innen mit swiyu E-ID App.
 - **Gemeinde**: Prüft Stimmberechtigung und stellt initiative-spezifisches Credential aus.
 - **Initiativkomitee**: Reicht Volksbegehren ein, erhält Initiative-ID.
 - **Öffentliches Register/Log**: Unveränderliches, verifizierbares Log (Blockchain, verteiltes Ledger).
@@ -53,8 +54,8 @@ Die Lösung soll:
 ## 4. Prozessablauf
 
 ### A) Credential-Ausgabe
-1. Bürger:in authentifiziert sich über **swiyu eID-App**.  
-2. Gemeinde prüft Stimmberechtigung im Melderegister.  
+1. Bürger:in authentifiziert sich über **swiyu E-ID App**.  
+2. Gemeinde prüft Stimmberechtigung im Stimmregister.  
 3. Gemeinde stellt ein **Stimmregister-Credential** aus:  
    - Enthält: *Initiative-ID (Salt)*, Stimmberechtigung.  
    - Wird anonym im Wallet gespeichert.  
