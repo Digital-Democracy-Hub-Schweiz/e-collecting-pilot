@@ -55,6 +55,7 @@ export function GemeindeCredentialIssuer() {
   const { t } = useTranslation(['forms', 'errors', 'common']);
   const currentLang = useCurrentLanguage();
   const volksbegehren = useVolksbegehren();
+  const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/8e4f0f38-f2ed-453c-899d-e5619535efe2.jwt";
   
   // Form state
   const [selectedVolksbegehrenId, setSelectedVolksbegehrenId] = useState("");
@@ -353,7 +354,8 @@ export function GemeindeCredentialIssuer() {
         },
         offer_validity_seconds: 86400,
         credential_valid_from: new Date().toISOString(),
-        credential_valid_until: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+        credential_valid_until: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        status_lists: statusListUrl ? [statusListUrl] : undefined
       };
 
       const response = await gemeindeIssuerAPI.issueStimmregisterCredential(payload);
