@@ -29,7 +29,7 @@ Die Lösung soll:
 ### Bürger:innen
 - *Als Bürger:in* möchte ich mich mit meiner swiyu eID bei der Gemeinde ausweisen,  
   *damit* ich ein Stimmregister-Credential für eine bestimmte Initiative erhalte.  
-- *Als Bürger:in* möchte ich meine Stimme/Unterschrift anonym abgeben,  
+- *Als Bürger:in* möchte ich meine Willensbekundung anonym abgeben,  
   *damit* niemand meine Identität oder Entscheidung nachvollziehen kann.  
 - *Als Bürger:in* möchte ich einen Nachweis erhalten, dass meine Stimme gezählt wurde,  
   *damit* ich Vertrauen in das System habe.  
@@ -38,8 +38,8 @@ Die Lösung soll:
 - *Als Gemeinde* möchte ich prüfen können, ob eine Person in meinem Register
   stimmberechtigt ist,  
   *damit* nur berechtigte Bürger:innen ein Credential erhalten.  
-- *Als Gemeinde* möchte ich die Credentials initiativ-spezifisch ausstellen,  
-  *damit* jede Initiative sauber getrennt ist.  
+- *Als Gemeinde* möchte ich die Credentials Volksbegehren-spezifisch ausstellen,  
+  *damit* jedes Volksbegehren sauber getrennt ist.  
 
 ### Initiativkomitee
 - *Als Initiativkomitee* möchte ich die gesammelten Unterstützungen öffentlich verifizieren können,  
@@ -57,29 +57,29 @@ Die Lösung soll:
 1. Bürger:in authentifiziert sich über **swiyu E-ID App**.  
 2. Gemeinde prüft Stimmberechtigung im Stimmregister.  
 3. Gemeinde stellt ein **Stimmregister-Credential** aus:  
-   - Enthält: *Initiative-ID (Salt)*, Stimmberechtigung.  
+   - Enthält: *Volksbegehren-ID (Salt)*, Stimmberechtigung.  
    - Wird anonym im Wallet gespeichert.  
 
 ### B) Stimmabgabe / Unterschrift
-1. Bürger:in wählt in der App die Initiative (über ID/QR-Code).  
+1. Bürger:in wählt in der App das Volksbegehren (über ID/QR-Code).  
 2. App generiert **Zero-Knowledge-Proof**:  
-   - „Ich habe ein gültiges Stimmregister-Credential für Initiative X.“  
-   - „Ich habe für Initiative X noch nicht unterschrieben.“  
-3. Nullifier = Funktion(Credential + Initiative-ID).  
-4. Stimme/Unterstützung wird verschlüsselt ins **öffentliche Log** eingetragen.  
+   - „Ich habe ein gültiges Stimmregister-Credential für Volksbegehren X.“  
+   - „Ich habe für Volksbegehren X noch nicht unterschrieben.“  
+3. Nullifier = Funktion(Credential + Volksbegehren-ID).  
+4. Volksbegehren wird verschlüsselt ins **öffentliche Log** eingetragen.  
 
 ### C) Verifikation & Auszählung
 1. Jeder Bürger kann im Log prüfen, ob sein **Nullifier** erscheint.  
-2. Initiativkomitee und Auditor:innen zählen die gültigen Nullifier.  
-3. Ergebnis: Anzahl gültiger Unterstützungen (≥ Schwelle → Initiative gültig).  
+2. Komitees und Auditor:innen zählen die gültigen Nullifier.  
+3. Ergebnis: Anzahl gültiger Unterstützungen (≥ Schwelle → Volksbegehren gültig).  
 
 ---
 
 ## 5. Funktionale Anforderungen
-- **Eindeutigkeit**: Jede Person darf pro Initiative genau einmal teilnehmen.  
-- **Anonymität**: Stimmen dürfen nicht auf Personen zurückführbar sein.  
+- **Eindeutigkeit**: Jede Person darf pro Volksbegehren genau einmal teilnehmen.  
+- **Anonymität**: Unterstützungsbekundungen dürfen nicht auf Personen zurückführbar sein.  
 - **Öffentliche Prüfbarkeit**: Log ist öffentlich zugänglich, Beweise maschinenlesbar.  
-- **Initiative-ID als Salt**: Für jede Initiative eindeutig, öffentlich, nicht geheim.  
+- **Volksbegehren-ID als Salt**: Für jedes Volksbegehren eindeutig, öffentlich, nicht geheim.  
 - **Kompatibilität**: Integration in bestehende Rechts- und Gemeindeprozesse.  
 
 ---
@@ -87,7 +87,7 @@ Die Lösung soll:
 ## 6. Nicht-funktionale Anforderungen
 - **Sicherheit**: Kryptografisch gesichert (ZK-Proofs, Nullifier, SSI).  
 - **Datenschutz**: DSGVO- und DSG-konform, keine Speicherung von PII im Log.  
-- **Skalierbarkeit**: Tausende gleichzeitige Stimmen müssen möglich sein.  
+- **Skalierbarkeit**: Tausende gleichzeitige Unterstützungsbekundungen müssen möglich sein.  
 - **Barrierefreiheit**: App in DE/FR/IT/RM, Screenreader-Unterstützung.  
 - **Resilienz**: Redundante Infrastruktur, Fallback bei Ausfall.  
 
@@ -102,7 +102,7 @@ Die Lösung soll:
 ---
 
 ## 8. Rechtlicher Rahmen
-- **Anpassung Volksinitiative-Gesetz**: Digitale Unterschriften = rechtsgültig.  
+- **Anpassung Wahlgesetz**: E-Collecting = rechtsgültig.  
 - **Gemeinde-Integration**: Gemeinden bleiben die autoritativen Prüfer.  
 - **Transparenzpflicht**: Quelloffene Software, Audits vor Einführung.  
 
