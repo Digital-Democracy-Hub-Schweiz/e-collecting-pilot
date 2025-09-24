@@ -62,7 +62,7 @@ export function GemeindeCredentialIssuer() {
   const [streetAddress, setStreetAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
-  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5 | 6>(1);
 
   // E-ID verification state
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
@@ -376,8 +376,8 @@ export function GemeindeCredentialIssuer() {
         description: t('forms:gemeinde.success.description')
       });
 
-      // Gehe zu Step 5 (Erfolg)
-      setStep(5);
+      // Gehe zu Step 6 (Erfolg)
+      setStep(6);
 
     } catch (e: any) {
       setBanner({
@@ -431,7 +431,7 @@ export function GemeindeCredentialIssuer() {
             tabIndex={-1}
             className="text-[24px] leading-[32px] sm:text-[28px] sm:leading-[36px] md:text-[32px] md:leading-[43px] font-semibold text-[#1f2937] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1f2937]/40"
           >
-{t('forms:step', { current: step, total: 5 })}
+{t('forms:step', { current: step, total: 6 })}
           </h1>
         </div>
 
@@ -649,42 +649,6 @@ export function GemeindeCredentialIssuer() {
                         </div>
                       </div>
 
-                      {/* E-ID Verification Section */}
-                      <div className="py-4 mt-8">
-                        <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
-                          {t('forms:step4.verification.title', 'E-ID Ausweis')}
-                        </div>
-                      </div>
-                      
-                      {!verifiedEIdData && !verificationUrl && (
-                        <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
-                          {t('forms:gemeinde.step2.verificationDescription', 'Bitte weisen Sie sich mit Ihrer E-ID aus, um fortzufahren.')}
-                        </div>
-                      )}
-
-                      {verificationUrl && !verifiedEIdData && (
-                        <>
-                          <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
-                            {t('forms:step4.verification.description')}
-                          </div>
-                          <div className="flex items-center justify-center py-6">
-                            <QRCode value={verificationUrl} size={192} />
-                          </div>
-                        </>
-                      )}
-
-                      {verifiedEIdData && (
-                        <div className="p-4 bg-green-50 rounded-[3px] border border-green-200 mb-6">
-                          <h4 className="text-[18px] font-semibold text-green-800 mb-2">
-                            {t('forms:gemeinde.step2.verification.success')}
-                          </h4>
-                          <div className="space-y-1 text-green-700 text-[14px]">
-                            <div><strong>{t('forms:gemeinde.firstName', 'Vorname')}:</strong> {verifiedEIdData.given_name}</div>
-                            <div><strong>{t('forms:gemeinde.lastName', 'Name')}:</strong> {verifiedEIdData.family_name}</div>
-                            <div><strong>{t('forms:gemeinde.birthDate', 'Geburtsdatum')}:</strong> {verifiedEIdData.birth_date}</div>
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
 
@@ -697,43 +661,15 @@ export function GemeindeCredentialIssuer() {
                     >
                       {t('common:back')}
                     </Button>
-                    
-                    {!verifiedEIdData && !verificationUrl && (
-                      <Button
-                        variant="filled"
-                        size="xl"
-                        onClick={handleCreateEIdVerification}
-                        disabled={isCreatingVerification}
-                        className="w-full sm:w-auto"
-                      >
-                        {isCreatingVerification && <RefreshCw className="w-5 h-5 mr-2 animate-spin" />}
-                        {t('forms:gemeinde.step2.startVerification', 'E-ID Verifikation starten')}
-                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                      </Button>
-                    )}
-
-                    {verificationUrl && !verifiedEIdData && (
-                      <button
-                        onClick={() => verificationUrl && (window.location.href = `swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`)}
-                        disabled={!verificationUrl}
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {t('forms:step4.verification.openWallet')}
-                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                      </button>
-                    )}
-
-                    {verifiedEIdData && (
-                      <Button
-                        variant="filled"
-                        size="xl"
-                        onClick={() => setStep(3)}
-                        className="w-full sm:w-auto"
-                      >
-                        {t('common:next')}
-                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                      </Button>
-                    )}
+                    <Button
+                      variant="filled"
+                      size="xl"
+                      onClick={() => setStep(3)}
+                      className="w-full sm:w-auto"
+                    >
+                      {t('common:next')}
+                      <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                    </Button>
                   </div>
                 </div>
               )}
@@ -805,19 +741,120 @@ export function GemeindeCredentialIssuer() {
                     <Button
                       variant="filled"
                       size="xl"
-                      onClick={handleNextFromStep3}
-                      disabled={filteredVolksbegehrenOptions.length === 0}
+                      onClick={() => setStep(4)}
+                      disabled={filteredVolksbegehrenOptions.length === 0 || !selectedVolksbegehrenId}
                       className="w-full sm:w-auto"
                     >
-                      {t('forms:gemeinde.step3.issueCredential', 'Stimmregister-VC ausstellen')}
+                      {t('common:next')}
                       <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                     </Button>
                   </div>
                 </div>
               )}
 
-              {/* Step 4: Zusammenfassung */}
+              {/* Step 4: E-ID Verifikation mit swiyu-Wallet */}
               {step === 4 && (
+                <div className="space-y-6 w-full">
+                  <div className="space-y-4">
+                    <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
+                      <div className="py-4">
+                        <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
+                          {t('forms:step4.verification.title', 'Verifikation mit swiyu-Wallet')}
+                        </div>
+                      </div>
+                      
+                      {!verificationUrl && (
+                        <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
+                          Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App, um sich auszuweisen. Nach dem erfolgreichen Identifizieren wird Ihre Willensbekundung erstellt.
+                        </div>
+                      )}
+
+                      {verificationUrl && !verifiedEIdData && (
+                        <>
+                          <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
+                            Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App, um sich auszuweisen. Nach dem erfolgreichen Identifizieren wird Ihre Willensbekundung erstellt.
+                          </div>
+                          <div className="flex items-center justify-center py-8">
+                            <div className="text-center">
+                              <QRCode value={verificationUrl} size={256} />
+                              <p className="text-[14px] text-[#6b7280] mt-4">
+                                QR-Code mit swiyu-Wallet App scannen
+                              </p>
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      {verifiedEIdData && (
+                        <div className="p-6 bg-green-50 rounded-[3px] border border-green-200 mb-6">
+                          <div className="flex items-center gap-3 mb-4">
+                            <CheckCircle2 className="w-8 h-8 text-green-600" />
+                            <h4 className="text-[20px] font-semibold text-green-800">
+                              E-ID erfolgreich verifiziert
+                            </h4>
+                          </div>
+                          <div className="space-y-2 text-green-700">
+                            <div><strong>Vorname:</strong> {verifiedEIdData.given_name}</div>
+                            <div><strong>Name:</strong> {verifiedEIdData.family_name}</div>
+                            <div><strong>Geburtsdatum:</strong> {verifiedEIdData.birth_date}</div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                    <Button
+                      variant="bare"
+                      size="xl"
+                      onClick={() => { setBanner(null); setStep(3); }}
+                      className="w-full sm:w-auto"
+                    >
+                      {t('common:back')}
+                    </Button>
+                    
+                    {!verificationUrl && (
+                      <Button
+                        variant="filled"
+                        size="xl"
+                        onClick={handleCreateEIdVerification}
+                        disabled={isCreatingVerification}
+                        className="w-full sm:w-auto"
+                      >
+                        {isCreatingVerification && <RefreshCw className="w-5 h-5 mr-2 animate-spin" />}
+                        QR-Code generieren
+                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                      </Button>
+                    )}
+
+                    {verificationUrl && !verifiedEIdData && (
+                      <button
+                        onClick={() => verificationUrl && (window.location.href = `swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`)}
+                        disabled={!verificationUrl}
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        swiyu-Wallet öffnen
+                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                      </button>
+                    )}
+
+                    {verifiedEIdData && (
+                      <Button
+                        variant="filled"
+                        size="xl"
+                        onClick={handleNextFromStep3}
+                        className="w-full sm:w-auto"
+                      >
+                        Stimmregister-VC ausstellen
+                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Step 5: Zusammenfassung (optional) */}
+              {step === 5 && (
                 <div className="space-y-6 w-full">
                   <div className="space-y-4">
                     <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
@@ -918,8 +955,8 @@ export function GemeindeCredentialIssuer() {
                 </div>
               )}
 
-              {/* Step 5: Erfolg - Stimmregister-VC ausgestellt */}
-              {step === 5 && (
+              {/* Step 6: Erfolg - Stimmregister-VC ausgestellt */}
+              {step === 6 && (
                 <div className="space-y-6 w-full">
                   <div className="space-y-4">
                     <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
