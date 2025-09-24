@@ -10,6 +10,7 @@ import Volksbegehren from "./pages/Volksbegehren";
 import Anleitung from "./pages/Anleitung";
 import NotFound from "./pages/NotFound";
 import Impressum from "./pages/Impressum";
+import EIdCredentialFlow from "./pages/EIdCredentialFlow";
 import { LanguageDetector } from "@/components/LanguageDetector";
 import { useEffect } from "react";
 import { getLocalizedPath, type SupportedLanguage } from "@/utils/routing";
@@ -159,6 +160,11 @@ const App = () => {
               <Volksbegehren />
             </LanguageWrapper>
           } />
+          <Route path="/:lang/stimmregister" element={
+            <LanguageWrapper>
+              <EIdCredentialFlow />
+            </LanguageWrapper>
+          } />
           
           {/* English routes */}
           <Route path="/:lang/project" element={
@@ -174,6 +180,11 @@ const App = () => {
           <Route path="/:lang/popular-vote" element={
             <LanguageWrapper>
               <Volksbegehren />
+            </LanguageWrapper>
+          } />
+          <Route path="/:lang/electoral-register" element={
+            <LanguageWrapper>
+              <EIdCredentialFlow />
             </LanguageWrapper>
           } />
           
@@ -193,6 +204,11 @@ const App = () => {
               <Volksbegehren />
             </LanguageWrapper>
           } />
+          <Route path="/:lang/registre-electoral" element={
+            <LanguageWrapper>
+              <EIdCredentialFlow />
+            </LanguageWrapper>
+          } />
           
           {/* Italian routes */}
           <Route path="/:lang/progetto" element={
@@ -210,6 +226,11 @@ const App = () => {
               <Volksbegehren />
             </LanguageWrapper>
           } />
+          <Route path="/:lang/registro-elettorale" element={
+            <LanguageWrapper>
+              <EIdCredentialFlow />
+            </LanguageWrapper>
+          } />
           
           {/* Romansh routes */}
           <Route path="/:lang/instrucziuns" element={
@@ -220,6 +241,11 @@ const App = () => {
           <Route path="/:lang/dumonda-populara" element={
             <LanguageWrapper>
               <Volksbegehren />
+            </LanguageWrapper>
+          } />
+          <Route path="/:lang/register-da-votar" element={
+            <LanguageWrapper>
+              <EIdCredentialFlow />
             </LanguageWrapper>
           } />
           
