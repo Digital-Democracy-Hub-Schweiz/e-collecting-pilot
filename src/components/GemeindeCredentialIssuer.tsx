@@ -29,7 +29,7 @@ const hashString = async (str: string): Promise<string> => {
 // Gemeinde Issuer API Service
 const gemeindeIssuerAPI = {
   async issueStimmregisterCredential(payload: any) {
-    const response = await fetch('https://issuer-gemeinde.ecollecting.ch/api/v1/credentials', {
+    const response = await fetch('https://issuer-gemeinde.ecollecting.ch/management/api/credentials', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -358,7 +358,7 @@ export function GemeindeCredentialIssuer() {
 
       const response = await gemeindeIssuerAPI.issueStimmregisterCredential(payload);
       
-      setIssuedCredentialId(response.id || response.management_id || null);
+      setIssuedCredentialId(response.management_id || null);
       setOfferDeeplink(response.offer_deeplink || null);
       
       setBanner({
