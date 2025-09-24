@@ -989,56 +989,6 @@ export function GemeindeCredentialIssuer() {
                   </div>
                 </div>
               )}
-                          <div className="py-4">
-                            <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
-                              {t('forms:gemeinde.success.title', 'Stimmregister-Credential ausgestellt')}
-                            </div>
-                          </div>
-                          <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
-                            {t('forms:gemeinde.success.description', 'Ihr Stimmregister-Credential wurde erfolgreich ausgestellt. Scannen Sie den QR-Code mit Ihrer swiyu E-ID App.')}
-                          </div>
-
-                          {/* Verifizierte E-ID Daten anzeigen */}
-                          {verifiedEIdData && (
-                            <div className="mb-6 p-4 bg-green-50 rounded-[3px] border border-green-200">
-                              <h4 className="text-[18px] font-semibold text-green-800 mb-2">
-                                {t('forms:gemeinde.success.verifiedData', 'Verifizierte Daten')}
-                              </h4>
-                              <div className="space-y-1 text-green-700">
-                                <div><strong>{t('forms:gemeinde.firstName', 'Vorname')}:</strong> {verifiedEIdData.given_name}</div>
-                                <div><strong>{t('forms:gemeinde.lastName', 'Name')}:</strong> {verifiedEIdData.family_name}</div>
-                                <div><strong>{t('forms:gemeinde.birthDate', 'Geburtsdatum')}:</strong> {verifiedEIdData.birth_date}</div>
-                              </div>
-                            </div>
-                          )}
-
-                          {offerDeeplink && (
-                            <div className="flex items-center justify-center py-6">
-                              <QRCode value={offerDeeplink} size={192} />
-                            </div>
-                          )}
-                          <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                            <button
-                              onClick={handleShare}
-                              className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px]"
-                            >
-                              <Share2 className="w-4 h-4 mr-2" /> {t('forms:shareVolksbegehren', 'Volksbegehren teilen')}
-                            </button>
-                            <button
-                              onClick={() => offerDeeplink && (window.location.href = offerDeeplink)}
-                              disabled={!offerDeeplink}
-                              className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              {t('forms:gemeinde.success.downloadCredential', 'Credential herunterladen')}
-                              <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                            </button>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
