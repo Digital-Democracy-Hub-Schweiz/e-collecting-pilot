@@ -84,7 +84,8 @@
     "services": {
       "verifierMgmt": "Verifier-Mgmt",
       "issuerMgmt": "Issuer-Mgmt",
-      "issuerOid4vci": "Issuer-OID4VCI"
+      "issuerOid4vci": "Issuer-OID4VCI",
+      "issuerGemeinde": "Vischnanca"
     }
   }
 }

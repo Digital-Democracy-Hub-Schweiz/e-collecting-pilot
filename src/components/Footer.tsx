@@ -178,6 +178,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                     <StatusItem label={t('common:footer.services.verifierMgmt')} statusValue={healthLoading ? t('common:loading') : healthStatus?.verifierManagement?.status} />
                     <StatusItem label={t('common:footer.services.issuerMgmt')} statusValue={healthLoading ? t('common:loading') : healthStatus?.issuerManagement?.status} />
                     <StatusItem label={t('common:footer.services.issuerOid4vci')} statusValue={healthLoading ? t('common:loading') : healthStatus?.issuerOid4vci?.status} />
+                    <StatusItem label={t('common:footer.services.issuerGemeinde')} statusValue={healthLoading ? t('common:loading') : healthStatus?.issuerGemeinde?.status} />
                   </div>
                 </div>
               </div>
@@ -266,6 +267,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                 <StatusItem label={t('common:footer.services.verifierMgmt')} statusValue={healthLoading ? t('common:loading') : healthStatus?.verifierManagement?.status} />
                 <StatusItem label={t('common:footer.services.issuerMgmt')} statusValue={healthLoading ? t('common:loading') : healthStatus?.issuerManagement?.status} />
                 <StatusItem label={t('common:footer.services.issuerOid4vci')} statusValue={healthLoading ? t('common:loading') : healthStatus?.issuerOid4vci?.status} />
+                <StatusItem label={t('common:footer.services.issuerGemeinde')} statusValue={healthLoading ? t('common:loading') : healthStatus?.issuerGemeinde?.status} />
               </div>
             </div>
           </div>
