@@ -979,7 +979,7 @@ export function GemeindeCredentialIssuer() {
               {step === 5 && (
                 <div className="space-y-6 w-full">
                   <div className="space-y-4">
-                    <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
+                    <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6 max-w-full">
                       <div className="py-4">
                         <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
                           Stimmregister-Nachweis erfolgreich erstellt
@@ -991,7 +991,7 @@ export function GemeindeCredentialIssuer() {
                       </div>
                       
                       {/* Initiative Info */}
-                      <div className="mb-6 p-4 bg-blue-50 rounded-[3px] border border-blue-200">
+                      <div className="mb-6 p-4 bg-blue-50 rounded-[3px] border border-blue-200 w-full">
                         <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-blue-900 font-medium">
                           Initiative: "{selectedItem?.title || 'Unbekannte Initiative'}"
                         </div>
@@ -1002,31 +1002,23 @@ export function GemeindeCredentialIssuer() {
                         )}
                       </div>
                       
-                      {/* Status-Anzeige */}
-                      {credentialStatus && (
-                        <div className="mb-6 p-4 bg-gray-50 rounded-[3px] border">
-                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-                            <span className="text-[14px] leading-[20px] sm:text-[16px] sm:leading-[24px] text-[#1f2937] font-medium">
-                              Credential Status:
-                            </span>
-                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getStatusDisplay(credentialStatus).bgColor} ${getStatusDisplay(credentialStatus).color} w-fit`}>
-                              {getStatusDisplay(credentialStatus).text}
-                            </span>
-                          </div>
-                          {issuedCredentialId && (
-                            <div className="mt-3 text-[12px] sm:text-[14px] text-[#6b7280] break-all">
-                              ID: {issuedCredentialId}
+                      {offerDeeplink && (
+                        <div className="flex flex-col items-center py-6 w-full">
+                          <QRCode value={offerDeeplink} size={192} />
+                          {credentialStatus && (
+                            <div className="mt-4 flex items-center gap-2">
+                              <span className="text-[14px] leading-[20px] sm:text-[16px] sm:leading-[24px] text-[#1f2937] font-medium">
+                                Status:
+                              </span>
+                              <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getStatusDisplay(credentialStatus).bgColor} ${getStatusDisplay(credentialStatus).color}`}>
+                                {getStatusDisplay(credentialStatus).text}
+                              </span>
                             </div>
                           )}
                         </div>
                       )}
                       
-                      {offerDeeplink && (
-                        <div className="flex items-center justify-center py-6">
-                          <QRCode value={offerDeeplink} size={192} />
-                        </div>
-                      )}
-                      <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                      <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end w-full">
                         <button
                           onClick={() => offerDeeplink && (window.location.href = offerDeeplink)}
                           disabled={!offerDeeplink}
