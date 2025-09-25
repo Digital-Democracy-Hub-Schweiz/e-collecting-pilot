@@ -68,11 +68,11 @@ const EIdCredentialFlow = () => {
           <PageContainer paddingYClassName="py-0">
             <div className="py-14 md:py-16 flex flex-col items-start">
               <h1 className="sd-h1 max-w-[1024px]">
-                {t('content:gemeinde.hero.title', 'Stimmregister-Credential mit swiyu E-ID')}
+                {t('content:gemeinde.hero.title', 'Stimmregister-Nachweis für anonyme Willensbekundungen')}
               </h1>
               <div className="h-6 md:h-10" />
               <p className="sd-lead max-w-[1024px]">
-                {t('content:gemeinde.hero.description', 'Geben Sie Ihre Adresse ein, um Ihre Gemeinde zu ermitteln und verfügbare Volksbegehren anzuzeigen. Anschliessend weisen Sie sich mit Ihrer swiyu E-ID aus und erhalten ein Stimmregister-Credential.')}
+                {t('content:gemeinde.hero.description', 'Weisen Sie Ihre Stimmberechtigung nach und erhalten Sie ein digitales Stimmregister-Credential. Damit können Sie später fälschungssicher, anonym und nur einmal pro Volksbegehren Ihre Willensbekundung abgeben – ohne dass Ihre Identität preisgegeben wird.')}
               </p>
             </div>
             <div className="h-24 opacity-0" />

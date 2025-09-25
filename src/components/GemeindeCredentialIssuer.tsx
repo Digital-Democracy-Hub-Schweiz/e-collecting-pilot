@@ -17,6 +17,34 @@ import { NativeAddressSearch } from "@/components/ui/native-address-search";
 import { AddressHit } from "@/services/addressAPI";
 import { createTitleVariants } from "@/lib/title-utils";
 
+// Status-Anzeige Helper Funktion
+const getStatusDisplay = (status: string | null) => {
+  if (!status) return { text: 'Unbekannt', color: 'text-gray-500', bgColor: 'bg-gray-100' };
+  
+  switch (status) {
+    case 'OFFERED':
+      return { text: 'Angeboten', color: 'text-blue-700', bgColor: 'bg-blue-100' };
+    case 'CANCELLED':
+      return { text: 'Abgebrochen', color: 'text-red-700', bgColor: 'bg-red-100' };
+    case 'IN_PROGRESS':
+      return { text: 'In Bearbeitung', color: 'text-yellow-700', bgColor: 'bg-yellow-100' };
+    case 'DEFERRED':
+      return { text: 'Verschoben', color: 'text-orange-700', bgColor: 'bg-orange-100' };
+    case 'READY':
+      return { text: 'Bereit', color: 'text-green-700', bgColor: 'bg-green-100' };
+    case 'ISSUED':
+      return { text: 'Ausgestellt', color: 'text-green-700', bgColor: 'bg-green-100' };
+    case 'SUSPENDED':
+      return { text: 'Gesperrt', color: 'text-orange-700', bgColor: 'bg-orange-100' };
+    case 'REVOKED':
+      return { text: 'Widerrufen', color: 'text-red-700', bgColor: 'bg-red-100' };
+    case 'EXPIRED':
+      return { text: 'Abgelaufen', color: 'text-gray-700', bgColor: 'bg-gray-100' };
+    default:
+      return { text: status, color: 'text-gray-700', bgColor: 'bg-gray-100' };
+  }
+};
+
 // Hash-Funktion für Volksbegehren-ID
 const hashString = async (str: string): Promise<string> => {
   const encoder = new TextEncoder();
@@ -35,6 +63,21 @@ const gemeindeIssuerAPI = {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    return await response.json();
+  },
+
+  async getCredentialStatus(credentialId: string) {
+    const response = await fetch(`https://issuer-gemeinde.ecollecting.ch/management/api/credentials/${credentialId}/status`, {
+      method: 'GET',
+      headers: {
+        'Accept': '*/*',
+      },
     });
 
     if (!response.ok) {
@@ -77,6 +120,7 @@ export function GemeindeCredentialIssuer() {
   // Credential issuing state
   const [issuedCredentialId, setIssuedCredentialId] = useState<string | null>(null);
   const [offerDeeplink, setOfferDeeplink] = useState<string | null>(null);
+  const [credentialStatus, setCredentialStatus] = useState<string | null>(null);
 
   // UI state
   const [municipalityDetails, setMunicipalityDetails] = useState<{
@@ -133,6 +177,28 @@ export function GemeindeCredentialIssuer() {
       handleCreateEIdVerification();
     }
   }, [step]);
+
+  // Status-Polling für ausgestellte Credentials
+  useEffect(() => {
+    if (!issuedCredentialId || step !== 5) return;
+
+    const pollStatus = async () => {
+      try {
+        const statusResponse = await gemeindeIssuerAPI.getCredentialStatus(issuedCredentialId);
+        setCredentialStatus(statusResponse.status);
+      } catch (error) {
+        console.error('Failed to fetch credential status:', error);
+      }
+    };
+
+    // Initial status check
+    pollStatus();
+
+    // Poll status every 10 seconds
+    const intervalId = setInterval(pollStatus, 10000);
+
+    return () => clearInterval(intervalId);
+  }, [issuedCredentialId, step]);
 
   const volksbegehrenOptions: Option[] = useMemo(() => {
     if (!type) return [];
@@ -920,6 +986,26 @@ export function GemeindeCredentialIssuer() {
                           <span className="hidden sm:inline">Stimmregister-Auszug erfolgreich erstellt</span>
                         </div>
                       </div>
+                      
+                      {/* Status-Anzeige */}
+                      {credentialStatus && (
+                        <div className="mb-6 p-4 bg-gray-50 rounded-[3px] border">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                            <span className="text-[14px] leading-[20px] sm:text-[16px] sm:leading-[24px] text-[#1f2937] font-medium">
+                              Credential Status:
+                            </span>
+                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getStatusDisplay(credentialStatus).bgColor} ${getStatusDisplay(credentialStatus).color} w-fit`}>
+                              {getStatusDisplay(credentialStatus).text}
+                            </span>
+                          </div>
+                          {issuedCredentialId && (
+                            <div className="mt-3 text-[12px] sm:text-[14px] text-[#6b7280] break-all">
+                              ID: {issuedCredentialId}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
                       <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[20px] md:leading-[30px] lg:text-[22px] lg:leading-[33px] text-[#1f2937] font-medium mb-6">
                         Der Stimmregister-Auszug kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrer swiyu-Wallet App oder klicken Sie auf den Button.
                       </div>
