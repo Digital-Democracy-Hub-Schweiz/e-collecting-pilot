@@ -968,7 +968,7 @@ export function GemeindeCredentialIssuer() {
                       disabled={filteredVolksbegehrenOptions.length === 0 && type !== ""}
                       className="w-full sm:w-auto"
                     >
-                      Stimmregister-Auszug erstellen
+                      Stimmregister-Nachweis erstellen
                       <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                     </Button>
                   </div>
@@ -981,10 +981,25 @@ export function GemeindeCredentialIssuer() {
                   <div className="space-y-4">
                     <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
                       <div className="py-4">
-                        <div className="text-[24px] leading-[30px] sm:text-[28px] sm:leading-[36px] md:text-[32px] md:leading-[43px] font-semibold text-[#1f2937] break-words">
-                          <span className="sm:hidden">Stimmregister-Auszug erstellt</span>
-                          <span className="hidden sm:inline">Stimmregister-Auszug erfolgreich erstellt</span>
+                        <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
+                          Stimmregister-Nachweis erfolgreich erstellt
                         </div>
+                      </div>
+                      
+                      <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
+                        Der Stimmregister-Nachweis kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrer swiyu-Wallet App oder klicken Sie auf den Button.
+                      </div>
+                      
+                      {/* Initiative Info */}
+                      <div className="mb-6 p-4 bg-blue-50 rounded-[3px] border border-blue-200">
+                        <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-blue-900 font-medium">
+                          Initiative: "{selectedItem?.title || 'Unbekannte Initiative'}"
+                        </div>
+                        {selectedItem?.level && (
+                          <div className="mt-1 text-[14px] leading-[20px] sm:text-[16px] sm:leading-[24px] text-blue-700">
+                            Ebene: {selectedItem.level}
+                          </div>
+                        )}
                       </div>
                       
                       {/* Status-Anzeige */}
@@ -1006,24 +1021,19 @@ export function GemeindeCredentialIssuer() {
                         </div>
                       )}
                       
-                      <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[20px] md:leading-[30px] lg:text-[22px] lg:leading-[33px] text-[#1f2937] font-medium mb-6">
-                        Der Stimmregister-Auszug kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrer swiyu-Wallet App oder klicken Sie auf den Button.
-                      </div>
                       {offerDeeplink && (
-                        <div className="flex items-center justify-center py-4 sm:py-6">
-                          <QRCode value={offerDeeplink} size={160} className="sm:hidden" />
-                          <QRCode value={offerDeeplink} size={192} className="hidden sm:block" />
+                        <div className="flex items-center justify-center py-6">
+                          <QRCode value={offerDeeplink} size={192} />
                         </div>
                       )}
-                      <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:justify-end">
+                      <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
                         <button
                           onClick={() => offerDeeplink && (window.location.href = offerDeeplink)}
                           disabled={!offerDeeplink}
-                          className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2.5 sm:px-5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-11 sm:h-12 text-[14px] leading-[20px] sm:text-[16px] sm:leading-[24px] md:text-[18px] md:leading-[28px] lg:text-[20px] lg:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          <span className="sm:hidden">Herunterladen</span>
-                          <span className="hidden sm:inline">Stimmregister-Auszug herunterladen</span>
-                          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-1 sm:ml-2" aria-hidden />
+                          Stimmregister-Nachweis herunterladen
+                          <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                         </button>
                       </div>
                     </div>
