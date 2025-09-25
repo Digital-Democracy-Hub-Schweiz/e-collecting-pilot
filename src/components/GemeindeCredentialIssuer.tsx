@@ -566,7 +566,7 @@ export function GemeindeCredentialIssuer() {
         )}
 
         <div className="space-y-6">
-          <div className={cn("grid gap-6 md:gap-8", issuedCredentialId ? "md:grid-cols-2" : "")}> 
+          <div className="grid gap-6 md:gap-8"> 
             <div className="space-y-4 w-full">
 
               {/* Step 1: Adresse eingeben */}
