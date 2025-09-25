@@ -63,7 +63,7 @@ export function GemeindeCredentialIssuer() {
   const [streetAddress, setStreetAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
-  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
 
   // E-ID verification state
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
@@ -126,6 +126,13 @@ export function GemeindeCredentialIssuer() {
       };
     });
   }, [volksbegehren]);
+
+  // Automatisch E-ID Verifikation starten wenn Step 3 betreten wird
+  useEffect(() => {
+    if (step === 3 && !verificationUrl && !verifiedEIdData && !isCreatingVerification) {
+      handleCreateEIdVerification();
+    }
+  }, [step]);
 
   const volksbegehrenOptions: Option[] = useMemo(() => {
     if (!type) return [];
@@ -329,7 +336,7 @@ export function GemeindeCredentialIssuer() {
           });
 
           // Nach E-ID Verifikation zu Volksbegehren-Auswahl
-          setStep(3);
+          setStep(4);
           
         } else if (result.state === 'FAILED') {
           clearInterval(pollInterval);
@@ -386,8 +393,8 @@ export function GemeindeCredentialIssuer() {
         description: t('forms:gemeinde.success.description')
       });
 
-      // Gehe zu Step 4 (Erfolg)
-      setStep(4);
+      // Gehe zu Step 5 (Erfolg)
+      setStep(5);
 
     } catch (e: any) {
       setBanner({
@@ -441,7 +448,7 @@ export function GemeindeCredentialIssuer() {
             tabIndex={-1}
             className="text-[24px] leading-[32px] sm:text-[28px] sm:leading-[36px] md:text-[32px] md:leading-[43px] font-semibold text-[#1f2937] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1f2937]/40"
           >
-{t('forms:step', { current: step, total: 4 })}
+{t('forms:step', { current: step, total: 5 })}
           </h1>
         </div>
 
@@ -590,7 +597,7 @@ export function GemeindeCredentialIssuer() {
                       disabled={isCreatingVerification || !streetAddress || !postalCode || !city}
                       className="w-full sm:w-auto"
                     >
-                      {t('forms:gemeinde.step2.startVerification', 'E-ID Verifikation starten')}
+{t('common:next')}
                       <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                     </Button>
                   </div>
@@ -659,18 +666,45 @@ export function GemeindeCredentialIssuer() {
                         </div>
                       </div>
 
-                      {/* E-ID Verification Section */}
-                      <div className="py-4 mt-8">
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                    <Button
+                      variant="bare"
+                      size="xl"
+                      onClick={() => { setBanner(null); setStep(1); }}
+                      className="w-full sm:w-auto"
+                    >
+                      {t('common:back')}
+                    </Button>
+                    <Button
+                      variant="filled"
+                      size="xl"
+                      onClick={() => setStep(3)}
+                      className="w-full sm:w-auto"
+                    >
+                      Verifikation mit swiyu-Wallet
+                      <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3: E-ID Verifikation mit swiyu-Wallet */}
+              {step === 3 && (
+                <div className="space-y-6 w-full">
+                  <div className="space-y-4">
+                    <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
+                      <div className="py-4">
                         <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
                           {t('forms:step4.verification.title', 'Verifikation mit swiyu-Wallet')}
                         </div>
                       </div>
                       
-                      {!verificationUrl && (
-                        <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
-                          Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App, um sich auszuweisen. Nach dem erfolgreichen Identifizieren wird Ihre Willensbekundung erstellt.
-                        </div>
-                      )}
+                      <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
+                        Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App, um sich auszuweisen. Nach dem erfolgreichen Identifizieren wird Ihre Willensbekundung erstellt.
+                      </div>
 
                       {verificationUrl && !verifiedEIdData && (
                         <>
@@ -710,25 +744,12 @@ export function GemeindeCredentialIssuer() {
                     <Button
                       variant="bare"
                       size="xl"
-                      onClick={() => { setBanner(null); setStep(1); }}
+                      onClick={() => { setBanner(null); setStep(2); }}
                       className="w-full sm:w-auto"
                     >
                       {t('common:back')}
                     </Button>
                     
-                    {!verificationUrl && (
-                      <Button
-                        variant="filled"
-                        size="xl"
-                        onClick={handleCreateEIdVerification}
-                        disabled={isCreatingVerification}
-                        className="w-full sm:w-auto"
-                      >
-                        {isCreatingVerification && <RefreshCw className="w-5 h-5 mr-2 animate-spin" />}
-                        QR-Code generieren
-                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                      </Button>
-                    )}
 
                     {verificationUrl && !verifiedEIdData && (
                       <button
@@ -736,7 +757,7 @@ export function GemeindeCredentialIssuer() {
                         disabled={!verificationUrl}
                         className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        swiyu-Wallet öffnen
+{t('forms:step4.verification.openWallet')}
                         <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                       </button>
                     )}
@@ -745,7 +766,7 @@ export function GemeindeCredentialIssuer() {
                       <Button
                         variant="filled"
                         size="xl"
-                        onClick={() => setStep(3)}
+                        onClick={() => setStep(4)}
                         className="w-full sm:w-auto"
                       >
                         {t('common:next')}
@@ -756,8 +777,8 @@ export function GemeindeCredentialIssuer() {
                 </div>
               )}
 
-              {/* Step 3: Volksbegehren auswählen */}
-              {step === 3 && (
+              {/* Step 4: Volksbegehren auswählen */}
+              {step === 4 && (
                 <div className="space-y-6 w-full">
                   <div>
                     <h2 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">
@@ -843,7 +864,7 @@ export function GemeindeCredentialIssuer() {
                     <Button
                       variant="bare"
                       size="xl"
-                      onClick={() => { setBanner(null); setStep(2); }}
+                      onClick={() => { setBanner(null); setStep(3); }}
                       className="w-full sm:w-auto"
                     >
                       {t('common:back')}
@@ -876,7 +897,7 @@ export function GemeindeCredentialIssuer() {
                         }
                         setBanner(null);
                         setFieldErrors({});
-                        handleNextFromStep3();
+                        handleIssueStimmregisterCredential();
                       }}
                       disabled={filteredVolksbegehrenOptions.length === 0 && type !== ""}
                       className="w-full sm:w-auto"
@@ -888,8 +909,8 @@ export function GemeindeCredentialIssuer() {
                 </div>
               )}
 
-              {/* Step 4: Erfolg - Stimmregister-VC ausgestellt */}
-              {step === 4 && (
+              {/* Step 5: Erfolg - Stimmregister-VC ausgestellt */}
+              {step === 5 && (
                 <div className="space-y-6 w-full">
                   <div className="space-y-4">
                     <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
