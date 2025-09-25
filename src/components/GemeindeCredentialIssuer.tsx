@@ -902,110 +902,47 @@ export function GemeindeCredentialIssuer() {
                       disabled={filteredVolksbegehrenOptions.length === 0 && type !== ""}
                       className="w-full sm:w-auto"
                     >
-                      {t('common:next')}
+                      Stimmregister-Auszug erstellen
                       <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                     </Button>
                   </div>
                 </div>
               )}
 
-              {/* Step 5: Erfolg - Stimmregister-VC ausgestellt */}
+              {/* Step 5: Stimmregister-VC Download */}
               {step === 5 && (
                 <div className="space-y-6 w-full">
                   <div className="space-y-4">
                     <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6">
-                      {/* Volksbegehren Section */}
                       <div className="py-4">
                         <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
-                          {t('forms:step3.sectionVolksbegehren', 'Volksbegehren')}
+                          Stimmregister-Auszug erfolgreich erstellt
                         </div>
                       </div>
-                      <div className="border-t border-[#adb4bc] divide-y divide-[#adb4bc]">
-                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
-                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">
-                            {t('forms:title', 'Titel')}:
-                          </div>
-                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium break-words">
-                            {selectedItem?.title || '—'}
-                          </div>
-                        </div>
-                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
-                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">
-                            {t('forms:level.label', 'Ebene')}:
-                          </div>
-                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
-                            {selectedItem?.level || '—'}
-                          </div>
-                        </div>
+                      <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
+                        Der Stimmregister-Auszug kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrer swiyu-Wallet App. Oder klicken Sie auf Ihrem Smartphone auf den Button.
                       </div>
-
-                      {/* Gemeinde Section */}
-                      <div className="py-4 mt-8">
-                        <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
-                          {t('forms:gemeinde.step3.sectionGemeinde', 'Gemeinde')}
+                      {offerDeeplink && (
+                        <div className="flex items-center justify-center py-6">
+                          <QRCode value={offerDeeplink} size={192} />
                         </div>
+                      )}
+                      <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
+                        <button
+                          onClick={handleShare}
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#1f2937] border border-[#e0e4e8] rounded-[1px] hover:bg-[#f5f6f7] transition-colors font-medium h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px]"
+                        >
+                          <Share2 className="w-4 h-4 mr-2" /> {t('forms:shareVolksbegehren', 'Volksbegehren teilen')}
+                        </button>
+                        <button
+                          onClick={() => offerDeeplink && (window.location.href = offerDeeplink)}
+                          disabled={!offerDeeplink}
+                          className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          Stimmregister-Auszug herunterladen
+                          <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                        </button>
                       </div>
-                      <div className="border-t border-[#adb4bc] divide-y divide-[#adb4bc]">
-                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
-                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">
-                            {t('forms:step3.municipality', 'Politische Gemeinde')}:
-                          </div>
-                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
-                            {municipalityDetails?.town || '—'}
-                          </div>
-                        </div>
-                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
-                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">
-                            {t('forms:step3.canton', 'Kanton')}:
-                          </div>
-                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
-                            {municipalityDetails?.cantonFromBfs || municipalityDetails?.canton || '—'}
-                          </div>
-                        </div>
-                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
-                          <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">
-                            BFS-Nr.:
-                          </div>
-                          <div className="w-full sm:w-[441px] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">
-                            {municipalityDetails?.bfs || '—'}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4 pt-4">
-                    <div className="bg-[#fff7ed] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]">
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5">
-                          <Info className="w-8 h-8 text-[#9a3412]" />
-                        </div>
-                        <p className="text-[20px] leading-[32px] text-[#9a3412] font-medium">
-                          {t('forms:gemeinde.step3.eidNotice', 'Im nächsten Schritt weisen Sie sich mit Ihrer swiyu E-ID aus. Name, Vorname und Geburtsdatum werden automatisch übernommen.')}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-3 sm:justify-end">
-                      <Button
-                        variant="bare"
-                        size="xl"
-                        onClick={() => { setBanner(null); setStep(3); }}
-                        className="w-full sm:w-auto"
-                      >
-                        {t('common:back')}
-                      </Button>
-                      <Button
-                        variant="filled"
-                        size="xl"
-                        onClick={handleStartEIdVerification}
-                        disabled={isCreatingVerification}
-                        className="w-full sm:w-auto"
-                      >
-                        {isCreatingVerification && <RefreshCw className="w-5 h-5 mr-2 animate-spin" />}
-                        {t('forms:gemeinde.step3.verifyButton', 'Mit E-ID ausweisen')}
-                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                      </Button>
                     </div>
                   </div>
                 </div>
