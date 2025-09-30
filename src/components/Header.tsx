@@ -78,7 +78,7 @@ export const Header: React.FC = () => {
               >
                 {/* Label left (hidden on xs), icon right */}
                 <span className="hidden sm:inline text-[16px] leading-[24px] font-medium">{t('common:accessibility.easyLanguage')}</span>
-                <img src={ICON_EASY_LANGUAGE} alt={t('common:accessibility.easyLanguage')} className="w-[22px] h-[22px] invert" />
+                <img src={ICON_EASY_LANGUAGE} alt="" className="w-[22px] h-[22px] invert" />
               </button>
               <button
                 type="button"
@@ -87,7 +87,7 @@ export const Header: React.FC = () => {
                 onClick={() => setSignLangOpen(true)}
               >
                 <span className="hidden sm:inline text-[16px] leading-[24px] font-medium">{t('common:accessibility.signLanguage')}</span>
-                <img src={ICON_SIGN_LANGUAGE} alt={t('common:accessibility.signLanguage')} className="w-[22px] h-[22px] invert" />
+                <img src={ICON_SIGN_LANGUAGE} alt="" className="w-[22px] h-[22px] invert" />
               </button>
               <div className="block">
                 <LanguageSwitcher variant="topbar" />
