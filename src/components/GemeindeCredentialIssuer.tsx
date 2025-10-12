@@ -422,11 +422,14 @@ export function GemeindeCredentialIssuer() {
             await validateEinwohnerData(verifiedData);
           }
 
-          // Nach E-ID Verifikation zu Volksbegehren-Auswahl
-          setStep(4);
+          // Nur zu Step 4 gehen wenn kein Fehler aufgetreten ist
+          if (!flowAborted) {
+            setStep(4);
+          }
           
         } else if (result.state === 'FAILED') {
           clearInterval(pollInterval);
+          setFlowAborted(true);
           setBanner({
             type: 'error',
             title: t('common:error'),
@@ -616,6 +619,19 @@ export function GemeindeCredentialIssuer() {
         throw new Error('Missing required data for credential issuance');
       }
 
+      // Hole die UUID des Volksbegehren aus der Datenbank
+      const { data: volksbegehrenDbData, error: volksbegehrenError } = await supabase
+        .from("volksbegehren")
+        .select("id")
+        .eq("slug", selectedVolksbegehren.slug)
+        .maybeSingle();
+
+      if (volksbegehrenError || !volksbegehrenDbData) {
+        throw new Error(`Volksbegehren mit Slug ${selectedVolksbegehren.slug} nicht in Datenbank gefunden`);
+      }
+
+      const volksbegehrenUuid = volksbegehrenDbData.id;
+
       // Hole Gemeinde- und Einwohner-Daten für DB-Speicherung
       let einwohnerDbId: string | null = null;
       let gemeindeDbId: string | null = null;
@@ -675,7 +691,7 @@ export function GemeindeCredentialIssuer() {
         .from("credentials")
         .insert({
           einwohner_id: einwohnerDbId,
-          volksbegehren_id: selectedVolksbegehren.id,
+          volksbegehren_id: volksbegehrenUuid,
           status: "pending"
         })
         .select()
@@ -738,8 +754,8 @@ export function GemeindeCredentialIssuer() {
       
       setBanner({
         type: 'success',
-        title: t('forms:gemeinde.success.title'),
-        description: t('forms:gemeinde.success.description')
+        title: 'Stimmregister-Nachweis erfolgreich erstellt',
+        description: 'Der Stimmregister-Nachweis kann mit der swiyu-Wallet App heruntergeladen werden.'
       });
 
       // Gehe zu Step 5 (Erfolg)
@@ -1133,7 +1149,7 @@ export function GemeindeCredentialIssuer() {
               )}
 
               {/* Step 4: Volksbegehren auswählen */}
-              {step === 4 && (
+              {step === 4 && !flowAborted && (
                 <div className="space-y-6 w-full">
                   <div>
                     <h2 className="text-[20px] leading-[32px] sm:text-[22px] sm:leading-[33px] font-semibold mb-4 text-[#1f2937]">
@@ -1250,6 +1266,28 @@ export function GemeindeCredentialIssuer() {
                     >
                       Stimmregister-Nachweis erstellen
                       <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4: Flow abgebrochen - Einwohner nicht gefunden */}
+              {step === 4 && flowAborted && (
+                <div className="space-y-6 w-full">
+                  <div className="text-center py-8">
+                    <p className="text-[18px] text-[#6b7280] mb-6">
+                      Der Vorgang wurde abgebrochen. Bitte beginnen Sie von vorne.
+                    </p>
+                  </div>
+                  
+                  <div className="flex justify-center">
+                    <Button
+                      variant="filled"
+                      size="xl"
+                      onClick={handleResetFlow}
+                      className="w-full sm:w-auto"
+                    >
+                      Nochmals neu beginnen
                     </Button>
                   </div>
                 </div>
