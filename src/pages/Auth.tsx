@@ -22,7 +22,7 @@ const Auth = () => {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/admin`,
+          emailRedirectTo: "https://beta.ecollecting.ch/admin",
         },
       });
 
