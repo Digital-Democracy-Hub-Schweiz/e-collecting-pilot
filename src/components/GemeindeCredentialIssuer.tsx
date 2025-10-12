@@ -618,47 +618,76 @@ export function GemeindeCredentialIssuer() {
 
       // Hole Gemeinde- und Einwohner-Daten für DB-Speicherung
       let einwohnerDbId: string | null = null;
-      if (municipalityDetails && verifiedEIdData) {
-        const { data: gemeindeData } = await supabase
-          .from("gemeinden")
-          .select("id")
-          .eq("bfs_nummer", municipalityDetails.bfs)
-          .maybeSingle();
-
-        if (gemeindeData) {
-          const { data: einwohnerData } = await supabase
-            .from("einwohner")
-            .select("id")
-            .eq("gemeinde_id", gemeindeData.id)
-            .eq("vorname", verifiedEIdData.given_name)
-            .eq("nachname", verifiedEIdData.family_name)
-            .eq("geburtsdatum", verifiedEIdData.birth_date)
-            .maybeSingle();
-
-          if (einwohnerData) {
-            einwohnerDbId = einwohnerData.id;
-          }
-        }
+      let gemeindeDbId: string | null = null;
+      
+      if (!municipalityDetails || !verifiedEIdData) {
+        throw new Error('Municipality or verified E-ID data missing');
       }
+
+      console.log('Looking up gemeinde and einwohner for credential storage:', {
+        bfs: municipalityDetails.bfs,
+        vorname: verifiedEIdData.given_name,
+        nachname: verifiedEIdData.family_name,
+        geburtsdatum: verifiedEIdData.birth_date
+      });
+
+      const { data: gemeindeData, error: gemeindeError } = await supabase
+        .from("gemeinden")
+        .select("id, name, kanton")
+        .eq("bfs_nummer", municipalityDetails.bfs)
+        .maybeSingle();
+
+      if (gemeindeError) {
+        console.error('Error fetching gemeinde:', gemeindeError);
+        throw new Error(`Gemeinde lookup failed: ${gemeindeError.message}`);
+      }
+
+      if (!gemeindeData) {
+        throw new Error(`Gemeinde mit BFS ${municipalityDetails.bfs} nicht gefunden`);
+      }
+
+      gemeindeDbId = gemeindeData.id;
+      console.log('Found gemeinde:', gemeindeData);
+
+      const { data: einwohnerData, error: einwohnerError } = await supabase
+        .from("einwohner")
+        .select("id, vorname, nachname, geburtsdatum")
+        .eq("gemeinde_id", gemeindeData.id)
+        .eq("vorname", verifiedEIdData.given_name)
+        .eq("nachname", verifiedEIdData.family_name)
+        .eq("geburtsdatum", verifiedEIdData.birth_date)
+        .maybeSingle();
+
+      if (einwohnerError) {
+        console.error('Error fetching einwohner:', einwohnerError);
+        throw new Error(`Einwohner lookup failed: ${einwohnerError.message}`);
+      }
+
+      if (!einwohnerData) {
+        throw new Error(`Einwohner ${verifiedEIdData.given_name} ${verifiedEIdData.family_name} (${verifiedEIdData.birth_date}) nicht in ${gemeindeData.name} gefunden`);
+      }
+
+      einwohnerDbId = einwohnerData.id;
+      console.log('Found einwohner:', einwohnerData);
 
       // Speichere Credential-Anfrage in DB (Status: pending)
-      if (einwohnerDbId) {
-        const { data: credentialData, error: credentialError } = await supabase
-          .from("credentials")
-          .insert({
-            einwohner_id: einwohnerDbId,
-            volksbegehren_id: selectedVolksbegehren.id,
-            status: "pending"
-          })
-          .select()
-          .single();
+      const { data: credentialData, error: credentialError } = await supabase
+        .from("credentials")
+        .insert({
+          einwohner_id: einwohnerDbId,
+          volksbegehren_id: selectedVolksbegehren.id,
+          status: "pending"
+        })
+        .select()
+        .single();
 
-        if (credentialError) {
-          console.error('Failed to create credential record:', credentialError);
-        } else {
-          credentialDbId = credentialData?.id || null;
-        }
+      if (credentialError) {
+        console.error('Failed to create credential record:', credentialError);
+        throw new Error(`Credential DB insert failed: ${credentialError.message}`);
       }
+
+      credentialDbId = credentialData?.id || null;
+      console.log('Created credential record with ID:', credentialDbId);
 
       // Hash der Volksbegehren-ID generieren
       const volksbegehrenhash = await hashString(selectedVolksbegehren.id);
@@ -683,7 +712,13 @@ export function GemeindeCredentialIssuer() {
 
       // Update Credential in DB mit API-Response
       if (credentialDbId) {
-        await supabase
+        console.log('Updating credential with API response:', {
+          credential_id: response.id,
+          management_id: response.management_id,
+          offer_deeplink: response.offer_deeplink
+        });
+
+        const { error: updateError } = await supabase
           .from("credentials")
           .update({
             credential_id: response.id,
@@ -692,6 +727,13 @@ export function GemeindeCredentialIssuer() {
             status: "issued"
           })
           .eq("id", credentialDbId);
+
+        if (updateError) {
+          console.error('Failed to update credential:', updateError);
+          throw new Error(`Credential update failed: ${updateError.message}`);
+        }
+
+        console.log('Successfully updated credential in database');
       }
       
       setBanner({
