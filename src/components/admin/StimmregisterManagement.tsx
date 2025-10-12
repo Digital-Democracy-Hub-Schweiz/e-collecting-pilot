@@ -4,8 +4,9 @@ import { issuerBusinessAPI } from "@/services/issuerAPI";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Ban, FileCheck } from "lucide-react";
+import { Ban, Plus } from "lucide-react";
 
 interface Gemeinde {
   id: string;
@@ -49,6 +50,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const [selectedEinwohnerId, setSelectedEinwohnerId] = useState<string>("");
   const [selectedVolksbegehrenId, setSelectedVolksbegehrenId] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchGemeinden();
@@ -193,6 +195,8 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
       toast.success("Stimmrechtsausweis erfolgreich ausgestellt");
       fetchCredentials();
       setSelectedEinwohnerId("");
+      setSelectedVolksbegehrenId("");
+      setDialogOpen(false);
     } catch (error: any) {
       toast.error(error.message || "Fehler beim Ausstellen des Ausweises");
     } finally {
@@ -241,85 +245,92 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Stimmrechtsausweis ausstellen</CardTitle>
-          <CardDescription>
-            Stellen Sie Stimmrechtsausweise für Einwohner aus
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Gemeinde</label>
-            <Select value={selectedGemeindeId} onValueChange={setSelectedGemeindeId}>
-              <SelectTrigger>
-                <SelectValue placeholder="Wählen Sie eine Gemeinde" />
-              </SelectTrigger>
-              <SelectContent>
-                {gemeinden.map((gemeinde) => (
-                  <SelectItem key={gemeinde.id} value={gemeinde.id}>
-                    {gemeinde.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium">Gemeinde</label>
+              </div>
+              <Select value={selectedGemeindeId} onValueChange={setSelectedGemeindeId}>
+                <SelectTrigger className="w-[300px]">
+                  <SelectValue placeholder="Wählen Sie eine Gemeinde" />
+                </SelectTrigger>
+                <SelectContent>
+                  {gemeinden.map((gemeinde) => (
+                    <SelectItem key={gemeinde.id} value={gemeinde.id}>
+                      {gemeinde.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            {selectedGemeindeId && (
+              <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Ausweis ausstellen
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[500px]">
+                  <DialogHeader>
+                    <DialogTitle>Stimmrechtsausweis ausstellen</DialogTitle>
+                    <DialogDescription>
+                      Stellen Sie einen Stimmrechtsausweis für einen Einwohner aus
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 py-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Einwohner</label>
+                      <Select value={selectedEinwohnerId} onValueChange={setSelectedEinwohnerId}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Wählen Sie einen Einwohner" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {einwohner.map((person) => (
+                            <SelectItem key={person.id} value={person.id}>
+                              {person.vorname} {person.nachname} (
+                              {new Date(person.geburtsdatum).toLocaleDateString("de-CH")})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Volksbegehren</label>
+                      <Select
+                        value={selectedVolksbegehrenId}
+                        onValueChange={setSelectedVolksbegehrenId}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Wählen Sie ein Volksbegehren" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {volksbegehren.map((vb) => (
+                            <SelectItem key={vb.id} value={vb.id}>
+                              {vb.title_de}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <Button
+                      onClick={handleIssueCredential}
+                      disabled={loading || !selectedEinwohnerId || !selectedVolksbegehrenId}
+                      className="w-full"
+                    >
+                      {loading ? "Wird ausgestellt..." : "Ausweis ausstellen"}
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
-
-          {selectedGemeindeId && (
-            <>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Einwohner</label>
-                <Select value={selectedEinwohnerId} onValueChange={setSelectedEinwohnerId}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Wählen Sie einen Einwohner" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {einwohner.map((person) => (
-                      <SelectItem key={person.id} value={person.id}>
-                        {person.vorname} {person.nachname} (
-                        {new Date(person.geburtsdatum).toLocaleDateString("de-CH")})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Volksbegehren</label>
-                <Select
-                  value={selectedVolksbegehrenId}
-                  onValueChange={setSelectedVolksbegehrenId}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Wählen Sie ein Volksbegehren" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {volksbegehren.map((vb) => (
-                      <SelectItem key={vb.id} value={vb.id}>
-                        {vb.title_de}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <Button
-                onClick={handleIssueCredential}
-                disabled={loading || !selectedEinwohnerId || !selectedVolksbegehrenId}
-              >
-                {loading ? "Wird ausgestellt..." : "Ausweis ausstellen"}
-              </Button>
-            </>
-          )}
-        </CardContent>
-      </Card>
-
-      {selectedGemeindeId && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Ausgestellte Ausweise</CardTitle>
-            <CardDescription>
-              {credentials.length} Ausweise für diese Gemeinde
-            </CardDescription>
-          </CardHeader>
+        </CardHeader>
+        
+        {selectedGemeindeId && (
           <CardContent>
             <div className="space-y-2">
               {credentials.length === 0 ? (
@@ -347,7 +358,11 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                         </p>
                         <p className="text-xs text-muted-foreground">
                           Status: {credential.status} | Ausgestellt:{" "}
-                          {new Date(credential.issued_at).toLocaleDateString("de-CH")}
+                          {new Date(credential.issued_at).toLocaleDateString("de-CH")}{" "}
+                          {new Date(credential.issued_at).toLocaleTimeString("de-CH", { 
+                            hour: '2-digit', 
+                            minute: '2-digit' 
+                          })}
                         </p>
                       </div>
                       <div className="flex gap-2">
@@ -377,8 +392,8 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
               )}
             </div>
           </CardContent>
-        </Card>
-      )}
+        )}
+      </Card>
     </div>
   );
 };

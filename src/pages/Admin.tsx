@@ -5,10 +5,13 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PageContainer from "@/components/PageContainer";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import GemeindenManagement from "@/components/admin/GemeindenManagement";
 import EinwohnerManagement from "@/components/admin/EinwohnerManagement";
 import StimmregisterManagement from "@/components/admin/StimmregisterManagement";
 import VolksbegehrenManagement from "@/components/admin/VolksbegehrenManagement";
+import { LogOut } from "lucide-react";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -95,46 +98,74 @@ const Admin = () => {
   }
 
   return (
-    <PageContainer>
-      <div className="container mx-auto py-8 space-y-8">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-4xl font-bold">Admin-Bereich</h1>
-            <p className="text-muted-foreground mt-2">
-              Willkommen, {user?.email}
-            </p>
-          </div>
-          <Button onClick={handleLogout} variant="outline">
-            Abmelden
-          </Button>
-        </div>
+    <div className="min-h-screen bg-gradient-secondary flex flex-col">
+      <Header />
+      
+      <main id="main-content" className="flex-1">
+        {/* Breadcrumb Section */}
+        <section className="bg-white">
+          <PageContainer paddingYClassName="py-8">
+            <nav className="text-[16px] leading-[24px] text-[#6b7280]">
+              <a href="/" className="hover:text-[#1f2937] underline underline-offset-4">Startseite</a> <span className="inline-block mx-[7px]">›</span> Admin-Bereich
+            </nav>
+          </PageContainer>
+        </section>
 
-        <Tabs defaultValue="gemeinden" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="gemeinden">Gemeinden</TabsTrigger>
-            <TabsTrigger value="einwohner">Einwohner</TabsTrigger>
-            <TabsTrigger value="stimmregister">Stimmregister</TabsTrigger>
-            <TabsTrigger value="volksbegehren">Volksbegehren</TabsTrigger>
-          </TabsList>
+        {/* Header Section */}
+        <section className="bg-white">
+          <PageContainer paddingYClassName="py-14 md:py-16">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <h1 className="sd-h1">Admin-Bereich</h1>
+                <p className="text-[16px] leading-[24px] text-[#6b7280] mt-2">
+                  Willkommen, {user?.email}
+                </p>
+              </div>
+              <Button 
+                onClick={handleLogout} 
+                variant="outline"
+                className="self-start sm:self-auto"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Abmelden
+              </Button>
+            </div>
+          </PageContainer>
+        </section>
 
-          <TabsContent value="gemeinden">
-            <GemeindenManagement userId={user?.id} />
-          </TabsContent>
+        {/* Tabs Section */}
+        <section className="bg-[#f1f4f7] sd-section-py-comfort">
+          <PageContainer>
+            <Tabs defaultValue="gemeinden" className="w-full">
+              <TabsList className="grid w-full grid-cols-4 mb-8">
+                <TabsTrigger value="gemeinden">Gemeinden</TabsTrigger>
+                <TabsTrigger value="einwohner">Einwohner</TabsTrigger>
+                <TabsTrigger value="stimmregister">Stimmregister</TabsTrigger>
+                <TabsTrigger value="volksbegehren">Volksbegehren</TabsTrigger>
+              </TabsList>
 
-          <TabsContent value="einwohner">
-            <EinwohnerManagement userId={user?.id} />
-          </TabsContent>
+              <TabsContent value="gemeinden">
+                <GemeindenManagement userId={user?.id} />
+              </TabsContent>
 
-          <TabsContent value="stimmregister">
-            <StimmregisterManagement userId={user?.id} />
-          </TabsContent>
+              <TabsContent value="einwohner">
+                <EinwohnerManagement userId={user?.id} />
+              </TabsContent>
 
-          <TabsContent value="volksbegehren">
-            <VolksbegehrenManagement />
-          </TabsContent>
-        </Tabs>
-      </div>
-    </PageContainer>
+              <TabsContent value="stimmregister">
+                <StimmregisterManagement userId={user?.id} />
+              </TabsContent>
+
+              <TabsContent value="volksbegehren">
+                <VolksbegehrenManagement />
+              </TabsContent>
+            </Tabs>
+          </PageContainer>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
   );
 };
 
