@@ -11,6 +11,8 @@ import Anleitung from "./pages/Anleitung";
 import NotFound from "./pages/NotFound";
 import Impressum from "./pages/Impressum";
 import EIdCredentialFlow from "./pages/EIdCredentialFlow";
+import Auth from "./pages/Auth";
+import Admin from "./pages/Admin";
 import { LanguageDetector } from "@/components/LanguageDetector";
 import { useEffect } from "react";
 import { getLocalizedPath, type SupportedLanguage } from "@/utils/routing";
@@ -315,6 +317,10 @@ const App = () => {
           
           {/* Legacy impressum route */}
           <Route path="/impressum" element={<LegacyImpressumRedirect />} />
+          
+          {/* Admin routes (no language prefix needed) */}
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/admin" element={<Admin />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
