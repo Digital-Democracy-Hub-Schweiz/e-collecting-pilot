@@ -38,15 +38,23 @@ const Admin = () => {
 
       if (error) {
         console.error("Error checking admin role:", error);
-        toast.error("Fehler beim Überprüfen der Berechtigung");
-        navigate("/");
-        return;
       }
 
+      // If no admin role exists, create one (for first-time magic link users)
       if (!roles) {
-        toast.error("Sie haben keine Admin-Berechtigung");
-        navigate("/");
-        return;
+        const { error: insertError } = await supabase
+          .from("user_roles")
+          .insert({ user_id: session.user.id, role: "admin" });
+
+        if (insertError) {
+          console.error("Error creating admin role:", insertError);
+          toast.error("Sie haben keine Admin-Berechtigung");
+          await supabase.auth.signOut();
+          navigate("/");
+          return;
+        } else {
+          toast.success("Willkommen! Ihr Admin-Account wurde erstellt.");
+        }
       }
 
       setIsAdmin(true);
