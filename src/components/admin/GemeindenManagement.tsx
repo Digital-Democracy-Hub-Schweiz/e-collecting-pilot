@@ -101,7 +101,8 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
     const { error } = await supabase.from("gemeinden").delete().eq("id", id);
 
     if (error) {
-      toast.error("Fehler beim Löschen der Gemeinde");
+      console.error("Fehler beim Löschen der Gemeinde:", error);
+      toast.error(`Fehler beim Löschen der Gemeinde: ${error.message || ''}`);
     } else {
       toast.success("Gemeinde erfolgreich gelöscht");
       fetchGemeinden();
