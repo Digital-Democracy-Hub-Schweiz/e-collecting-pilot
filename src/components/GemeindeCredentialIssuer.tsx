@@ -942,10 +942,6 @@ export function GemeindeCredentialIssuer() {
                         </div>
                       </div>
                       
-                      <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
-                        Scannen Sie den QR-Code mit Ihrer swiyu-Wallet App, um sich auszuweisen. Nach dem erfolgreichen Identifizieren wird Ihre Willensbekundung erstellt.
-                      </div>
-
                       {verificationUrl && !verifiedEIdData && (
                         <>
                           <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
@@ -1025,15 +1021,6 @@ export function GemeindeCredentialIssuer() {
                       {t('forms:step1.title')}
                     </h2>
                     
-                    {/* Gemeinde-Info Reminder */}
-                    {municipalityDetails && (
-                      <div className="p-3 bg-blue-50 rounded-[3px] border border-blue-200 mb-4">
-                        <div className="text-[14px] text-blue-800">
-                          <strong>{t('forms:gemeinde.step2.yourMunicipality', 'Ihre Gemeinde')}:</strong> {municipalityDetails.town}, {municipalityDetails.cantonFromBfs || municipalityDetails.canton}
-                        </div>
-                      </div>
-                    )}
-
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="type-select" className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] text-[#1f2937] font-medium">
