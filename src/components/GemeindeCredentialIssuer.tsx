@@ -435,13 +435,25 @@ export function GemeindeCredentialIssuer() {
 
     try {
       // 1. Prüfe ob Gemeinde mit BFS-Nummer existiert
+      console.log('Searching for gemeinde with BFS:', municipalityDetails.bfs);
       const { data: gemeindeData, error: gemeindeError } = await supabase
         .from("gemeinden")
         .select("*")
         .eq("bfs_nummer", municipalityDetails.bfs)
         .maybeSingle();
 
-      if (gemeindeError || !gemeindeData) {
+      console.log('Gemeinde query result:', { gemeindeData, gemeindeError });
+
+      if (gemeindeError) {
+        setBanner({
+          type: 'error',
+          title: 'Fehler beim Laden der Gemeinde',
+          description: `Datenbankfehler: ${gemeindeError.message}`
+        });
+        return;
+      }
+
+      if (!gemeindeData) {
         setBanner({
           type: 'error',
           title: 'Gemeinde nicht registriert',
@@ -451,6 +463,13 @@ export function GemeindeCredentialIssuer() {
       }
 
       // 2. Prüfe ob Einwohner mit diesen Daten existiert
+      console.log('Searching for einwohner with:', {
+        gemeinde_id: gemeindeData.id,
+        vorname: verifiedData.given_name,
+        nachname: verifiedData.family_name,
+        geburtsdatum: verifiedData.birth_date
+      });
+
       const { data: einwohnerData, error: einwohnerError } = await supabase
         .from("einwohner")
         .select("*")
@@ -460,11 +479,22 @@ export function GemeindeCredentialIssuer() {
         .eq("geburtsdatum", verifiedData.birth_date)
         .maybeSingle();
 
-      if (einwohnerError || !einwohnerData) {
+      console.log('Einwohner query result:', { einwohnerData, einwohnerError });
+
+      if (einwohnerError) {
+        setBanner({
+          type: 'error',
+          title: 'Fehler beim Laden der Einwohnerdaten',
+          description: `Datenbankfehler: ${einwohnerError.message}`
+        });
+        return;
+      }
+
+      if (!einwohnerData) {
         setBanner({
           type: 'error',
           title: 'Einwohner nicht gefunden',
-          description: `Ihre Daten (${verifiedData.given_name} ${verifiedData.family_name}, ${verifiedData.birth_date}) stimmen nicht 1:1 mit den registrierten Einwohnerdaten in ${gemeindeData.name} überein.`
+          description: `Ihre Daten (${verifiedData.given_name} ${verifiedData.family_name}, Geburtsdatum: ${verifiedData.birth_date}) stimmen nicht 1:1 mit den registrierten Einwohnerdaten in ${gemeindeData.name} überein.`
         });
         return;
       }
@@ -477,6 +507,7 @@ export function GemeindeCredentialIssuer() {
       });
 
     } catch (e: any) {
+      console.error('Validation error:', e);
       setBanner({
         type: 'error',
         title: t('common:error'),
