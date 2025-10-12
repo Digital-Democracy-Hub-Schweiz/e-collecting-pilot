@@ -136,196 +136,201 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <LanguageDetector>
-            <Routes>
-            {/* Root and routes without language prefix will be handled by LanguageDetector */}
-          
-          {/* Language-prefixed routes */}
-          <Route path="/:lang" element={
-            <LanguageWrapper>
-              <Index />
-            </LanguageWrapper>
-          } />
-          {/* German routes */}
-          <Route path="/:lang/projekt" element={
-            <LanguageWrapper>
-              <Projekt />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/anleitung" element={
-            <LanguageWrapper>
-              <Anleitung />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/volksbegehren" element={
-            <LanguageWrapper>
-              <Volksbegehren />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/stimmregister" element={
-            <LanguageWrapper>
-              <EIdCredentialFlow />
-            </LanguageWrapper>
-          } />
-          
-          {/* English routes */}
-          <Route path="/:lang/project" element={
-            <LanguageWrapper>
-              <Projekt />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/instructions" element={
-            <LanguageWrapper>
-              <Anleitung />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/popular-vote" element={
-            <LanguageWrapper>
-              <Volksbegehren />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/electoral-register" element={
-            <LanguageWrapper>
-              <EIdCredentialFlow />
-            </LanguageWrapper>
-          } />
-          
-          {/* French routes */}
-          <Route path="/:lang/projet" element={
-            <LanguageWrapper>
-              <Projekt />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/instructions" element={
-            <LanguageWrapper>
-              <Anleitung />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/objet-votation-populaire" element={
-            <LanguageWrapper>
-              <Volksbegehren />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/registre-electoral" element={
-            <LanguageWrapper>
-              <EIdCredentialFlow />
-            </LanguageWrapper>
-          } />
-          
-          {/* Italian routes */}
-          <Route path="/:lang/progetto" element={
-            <LanguageWrapper>
-              <Projekt />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/istruzioni" element={
-            <LanguageWrapper>
-              <Anleitung />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/oggetto-votazione-popolare" element={
-            <LanguageWrapper>
-              <Volksbegehren />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/registro-elettorale" element={
-            <LanguageWrapper>
-              <EIdCredentialFlow />
-            </LanguageWrapper>
-          } />
-          
-          {/* Romansh routes */}
-          <Route path="/:lang/instrucziuns" element={
-            <LanguageWrapper>
-              <Anleitung />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/dumonda-populara" element={
-            <LanguageWrapper>
-              <Volksbegehren />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/register-da-votar" element={
-            <LanguageWrapper>
-              <EIdCredentialFlow />
-            </LanguageWrapper>
-          } />
-          
-          {/* Legacy routes without language prefix (redirect to German) */}
-          <Route path="/initiative/:id" element={<LegacyRedirect />} />
-          <Route path="/referendum/:id" element={<LegacyRedirect />} />
-          <Route path="/volksbegehren/:id" element={<LegacyRedirect />} />
-          
-          {/* Language-prefixed volksbegehren routes */}
-          <Route path="/:lang/volksbegehren/:id" element={
-            <LanguageWrapper>
-              <Index />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/objet-votation-populaire/:id" element={
-            <LanguageWrapper>
-              <Index />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/oggetto-votazione-popolare/:id" element={
-            <LanguageWrapper>
-              <Index />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/dumonda-populara/:id" element={
-            <LanguageWrapper>
-              <Index />
-            </LanguageWrapper>
-          } />
-          <Route path="/:lang/popular-vote/:id" element={
-            <LanguageWrapper>
-              <Index />
-            </LanguageWrapper>
-          } />
-          
-          {/* Language-prefixed impressum routes */}
-          {/* German */}
-          <Route path="/:lang/impressum" element={
-            <LanguageWrapper>
-              <Impressum />
-            </LanguageWrapper>
-          } />
-          {/* English */}
-          <Route path="/:lang/imprint" element={
-            <LanguageWrapper>
-              <Impressum />
-            </LanguageWrapper>
-          } />
-          {/* French */}
-          <Route path="/:lang/mentions-legales" element={
-            <LanguageWrapper>
-              <Impressum />
-            </LanguageWrapper>
-          } />
-          {/* Italian */}
-          <Route path="/:lang/colofone" element={
-            <LanguageWrapper>
-              <Impressum />
-            </LanguageWrapper>
-          } />
-          {/* Romansh uses impressum like German */}
-          <Route path="/:lang/impressum" element={
-            <LanguageWrapper>
-              <Impressum />
-            </LanguageWrapper>
-          } />
-          
-          {/* Legacy impressum route */}
-          <Route path="/impressum" element={<LegacyImpressumRedirect />} />
-          
-          {/* Admin routes (no language prefix needed) */}
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/admin" element={<Admin />} />
-          
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-            </Routes>
-          </LanguageDetector>
+          <Routes>
+            {/* Admin routes (no language prefix, no LanguageDetector) */}
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/admin" element={<Admin />} />
+            
+            {/* All other routes with LanguageDetector */}
+            <Route path="*" element={
+              <LanguageDetector>
+                <Routes>
+                  {/* Root and routes without language prefix will be handled by LanguageDetector */}
+              
+                  {/* Language-prefixed routes */}
+                  <Route path="/:lang" element={
+                    <LanguageWrapper>
+                      <Index />
+                    </LanguageWrapper>
+                  } />
+                  {/* German routes */}
+                  <Route path="/:lang/projekt" element={
+                    <LanguageWrapper>
+                      <Projekt />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/anleitung" element={
+                    <LanguageWrapper>
+                      <Anleitung />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/volksbegehren" element={
+                    <LanguageWrapper>
+                      <Volksbegehren />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/stimmregister" element={
+                    <LanguageWrapper>
+                      <EIdCredentialFlow />
+                    </LanguageWrapper>
+                  } />
+                  
+                  {/* English routes */}
+                  <Route path="/:lang/project" element={
+                    <LanguageWrapper>
+                      <Projekt />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/instructions" element={
+                    <LanguageWrapper>
+                      <Anleitung />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/popular-vote" element={
+                    <LanguageWrapper>
+                      <Volksbegehren />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/electoral-register" element={
+                    <LanguageWrapper>
+                      <EIdCredentialFlow />
+                    </LanguageWrapper>
+                  } />
+                  
+                  {/* French routes */}
+                  <Route path="/:lang/projet" element={
+                    <LanguageWrapper>
+                      <Projekt />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/instructions" element={
+                    <LanguageWrapper>
+                      <Anleitung />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/objet-votation-populaire" element={
+                    <LanguageWrapper>
+                      <Volksbegehren />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/registre-electoral" element={
+                    <LanguageWrapper>
+                      <EIdCredentialFlow />
+                    </LanguageWrapper>
+                  } />
+                  
+                  {/* Italian routes */}
+                  <Route path="/:lang/progetto" element={
+                    <LanguageWrapper>
+                      <Projekt />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/istruzioni" element={
+                    <LanguageWrapper>
+                      <Anleitung />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/oggetto-votazione-popolare" element={
+                    <LanguageWrapper>
+                      <Volksbegehren />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/registro-elettorale" element={
+                    <LanguageWrapper>
+                      <EIdCredentialFlow />
+                    </LanguageWrapper>
+                  } />
+                  
+                  {/* Romansh routes */}
+                  <Route path="/:lang/instrucziuns" element={
+                    <LanguageWrapper>
+                      <Anleitung />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/dumonda-populara" element={
+                    <LanguageWrapper>
+                      <Volksbegehren />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/register-da-votar" element={
+                    <LanguageWrapper>
+                      <EIdCredentialFlow />
+                    </LanguageWrapper>
+                  } />
+                  
+                  {/* Legacy routes without language prefix (redirect to German) */}
+                  <Route path="/initiative/:id" element={<LegacyRedirect />} />
+                  <Route path="/referendum/:id" element={<LegacyRedirect />} />
+                  <Route path="/volksbegehren/:id" element={<LegacyRedirect />} />
+                  
+                  {/* Language-prefixed volksbegehren routes */}
+                  <Route path="/:lang/volksbegehren/:id" element={
+                    <LanguageWrapper>
+                      <Index />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/objet-votation-populaire/:id" element={
+                    <LanguageWrapper>
+                      <Index />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/oggetto-votazione-popolare/:id" element={
+                    <LanguageWrapper>
+                      <Index />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/dumonda-populara/:id" element={
+                    <LanguageWrapper>
+                      <Index />
+                    </LanguageWrapper>
+                  } />
+                  <Route path="/:lang/popular-vote/:id" element={
+                    <LanguageWrapper>
+                      <Index />
+                    </LanguageWrapper>
+                  } />
+                  
+                  {/* Language-prefixed impressum routes */}
+                  {/* German */}
+                  <Route path="/:lang/impressum" element={
+                    <LanguageWrapper>
+                      <Impressum />
+                    </LanguageWrapper>
+                  } />
+                  {/* English */}
+                  <Route path="/:lang/imprint" element={
+                    <LanguageWrapper>
+                      <Impressum />
+                    </LanguageWrapper>
+                  } />
+                  {/* French */}
+                  <Route path="/:lang/mentions-legales" element={
+                    <LanguageWrapper>
+                      <Impressum />
+                    </LanguageWrapper>
+                  } />
+                  {/* Italian */}
+                  <Route path="/:lang/colofone" element={
+                    <LanguageWrapper>
+                      <Impressum />
+                    </LanguageWrapper>
+                  } />
+                  {/* Romansh uses impressum like German */}
+                  <Route path="/:lang/impressum" element={
+                    <LanguageWrapper>
+                      <Impressum />
+                    </LanguageWrapper>
+                  } />
+                  
+                  {/* Legacy impressum route */}
+                  <Route path="/impressum" element={<LegacyImpressumRedirect />} />
+                  
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </LanguageDetector>
+            } />
+          </Routes>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
