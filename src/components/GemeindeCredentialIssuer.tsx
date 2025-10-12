@@ -794,20 +794,6 @@ export function GemeindeCredentialIssuer() {
                           )}
                         </div>
                       </div>
-
-                      {/* Gemeinde-Info anzeigen wenn verfügbar */}
-                      {municipalityDetails && (
-                        <div className="mt-4 p-4 bg-green-50 rounded-[3px] border border-green-200">
-                          <h4 className="text-[16px] font-semibold text-green-800 mb-2">
-                            {t('forms:gemeinde.step1.municipalityFound', 'Gemeinde ermittelt')}
-                          </h4>
-                          <div className="space-y-1 text-green-700 text-[14px]">
-                            <div><strong>{t('forms:step3.municipality', 'Gemeinde')}:</strong> {municipalityDetails.town}</div>
-                            <div><strong>{t('forms:step3.canton', 'Kanton')}:</strong> {municipalityDetails.cantonFromBfs || municipalityDetails.canton}</div>
-                            <div><strong>BFS-Nr.:</strong> {municipalityDetails.bfs}</div>
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
 
