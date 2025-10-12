@@ -60,14 +60,10 @@ const Auth = () => {
             <div className="flex items-center justify-center">
               <Card className="w-full max-w-md bg-white">
                 <CardHeader className="text-center">
-                  <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <Mail className="w-6 h-6 text-primary" />
-                  </div>
-                  <CardTitle className="sd-h3">Admin Login</CardTitle>
                   <CardDescription>
                     {emailSent
                       ? "Prüfen Sie Ihr E-Mail-Postfach"
-                      : "Wir senden Ihnen einen Login-Link per E-Mail"}
+                      : ""}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
