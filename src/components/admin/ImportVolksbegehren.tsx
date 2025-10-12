@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import volksbegehrenDE from "@/data/volksbegehren/de.json";
+import volksbegehrenFR from "@/data/volksbegehren/fr.json";
+import volksbegehrenIT from "@/data/volksbegehren/it.json";
+import volksbegehrenRM from "@/data/volksbegehren/rm.json";
+import volksbegehrenEN from "@/data/volksbegehren/en.json";
 
 const ImportVolksbegehren = () => {
   const [loading, setLoading] = useState(false);
@@ -13,19 +17,32 @@ const ImportVolksbegehren = () => {
     setLoading(true);
 
     try {
-      // Import all volksbegehren from JSON
-      const imports = volksbegehrenDE
-        .filter((vb) => vb.show)
-        .map((vb) => ({
-          slug: vb.slug,
-          title_de: vb.title,
-          type: vb.type,
-          level: vb.level === "Bund" ? "federal" : "cantonal",
-          comitee: vb.comitee || null,
-          sign_date: vb.start_date || null,
-          description_de: vb.wording || null,
+      // Merge all language data
+      const mergedData = volksbegehrenDE.filter((vb) => vb.show).map((vbDE) => {
+        const vbFR = volksbegehrenFR.find((v) => v.id === vbDE.id);
+        const vbIT = volksbegehrenIT.find((v) => v.id === vbDE.id);
+        const vbRM = volksbegehrenRM.find((v) => v.id === vbDE.id);
+        const vbEN = volksbegehrenEN.find((v) => v.id === vbDE.id);
+
+        return {
+          slug: vbDE.slug,
+          title_de: vbDE.title,
+          title_fr: vbFR?.title || null,
+          title_it: vbIT?.title || null,
+          title_rm: vbRM?.title || null,
+          title_en: vbEN?.title || null,
+          description_de: vbDE.wording || null,
+          description_fr: vbFR?.wording || null,
+          description_it: vbIT?.wording || null,
+          description_rm: vbRM?.wording || null,
+          description_en: vbEN?.wording || null,
+          type: vbDE.type,
+          level: vbDE.level === "Bund" ? "federal" : "cantonal",
+          comitee: vbDE.comitee || null,
+          sign_date: vbDE.start_date || null,
           status: "active",
-        }));
+        };
+      });
 
       // Check which already exist
       const { data: existing } = await supabase
@@ -33,7 +50,7 @@ const ImportVolksbegehren = () => {
         .select("slug");
 
       const existingSlugs = new Set((existing || []).map((e) => e.slug));
-      const newImports = imports.filter((imp) => !existingSlugs.has(imp.slug));
+      const newImports = mergedData.filter((imp) => !existingSlugs.has(imp.slug));
 
       if (newImports.length === 0) {
         toast.info("Alle Volksbegehren sind bereits importiert");
