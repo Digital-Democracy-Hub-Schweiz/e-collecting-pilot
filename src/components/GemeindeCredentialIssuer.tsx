@@ -108,6 +108,7 @@ export function GemeindeCredentialIssuer() {
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
+  const [flowAborted, setFlowAborted] = useState(false);
 
   // E-ID verification state
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
@@ -281,6 +282,27 @@ export function GemeindeCredentialIssuer() {
       bfs,
       cantonFromBfs: cantonFromBfs || canton
     });
+  };
+
+  // Reset-Funktion für Neustart
+  const handleResetFlow = () => {
+    setType("");
+    setSelectedVolksbegehrenId("");
+    setStreetAddress("");
+    setPostalCode("");
+    setCity("");
+    setStep(1);
+    setFlowAborted(false);
+    setVerificationUrl(null);
+    setIsCreatingVerification(false);
+    setVerifiedEIdData(null);
+    setIssuedCredentialId(null);
+    setOfferDeeplink(null);
+    setCredentialStatus(null);
+    setMunicipalityDetails(null);
+    setFieldErrors({});
+    setBanner(null);
+    setShareModalOpen(false);
   };
 
   // Focus management
@@ -491,6 +513,7 @@ export function GemeindeCredentialIssuer() {
       }
 
       if (!einwohnerData) {
+        setFlowAborted(true);
         setBanner({
           type: 'error',
           title: 'Einwohner nicht gefunden',
@@ -500,6 +523,7 @@ export function GemeindeCredentialIssuer() {
       }
 
       // Erfolg: Einwohner gefunden
+      setFlowAborted(false);
       setBanner({
         type: 'success',
         title: 'Einwohner in Gemeinde gefunden',
@@ -508,6 +532,7 @@ export function GemeindeCredentialIssuer() {
 
     } catch (e: any) {
       console.error('Validation error:', e);
+      setFlowAborted(true);
       setBanner({
         type: 'error',
         title: t('common:error'),
@@ -1017,37 +1042,49 @@ export function GemeindeCredentialIssuer() {
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3 pt-4 sm:justify-end">
-                    <Button
-                      variant="bare"
-                      size="xl"
-                      onClick={() => { setBanner(null); setStep(2); }}
-                      className="w-full sm:w-auto"
-                    >
-                      {t('common:back')}
-                    </Button>
-                    
-
-                    {verificationUrl && !verifiedEIdData && (
-                      <button
-                        onClick={() => verificationUrl && (window.location.href = `swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`)}
-                        disabled={!verificationUrl}
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-{t('forms:step4.verification.openWallet')}
-                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                      </button>
-                    )}
-
-                    {verifiedEIdData && (
+                    {flowAborted ? (
                       <Button
                         variant="filled"
                         size="xl"
-                        onClick={() => setStep(4)}
+                        onClick={handleResetFlow}
                         className="w-full sm:w-auto"
                       >
-                        {t('common:next')}
-                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                        Nochmals neu beginnen
                       </Button>
+                    ) : (
+                      <>
+                        <Button
+                          variant="bare"
+                          size="xl"
+                          onClick={() => { setBanner(null); setStep(2); }}
+                          className="w-full sm:w-auto"
+                        >
+                          {t('common:back')}
+                        </Button>
+                        
+                        {verificationUrl && !verifiedEIdData && (
+                          <button
+                            onClick={() => verificationUrl && (window.location.href = `swiyu-verify://?client_id=did:tdw:Qmf9i6m1EFSXmW2jB5JZGW1mPrEsGoRHXN8v8YnqHNEySF:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:93f3fb23-f7d3-4754-b35c-3686f69ecb64&request_uri=${encodeURIComponent(verificationUrl)}`)}
+                            disabled={!verificationUrl}
+                            className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {t('forms:step4.verification.openWallet')}
+                            <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                          </button>
+                        )}
+
+                        {verifiedEIdData && (
+                          <Button
+                            variant="filled"
+                            size="xl"
+                            onClick={() => setStep(4)}
+                            className="w-full sm:w-auto"
+                          >
+                            {t('common:next')}
+                            <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                          </Button>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>
