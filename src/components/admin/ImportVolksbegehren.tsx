@@ -52,17 +52,13 @@ const ImportVolksbegehren = () => {
       const existingSlugs = new Set((existing || []).map((e) => e.slug));
       const newImports = mergedData.filter((imp) => !existingSlugs.has(imp.slug));
 
-      if (newImports.length === 0) {
-        toast.info("Alle Volksbegehren sind bereits importiert");
-        setImported(true);
-        return;
-      }
-
-      const { error } = await supabase.from("volksbegehren").insert(newImports);
+      const { error } = await supabase
+        .from("volksbegehren")
+        .upsert(mergedData, { onConflict: "slug" });
 
       if (error) throw error;
 
-      toast.success(`${newImports.length} Volksbegehren erfolgreich importiert`);
+      toast.success(`Volksbegehren importiert/aktualisiert (${mergedData.length} Einträge)`);
       setImported(true);
     } catch (error: any) {
       console.error("Import error:", error);
