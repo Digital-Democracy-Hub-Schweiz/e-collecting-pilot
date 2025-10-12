@@ -127,7 +127,18 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
 
     const { data, error } = await supabase
       .from("credentials")
-      .select("*")
+      .select(`
+        *,
+        einwohner:einwohner_id (
+          vorname,
+          nachname,
+          geburtsdatum
+        ),
+        volksbegehren:volksbegehren_id (
+          title_de,
+          slug
+        )
+      `)
       .in("einwohner_id", einwohnerIds)
       .order("issued_at", { ascending: false });
 

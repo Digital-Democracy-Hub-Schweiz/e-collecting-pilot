@@ -576,6 +576,8 @@ export function GemeindeCredentialIssuer() {
 
   // Stimmregister-Credential ausstellen
   const handleIssueStimmregisterCredential = async () => {
+    let credentialDbId: string | null = null;
+
     try {
       // Validiere nur, dass kein Duplikat-Credential existiert
       const isValid = await validateBackendDataForCredential();
@@ -587,6 +589,50 @@ export function GemeindeCredentialIssuer() {
       
       if (!selectedVolksbegehren || !verifiedEIdData) {
         throw new Error('Missing required data for credential issuance');
+      }
+
+      // Hole Gemeinde- und Einwohner-Daten für DB-Speicherung
+      let einwohnerDbId: string | null = null;
+      if (municipalityDetails && verifiedEIdData) {
+        const { data: gemeindeData } = await supabase
+          .from("gemeinden")
+          .select("id")
+          .eq("bfs_nummer", municipalityDetails.bfs)
+          .maybeSingle();
+
+        if (gemeindeData) {
+          const { data: einwohnerData } = await supabase
+            .from("einwohner")
+            .select("id")
+            .eq("gemeinde_id", gemeindeData.id)
+            .eq("vorname", verifiedEIdData.given_name)
+            .eq("nachname", verifiedEIdData.family_name)
+            .eq("geburtsdatum", verifiedEIdData.birth_date)
+            .maybeSingle();
+
+          if (einwohnerData) {
+            einwohnerDbId = einwohnerData.id;
+          }
+        }
+      }
+
+      // Speichere Credential-Anfrage in DB (Status: pending)
+      if (einwohnerDbId) {
+        const { data: credentialData, error: credentialError } = await supabase
+          .from("credentials")
+          .insert({
+            einwohner_id: einwohnerDbId,
+            volksbegehren_id: selectedVolksbegehren.id,
+            status: "pending"
+          })
+          .select()
+          .single();
+
+        if (credentialError) {
+          console.error('Failed to create credential record:', credentialError);
+        } else {
+          credentialDbId = credentialData?.id || null;
+        }
       }
 
       // Hash der Volksbegehren-ID generieren
@@ -610,35 +656,17 @@ export function GemeindeCredentialIssuer() {
       setIssuedCredentialId(response.management_id || null);
       setOfferDeeplink(response.offer_deeplink || null);
 
-      // Speichere Credential in DB
-      if (municipalityDetails && verifiedEIdData) {
-        const { data: gemeindeData } = await supabase
-          .from("gemeinden")
-          .select("id")
-          .eq("bfs_nummer", municipalityDetails.bfs)
-          .maybeSingle();
-
-        if (gemeindeData) {
-          const { data: einwohnerData } = await supabase
-            .from("einwohner")
-            .select("id")
-            .eq("gemeinde_id", gemeindeData.id)
-            .eq("vorname", verifiedEIdData.given_name)
-            .eq("nachname", verifiedEIdData.family_name)
-            .eq("geburtsdatum", verifiedEIdData.birth_date)
-            .maybeSingle();
-
-          if (einwohnerData) {
-            await supabase.from("credentials").insert({
-              einwohner_id: einwohnerData.id,
-              volksbegehren_id: selectedVolksbegehren.id,
-              credential_id: response.id,
-              management_id: response.management_id,
-              offer_deeplink: response.offer_deeplink,
-              status: "issued"
-            });
-          }
-        }
+      // Update Credential in DB mit API-Response
+      if (credentialDbId) {
+        await supabase
+          .from("credentials")
+          .update({
+            credential_id: response.id,
+            management_id: response.management_id,
+            offer_deeplink: response.offer_deeplink,
+            status: "issued"
+          })
+          .eq("id", credentialDbId);
       }
       
       setBanner({
@@ -651,6 +679,18 @@ export function GemeindeCredentialIssuer() {
       setStep(5);
 
     } catch (e: any) {
+      console.error('Credential issuance failed:', e);
+
+      // Update Credential in DB auf "error" Status
+      if (credentialDbId) {
+        await supabase
+          .from("credentials")
+          .update({
+            status: "error"
+          })
+          .eq("id", credentialDbId);
+      }
+
       setBanner({
         type: 'error',
         title: t('errors:api.credentialError'),
