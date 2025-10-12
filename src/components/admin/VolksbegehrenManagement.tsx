@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Trash2, Pencil } from "lucide-react";
+import ImportVolksbegehren from "./ImportVolksbegehren";
 
 interface Volksbegehren {
   id: string;
@@ -129,6 +130,8 @@ const VolksbegehrenManagement = () => {
 
   return (
     <div className="space-y-6">
+      <ImportVolksbegehren />
+      
       <Card>
         <CardHeader>
           <CardTitle>Neues Volksbegehren erstellen</CardTitle>
