@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
+import { determineCantonFromBfs } from "@/utils/cantonUtils";
 import { Trash2, UserPlus } from "lucide-react";
 import {
   Dialog,
@@ -55,14 +56,29 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
     }
   };
 
+  const handleBfsChange = async (bfsValue: string) => {
+    setNewGemeinde({ ...newGemeinde, bfs_nummer: bfsValue, kanton: "" });
+    
+    if (bfsValue && !isNaN(Number(bfsValue))) {
+      const kanton = await determineCantonFromBfs(Number(bfsValue));
+      setNewGemeinde(prev => ({ ...prev, kanton }));
+    }
+  };
+
   const handleCreateGemeinde = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!newGemeinde.bfs_nummer) {
+      toast.error("BFS-Nummer ist erforderlich");
+      return;
+    }
+
     setLoading(true);
 
     try {
       const { error } = await supabase.from("gemeinden").insert({
         name: newGemeinde.name,
-        bfs_nummer: newGemeinde.bfs_nummer || null,
+        bfs_nummer: newGemeinde.bfs_nummer,
         kanton: newGemeinde.kanton || null,
         created_by: userId,
       });
@@ -143,23 +159,23 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="bfs">BFS-Nummer</Label>
+                <Label htmlFor="bfs">BFS-Nummer *</Label>
                 <Input
                   id="bfs"
                   value={newGemeinde.bfs_nummer}
-                  onChange={(e) =>
-                    setNewGemeinde({ ...newGemeinde, bfs_nummer: e.target.value })
-                  }
+                  onChange={(e) => handleBfsChange(e.target.value)}
+                  required
+                  placeholder="z.B. 261"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="kanton">Kanton</Label>
+                <Label htmlFor="kanton">Kanton (automatisch ermittelt)</Label>
                 <Input
                   id="kanton"
                   value={newGemeinde.kanton}
-                  onChange={(e) =>
-                    setNewGemeinde({ ...newGemeinde, kanton: e.target.value })
-                  }
+                  readOnly
+                  disabled
+                  className="bg-muted"
                 />
               </div>
             </div>

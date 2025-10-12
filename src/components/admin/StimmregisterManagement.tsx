@@ -195,8 +195,17 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
     setLoading(true);
 
     try {
-      // TODO: Call revoke API when available
-      // For now, just update the database
+      // Call revoke API
+      if (managementId) {
+        await fetch(`https://issuer-gemeinde.ecollecting.ch/management/api/credentials/${managementId}/revoke`, {
+          method: 'POST',
+          headers: {
+            'Accept': '*/*',
+          },
+        });
+      }
+
+      // Update database
       const { error } = await supabase
         .from("credentials")
         .update({
