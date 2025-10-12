@@ -389,18 +389,16 @@ export function GemeindeCredentialIssuer() {
           // Extrahiere Daten aus Wallet Response
           const credentialData = result.wallet_response?.credential_subject_data;
           if (credentialData) {
-            setVerifiedEIdData({
+            const verifiedData = {
               given_name: credentialData.given_name || "",
               family_name: credentialData.family_name || "",
               birth_date: credentialData.birth_date || ""
-            });
-          }
+            };
+            setVerifiedEIdData(verifiedData);
 
-          setBanner({
-            type: 'success',
-            title: t('forms:gemeinde.step2.verification.success'),
-            description: t('forms:gemeinde.step2.verification.successDescription')
-          });
+            // Validiere Einwohner-Daten gegen Backend
+            await validateEinwohnerData(verifiedData);
+          }
 
           // Nach E-ID Verifikation zu Volksbegehren-Auswahl
           setStep(4);
@@ -424,10 +422,15 @@ export function GemeindeCredentialIssuer() {
     }, 300000);
   };
 
-  // 1:1 Datenvalidierung gegen Backend
-  const validateBackendData = async (): Promise<boolean> => {
-    if (!municipalityDetails || !verifiedEIdData) {
-      return false;
+  // Validiere Einwohner-Daten direkt nach E-ID Verifikation
+  const validateEinwohnerData = async (verifiedData: { given_name: string; family_name: string; birth_date: string }) => {
+    if (!municipalityDetails) {
+      setBanner({
+        type: 'error',
+        title: t('common:error'),
+        description: 'Gemeindedaten nicht verfügbar.'
+      });
+      return;
     }
 
     try {
@@ -441,33 +444,74 @@ export function GemeindeCredentialIssuer() {
       if (gemeindeError || !gemeindeData) {
         setBanner({
           type: 'error',
-          title: t('errors:validation.gemeindeNotFound'),
-          description: `Gemeinde mit BFS-Nummer ${municipalityDetails.bfs} ist nicht registriert.`
+          title: 'Gemeinde nicht registriert',
+          description: `Gemeinde mit BFS-Nummer ${municipalityDetails.bfs} ist nicht im System registriert.`
         });
-        return false;
+        return;
       }
 
       // 2. Prüfe ob Einwohner mit diesen Daten existiert
-      const birthDate = verifiedEIdData.birth_date;
       const { data: einwohnerData, error: einwohnerError } = await supabase
         .from("einwohner")
         .select("*")
         .eq("gemeinde_id", gemeindeData.id)
-        .eq("vorname", verifiedEIdData.given_name)
-        .eq("nachname", verifiedEIdData.family_name)
-        .eq("geburtsdatum", birthDate)
+        .eq("vorname", verifiedData.given_name)
+        .eq("nachname", verifiedData.family_name)
+        .eq("geburtsdatum", verifiedData.birth_date)
         .maybeSingle();
 
       if (einwohnerError || !einwohnerData) {
         setBanner({
           type: 'error',
-          title: t('errors:validation.einwohnerNotFound'),
-          description: 'Ihre Daten stimmen nicht 1:1 mit den registrierten Einwohnerdaten überein.'
+          title: 'Einwohner nicht gefunden',
+          description: `Ihre Daten (${verifiedData.given_name} ${verifiedData.family_name}, ${verifiedData.birth_date}) stimmen nicht 1:1 mit den registrierten Einwohnerdaten in ${gemeindeData.name} überein.`
         });
-        return false;
+        return;
       }
 
-      // 3. Prüfe ob bereits ein Credential für dieses Volksbegehren ausgestellt wurde
+      // Erfolg: Einwohner gefunden
+      setBanner({
+        type: 'success',
+        title: 'Einwohner in Gemeinde gefunden',
+        description: `Ihre Daten wurden erfolgreich verifiziert. Sie sind als Einwohner in ${gemeindeData.name} (${gemeindeData.kanton}) registriert.`
+      });
+
+    } catch (e: any) {
+      setBanner({
+        type: 'error',
+        title: t('common:error'),
+        description: e?.message ?? t('errors:api.unknownError')
+      });
+    }
+  };
+
+  // Vereinfachte Backend-Validierung vor Credential-Ausstellung
+  const validateBackendDataForCredential = async (): Promise<boolean> => {
+    if (!municipalityDetails || !verifiedEIdData) {
+      return false;
+    }
+
+    try {
+      // Prüfe ob bereits ein Credential für dieses Volksbegehren ausgestellt wurde
+      const { data: gemeindeData } = await supabase
+        .from("gemeinden")
+        .select("id")
+        .eq("bfs_nummer", municipalityDetails.bfs)
+        .maybeSingle();
+
+      if (!gemeindeData) return false;
+
+      const { data: einwohnerData } = await supabase
+        .from("einwohner")
+        .select("id")
+        .eq("gemeinde_id", gemeindeData.id)
+        .eq("vorname", verifiedEIdData.given_name)
+        .eq("nachname", verifiedEIdData.family_name)
+        .eq("geburtsdatum", verifiedEIdData.birth_date)
+        .maybeSingle();
+
+      if (!einwohnerData) return false;
+
       const selectedVolksbegehren = normalizedVolksbegehren.find(v => v.id === selectedVolksbegehrenId);
       if (selectedVolksbegehren) {
         const { data: existingCredential } = await supabase
@@ -502,8 +546,8 @@ export function GemeindeCredentialIssuer() {
   // Stimmregister-Credential ausstellen
   const handleIssueStimmregisterCredential = async () => {
     try {
-      // Validiere Daten gegen Backend
-      const isValid = await validateBackendData();
+      // Validiere nur, dass kein Duplikat-Credential existiert
+      const isValid = await validateBackendDataForCredential();
       if (!isValid) {
         return;
       }
