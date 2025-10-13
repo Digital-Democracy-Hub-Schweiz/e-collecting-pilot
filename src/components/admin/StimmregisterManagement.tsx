@@ -223,15 +223,15 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
     }
   };
 
-  const handleRevokeCredential = async (credentialId: string, managementId: string | null) => {
+  const handleRevokeCredential = async (credential: Credential) => {
     if (!confirm("Möchten Sie diesen Ausweis wirklich widerrufen?")) return;
 
     setLoading(true);
 
     try {
       // Call revoke API using Gemeinde service
-      if (managementId) {
-        await gemeindeIssuerAPI.revokeCredential(managementId);
+      if (credential.management_id) {
+        await gemeindeIssuerAPI.revokeCredential(credential.management_id);
       }
 
       // Update database
@@ -242,12 +242,13 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
           revoked_at: new Date().toISOString(),
           revoked_by: userId,
         })
-        .eq("id", credentialId);
+        .eq("id", credential.id);
 
       if (error) throw error;
 
       toast.success("Ausweis erfolgreich widerrufen");
       fetchCredentials();
+      setViewCredential(null);
     } catch (error: any) {
       toast.error(error.message || "Fehler beim Widerrufen des Ausweises");
     } finally {
@@ -327,6 +328,10 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
       });
 
       await fetchCredentials();
+      
+      // Update local viewCredential state
+      setViewCredential(prev => prev ? { ...prev, status: selectedStatus.toLowerCase() } : null);
+      
       if (viewCredential.management_id) {
         await loadCredentialDetails(viewCredential.management_id);
       }
@@ -560,7 +565,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                         })}
                       </p>
                     </div>
-                      <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
                         <Button
                           variant="outline"
                           size="sm"
@@ -569,13 +574,11 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                         >
                           <RefreshCw className={`w-4 h-4 ${updatingStatus === credential.id ? 'animate-spin' : ''}`} />
                         </Button>
-                        {credential.status === "issued" && (
+                        {credential.status !== "revoked" && (
                           <Button
                             variant="destructive"
                             size="sm"
-                            onClick={() =>
-                              handleRevokeCredential(credential.id, credential.management_id)
-                            }
+                            onClick={() => handleRevokeCredential(credential)}
                             disabled={loading}
                           >
                             <Ban className="w-4 h-4" />
@@ -785,7 +788,6 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                 <div className="flex gap-2 border-t pt-4">
                   <Button
                     variant="outline"
-                    size="sm"
                     onClick={() => {
                       handleUpdateCredentialStatus(viewCredential.id, viewCredential.management_id);
                       if (viewCredential.management_id) {
@@ -798,14 +800,10 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                     <RefreshCw className={`w-4 h-4 mr-2 ${updatingStatus === viewCredential.id ? 'animate-spin' : ''}`} />
                     Status prüfen
                   </Button>
-                  {viewCredential.status === "issued" && (
+                  {viewCredential.status !== "revoked" && (
                     <Button
                       variant="destructive"
-                      size="sm"
-                      onClick={() => {
-                        handleRevokeCredential(viewCredential.id, viewCredential.management_id);
-                        setViewCredential(null);
-                      }}
+                      onClick={() => handleRevokeCredential(viewCredential)}
                       disabled={loading}
                       className="flex-1"
                     >
