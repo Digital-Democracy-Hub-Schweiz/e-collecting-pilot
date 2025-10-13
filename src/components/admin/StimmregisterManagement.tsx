@@ -7,8 +7,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { Ban, Plus, RefreshCw } from "lucide-react";
+import { Ban, Plus, RefreshCw, Search } from "lucide-react";
 
 interface Gemeinde {
   id: string;
@@ -37,6 +38,18 @@ interface Credential {
   management_id: string | null;
   issued_at: string;
   revoked_at: string | null;
+  einwohner?: {
+    id: string;
+    vorname: string;
+    nachname: string;
+    geburtsdatum: string;
+    gemeinde_id: string;
+  };
+  volksbegehren?: {
+    id: string;
+    title_de: string;
+    slug: string;
+  };
 }
 
 interface StimmregisterManagementProps {
@@ -57,6 +70,13 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
   const [credentialDetails, setCredentialDetails] = useState<any>(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
+  
+  // Filter states
+  const [filterGemeindeId, setFilterGemeindeId] = useState<string>("all");
+  const [filterVolksbegehrenId, setFilterVolksbegehrenId] = useState<string>("all");
+  const [searchVorname, setSearchVorname] = useState<string>("");
+  const [searchNachname, setSearchNachname] = useState<string>("");
+  const [searchGeburtsdatum, setSearchGeburtsdatum] = useState<string>("");
 
   useEffect(() => {
     fetchGemeinden();
@@ -122,32 +142,24 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   };
 
   const fetchCredentials = async () => {
-    if (!selectedGemeindeId) return;
-
-    const { data: einwohnerData } = await supabase
-      .from("einwohner")
-      .select("id")
-      .eq("gemeinde_id", selectedGemeindeId);
-
-    if (!einwohnerData) return;
-
-    const einwohnerIds = einwohnerData.map((e) => e.id);
-
+    // Fetch all credentials with joined data
     const { data, error } = await supabase
       .from("credentials")
       .select(`
         *,
         einwohner:einwohner_id (
+          id,
           vorname,
           nachname,
-          geburtsdatum
+          geburtsdatum,
+          gemeinde_id
         ),
         volksbegehren:volksbegehren_id (
+          id,
           title_de,
           slug
         )
       `)
-      .in("einwohner_id", einwohnerIds)
       .order("issued_at", { ascending: false });
 
     if (error) {
@@ -290,135 +302,226 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
     }
   };
 
+  // Filter credentials
+  const filteredCredentials = credentials.filter((credential) => {
+    const credentialEinwohner = credential.einwohner;
+    const credentialVolksbegehren = credential.volksbegehren;
+    
+    // Gemeinde filter
+    if (filterGemeindeId !== "all" && credentialEinwohner?.gemeinde_id !== filterGemeindeId) {
+      return false;
+    }
+    
+    // Volksbegehren filter
+    if (filterVolksbegehrenId !== "all" && credential.volksbegehren_id !== filterVolksbegehrenId) {
+      return false;
+    }
+    
+    // Vorname search
+    if (searchVorname && !credentialEinwohner?.vorname?.toLowerCase().includes(searchVorname.toLowerCase())) {
+      return false;
+    }
+    
+    // Nachname search
+    if (searchNachname && !credentialEinwohner?.nachname?.toLowerCase().includes(searchNachname.toLowerCase())) {
+      return false;
+    }
+    
+    // Geburtsdatum search
+    if (searchGeburtsdatum && !credentialEinwohner?.geburtsdatum?.includes(searchGeburtsdatum)) {
+      return false;
+    }
+    
+    return true;
+  });
+
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium">Gemeinde</label>
-              </div>
-              <Select value={selectedGemeindeId} onValueChange={setSelectedGemeindeId}>
-                <SelectTrigger className="w-[300px]">
-                  <SelectValue placeholder="Wählen Sie eine Gemeinde" />
-                </SelectTrigger>
-                <SelectContent>
-                  {gemeinden.map((gemeinde) => (
-                    <SelectItem key={gemeinde.id} value={gemeinde.id}>
-                      {gemeinde.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <CardTitle>Stimmregister</CardTitle>
+              {selectedGemeindeId && (
+                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button>
+                      <Plus className="w-4 h-4 mr-2" />
+                      Ausweis ausstellen
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[500px]">
+                    <DialogHeader>
+                      <DialogTitle>Stimmrechtsausweis ausstellen</DialogTitle>
+                      <DialogDescription>
+                        Stellen Sie einen Stimmrechtsausweis für einen Einwohner aus
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Einwohner</label>
+                        <Select value={selectedEinwohnerId} onValueChange={setSelectedEinwohnerId}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Wählen Sie einen Einwohner" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {einwohner.map((person) => (
+                              <SelectItem key={person.id} value={person.id}>
+                                {person.vorname} {person.nachname} (
+                                {new Date(person.geburtsdatum).toLocaleDateString("de-CH")})
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Volksbegehren</label>
+                        <Select
+                          value={selectedVolksbegehrenId}
+                          onValueChange={setSelectedVolksbegehrenId}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Wählen Sie ein Volksbegehren" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {volksbegehren.map((vb) => (
+                              <SelectItem key={vb.id} value={vb.id}>
+                                {vb.title_de}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <Button
+                        onClick={handleIssueCredential}
+                        disabled={loading || !selectedEinwohnerId || !selectedVolksbegehrenId}
+                        className="w-full"
+                      >
+                        {loading ? "Wird ausgestellt..." : "Ausweis ausstellen"}
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              )}
             </div>
             
-            {selectedGemeindeId && (
-              <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Ausweis ausstellen
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[500px]">
-                  <DialogHeader>
-                    <DialogTitle>Stimmrechtsausweis ausstellen</DialogTitle>
-                    <DialogDescription>
-                      Stellen Sie einen Stimmrechtsausweis für einen Einwohner aus
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="space-y-4 py-4">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Einwohner</label>
-                      <Select value={selectedEinwohnerId} onValueChange={setSelectedEinwohnerId}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Wählen Sie einen Einwohner" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {einwohner.map((person) => (
-                            <SelectItem key={person.id} value={person.id}>
-                              {person.vorname} {person.nachname} (
-                              {new Date(person.geburtsdatum).toLocaleDateString("de-CH")})
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Volksbegehren</label>
-                      <Select
-                        value={selectedVolksbegehrenId}
-                        onValueChange={setSelectedVolksbegehrenId}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Wählen Sie ein Volksbegehren" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {volksbegehren.map((vb) => (
-                            <SelectItem key={vb.id} value={vb.id}>
-                              {vb.title_de}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <Button
-                      onClick={handleIssueCredential}
-                      disabled={loading || !selectedEinwohnerId || !selectedVolksbegehrenId}
-                      className="w-full"
-                    >
-                      {loading ? "Wird ausgestellt..." : "Ausweis ausstellen"}
-                    </Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            )}
+            {/* Search and Filter Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 pt-4 border-t">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Gemeinde</label>
+                <Select value={filterGemeindeId} onValueChange={setFilterGemeindeId}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Alle Gemeinden" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Alle Gemeinden</SelectItem>
+                    {gemeinden.map((gemeinde) => (
+                      <SelectItem key={gemeinde.id} value={gemeinde.id}>
+                        {gemeinde.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Volksbegehren</label>
+                <Select value={filterVolksbegehrenId} onValueChange={setFilterVolksbegehrenId}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Alle Volksbegehren" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Alle Volksbegehren</SelectItem>
+                    {volksbegehren.map((vb) => (
+                      <SelectItem key={vb.id} value={vb.id}>
+                        {vb.title_de}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Vorname</label>
+                <div className="relative">
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Suchen..."
+                    value={searchVorname}
+                    onChange={(e) => setSearchVorname(e.target.value)}
+                    className="pl-8"
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Nachname</label>
+                <div className="relative">
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Suchen..."
+                    value={searchNachname}
+                    onChange={(e) => setSearchNachname(e.target.value)}
+                    className="pl-8"
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Geburtsdatum</label>
+                <Input
+                  type="date"
+                  value={searchGeburtsdatum}
+                  onChange={(e) => setSearchGeburtsdatum(e.target.value)}
+                />
+              </div>
+            </div>
           </div>
         </CardHeader>
         
-        {selectedGemeindeId && (
-          <CardContent>
-            <div className="space-y-2">
-              {credentials.length === 0 ? (
-                <p className="text-muted-foreground">Keine Ausweise vorhanden</p>
-              ) : (
-                credentials.map((credential) => {
-                  const credentialEinwohner = einwohner.find((e) => e.id === credential.einwohner_id);
-                  const credentialVolksbegehren = volksbegehren.find(
-                    (v) => v.id === credential.volksbegehren_id
-                  );
+        <CardContent>
+          <div className="space-y-2">
+            {filteredCredentials.length === 0 ? (
+              <p className="text-muted-foreground">
+                {credentials.length === 0 
+                  ? "Keine Ausweise vorhanden" 
+                  : "Keine Ausweise mit den gewählten Filtern gefunden"}
+              </p>
+            ) : (
+              filteredCredentials.map((credential) => {
+                const credentialEinwohner = credential.einwohner;
+                const credentialVolksbegehren = credential.volksbegehren;
 
-                  return (
-                    <div
-                      key={credential.id}
-                      className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
-                      onClick={() => handleViewCredential(credential)}
-                    >
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <p className="font-semibold">
-                            {credentialEinwohner
-                              ? `${credentialEinwohner.vorname} ${credentialEinwohner.nachname}`
-                              : "Unbekannt"}
-                          </p>
-                          <Badge variant={credential.status === "issued" ? "default" : credential.status === "revoked" ? "destructive" : "secondary"}>
-                            {credential.status}
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          {credentialVolksbegehren?.title_de || "Unbekannt"}
+                return (
+                  <div
+                    key={credential.id}
+                    className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
+                    onClick={() => handleViewCredential(credential)}
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="font-semibold">
+                          {credentialEinwohner
+                            ? `${credentialEinwohner.vorname} ${credentialEinwohner.nachname}`
+                            : "Unbekannt"}
                         </p>
-                        <p className="text-xs text-muted-foreground">
-                          Ausgestellt: {new Date(credential.issued_at).toLocaleDateString("de-CH")}{" "}
-                          {new Date(credential.issued_at).toLocaleTimeString("de-CH", { 
-                            hour: '2-digit', 
-                            minute: '2-digit' 
-                          })}
-                        </p>
+                        <Badge variant={credential.status === "issued" ? "default" : credential.status === "revoked" ? "destructive" : "secondary"}>
+                          {credential.status}
+                        </Badge>
                       </div>
+                      <p className="text-sm text-muted-foreground">
+                        {credentialVolksbegehren?.title_de || "Unbekannt"}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Ausgestellt: {new Date(credential.issued_at).toLocaleDateString("de-CH")}{" "}
+                        {new Date(credential.issued_at).toLocaleTimeString("de-CH", { 
+                          hour: '2-digit', 
+                          minute: '2-digit' 
+                        })}
+                      </p>
+                    </div>
                       <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
                         <Button
                           variant="outline"
@@ -440,14 +543,13 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                             <Ban className="w-4 h-4" />
                           </Button>
                         )}
-                      </div>
                     </div>
-                  );
-                })
-              )}
-            </div>
-          </CardContent>
-        )}
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </CardContent>
       </Card>
 
       {/* Detail View Sheet */}
