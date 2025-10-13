@@ -27,6 +27,8 @@ interface Volksbegehren {
   comitee: string | null;
   sign_date: string | null;
   status: string;
+  start_date: string | null;
+  end_date: string | null;
 }
 
 const VolksbegehrenManagement = () => {
@@ -43,6 +45,8 @@ const VolksbegehrenManagement = () => {
     level: "federal",
     comitee: "",
     sign_date: "",
+    start_date: "",
+    end_date: "",
   });
   const [editVolksbegehren, setEditVolksbegehren] = useState<Volksbegehren | null>(null);
   const [viewVolksbegehren, setViewVolksbegehren] = useState<Volksbegehren | null>(null);
@@ -80,6 +84,8 @@ const VolksbegehrenManagement = () => {
         level: newVolksbegehren.level,
         comitee: newVolksbegehren.comitee || null,
         sign_date: newVolksbegehren.sign_date || null,
+        start_date: newVolksbegehren.start_date || null,
+        end_date: newVolksbegehren.end_date || null,
         status: "active",
       });
 
@@ -96,6 +102,8 @@ const VolksbegehrenManagement = () => {
         level: "federal",
         comitee: "",
         sign_date: "",
+        start_date: "",
+        end_date: "",
       });
       setDialogOpen(false);
       fetchVolksbegehren();
@@ -153,6 +161,8 @@ const VolksbegehrenManagement = () => {
           level: editVolksbegehren.level,
           comitee: editVolksbegehren.comitee,
           sign_date: editVolksbegehren.sign_date,
+          start_date: editVolksbegehren.start_date,
+          end_date: editVolksbegehren.end_date,
         })
         .eq("id", editVolksbegehren.id);
 
@@ -250,6 +260,31 @@ const VolksbegehrenManagement = () => {
                         value={newVolksbegehren.sign_date}
                         onChange={(e) =>
                           setNewVolksbegehren({ ...newVolksbegehren, sign_date: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="start_date">Startdatum</Label>
+                      <Input
+                        id="start_date"
+                        type="date"
+                        value={newVolksbegehren.start_date}
+                        onChange={(e) =>
+                          setNewVolksbegehren({ ...newVolksbegehren, start_date: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="end_date">Enddatum</Label>
+                      <Input
+                        id="end_date"
+                        type="date"
+                        value={newVolksbegehren.end_date}
+                        onChange={(e) =>
+                          setNewVolksbegehren({ ...newVolksbegehren, end_date: e.target.value })
                         }
                       />
                     </div>
@@ -449,6 +484,18 @@ const VolksbegehrenManagement = () => {
                   <p className="text-lg">{viewVolksbegehren.sign_date}</p>
                 </div>
               )}
+              {viewVolksbegehren.start_date && (
+                <div>
+                  <Label className="text-muted-foreground">Startdatum</Label>
+                  <p className="text-lg">{viewVolksbegehren.start_date}</p>
+                </div>
+              )}
+              {viewVolksbegehren.end_date && (
+                <div>
+                  <Label className="text-muted-foreground">Enddatum</Label>
+                  <p className="text-lg">{viewVolksbegehren.end_date}</p>
+                </div>
+              )}
               {viewVolksbegehren.comitee && (
                 <div>
                   <Label className="text-muted-foreground">Komitee</Label>
@@ -580,6 +627,27 @@ const VolksbegehrenManagement = () => {
                   value={editVolksbegehren.comitee || ""}
                   onChange={(e) => setEditVolksbegehren({ ...editVolksbegehren, comitee: e.target.value })}
                 />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-start-date">Startdatum</Label>
+                  <Input
+                    id="edit-start-date"
+                    type="date"
+                    value={editVolksbegehren.start_date || ""}
+                    onChange={(e) => setEditVolksbegehren({ ...editVolksbegehren, start_date: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-end-date">Enddatum</Label>
+                  <Input
+                    id="edit-end-date"
+                    type="date"
+                    value={editVolksbegehren.end_date || ""}
+                    onChange={(e) => setEditVolksbegehren({ ...editVolksbegehren, end_date: e.target.value })}
+                  />
+                </div>
               </div>
 
               <Button type="submit" disabled={loading} className="w-full">

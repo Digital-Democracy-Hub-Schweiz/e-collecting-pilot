@@ -146,6 +146,7 @@ export type Database = {
           bfs_nummer: string | null
           created_at: string
           created_by: string
+          did: string | null
           id: string
           kanton: string | null
           name: string
@@ -155,6 +156,7 @@ export type Database = {
           bfs_nummer?: string | null
           created_at?: string
           created_by: string
+          did?: string | null
           id?: string
           kanton?: string | null
           name: string
@@ -164,6 +166,7 @@ export type Database = {
           bfs_nummer?: string | null
           created_at?: string
           created_by?: string
+          did?: string | null
           id?: string
           kanton?: string | null
           name?: string
@@ -201,10 +204,12 @@ export type Database = {
           description_fr: string | null
           description_it: string | null
           description_rm: string | null
+          end_date: string | null
           id: string
           level: string
           sign_date: string | null
           slug: string
+          start_date: string | null
           status: string | null
           title_de: string
           title_en: string | null
@@ -222,10 +227,12 @@ export type Database = {
           description_fr?: string | null
           description_it?: string | null
           description_rm?: string | null
+          end_date?: string | null
           id?: string
           level: string
           sign_date?: string | null
           slug: string
+          start_date?: string | null
           status?: string | null
           title_de: string
           title_en?: string | null
@@ -243,10 +250,12 @@ export type Database = {
           description_fr?: string | null
           description_it?: string | null
           description_rm?: string | null
+          end_date?: string | null
           id?: string
           level?: string
           sign_date?: string | null
           slug?: string
+          start_date?: string | null
           status?: string | null
           title_de?: string
           title_en?: string | null

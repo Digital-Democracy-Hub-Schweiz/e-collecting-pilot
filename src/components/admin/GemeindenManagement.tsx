@@ -29,6 +29,7 @@ interface Gemeinde {
   name: string;
   bfs_nummer: string | null;
   kanton: string | null;
+  did: string | null;
 }
 
 interface GemeindenManagementProps {
@@ -42,6 +43,7 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
     name: "",
     bfs_nummer: "",
     kanton: "",
+    did: "",
   });
   const [inviteEmail, setInviteEmail] = useState("");
   const [selectedGemeindeId, setSelectedGemeindeId] = useState<string | null>(null);
@@ -90,13 +92,14 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
         name: newGemeinde.name,
         bfs_nummer: newGemeinde.bfs_nummer,
         kanton: newGemeinde.kanton || null,
+        did: newGemeinde.did || null,
         created_by: userId,
       });
 
       if (error) throw error;
 
       toast.success("Gemeinde erfolgreich erstellt");
-      setNewGemeinde({ name: "", bfs_nummer: "", kanton: "" });
+      setNewGemeinde({ name: "", bfs_nummer: "", kanton: "", did: "" });
       fetchGemeinden();
     } catch (error: any) {
       toast.error(error.message || "Fehler beim Erstellen der Gemeinde");
@@ -158,6 +161,7 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
           name: editGemeinde.name,
           bfs_nummer: editGemeinde.bfs_nummer,
           kanton: editGemeinde.kanton,
+          did: editGemeinde.did,
         })
         .eq("id", editGemeinde.id);
 
@@ -216,6 +220,17 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
                   className="bg-muted"
                 />
               </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="did">DID (Decentralized Identifier)</Label>
+              <Input
+                id="did"
+                value={newGemeinde.did}
+                onChange={(e) =>
+                  setNewGemeinde({ ...newGemeinde, did: e.target.value })
+                }
+                placeholder="did:tdw:..."
+              />
             </div>
             <Button type="submit" disabled={loading}>
               {loading ? "Wird erstellt..." : "Gemeinde erstellen"}
@@ -326,6 +341,10 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
                 <p className="text-lg">{viewGemeinde.kanton || "-"}</p>
               </div>
               <div>
+                <Label className="text-muted-foreground">DID</Label>
+                <p className="text-sm font-mono break-all">{viewGemeinde.did || "-"}</p>
+              </div>
+              <div>
                 <Label className="text-muted-foreground">ID</Label>
                 <p className="text-sm font-mono text-muted-foreground">{viewGemeinde.id}</p>
               </div>
@@ -366,6 +385,15 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
                   id="edit-kanton"
                   value={editGemeinde.kanton || ""}
                   onChange={(e) => setEditGemeinde({ ...editGemeinde, kanton: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-did">DID</Label>
+                <Input
+                  id="edit-did"
+                  value={editGemeinde.did || ""}
+                  onChange={(e) => setEditGemeinde({ ...editGemeinde, did: e.target.value })}
+                  placeholder="did:tdw:..."
                 />
               </div>
               <Button type="submit" disabled={loading} className="w-full">
