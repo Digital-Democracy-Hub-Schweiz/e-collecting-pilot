@@ -182,6 +182,22 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
     setLoading(true);
 
     try {
+      // Check if credential already exists for this combination
+      const { data: existingCredential, error: checkError } = await supabase
+        .from("credentials")
+        .select("id")
+        .eq("einwohner_id", selectedEinwohnerId)
+        .eq("volksbegehren_id", selectedVolksbegehrenId)
+        .maybeSingle();
+      
+      if (checkError) throw checkError;
+      
+      if (existingCredential) {
+        toast.error("Für diese Kombination von Einwohner und Volksbegehren existiert bereits ein Stimmrechtsausweis");
+        setLoading(false);
+        return;
+      }
+
       const selectedEinwohner = einwohner.find((e) => e.id === selectedEinwohnerId);
       const selectedVolksbegehren = volksbegehren.find((v) => v.id === selectedVolksbegehrenId);
 
