@@ -6,8 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Trash2, Pencil } from "lucide-react";
+import { Trash2, Plus } from "lucide-react";
 import ImportVolksbegehren from "./ImportVolksbegehren";
 
 interface Volksbegehren {
@@ -29,6 +31,7 @@ interface Volksbegehren {
 const VolksbegehrenManagement = () => {
   const [volksbegehren, setVolksbegehren] = useState<Volksbegehren[]>([]);
   const [loading, setLoading] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [newVolksbegehren, setNewVolksbegehren] = useState({
     slug: "",
     title_de: "",
@@ -91,6 +94,7 @@ const VolksbegehrenManagement = () => {
         comitee: "",
         sign_date: "",
       });
+      setDialogOpen(false);
       fetchVolksbegehren();
     } catch (error: any) {
       toast.error(error.message || "Fehler beim Erstellen des Volksbegehrens");
@@ -130,194 +134,223 @@ const VolksbegehrenManagement = () => {
 
   return (
     <div className="space-y-6">
-      <ImportVolksbegehren />
-      
       <Card>
         <CardHeader>
-          <CardTitle>Neues Volksbegehren erstellen</CardTitle>
-          <CardDescription>
-            Erstellen Sie ein neues Volksbegehren oder Referendum
-          </CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Volksbegehren</CardTitle>
+              <CardDescription>{volksbegehren.length} Volksbegehren</CardDescription>
+            </div>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <Button size="sm">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Volksbegehren hinzufügen
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>Neues Volksbegehren erstellen</DialogTitle>
+                  <DialogDescription>
+                    Erstellen Sie ein neues Volksbegehren oder Referendum
+                  </DialogDescription>
+                </DialogHeader>
+                <form onSubmit={handleCreateVolksbegehren} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="slug">Slug (URL-Name) *</Label>
+                      <Input
+                        id="slug"
+                        value={newVolksbegehren.slug}
+                        onChange={(e) =>
+                          setNewVolksbegehren({ ...newVolksbegehren, slug: e.target.value })
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="type">Typ *</Label>
+                      <Select
+                        value={newVolksbegehren.type}
+                        onValueChange={(value) =>
+                          setNewVolksbegehren({ ...newVolksbegehren, type: value })
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="referendum">Referendum</SelectItem>
+                          <SelectItem value="initiative">Initiative</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="level">Ebene *</Label>
+                      <Select
+                        value={newVolksbegehren.level}
+                        onValueChange={(value) =>
+                          setNewVolksbegehren({ ...newVolksbegehren, level: value })
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="federal">Bundesebene</SelectItem>
+                          <SelectItem value="cantonal">Kantonal</SelectItem>
+                          <SelectItem value="municipal">Gemeinde</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="sign_date">Unterschriftsdatum</Label>
+                      <Input
+                        id="sign_date"
+                        type="date"
+                        value={newVolksbegehren.sign_date}
+                        onChange={(e) =>
+                          setNewVolksbegehren({ ...newVolksbegehren, sign_date: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="title_de">Titel (Deutsch) *</Label>
+                    <Input
+                      id="title_de"
+                      value={newVolksbegehren.title_de}
+                      onChange={(e) =>
+                        setNewVolksbegehren({ ...newVolksbegehren, title_de: e.target.value })
+                      }
+                      required
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="title_fr">Titel (Französisch)</Label>
+                      <Input
+                        id="title_fr"
+                        value={newVolksbegehren.title_fr}
+                        onChange={(e) =>
+                          setNewVolksbegehren({ ...newVolksbegehren, title_fr: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="title_it">Titel (Italienisch)</Label>
+                      <Input
+                        id="title_it"
+                        value={newVolksbegehren.title_it}
+                        onChange={(e) =>
+                          setNewVolksbegehren({ ...newVolksbegehren, title_it: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="description_de">Beschreibung (Deutsch)</Label>
+                    <Textarea
+                      id="description_de"
+                      value={newVolksbegehren.description_de}
+                      onChange={(e) =>
+                        setNewVolksbegehren({
+                          ...newVolksbegehren,
+                          description_de: e.target.value,
+                        })
+                      }
+                      rows={4}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="comitee">Komitee</Label>
+                    <Input
+                      id="comitee"
+                      value={newVolksbegehren.comitee}
+                      onChange={(e) =>
+                        setNewVolksbegehren({ ...newVolksbegehren, comitee: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <Button type="submit" disabled={loading} className="w-full">
+                    {loading ? "Wird erstellt..." : "Volksbegehren erstellen"}
+                  </Button>
+                </form>
+              </DialogContent>
+            </Dialog>
+          </div>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleCreateVolksbegehren} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="slug">Slug (URL-Name) *</Label>
-                <Input
-                  id="slug"
-                  value={newVolksbegehren.slug}
-                  onChange={(e) =>
-                    setNewVolksbegehren({ ...newVolksbegehren, slug: e.target.value })
-                  }
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="type">Typ *</Label>
-                <Select
-                  value={newVolksbegehren.type}
-                  onValueChange={(value) =>
-                    setNewVolksbegehren({ ...newVolksbegehren, type: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="referendum">Referendum</SelectItem>
-                    <SelectItem value="initiative">Initiative</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="level">Ebene *</Label>
-                <Select
-                  value={newVolksbegehren.level}
-                  onValueChange={(value) =>
-                    setNewVolksbegehren({ ...newVolksbegehren, level: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="federal">Bundesebene</SelectItem>
-                    <SelectItem value="cantonal">Kantonal</SelectItem>
-                    <SelectItem value="municipal">Gemeinde</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sign_date">Unterschriftsdatum</Label>
-                <Input
-                  id="sign_date"
-                  type="date"
-                  value={newVolksbegehren.sign_date}
-                  onChange={(e) =>
-                    setNewVolksbegehren({ ...newVolksbegehren, sign_date: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="title_de">Titel (Deutsch) *</Label>
-              <Input
-                id="title_de"
-                value={newVolksbegehren.title_de}
-                onChange={(e) =>
-                  setNewVolksbegehren({ ...newVolksbegehren, title_de: e.target.value })
-                }
-                required
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="title_fr">Titel (Französisch)</Label>
-                <Input
-                  id="title_fr"
-                  value={newVolksbegehren.title_fr}
-                  onChange={(e) =>
-                    setNewVolksbegehren({ ...newVolksbegehren, title_fr: e.target.value })
-                  }
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="title_it">Titel (Italienisch)</Label>
-                <Input
-                  id="title_it"
-                  value={newVolksbegehren.title_it}
-                  onChange={(e) =>
-                    setNewVolksbegehren({ ...newVolksbegehren, title_it: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description_de">Beschreibung (Deutsch)</Label>
-              <Textarea
-                id="description_de"
-                value={newVolksbegehren.description_de}
-                onChange={(e) =>
-                  setNewVolksbegehren({
-                    ...newVolksbegehren,
-                    description_de: e.target.value,
-                  })
-                }
-                rows={4}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="comitee">Komitee</Label>
-              <Input
-                id="comitee"
-                value={newVolksbegehren.comitee}
-                onChange={(e) =>
-                  setNewVolksbegehren({ ...newVolksbegehren, comitee: e.target.value })
-                }
-              />
-            </div>
-
-            <Button type="submit" disabled={loading}>
-              {loading ? "Wird erstellt..." : "Volksbegehren erstellen"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Volksbegehren-Liste</CardTitle>
-          <CardDescription>{volksbegehren.length} Volksbegehren</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {volksbegehren.length === 0 ? (
-              <p className="text-muted-foreground">Keine Volksbegehren vorhanden</p>
+              <p className="text-muted-foreground text-center py-8">Keine Volksbegehren vorhanden</p>
             ) : (
               volksbegehren.map((vb) => (
-                <div
-                  key={vb.id}
-                  className="flex items-start justify-between p-4 border rounded-lg"
-                >
-                  <div className="flex-1">
-                    <h3 className="font-semibold">{vb.title_de}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {vb.type} | {vb.level} | Status: {vb.status}
-                    </p>
-                    {vb.description_de && (
-                      <p className="text-sm mt-2 line-clamp-2">{vb.description_de}</p>
-                    )}
-                  </div>
-                  <div className="flex gap-2 ml-4">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleToggleStatus(vb.id, vb.status)}
-                    >
-                      {vb.status === "active" ? "Deaktivieren" : "Aktivieren"}
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => handleDeleteVolksbegehren(vb.id)}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
+                <Card key={vb.id}>
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h3 className="font-semibold text-lg">{vb.title_de}</h3>
+                          <Badge variant={vb.status === "active" ? "default" : "secondary"}>
+                            {vb.status === "active" ? "Aktiv" : "Inaktiv"}
+                          </Badge>
+                        </div>
+                        <div className="flex gap-3 text-sm text-muted-foreground mb-2">
+                          <span className="capitalize">{vb.type === "referendum" ? "Referendum" : "Initiative"}</span>
+                          <span>•</span>
+                          <span>
+                            {vb.level === "federal" ? "Bundesebene" : 
+                             vb.level === "cantonal" ? "Kantonal" : "Gemeinde"}
+                          </span>
+                          {vb.sign_date && (
+                            <>
+                              <span>•</span>
+                              <span>Unterschrift: {vb.sign_date}</span>
+                            </>
+                          )}
+                        </div>
+                        {vb.description_de && (
+                          <p className="text-sm mt-2 line-clamp-2">{vb.description_de}</p>
+                        )}
+                        {vb.comitee && (
+                          <p className="text-xs text-muted-foreground mt-2">Komitee: {vb.comitee}</p>
+                        )}
+                      </div>
+                      <div className="flex gap-2 ml-4">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleToggleStatus(vb.id, vb.status)}
+                        >
+                          {vb.status === "active" ? "Deaktivieren" : "Aktivieren"}
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => handleDeleteVolksbegehren(vb.id)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               ))
             )}
           </div>
         </CardContent>
       </Card>
+
+      <ImportVolksbegehren />
     </div>
   );
 };
