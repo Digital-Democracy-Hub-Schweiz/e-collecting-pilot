@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Ban, Plus } from "lucide-react";
+import { Ban, Plus, RefreshCw } from "lucide-react";
 
 interface Gemeinde {
   id: string;
@@ -51,6 +53,8 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const [selectedVolksbegehrenId, setSelectedVolksbegehrenId] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [viewCredential, setViewCredential] = useState<Credential | null>(null);
+  const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
 
   useEffect(() => {
     fetchGemeinden();
@@ -241,6 +245,34 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
     }
   };
 
+  const handleUpdateCredentialStatus = async (credentialId: string, managementId: string | null) => {
+    if (!managementId) {
+      toast.error("Keine Management-ID vorhanden");
+      return;
+    }
+
+    setUpdatingStatus(credentialId);
+    try {
+      const statusResponse = await issuerBusinessAPI.checkCredentialStatus(managementId);
+      
+      const { error } = await supabase
+        .from("credentials")
+        .update({ 
+          status: statusResponse.status || "unknown" 
+        })
+        .eq("id", credentialId);
+
+      if (error) throw error;
+
+      toast.success("Status erfolgreich aktualisiert");
+      fetchCredentials();
+    } catch (error: any) {
+      toast.error(error.message || "Fehler beim Aktualisieren des Status");
+    } finally {
+      setUpdatingStatus(null);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -345,27 +377,40 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                   return (
                     <div
                       key={credential.id}
-                      className="flex items-center justify-between p-3 border rounded-lg"
+                      className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
+                      onClick={() => setViewCredential(credential)}
                     >
                       <div className="flex-1">
-                        <p className="font-semibold">
-                          {credentialEinwohner
-                            ? `${credentialEinwohner.vorname} ${credentialEinwohner.nachname}`
-                            : "Unbekannt"}
-                        </p>
+                        <div className="flex items-center gap-2 mb-1">
+                          <p className="font-semibold">
+                            {credentialEinwohner
+                              ? `${credentialEinwohner.vorname} ${credentialEinwohner.nachname}`
+                              : "Unbekannt"}
+                          </p>
+                          <Badge variant={credential.status === "issued" ? "default" : credential.status === "revoked" ? "destructive" : "secondary"}>
+                            {credential.status}
+                          </Badge>
+                        </div>
                         <p className="text-sm text-muted-foreground">
                           {credentialVolksbegehren?.title_de || "Unbekannt"}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          Status: {credential.status} | Ausgestellt:{" "}
-                          {new Date(credential.issued_at).toLocaleDateString("de-CH")}{" "}
+                          Ausgestellt: {new Date(credential.issued_at).toLocaleDateString("de-CH")}{" "}
                           {new Date(credential.issued_at).toLocaleTimeString("de-CH", { 
                             hour: '2-digit', 
                             minute: '2-digit' 
                           })}
                         </p>
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleUpdateCredentialStatus(credential.id, credential.management_id)}
+                          disabled={updatingStatus === credential.id}
+                        >
+                          <RefreshCw className={`w-4 h-4 ${updatingStatus === credential.id ? 'animate-spin' : ''}`} />
+                        </Button>
                         {credential.status === "issued" && (
                           <Button
                             variant="destructive"
@@ -375,15 +420,8 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                             }
                             disabled={loading}
                           >
-                            <Ban className="w-4 h-4 mr-2" />
-                            Widerrufen
-                          </Button>
-                        )}
-                        {credential.status === "revoked" && (
-                          <div className="text-xs text-red-500 flex items-center gap-1">
                             <Ban className="w-4 h-4" />
-                            Widerrufen
-                          </div>
+                          </Button>
                         )}
                       </div>
                     </div>
@@ -394,6 +432,108 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
           </CardContent>
         )}
       </Card>
+
+      {/* Detail View Sheet */}
+      <Sheet open={!!viewCredential} onOpenChange={(open) => !open && setViewCredential(null)}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Stimmrechtsausweis Details</SheetTitle>
+            <SheetDescription>Detaillierte Informationen zum Ausweis</SheetDescription>
+          </SheetHeader>
+          {viewCredential && (() => {
+            const credentialEinwohner = einwohner.find((e) => e.id === viewCredential.einwohner_id);
+            const credentialVolksbegehren = volksbegehren.find((v) => v.id === viewCredential.volksbegehren_id);
+            
+            return (
+              <div className="mt-6 space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Einwohner</label>
+                  <p className="text-lg font-semibold">
+                    {credentialEinwohner 
+                      ? `${credentialEinwohner.vorname} ${credentialEinwohner.nachname}` 
+                      : "Unbekannt"}
+                  </p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Volksbegehren</label>
+                  <p className="text-lg">{credentialVolksbegehren?.title_de || "Unbekannt"}</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Status</label>
+                  <div className="mt-1">
+                    <Badge variant={viewCredential.status === "issued" ? "default" : viewCredential.status === "revoked" ? "destructive" : "secondary"}>
+                      {viewCredential.status}
+                    </Badge>
+                  </div>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Ausgestellt am</label>
+                  <p className="text-lg">
+                    {new Date(viewCredential.issued_at).toLocaleDateString("de-CH")}{" "}
+                    {new Date(viewCredential.issued_at).toLocaleTimeString("de-CH", { 
+                      hour: '2-digit', 
+                      minute: '2-digit' 
+                    })}
+                  </p>
+                </div>
+                {viewCredential.revoked_at && (
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Widerrufen am</label>
+                    <p className="text-lg">
+                      {new Date(viewCredential.revoked_at).toLocaleDateString("de-CH")}{" "}
+                      {new Date(viewCredential.revoked_at).toLocaleTimeString("de-CH", { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                      })}
+                    </p>
+                  </div>
+                )}
+                {viewCredential.management_id && (
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Management ID</label>
+                    <p className="text-sm font-mono text-muted-foreground break-all">
+                      {viewCredential.management_id}
+                    </p>
+                  </div>
+                )}
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Credential ID</label>
+                  <p className="text-sm font-mono text-muted-foreground break-all">
+                    {viewCredential.id}
+                  </p>
+                </div>
+                <div className="pt-4 flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleUpdateCredentialStatus(viewCredential.id, viewCredential.management_id)}
+                    disabled={updatingStatus === viewCredential.id}
+                    className="flex-1"
+                  >
+                    <RefreshCw className={`w-4 h-4 mr-2 ${updatingStatus === viewCredential.id ? 'animate-spin' : ''}`} />
+                    Status aktualisieren
+                  </Button>
+                  {viewCredential.status === "issued" && (
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => {
+                        handleRevokeCredential(viewCredential.id, viewCredential.management_id);
+                        setViewCredential(null);
+                      }}
+                      disabled={loading}
+                      className="flex-1"
+                    >
+                      <Ban className="w-4 h-4 mr-2" />
+                      Widerrufen
+                    </Button>
+                  )}
+                </div>
+              </div>
+            );
+          })()}
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };

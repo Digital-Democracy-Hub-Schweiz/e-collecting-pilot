@@ -7,9 +7,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Trash2, Plus } from "lucide-react";
+import { Trash2, Plus, Pencil } from "lucide-react";
 import ImportVolksbegehren from "./ImportVolksbegehren";
 
 interface Volksbegehren {
@@ -43,6 +44,8 @@ const VolksbegehrenManagement = () => {
     comitee: "",
     sign_date: "",
   });
+  const [editVolksbegehren, setEditVolksbegehren] = useState<Volksbegehren | null>(null);
+  const [viewVolksbegehren, setViewVolksbegehren] = useState<Volksbegehren | null>(null);
 
   useEffect(() => {
     fetchVolksbegehren();
@@ -129,6 +132,39 @@ const VolksbegehrenManagement = () => {
     } else {
       toast.success("Status erfolgreich aktualisiert");
       fetchVolksbegehren();
+    }
+  };
+
+  const handleUpdateVolksbegehren = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editVolksbegehren) return;
+
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from("volksbegehren")
+        .update({
+          slug: editVolksbegehren.slug,
+          title_de: editVolksbegehren.title_de,
+          title_fr: editVolksbegehren.title_fr,
+          title_it: editVolksbegehren.title_it,
+          description_de: editVolksbegehren.description_de,
+          type: editVolksbegehren.type,
+          level: editVolksbegehren.level,
+          comitee: editVolksbegehren.comitee,
+          sign_date: editVolksbegehren.sign_date,
+        })
+        .eq("id", editVolksbegehren.id);
+
+      if (error) throw error;
+
+      toast.success("Volksbegehren erfolgreich aktualisiert");
+      setEditVolksbegehren(null);
+      fetchVolksbegehren();
+    } catch (error: any) {
+      toast.error(error.message || "Fehler beim Aktualisieren des Volksbegehrens");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -294,7 +330,11 @@ const VolksbegehrenManagement = () => {
               <p className="text-muted-foreground text-center py-8">Keine Volksbegehren vorhanden</p>
             ) : (
               volksbegehren.map((vb) => (
-                <Card key={vb.id}>
+                <Card 
+                  key={vb.id} 
+                  className="hover:bg-accent/50 transition-colors cursor-pointer"
+                  onClick={() => setViewVolksbegehren(vb)}
+                >
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
@@ -325,7 +365,14 @@ const VolksbegehrenManagement = () => {
                           <p className="text-xs text-muted-foreground mt-2">Komitee: {vb.comitee}</p>
                         )}
                       </div>
-                      <div className="flex gap-2 ml-4">
+                      <div className="flex gap-2 ml-4" onClick={(e) => e.stopPropagation()}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setEditVolksbegehren(vb)}
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </Button>
                         <Button
                           variant="outline"
                           size="sm"
@@ -351,6 +398,197 @@ const VolksbegehrenManagement = () => {
       </Card>
 
       <ImportVolksbegehren />
+
+      {/* Detail View Sheet */}
+      <Sheet open={!!viewVolksbegehren} onOpenChange={(open) => !open && setViewVolksbegehren(null)}>
+        <SheetContent className="overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>Volksbegehren Details</SheetTitle>
+            <SheetDescription>Detaillierte Informationen zum Volksbegehren</SheetDescription>
+          </SheetHeader>
+          {viewVolksbegehren && (
+            <div className="mt-6 space-y-4">
+              <div>
+                <Label className="text-muted-foreground">Titel (Deutsch)</Label>
+                <p className="text-lg font-semibold">{viewVolksbegehren.title_de}</p>
+              </div>
+              {viewVolksbegehren.title_fr && (
+                <div>
+                  <Label className="text-muted-foreground">Titel (Französisch)</Label>
+                  <p className="text-lg">{viewVolksbegehren.title_fr}</p>
+                </div>
+              )}
+              {viewVolksbegehren.title_it && (
+                <div>
+                  <Label className="text-muted-foreground">Titel (Italienisch)</Label>
+                  <p className="text-lg">{viewVolksbegehren.title_it}</p>
+                </div>
+              )}
+              <div>
+                <Label className="text-muted-foreground">Typ</Label>
+                <p className="text-lg capitalize">{viewVolksbegehren.type === "referendum" ? "Referendum" : "Initiative"}</p>
+              </div>
+              <div>
+                <Label className="text-muted-foreground">Ebene</Label>
+                <p className="text-lg">
+                  {viewVolksbegehren.level === "federal" ? "Bundesebene" : 
+                   viewVolksbegehren.level === "cantonal" ? "Kantonal" : "Gemeinde"}
+                </p>
+              </div>
+              <div>
+                <Label className="text-muted-foreground">Status</Label>
+                <div className="mt-1">
+                  <Badge variant={viewVolksbegehren.status === "active" ? "default" : "secondary"}>
+                    {viewVolksbegehren.status === "active" ? "Aktiv" : "Inaktiv"}
+                  </Badge>
+                </div>
+              </div>
+              {viewVolksbegehren.sign_date && (
+                <div>
+                  <Label className="text-muted-foreground">Unterschriftsdatum</Label>
+                  <p className="text-lg">{viewVolksbegehren.sign_date}</p>
+                </div>
+              )}
+              {viewVolksbegehren.comitee && (
+                <div>
+                  <Label className="text-muted-foreground">Komitee</Label>
+                  <p className="text-lg">{viewVolksbegehren.comitee}</p>
+                </div>
+              )}
+              {viewVolksbegehren.description_de && (
+                <div>
+                  <Label className="text-muted-foreground">Beschreibung</Label>
+                  <p className="text-sm mt-1">{viewVolksbegehren.description_de}</p>
+                </div>
+              )}
+              <div>
+                <Label className="text-muted-foreground">Slug</Label>
+                <p className="text-sm font-mono text-muted-foreground">{viewVolksbegehren.slug}</p>
+              </div>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
+
+      {/* Edit Dialog */}
+      <Dialog open={!!editVolksbegehren} onOpenChange={(open) => !open && setEditVolksbegehren(null)}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Volksbegehren bearbeiten</DialogTitle>
+            <DialogDescription>Bearbeiten Sie die Volksbegehren-Informationen</DialogDescription>
+          </DialogHeader>
+          {editVolksbegehren && (
+            <form onSubmit={handleUpdateVolksbegehren} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-slug">Slug (URL-Name) *</Label>
+                  <Input
+                    id="edit-slug"
+                    value={editVolksbegehren.slug}
+                    onChange={(e) => setEditVolksbegehren({ ...editVolksbegehren, slug: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-type">Typ *</Label>
+                  <Select
+                    value={editVolksbegehren.type}
+                    onValueChange={(value) => setEditVolksbegehren({ ...editVolksbegehren, type: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="referendum">Referendum</SelectItem>
+                      <SelectItem value="initiative">Initiative</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-level">Ebene *</Label>
+                  <Select
+                    value={editVolksbegehren.level}
+                    onValueChange={(value) => setEditVolksbegehren({ ...editVolksbegehren, level: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="federal">Bundesebene</SelectItem>
+                      <SelectItem value="cantonal">Kantonal</SelectItem>
+                      <SelectItem value="municipal">Gemeinde</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-sign-date">Unterschriftsdatum</Label>
+                  <Input
+                    id="edit-sign-date"
+                    type="date"
+                    value={editVolksbegehren.sign_date || ""}
+                    onChange={(e) => setEditVolksbegehren({ ...editVolksbegehren, sign_date: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="edit-title-de">Titel (Deutsch) *</Label>
+                <Input
+                  id="edit-title-de"
+                  value={editVolksbegehren.title_de}
+                  onChange={(e) => setEditVolksbegehren({ ...editVolksbegehren, title_de: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-title-fr">Titel (Französisch)</Label>
+                  <Input
+                    id="edit-title-fr"
+                    value={editVolksbegehren.title_fr || ""}
+                    onChange={(e) => setEditVolksbegehren({ ...editVolksbegehren, title_fr: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-title-it">Titel (Italienisch)</Label>
+                  <Input
+                    id="edit-title-it"
+                    value={editVolksbegehren.title_it || ""}
+                    onChange={(e) => setEditVolksbegehren({ ...editVolksbegehren, title_it: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="edit-description-de">Beschreibung (Deutsch)</Label>
+                <Textarea
+                  id="edit-description-de"
+                  value={editVolksbegehren.description_de || ""}
+                  onChange={(e) => setEditVolksbegehren({ ...editVolksbegehren, description_de: e.target.value })}
+                  rows={4}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="edit-comitee">Komitee</Label>
+                <Input
+                  id="edit-comitee"
+                  value={editVolksbegehren.comitee || ""}
+                  onChange={(e) => setEditVolksbegehren({ ...editVolksbegehren, comitee: e.target.value })}
+                />
+              </div>
+
+              <Button type="submit" disabled={loading} className="w-full">
+                {loading ? "Wird aktualisiert..." : "Änderungen speichern"}
+              </Button>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

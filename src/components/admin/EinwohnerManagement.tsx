@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { toast } from "sonner";
 import { Trash2, Pencil } from "lucide-react";
 
@@ -35,6 +37,8 @@ const EinwohnerManagement = ({ userId }: EinwohnerManagementProps) => {
     nachname: "",
     geburtsdatum: "",
   });
+  const [editEinwohner, setEditEinwohner] = useState<Einwohner | null>(null);
+  const [viewEinwohner, setViewEinwohner] = useState<Einwohner | null>(null);
 
   useEffect(() => {
     fetchGemeinden();
@@ -119,6 +123,33 @@ const EinwohnerManagement = ({ userId }: EinwohnerManagementProps) => {
     } else {
       toast.success("Einwohner erfolgreich gelöscht");
       fetchEinwohner();
+    }
+  };
+
+  const handleUpdateEinwohner = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editEinwohner) return;
+
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from("einwohner")
+        .update({
+          vorname: editEinwohner.vorname,
+          nachname: editEinwohner.nachname,
+          geburtsdatum: editEinwohner.geburtsdatum,
+        })
+        .eq("id", editEinwohner.id);
+
+      if (error) throw error;
+
+      toast.success("Einwohner erfolgreich aktualisiert");
+      setEditEinwohner(null);
+      fetchEinwohner();
+    } catch (error: any) {
+      toast.error(error.message || "Fehler beim Aktualisieren des Einwohners");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -208,10 +239,11 @@ const EinwohnerManagement = ({ userId }: EinwohnerManagementProps) => {
               {einwohner.length === 0 ? (
                 <p className="text-muted-foreground">Keine Einwohner vorhanden</p>
               ) : (
-                einwohner.map((person) => (
+              einwohner.map((person) => (
                   <div
                     key={person.id}
-                    className="flex items-center justify-between p-3 border rounded-lg"
+                    className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
+                    onClick={() => setViewEinwohner(person)}
                   >
                     <div>
                       <p className="font-semibold">
@@ -221,13 +253,22 @@ const EinwohnerManagement = ({ userId }: EinwohnerManagementProps) => {
                         Geb.: {new Date(person.geburtsdatum).toLocaleDateString("de-CH")}
                       </p>
                     </div>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => handleDeleteEinwohner(person.id)}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
+                    <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setEditEinwohner(person)}
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleDeleteEinwohner(person.id)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 ))
               )}
@@ -235,6 +276,81 @@ const EinwohnerManagement = ({ userId }: EinwohnerManagementProps) => {
           </CardContent>
         </Card>
       )}
+
+      {/* Detail View Sheet */}
+      <Sheet open={!!viewEinwohner} onOpenChange={(open) => !open && setViewEinwohner(null)}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Einwohner Details</SheetTitle>
+            <SheetDescription>Detaillierte Informationen zum Einwohner</SheetDescription>
+          </SheetHeader>
+          {viewEinwohner && (
+            <div className="mt-6 space-y-4">
+              <div>
+                <Label className="text-muted-foreground">Vorname</Label>
+                <p className="text-lg font-semibold">{viewEinwohner.vorname}</p>
+              </div>
+              <div>
+                <Label className="text-muted-foreground">Nachname</Label>
+                <p className="text-lg font-semibold">{viewEinwohner.nachname}</p>
+              </div>
+              <div>
+                <Label className="text-muted-foreground">Geburtsdatum</Label>
+                <p className="text-lg">{new Date(viewEinwohner.geburtsdatum).toLocaleDateString("de-CH")}</p>
+              </div>
+              <div>
+                <Label className="text-muted-foreground">ID</Label>
+                <p className="text-sm font-mono text-muted-foreground">{viewEinwohner.id}</p>
+              </div>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
+
+      {/* Edit Dialog */}
+      <Dialog open={!!editEinwohner} onOpenChange={(open) => !open && setEditEinwohner(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Einwohner bearbeiten</DialogTitle>
+            <DialogDescription>Bearbeiten Sie die Einwohner-Informationen</DialogDescription>
+          </DialogHeader>
+          {editEinwohner && (
+            <form onSubmit={handleUpdateEinwohner} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit-vorname">Vorname *</Label>
+                <Input
+                  id="edit-vorname"
+                  value={editEinwohner.vorname}
+                  onChange={(e) => setEditEinwohner({ ...editEinwohner, vorname: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-nachname">Nachname *</Label>
+                <Input
+                  id="edit-nachname"
+                  value={editEinwohner.nachname}
+                  onChange={(e) => setEditEinwohner({ ...editEinwohner, nachname: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-geburtsdatum">Geburtsdatum *</Label>
+                <Input
+                  id="edit-geburtsdatum"
+                  type="date"
+                  value={editEinwohner.geburtsdatum}
+                  onChange={(e) => setEditEinwohner({ ...editEinwohner, geburtsdatum: e.target.value })}
+                  required
+                />
+              </div>
+              <Button type="submit" disabled={loading} className="w-full">
+                {loading ? "Wird aktualisiert..." : "Änderungen speichern"}
+              </Button>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

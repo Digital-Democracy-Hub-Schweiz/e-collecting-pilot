@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { determineCantonFromBfs } from "@/utils/cantonUtils";
-import { Trash2, UserPlus } from "lucide-react";
+import { Trash2, UserPlus, Pencil, Eye } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -15,6 +15,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 interface Gemeinde {
   id: string;
@@ -37,6 +45,8 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
   });
   const [inviteEmail, setInviteEmail] = useState("");
   const [selectedGemeindeId, setSelectedGemeindeId] = useState<string | null>(null);
+  const [editGemeinde, setEditGemeinde] = useState<Gemeinde | null>(null);
+  const [viewGemeinde, setViewGemeinde] = useState<Gemeinde | null>(null);
 
   useEffect(() => {
     fetchGemeinden();
@@ -136,6 +146,33 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
     }
   };
 
+  const handleUpdateGemeinde = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editGemeinde) return;
+
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from("gemeinden")
+        .update({
+          name: editGemeinde.name,
+          bfs_nummer: editGemeinde.bfs_nummer,
+          kanton: editGemeinde.kanton,
+        })
+        .eq("id", editGemeinde.id);
+
+      if (error) throw error;
+
+      toast.success("Gemeinde erfolgreich aktualisiert");
+      setEditGemeinde(null);
+      fetchGemeinden();
+    } catch (error: any) {
+      toast.error(error.message || "Fehler beim Aktualisieren der Gemeinde");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -200,7 +237,8 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
               gemeinden.map((gemeinde) => (
                 <div
                   key={gemeinde.id}
-                  className="flex items-center justify-between p-4 border rounded-lg"
+                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
+                  onClick={() => setViewGemeinde(gemeinde)}
                 >
                   <div>
                     <h3 className="font-semibold">{gemeinde.name}</h3>
@@ -209,7 +247,14 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
                       {gemeinde.kanton && ` | Kanton: ${gemeinde.kanton}`}
                     </p>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setEditGemeinde(gemeinde)}
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </Button>
                     <Dialog>
                       <DialogTrigger asChild>
                         <Button
@@ -217,8 +262,7 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
                           size="sm"
                           onClick={() => setSelectedGemeindeId(gemeinde.id)}
                         >
-                          <UserPlus className="w-4 h-4 mr-2" />
-                          Admin einladen
+                          <UserPlus className="w-4 h-4" />
                         </Button>
                       </DialogTrigger>
                       <DialogContent>
@@ -259,6 +303,78 @@ const GemeindenManagement = ({ userId }: GemeindenManagementProps) => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Detail View Sheet */}
+      <Sheet open={!!viewGemeinde} onOpenChange={(open) => !open && setViewGemeinde(null)}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Gemeinde Details</SheetTitle>
+            <SheetDescription>Detaillierte Informationen zur Gemeinde</SheetDescription>
+          </SheetHeader>
+          {viewGemeinde && (
+            <div className="mt-6 space-y-4">
+              <div>
+                <Label className="text-muted-foreground">Name</Label>
+                <p className="text-lg font-semibold">{viewGemeinde.name}</p>
+              </div>
+              <div>
+                <Label className="text-muted-foreground">BFS-Nummer</Label>
+                <p className="text-lg">{viewGemeinde.bfs_nummer || "-"}</p>
+              </div>
+              <div>
+                <Label className="text-muted-foreground">Kanton</Label>
+                <p className="text-lg">{viewGemeinde.kanton || "-"}</p>
+              </div>
+              <div>
+                <Label className="text-muted-foreground">ID</Label>
+                <p className="text-sm font-mono text-muted-foreground">{viewGemeinde.id}</p>
+              </div>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
+
+      {/* Edit Dialog */}
+      <Dialog open={!!editGemeinde} onOpenChange={(open) => !open && setEditGemeinde(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Gemeinde bearbeiten</DialogTitle>
+            <DialogDescription>Bearbeiten Sie die Gemeinde-Informationen</DialogDescription>
+          </DialogHeader>
+          {editGemeinde && (
+            <form onSubmit={handleUpdateGemeinde} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit-name">Gemeindename *</Label>
+                <Input
+                  id="edit-name"
+                  value={editGemeinde.name}
+                  onChange={(e) => setEditGemeinde({ ...editGemeinde, name: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-bfs">BFS-Nummer</Label>
+                <Input
+                  id="edit-bfs"
+                  value={editGemeinde.bfs_nummer || ""}
+                  onChange={(e) => setEditGemeinde({ ...editGemeinde, bfs_nummer: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-kanton">Kanton</Label>
+                <Input
+                  id="edit-kanton"
+                  value={editGemeinde.kanton || ""}
+                  onChange={(e) => setEditGemeinde({ ...editGemeinde, kanton: e.target.value })}
+                />
+              </div>
+              <Button type="submit" disabled={loading} className="w-full">
+                {loading ? "Wird aktualisiert..." : "Änderungen speichern"}
+              </Button>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
