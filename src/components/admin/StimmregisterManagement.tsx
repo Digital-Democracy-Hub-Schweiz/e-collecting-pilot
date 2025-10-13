@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { issuerBusinessAPI } from "@/services/issuerAPI";
+import { gemeindeIssuerAPI } from "@/services/gemeindeIssuerAPI";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -171,8 +171,8 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
         throw new Error("Einwohner oder Volksbegehren nicht gefunden");
       }
 
-      // Issue credential via API
-      const response = await issuerBusinessAPI.issueCredential({
+      // Issue credential via Gemeinde API
+      const response = await gemeindeIssuerAPI.issueCredential({
         metadata_credential_supported_id: ["stimmrechtsausweis"],
         credential_subject_data: {
           firstName: selectedEinwohner.vorname,
@@ -214,14 +214,9 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
     setLoading(true);
 
     try {
-      // Call revoke API
+      // Call revoke API using Gemeinde service
       if (managementId) {
-        await fetch(`https://issuer-gemeinde.ecollecting.ch/management/api/credentials/${managementId}/revoke`, {
-          method: 'POST',
-          headers: {
-            'Accept': '*/*',
-          },
-        });
+        await gemeindeIssuerAPI.revokeCredential(managementId);
       }
 
       // Update database
@@ -253,7 +248,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
 
     setUpdatingStatus(credentialId);
     try {
-      const statusResponse = await issuerBusinessAPI.checkCredentialStatus(managementId);
+      const statusResponse = await gemeindeIssuerAPI.checkCredentialStatus(managementId);
       
       const { error } = await supabase
         .from("credentials")
