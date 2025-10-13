@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Ban, Plus, RefreshCw, Search } from "lucide-react";
+import QRCode from "react-qr-code";
 
 interface Gemeinde {
   id: string;
@@ -71,6 +72,8 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const [credentialDetails, setCredentialDetails] = useState<any>(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<string>("");
+  const [showQRDialog, setShowQRDialog] = useState(false);
+  const [issuedOfferDeeplink, setIssuedOfferDeeplink] = useState<string | null>(null);
   
   // Filter states
   const [filterGemeindeId, setFilterGemeindeId] = useState<string>("all");
@@ -212,6 +215,11 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
       if (error) throw error;
 
       toast.success("Stimmrechtsausweis erfolgreich ausgestellt");
+      
+      // Show QR code dialog
+      setIssuedOfferDeeplink(response.offer_deeplink);
+      setShowQRDialog(true);
+      
       fetchCredentials();
       setSelectedEinwohnerId("");
       setSelectedVolksbegehrenId("");
@@ -817,6 +825,31 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
           })()}
         </SheetContent>
       </Sheet>
+
+      {/* QR Code Dialog after credential issuance */}
+      <Dialog open={showQRDialog} onOpenChange={setShowQRDialog}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Stimmrechtsausweis importieren</DialogTitle>
+            <DialogDescription>
+              Scannen Sie den QR-Code mit der swiyu-Wallet App, um den Stimmrechtsausweis zu importieren.
+            </DialogDescription>
+          </DialogHeader>
+          {issuedOfferDeeplink && (
+            <div className="flex flex-col items-center py-6 space-y-4">
+              <QRCode value={issuedOfferDeeplink} size={256} />
+              <p className="text-sm text-muted-foreground text-center">
+                QR-Code mit swiyu-Wallet App scannen
+              </p>
+            </div>
+          )}
+          <div className="flex justify-end">
+            <Button onClick={() => setShowQRDialog(false)}>
+              Schliessen
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
