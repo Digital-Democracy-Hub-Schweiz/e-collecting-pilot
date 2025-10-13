@@ -550,8 +550,8 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                             ? `${credentialEinwohner.vorname} ${credentialEinwohner.nachname}`
                             : "Unbekannt"}
                         </p>
-                        <Badge variant={credential.status === "issued" ? "default" : credential.status === "revoked" ? "destructive" : "secondary"}>
-                          {credential.status}
+                        <Badge variant={credential.status?.toLowerCase() === "issued" ? "default" : credential.status?.toLowerCase() === "revoked" ? "destructive" : "secondary"}>
+                          {credential.status?.toUpperCase()}
                         </Badge>
                       </div>
                       <p className="text-sm text-muted-foreground">
