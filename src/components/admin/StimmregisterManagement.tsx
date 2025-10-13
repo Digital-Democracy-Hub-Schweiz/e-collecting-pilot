@@ -55,6 +55,8 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [viewCredential, setViewCredential] = useState<Credential | null>(null);
   const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
+  const [credentialDetails, setCredentialDetails] = useState<any>(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
 
   useEffect(() => {
     fetchGemeinden();
@@ -268,6 +270,26 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
     }
   };
 
+  const loadCredentialDetails = async (managementId: string) => {
+    setLoadingDetails(true);
+    try {
+      const details = await gemeindeIssuerAPI.getCredentialDetails(managementId);
+      setCredentialDetails(details);
+    } catch (error: any) {
+      toast.error(error.message || "Fehler beim Laden der Details");
+    } finally {
+      setLoadingDetails(false);
+    }
+  };
+
+  const handleViewCredential = (credential: Credential) => {
+    setViewCredential(credential);
+    setCredentialDetails(null);
+    if (credential.management_id) {
+      loadCredentialDetails(credential.management_id);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -373,7 +395,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                     <div
                       key={credential.id}
                       className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
-                      onClick={() => setViewCredential(credential)}
+                      onClick={() => handleViewCredential(credential)}
                     >
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
@@ -429,8 +451,13 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
       </Card>
 
       {/* Detail View Sheet */}
-      <Sheet open={!!viewCredential} onOpenChange={(open) => !open && setViewCredential(null)}>
-        <SheetContent>
+      <Sheet open={!!viewCredential} onOpenChange={(open) => {
+        if (!open) {
+          setViewCredential(null);
+          setCredentialDetails(null);
+        }
+      }}>
+        <SheetContent className="overflow-y-auto">
           <SheetHeader>
             <SheetTitle>Stimmrechtsausweis Details</SheetTitle>
             <SheetDescription>Detaillierte Informationen zum Ausweis</SheetDescription>
@@ -440,73 +467,181 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
             const credentialVolksbegehren = volksbegehren.find((v) => v.id === viewCredential.volksbegehren_id);
             
             return (
-              <div className="mt-6 space-y-4">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Einwohner</label>
-                  <p className="text-lg font-semibold">
-                    {credentialEinwohner 
-                      ? `${credentialEinwohner.vorname} ${credentialEinwohner.nachname}` 
-                      : "Unbekannt"}
-                  </p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Volksbegehren</label>
-                  <p className="text-lg">{credentialVolksbegehren?.title_de || "Unbekannt"}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Status</label>
-                  <div className="mt-1">
-                    <Badge variant={viewCredential.status === "issued" ? "default" : viewCredential.status === "revoked" ? "destructive" : "secondary"}>
-                      {viewCredential.status}
-                    </Badge>
-                  </div>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Ausgestellt am</label>
-                  <p className="text-lg">
-                    {new Date(viewCredential.issued_at).toLocaleDateString("de-CH")}{" "}
-                    {new Date(viewCredential.issued_at).toLocaleTimeString("de-CH", { 
-                      hour: '2-digit', 
-                      minute: '2-digit' 
-                    })}
-                  </p>
-                </div>
-                {viewCredential.revoked_at && (
+              <div className="mt-6 space-y-6">
+                <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground">Widerrufen am</label>
+                    <label className="text-sm font-medium text-muted-foreground">Einwohner</label>
+                    <p className="text-lg font-semibold">
+                      {credentialEinwohner 
+                        ? `${credentialEinwohner.vorname} ${credentialEinwohner.nachname}` 
+                        : "Unbekannt"}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Volksbegehren</label>
+                    <p className="text-lg">{credentialVolksbegehren?.title_de || "Unbekannt"}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Status</label>
+                    <div className="mt-1">
+                      <Badge variant={viewCredential.status === "issued" ? "default" : viewCredential.status === "revoked" ? "destructive" : "secondary"}>
+                        {viewCredential.status}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Ausgestellt am</label>
                     <p className="text-lg">
-                      {new Date(viewCredential.revoked_at).toLocaleDateString("de-CH")}{" "}
-                      {new Date(viewCredential.revoked_at).toLocaleTimeString("de-CH", { 
+                      {new Date(viewCredential.issued_at).toLocaleDateString("de-CH")}{" "}
+                      {new Date(viewCredential.issued_at).toLocaleTimeString("de-CH", { 
                         hour: '2-digit', 
                         minute: '2-digit' 
                       })}
                     </p>
                   </div>
+                  {viewCredential.revoked_at && (
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Widerrufen am</label>
+                      <p className="text-lg">
+                        {new Date(viewCredential.revoked_at).toLocaleDateString("de-CH")}{" "}
+                        {new Date(viewCredential.revoked_at).toLocaleTimeString("de-CH", { 
+                          hour: '2-digit', 
+                          minute: '2-digit' 
+                        })}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {loadingDetails ? (
+                  <div className="flex items-center justify-center py-8">
+                    <RefreshCw className="w-6 h-6 animate-spin text-muted-foreground" />
+                  </div>
+                ) : credentialDetails && (
+                  <>
+                    {/* Gültigkeit */}
+                    {(credentialDetails.valid_from || credentialDetails.valid_until) && (
+                      <div className="space-y-2 border-t pt-4">
+                        <h4 className="font-semibold">Gültigkeit</h4>
+                        {credentialDetails.valid_from && (
+                          <div>
+                            <label className="text-sm font-medium text-muted-foreground">Gültig ab</label>
+                            <p className="text-sm">
+                              {new Date(credentialDetails.valid_from).toLocaleDateString("de-CH")}{" "}
+                              {new Date(credentialDetails.valid_from).toLocaleTimeString("de-CH", { 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                              })}
+                            </p>
+                          </div>
+                        )}
+                        {credentialDetails.valid_until && (
+                          <div>
+                            <label className="text-sm font-medium text-muted-foreground">Gültig bis</label>
+                            <p className="text-sm">
+                              {new Date(credentialDetails.valid_until).toLocaleDateString("de-CH")}{" "}
+                              {new Date(credentialDetails.valid_until).toLocaleTimeString("de-CH", { 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                              })}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Attribute */}
+                    {credentialDetails.credential_subject && (
+                      <div className="space-y-2 border-t pt-4">
+                        <h4 className="font-semibold">Ausgestellte Attribute</h4>
+                        <div className="bg-muted/30 rounded-lg p-3 space-y-2">
+                          {Object.entries(credentialDetails.credential_subject).map(([key, value]) => (
+                            <div key={key} className="flex justify-between text-sm">
+                              <span className="font-medium text-muted-foreground">{key}:</span>
+                              <span className="font-mono">{String(value)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Signaturen */}
+                    {credentialDetails.proofs && credentialDetails.proofs.length > 0 && (
+                      <div className="space-y-2 border-t pt-4">
+                        <h4 className="font-semibold">Signaturen</h4>
+                        {credentialDetails.proofs.map((proof: any, index: number) => (
+                          <div key={index} className="bg-muted/30 rounded-lg p-3 space-y-2">
+                            {proof.type && (
+                              <div>
+                                <label className="text-xs font-medium text-muted-foreground">Typ</label>
+                                <p className="text-sm font-mono">{proof.type}</p>
+                              </div>
+                            )}
+                            {proof.created && (
+                              <div>
+                                <label className="text-xs font-medium text-muted-foreground">Erstellt</label>
+                                <p className="text-sm">{new Date(proof.created).toLocaleString("de-CH")}</p>
+                              </div>
+                            )}
+                            {proof.verificationMethod && (
+                              <div>
+                                <label className="text-xs font-medium text-muted-foreground">Verification Method</label>
+                                <p className="text-xs font-mono break-all">{proof.verificationMethod}</p>
+                              </div>
+                            )}
+                            {proof.proofPurpose && (
+                              <div>
+                                <label className="text-xs font-medium text-muted-foreground">Proof Purpose</label>
+                                <p className="text-sm font-mono">{proof.proofPurpose}</p>
+                              </div>
+                            )}
+                            {proof.jws && (
+                              <div>
+                                <label className="text-xs font-medium text-muted-foreground">JWS Signatur</label>
+                                <p className="text-xs font-mono break-all bg-background p-2 rounded mt-1">
+                                  {proof.jws}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
                 )}
-                {viewCredential.management_id && (
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Management ID</label>
-                    <p className="text-sm font-mono text-muted-foreground break-all">
-                      {viewCredential.management_id}
+
+                <div className="border-t pt-4">
+                  {viewCredential.management_id && (
+                    <div className="mb-4">
+                      <label className="text-sm font-medium text-muted-foreground">Management ID</label>
+                      <p className="text-xs font-mono text-muted-foreground break-all">
+                        {viewCredential.management_id}
+                      </p>
+                    </div>
+                  )}
+                  <div className="mb-4">
+                    <label className="text-sm font-medium text-muted-foreground">Credential ID</label>
+                    <p className="text-xs font-mono text-muted-foreground break-all">
+                      {viewCredential.id}
                     </p>
                   </div>
-                )}
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Credential ID</label>
-                  <p className="text-sm font-mono text-muted-foreground break-all">
-                    {viewCredential.id}
-                  </p>
                 </div>
-                <div className="pt-4 flex gap-2">
+
+                <div className="flex gap-2 border-t pt-4">
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handleUpdateCredentialStatus(viewCredential.id, viewCredential.management_id)}
+                    onClick={() => {
+                      handleUpdateCredentialStatus(viewCredential.id, viewCredential.management_id);
+                      if (viewCredential.management_id) {
+                        loadCredentialDetails(viewCredential.management_id);
+                      }
+                    }}
                     disabled={updatingStatus === viewCredential.id}
                     className="flex-1"
                   >
                     <RefreshCw className={`w-4 h-4 mr-2 ${updatingStatus === viewCredential.id ? 'animate-spin' : ''}`} />
-                    Status aktualisieren
+                    Status prüfen
                   </Button>
                   {viewCredential.status === "issued" && (
                     <Button

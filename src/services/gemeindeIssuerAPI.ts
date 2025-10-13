@@ -79,6 +79,22 @@ class GemeindeIssuerAPI {
       throw e;
     }
   }
+
+  async getCredentialDetails(credentialId: string): Promise<any> {
+    try {
+      const res = await fetch(`${this.baseUrl}/credentials/${credentialId}`, {
+        method: "GET",
+        headers: { accept: "*/*" },
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      return await res.json();
+    } catch (e) {
+      console.error("Failed to get gemeinde credential details", e);
+      throw e;
+    }
+  }
 }
 
 export const gemeindeIssuerAPI = new GemeindeIssuerAPI();
