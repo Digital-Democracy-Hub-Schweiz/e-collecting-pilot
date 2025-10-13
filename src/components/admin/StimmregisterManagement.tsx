@@ -15,6 +15,7 @@ import QRCode from "react-qr-code";
 interface Gemeinde {
   id: string;
   name: string;
+  did: string | null;
 }
 
 interface Einwohner {
@@ -28,6 +29,7 @@ interface Volksbegehren {
   id: string;
   title_de: string;
   slug: string;
+  end_date: string | null;
 }
 
 interface Credential {
@@ -105,7 +107,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const fetchGemeinden = async () => {
     const { data, error } = await supabase
       .from("gemeinden")
-      .select("id, name")
+      .select("id, name, did")
       .order("name");
 
     if (error) {
@@ -137,7 +139,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const fetchVolksbegehren = async () => {
     const { data, error } = await supabase
       .from("volksbegehren")
-      .select("id, title_de, slug")
+      .select("id, title_de, slug, end_date")
       .eq("status", "active")
       .order("title_de");
 
@@ -203,21 +205,38 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
 
       const selectedEinwohner = einwohner.find((e) => e.id === selectedEinwohnerId);
       const selectedVolksbegehren = volksbegehren.find((v) => v.id === selectedVolksbegehrenId);
+      const selectedGemeinde = gemeinden.find((g) => g.id === selectedGemeindeId);
 
-      if (!selectedEinwohner || !selectedVolksbegehren) {
-        throw new Error("Einwohner oder Volksbegehren nicht gefunden");
+      if (!selectedEinwohner || !selectedVolksbegehren || !selectedGemeinde) {
+        throw new Error("Einwohner, Volksbegehren oder Gemeinde nicht gefunden");
       }
 
-      // Issue credential via Gemeinde API
+      if (!selectedGemeinde.did) {
+        toast.error("Gemeinde hat keine DID konfiguriert");
+        setLoading(false);
+        return;
+      }
+
+      // Generate nullifier (hash of einwohner_id + volksbegehren_id)
+      const nullifier = `${selectedEinwohnerId}-${selectedVolksbegehrenId}`;
+      
+      // Calculate valid_until date from volksbegehren end_date or default to 1 year
+      const validUntil = selectedVolksbegehren.end_date 
+        ? new Date(selectedVolksbegehren.end_date).toISOString()
+        : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+
+      // Issue credential via Gemeinde API with correct format
       const response = await gemeindeIssuerAPI.issueCredential({
-        metadata_credential_supported_id: ["stimmrechtsausweis"],
+        metadata_credential_supported_id: ["stimmregister-vc"],
         credential_subject_data: {
-          firstName: selectedEinwohner.vorname,
-          lastName: selectedEinwohner.nachname,
-          birthDate: selectedEinwohner.geburtsdatum,
-          title: selectedVolksbegehren.title_de,
-          type: "Stimmrechtsausweis",
+          nullifier: nullifier,
+          volksbegehren: selectedVolksbegehrenId,
+          issuerDid: selectedGemeinde.did,
+          issuedDate: new Date().toISOString().slice(0, 10)
         },
+        offer_validity_seconds: 86400,
+        credential_valid_from: new Date().toISOString(),
+        credential_valid_until: validUntil
       });
 
       // Save to database

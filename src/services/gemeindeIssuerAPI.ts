@@ -1,8 +1,13 @@
 export interface IssueGemeindeCredentialRequest {
   metadata_credential_supported_id: string[];
   credential_subject_data: {
-    firstName: string;
-    lastName: string;
+    nullifier?: string;
+    volksbegehren?: string;
+    issuerDid?: string;
+    issuedDate?: string;
+    // Legacy fields (kept for backwards compatibility)
+    firstName?: string;
+    lastName?: string;
     birthDate?: string;
     signDate?: string;
     type?: string;
