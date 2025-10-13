@@ -25,7 +25,6 @@ interface Volksbegehren {
   type: string;
   level: string;
   comitee: string | null;
-  sign_date: string | null;
   status: string;
   start_date: string | null;
   end_date: string | null;
@@ -44,7 +43,6 @@ const VolksbegehrenManagement = () => {
     type: "referendum",
     level: "federal",
     comitee: "",
-    sign_date: "",
     start_date: "",
     end_date: "",
   });
@@ -83,7 +81,6 @@ const VolksbegehrenManagement = () => {
         type: newVolksbegehren.type,
         level: newVolksbegehren.level,
         comitee: newVolksbegehren.comitee || null,
-        sign_date: newVolksbegehren.sign_date || null,
         start_date: newVolksbegehren.start_date || null,
         end_date: newVolksbegehren.end_date || null,
         status: "active",
@@ -101,7 +98,6 @@ const VolksbegehrenManagement = () => {
         type: "referendum",
         level: "federal",
         comitee: "",
-        sign_date: "",
         start_date: "",
         end_date: "",
       });
@@ -160,7 +156,6 @@ const VolksbegehrenManagement = () => {
           type: editVolksbegehren.type,
           level: editVolksbegehren.level,
           comitee: editVolksbegehren.comitee,
-          sign_date: editVolksbegehren.sign_date,
           start_date: editVolksbegehren.start_date,
           end_date: editVolksbegehren.end_date,
         })
@@ -251,17 +246,6 @@ const VolksbegehrenManagement = () => {
                           <SelectItem value="municipal">Gemeinde</SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="sign_date">Unterschriftsdatum</Label>
-                      <Input
-                        id="sign_date"
-                        type="date"
-                        value={newVolksbegehren.sign_date}
-                        onChange={(e) =>
-                          setNewVolksbegehren({ ...newVolksbegehren, sign_date: e.target.value })
-                        }
-                      />
                     </div>
                   </div>
 
@@ -386,12 +370,6 @@ const VolksbegehrenManagement = () => {
                             {vb.level === "federal" ? "Bundesebene" : 
                              vb.level === "cantonal" ? "Kantonal" : "Gemeinde"}
                           </span>
-                          {vb.sign_date && (
-                            <>
-                              <span>•</span>
-                              <span>Unterschrift: {vb.sign_date}</span>
-                            </>
-                          )}
                         </div>
                         {vb.description_de && (
                           <p className="text-sm mt-2 line-clamp-2">{vb.description_de}</p>
@@ -478,12 +456,6 @@ const VolksbegehrenManagement = () => {
                   </Badge>
                 </div>
               </div>
-              {viewVolksbegehren.sign_date && (
-                <div>
-                  <Label className="text-muted-foreground">Unterschriftsdatum</Label>
-                  <p className="text-lg">{viewVolksbegehren.sign_date}</p>
-                </div>
-              )}
               {viewVolksbegehren.start_date && (
                 <div>
                   <Label className="text-muted-foreground">Startdatum</Label>
@@ -569,15 +541,6 @@ const VolksbegehrenManagement = () => {
                       <SelectItem value="municipal">Gemeinde</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="edit-sign-date">Unterschriftsdatum</Label>
-                  <Input
-                    id="edit-sign-date"
-                    type="date"
-                    value={editVolksbegehren.sign_date || ""}
-                    onChange={(e) => setEditVolksbegehren({ ...editVolksbegehren, sign_date: e.target.value })}
-                  />
                 </div>
               </div>
 

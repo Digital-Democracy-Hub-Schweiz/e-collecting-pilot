@@ -207,7 +207,6 @@ export type Database = {
           end_date: string | null
           id: string
           level: string
-          sign_date: string | null
           slug: string
           start_date: string | null
           status: string | null
@@ -230,7 +229,6 @@ export type Database = {
           end_date?: string | null
           id?: string
           level: string
-          sign_date?: string | null
           slug: string
           start_date?: string | null
           status?: string | null
@@ -253,7 +251,6 @@ export type Database = {
           end_date?: string | null
           id?: string
           level?: string
-          sign_date?: string | null
           slug?: string
           start_date?: string | null
           status?: string | null
