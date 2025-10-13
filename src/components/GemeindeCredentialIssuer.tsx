@@ -614,15 +614,15 @@ export function GemeindeCredentialIssuer() {
       }
 
       const selectedVolksbegehren = normalizedVolksbegehren.find(v => v.id === selectedVolksbegehrenId);
-      
+
       if (!selectedVolksbegehren || !verifiedEIdData) {
         throw new Error('Missing required data for credential issuance');
       }
 
-      // Hole die UUID des Volksbegehren aus der Datenbank
+      // Hole die UUID und end_date des Volksbegehren aus der Datenbank
       const { data: volksbegehrenDbData, error: volksbegehrenError } = await supabase
         .from("volksbegehren")
-        .select("id")
+        .select("id, end_date")
         .eq("slug", selectedVolksbegehren.slug)
         .maybeSingle();
 
@@ -631,11 +631,12 @@ export function GemeindeCredentialIssuer() {
       }
 
       const volksbegehrenUuid = volksbegehrenDbData.id;
+      const volksbegehrenEndDate = volksbegehrenDbData.end_date;
 
       // Hole Gemeinde- und Einwohner-Daten für DB-Speicherung
       let einwohnerDbId: string | null = null;
       let gemeindeDbId: string | null = null;
-      
+
       if (!municipalityDetails || !verifiedEIdData) {
         throw new Error('Municipality or verified E-ID data missing');
       }
@@ -649,7 +650,7 @@ export function GemeindeCredentialIssuer() {
 
       const { data: gemeindeData, error: gemeindeError } = await supabase
         .from("gemeinden")
-        .select("id, name, kanton")
+        .select("id, name, kanton, did")
         .eq("bfs_nummer", municipalityDetails.bfs)
         .maybeSingle();
 
@@ -663,6 +664,7 @@ export function GemeindeCredentialIssuer() {
       }
 
       gemeindeDbId = gemeindeData.id;
+      const gemeindeDid = gemeindeData.did;
       console.log('Found gemeinde:', gemeindeData);
 
       const { data: einwohnerData, error: einwohnerError } = await supabase
@@ -705,19 +707,35 @@ export function GemeindeCredentialIssuer() {
       credentialDbId = credentialData?.id || null;
       console.log('Created credential record with ID:', credentialDbId);
 
-      // Hash der Volksbegehren-ID generieren
-      const volksbegehrenhash = await hashString(selectedVolksbegehren.id);
+      // Nullifier generieren: Hash(EinwohnerID + VolksbegehrensID + Secret)
+      // Secret = GemeindeID (hardcoded)
+      const nullifierInput = `${einwohnerDbId}${volksbegehrenUuid}${gemeindeDbId}`;
+      const nullifier = await hashString(nullifierInput);
+      console.log('Generated nullifier from:', { einwohnerDbId, volksbegehrenUuid, gemeindeDbId });
 
-      // Payload mit nur den erforderlichen Claims
+      // Bestimme Gültigkeitsdatum aus Volksbegehren end_date
+      let validUntil: string;
+      if (volksbegehrenEndDate) {
+        // Konvertiere end_date zu ISO-String (falls es ein Date-String ist)
+        validUntil = new Date(volksbegehrenEndDate).toISOString();
+      } else {
+        // Fallback: 1 Jahr ab jetzt
+        validUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+        console.warn('No end_date found for Volksbegehren, using fallback validity period');
+      }
+
+      // Payload mit Nullifier, Volksbegehren-ID und Gemeinde-DID
       const payload = {
         metadata_credential_supported_id: ["stimmregister-vc"],
         credential_subject_data: {
-          volksbegehren: volksbegehrenhash,
+          nullifier: nullifier,
+          volksbegehren: volksbegehrenUuid,
+          issuerDid: gemeindeDid,
           issuedDate: new Date().toISOString().slice(0, 10)
         },
         offer_validity_seconds: 86400,
         credential_valid_from: new Date().toISOString(),
-        credential_valid_until: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        credential_valid_until: validUntil,
         status_lists: statusListUrl ? [statusListUrl] : undefined
       };
 
