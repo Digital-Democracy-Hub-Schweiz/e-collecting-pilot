@@ -95,6 +95,22 @@ class GemeindeIssuerAPI {
       throw e;
     }
   }
+
+  async updateCredentialStatus(credentialId: string, status: string): Promise<any> {
+    try {
+      const res = await fetch(`${this.baseUrl}/credentials/${credentialId}/status?credentialStatus=${status}`, {
+        method: "PATCH",
+        headers: { accept: "*/*" },
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      return await res.json();
+    } catch (e) {
+      console.error("Failed to update gemeinde credential status", e);
+      throw e;
+    }
+  }
 }
 
 export const gemeindeIssuerAPI = new GemeindeIssuerAPI();

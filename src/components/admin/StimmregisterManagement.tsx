@@ -70,6 +70,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
   const [credentialDetails, setCredentialDetails] = useState<any>(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState<string>("");
   
   // Filter states
   const [filterGemeindeId, setFilterGemeindeId] = useState<string>("all");
@@ -297,8 +298,45 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const handleViewCredential = (credential: Credential) => {
     setViewCredential(credential);
     setCredentialDetails(null);
+    setSelectedStatus(credential.status || "");
     if (credential.management_id) {
       loadCredentialDetails(credential.management_id);
+    }
+  };
+
+  const handleUpdateStatus = async () => {
+    if (!viewCredential?.management_id || !selectedStatus) return;
+
+    setLoadingDetails(true);
+    try {
+      await gemeindeIssuerAPI.updateCredentialStatus(
+        viewCredential.management_id,
+        selectedStatus
+      );
+
+      // Update in database
+      const { error } = await supabase
+        .from("credentials")
+        .update({ status: selectedStatus.toLowerCase() })
+        .eq("id", viewCredential.id);
+
+      if (error) throw error;
+
+      toast.success("Status aktualisiert", {
+        description: `Status wurde auf ${selectedStatus} geändert.`,
+      });
+
+      await fetchCredentials();
+      if (viewCredential.management_id) {
+        await loadCredentialDetails(viewCredential.management_id);
+      }
+    } catch (error) {
+      console.error("Failed to update status:", error);
+      toast.error("Fehler", {
+        description: "Status konnte nicht aktualisiert werden.",
+      });
+    } finally {
+      setLoadingDetails(false);
     }
   };
 
@@ -585,10 +623,25 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">Status</label>
-                    <div className="mt-1">
-                      <Badge variant={viewCredential.status === "issued" ? "default" : viewCredential.status === "revoked" ? "destructive" : "secondary"}>
-                        {viewCredential.status}
-                      </Badge>
+                    <div className="flex items-center gap-2 mt-1">
+                      <select
+                        value={selectedStatus}
+                        onChange={(e) => setSelectedStatus(e.target.value)}
+                        className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                      >
+                        <option value="CANCELLED">CANCELLED</option>
+                        <option value="READY">READY</option>
+                        <option value="ISSUED">ISSUED</option>
+                        <option value="SUSPENDED">SUSPENDED</option>
+                        <option value="REVOKED">REVOKED</option>
+                      </select>
+                      <Button 
+                        size="sm" 
+                        onClick={handleUpdateStatus}
+                        disabled={loadingDetails || selectedStatus.toLowerCase() === viewCredential.status}
+                      >
+                        Ändern
+                      </Button>
                     </div>
                   </div>
                   <div>
@@ -713,20 +766,20 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                 )}
 
                 <div className="border-t pt-4">
+                  <div className="mb-4">
+                    <label className="text-sm font-medium text-muted-foreground">Stimmrechtsausweis ID</label>
+                    <p className="text-xs font-mono text-muted-foreground break-all">
+                      {viewCredential.id}
+                    </p>
+                  </div>
                   {viewCredential.management_id && (
                     <div className="mb-4">
-                      <label className="text-sm font-medium text-muted-foreground">Management ID</label>
+                      <label className="text-sm font-medium text-muted-foreground">Credential ID</label>
                       <p className="text-xs font-mono text-muted-foreground break-all">
                         {viewCredential.management_id}
                       </p>
                     </div>
                   )}
-                  <div className="mb-4">
-                    <label className="text-sm font-medium text-muted-foreground">Credential ID</label>
-                    <p className="text-xs font-mono text-muted-foreground break-all">
-                      {viewCredential.id}
-                    </p>
-                  </div>
                 </div>
 
                 <div className="flex gap-2 border-t pt-4">
