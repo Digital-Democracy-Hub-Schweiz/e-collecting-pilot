@@ -578,13 +578,14 @@ export function GemeindeCredentialIssuer() {
           .select("*")
           .eq("einwohner_id", einwohnerData.id)
           .eq("volksbegehren_id", selectedVolksbegehren.id)
+          .eq("status", "issued")
           .maybeSingle();
 
         if (existingCredential) {
           setBanner({
             type: 'warning',
             title: 'Credential bereits vorhanden',
-            description: `Für dieses Volksbegehren wurde bereits ein Credential ausgestellt (Status: ${existingCredential.status}).`
+            description: `Für dieses Volksbegehren wurde bereits ein Credential ausgestellt.`
           });
           return false;
         }
@@ -631,6 +632,20 @@ export function GemeindeCredentialIssuer() {
 
       const volksbegehrenUuid = volksbegehrenDbData.id;
       const volksbegehrenEndDate = volksbegehrenDbData.end_date;
+
+      // Prüfe ob das Volksbegehren noch gültig ist
+      if (volksbegehrenEndDate) {
+        const endDate = new Date(volksbegehrenEndDate);
+        const now = new Date();
+        if (endDate < now) {
+          setBanner({
+            type: 'error',
+            title: 'Volksbegehren nicht mehr gültig',
+            description: `Dieses Volksbegehren ist abgelaufen (gültig bis ${endDate.toLocaleDateString('de-CH')}). Es können keine weiteren Stimmregister-Nachweise ausgestellt werden.`
+          });
+          return;
+        }
+      }
 
       // Hole Gemeinde- und Einwohner-Daten für DB-Speicherung
       let einwohnerDbId: string | null = null;
@@ -686,6 +701,14 @@ export function GemeindeCredentialIssuer() {
 
       einwohnerDbId = einwohnerData.id;
       console.log('Found einwohner:', einwohnerData);
+
+      // Lösche alte Credentials mit Status != "issued" (falls vorhanden)
+      await supabase
+        .from("credentials")
+        .delete()
+        .eq("einwohner_id", einwohnerDbId)
+        .eq("volksbegehren_id", volksbegehrenUuid)
+        .neq("status", "issued");
 
       // Speichere Credential-Anfrage in DB (Status: pending)
       const { data: credentialData, error: credentialError } = await supabase
