@@ -44,6 +44,11 @@ interface Credential {
   issued_by: string | null;
   revoked_at: string | null;
   revoked_by: string | null;
+  nullifier?: string | null;
+  issuer_did?: string | null;
+  issued_date?: string | null;
+  credential_valid_from?: string | null;
+  credential_valid_until?: string | null;
   einwohner?: {
     id: string;
     vorname: string;
@@ -705,6 +710,48 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                     <label className="text-sm font-medium text-muted-foreground">Management ID</label>
                     <p className="text-sm font-mono break-all">{viewCredential.management_id || "N/A"}</p>
                   </div>
+                  {viewCredential.nullifier && (
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Nullifier</label>
+                      <p className="text-sm font-mono break-all">{viewCredential.nullifier}</p>
+                    </div>
+                  )}
+                  {viewCredential.issuer_did && (
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Issuer DID</label>
+                      <p className="text-sm font-mono break-all">{viewCredential.issuer_did}</p>
+                    </div>
+                  )}
+                  {viewCredential.issued_date && (
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Ausstellungsdatum</label>
+                      <p className="text-sm">{new Date(viewCredential.issued_date).toLocaleDateString("de-CH")}</p>
+                    </div>
+                  )}
+                  {viewCredential.credential_valid_from && (
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Gültig ab</label>
+                      <p className="text-sm">
+                        {new Date(viewCredential.credential_valid_from).toLocaleDateString("de-CH")}{" "}
+                        {new Date(viewCredential.credential_valid_from).toLocaleTimeString("de-CH", { 
+                          hour: '2-digit', 
+                          minute: '2-digit' 
+                        })}
+                      </p>
+                    </div>
+                  )}
+                  {viewCredential.credential_valid_until && (
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Gültig bis</label>
+                      <p className="text-sm">
+                        {new Date(viewCredential.credential_valid_until).toLocaleDateString("de-CH")}{" "}
+                        {new Date(viewCredential.credential_valid_until).toLocaleTimeString("de-CH", { 
+                          hour: '2-digit', 
+                          minute: '2-digit' 
+                        })}
+                      </p>
+                    </div>
+                  )}
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">Offer Deeplink</label>
                     <p className="text-sm font-mono break-all">{viewCredential.offer_deeplink || "N/A"}</p>

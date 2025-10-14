@@ -710,25 +710,6 @@ export function GemeindeCredentialIssuer() {
         .eq("volksbegehren_id", volksbegehrenUuid)
         .neq("status", "issued");
 
-      // Speichere Credential-Anfrage in DB (Status: pending)
-      const { data: credentialData, error: credentialError } = await supabase
-        .from("credentials")
-        .insert({
-          einwohner_id: einwohnerDbId,
-          volksbegehren_id: volksbegehrenUuid,
-          status: "pending"
-        })
-        .select()
-        .single();
-
-      if (credentialError) {
-        console.error('Failed to create credential record:', credentialError);
-        throw new Error(`Credential DB insert failed: ${credentialError.message}`);
-      }
-
-      credentialDbId = credentialData?.id || null;
-      console.log('Created credential record with ID:', credentialDbId);
-
       // Nullifier generieren: Hash(EinwohnerID + VolksbegehrensID + Secret)
       // Secret = GemeindeID (hardcoded)
       const nullifierInput = `${einwohnerDbId}${volksbegehrenUuid}${gemeindeDbId}`;
@@ -746,18 +727,42 @@ export function GemeindeCredentialIssuer() {
         console.warn('No end_date found for Volksbegehren, using fallback validity period');
       }
 
-      // Payload mit Nullifier, Volksbegehren-ID und Gemeinde-DID
+      // Speichere Credential-Anfrage in DB (Status: pending) mit allen relevanten Daten
+      const { data: credentialData, error: credentialError } = await supabase
+        .from("credentials")
+        .insert({
+          einwohner_id: einwohnerDbId,
+          volksbegehren_id: volksbegehrenUuid,
+          status: "pending",
+          nullifier: nullifier,
+          issuer_did: gemeindeDid,
+          issued_date: new Date().toISOString().slice(0, 10),
+          credential_valid_from: new Date().toISOString(),
+          credential_valid_until: validUntil
+        })
+        .select()
+        .single();
+
+      if (credentialError) {
+        console.error('Failed to create credential record:', credentialError);
+        throw new Error(`Credential DB insert failed: ${credentialError.message}`);
+      }
+
+      credentialDbId = credentialData?.id || null;
+      console.log('Created credential record with ID:', credentialDbId);
+
+      // Payload mit Nullifier, Volksbegehren-ID und Gemeinde-DID (verwende gespeicherte Werte)
       const payload = {
         metadata_credential_supported_id: ["stimmregister-vc"],
         credential_subject_data: {
-          nullifier: nullifier,
+          nullifier: credentialData.nullifier,
           volksbegehren: volksbegehrenUuid,
-          issuerDid: gemeindeDid,
-          issuedDate: new Date().toISOString().slice(0, 10)
+          issuerDid: credentialData.issuer_did,
+          issuedDate: credentialData.issued_date
         },
         offer_validity_seconds: 86400,
-        credential_valid_from: new Date().toISOString(),
-        credential_valid_until: validUntil,
+        credential_valid_from: credentialData.credential_valid_from,
+        credential_valid_until: credentialData.credential_valid_until,
         status_lists: statusListUrl ? [statusListUrl] : undefined
       };
 

@@ -17,11 +17,16 @@ export type Database = {
       credentials: {
         Row: {
           credential_id: string | null
+          credential_valid_from: string | null
+          credential_valid_until: string | null
           einwohner_id: string
           id: string
           issued_at: string
           issued_by: string | null
+          issued_date: string | null
+          issuer_did: string | null
           management_id: string | null
+          nullifier: string | null
           offer_deeplink: string | null
           revoked_at: string | null
           revoked_by: string | null
@@ -30,11 +35,16 @@ export type Database = {
         }
         Insert: {
           credential_id?: string | null
+          credential_valid_from?: string | null
+          credential_valid_until?: string | null
           einwohner_id: string
           id?: string
           issued_at?: string
           issued_by?: string | null
+          issued_date?: string | null
+          issuer_did?: string | null
           management_id?: string | null
+          nullifier?: string | null
           offer_deeplink?: string | null
           revoked_at?: string | null
           revoked_by?: string | null
@@ -43,11 +53,16 @@ export type Database = {
         }
         Update: {
           credential_id?: string | null
+          credential_valid_from?: string | null
+          credential_valid_until?: string | null
           einwohner_id?: string
           id?: string
           issued_at?: string
           issued_by?: string | null
+          issued_date?: string | null
+          issuer_did?: string | null
           management_id?: string | null
+          nullifier?: string | null
           offer_deeplink?: string | null
           revoked_at?: string | null
           revoked_by?: string | null
