@@ -241,10 +241,15 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
       // Statusliste URL
       const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/8e4f0f38-f2ed-453c-899d-e5619535efe2.jwt";
 
-      // Issue credential via Gemeinde API (Backend erwartet leeres credential_subject_data)
+      // Issue credential via Gemeinde API - Backend benötigt die Claims
       const response = await gemeindeIssuerAPI.issueCredential({
         metadata_credential_supported_id: ["stimmregister-vc"],
-        credential_subject_data: {},
+        credential_subject_data: {
+          nullifier: nullifier,
+          volksbegehren: selectedVolksbegehrenId,
+          issuerDid: selectedGemeinde.did,
+          issuedDate: issuedDate
+        },
         offer_validity_seconds: 86400,
         credential_valid_from: validFrom,
         credential_valid_until: validUntil,
