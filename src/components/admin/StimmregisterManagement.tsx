@@ -222,33 +222,36 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
         return;
       }
 
-      // Generate nullifier (hash of einwohner_id + volksbegehren_id)
-      const nullifier = `${selectedEinwohnerId}-${selectedVolksbegehrenId}`;
+      // Generate nullifier (hash of einwohner_id + volksbegehren_id + gemeinde_id)
+      const nullifierInput = `${selectedEinwohnerId}${selectedVolksbegehrenId}${selectedGemeindeId}`;
+      const encoder = new TextEncoder();
+      const data = encoder.encode(nullifierInput);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const nullifier = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
       
       // Calculate valid_until date from volksbegehren end_date or default to 1 year
       const validUntil = selectedVolksbegehren.end_date 
         ? new Date(selectedVolksbegehren.end_date).toISOString()
         : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
 
+      const issuedDate = new Date().toISOString().slice(0, 10);
+      const validFrom = new Date().toISOString();
+
       // Statusliste URL
       const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/8e4f0f38-f2ed-453c-899d-e5619535efe2.jwt";
 
-      // Issue credential via Gemeinde API with correct format
+      // Issue credential via Gemeinde API (Backend erwartet leeres credential_subject_data)
       const response = await gemeindeIssuerAPI.issueCredential({
         metadata_credential_supported_id: ["stimmregister-vc"],
-        credential_subject_data: {
-          nullifier: nullifier,
-          volksbegehren: selectedVolksbegehrenId,
-          issuerDid: selectedGemeinde.did,
-          issuedDate: new Date().toISOString().slice(0, 10)
-        },
+        credential_subject_data: {},
         offer_validity_seconds: 86400,
-        credential_valid_from: new Date().toISOString(),
+        credential_valid_from: validFrom,
         credential_valid_until: validUntil,
         status_lists: statusListUrl ? [statusListUrl] : undefined
       });
 
-      // Save to database
+      // Save to database with all credential details
       const { error } = await supabase.from("credentials").insert({
         einwohner_id: selectedEinwohnerId,
         volksbegehren_id: selectedVolksbegehrenId,
@@ -257,6 +260,11 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
         credential_id: response.id,
         status: "issued",
         issued_by: userId,
+        nullifier: nullifier,
+        issuer_did: selectedGemeinde.did,
+        issued_date: issuedDate,
+        credential_valid_from: validFrom,
+        credential_valid_until: validUntil
       });
 
       if (error) throw error;
