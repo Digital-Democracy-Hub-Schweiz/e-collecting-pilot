@@ -88,6 +88,7 @@ const SelectContent = React.forwardRef<
       )}
       position={position}
       onCloseAutoFocus={(e) => e.preventDefault()}
+      onPointerDownOutside={(e) => e.preventDefault()}
       {...props}
     >
       <SelectPrimitive.Viewport className="p-1">
@@ -120,10 +121,6 @@ const SelectItem = React.forwardRef<
       "relative flex w-full cursor-pointer select-none items-center rounded-sm py-3 pl-8 pr-2 text-[18px] leading-[28px] outline-none focus:bg-[#f5f6f7] focus:text-[#1f2937] hover:bg-[#f5f6f7] hover:text-[#1f2937] data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
     )}
-    onFocus={(e) => {
-      e.preventDefault();
-      e.stopPropagation();
-    }}
     {...props}
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
