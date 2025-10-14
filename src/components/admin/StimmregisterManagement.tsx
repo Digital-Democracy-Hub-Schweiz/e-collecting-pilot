@@ -84,7 +84,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const [selectedStatus, setSelectedStatus] = useState<string>("");
   const [showQRDialog, setShowQRDialog] = useState(false);
   const [issuedOfferDeeplink, setIssuedOfferDeeplink] = useState<string | null>(null);
-  
+
   // Filter states
   const [filterGemeindeId, setFilterGemeindeId] = useState<string>("all");
   const [filterVolksbegehrenId, setFilterVolksbegehrenId] = useState<string>("all");
@@ -199,9 +199,9 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
         .eq("einwohner_id", selectedEinwohnerId)
         .eq("volksbegehren_id", selectedVolksbegehrenId)
         .maybeSingle();
-      
+
       if (checkError) throw checkError;
-      
+
       if (existingCredential) {
         toast.error("Für diese Kombination von Einwohner und Volksbegehren existiert bereits ein Stimmrechtsausweis");
         setLoading(false);
@@ -229,9 +229,9 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
       const hashBuffer = await crypto.subtle.digest('SHA-256', data);
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       const nullifier = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      
+
       // Calculate valid_until date from volksbegehren end_date or default to 1 year
-      const validUntil = selectedVolksbegehren.end_date 
+      const validUntil = selectedVolksbegehren.end_date
         ? new Date(selectedVolksbegehren.end_date).toISOString()
         : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
 
@@ -275,11 +275,11 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
       if (error) throw error;
 
       toast.success("Stimmrechtsausweis erfolgreich ausgestellt");
-      
+
       // Show QR code dialog
       setIssuedOfferDeeplink(response.offer_deeplink);
       setShowQRDialog(true);
-      
+
       fetchCredentials();
       setSelectedEinwohnerId("");
       setSelectedVolksbegehrenId("");
@@ -333,11 +333,11 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
     setUpdatingStatus(credentialId);
     try {
       const statusResponse = await gemeindeIssuerAPI.checkCredentialStatus(managementId);
-      
+
       const { error } = await supabase
         .from("credentials")
-        .update({ 
-          status: statusResponse.status || "unknown" 
+        .update({
+          status: statusResponse.status || "unknown"
         })
         .eq("id", credentialId);
 
@@ -396,10 +396,10 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
       });
 
       await fetchCredentials();
-      
+
       // Update local viewCredential state
       setViewCredential(prev => prev ? { ...prev, status: selectedStatus.toLowerCase() } : null);
-      
+
       if (viewCredential.management_id) {
         await loadCredentialDetails(viewCredential.management_id);
       }
@@ -417,32 +417,32 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const filteredCredentials = credentials.filter((credential) => {
     const credentialEinwohner = credential.einwohner;
     const credentialVolksbegehren = credential.volksbegehren;
-    
+
     // Gemeinde filter
     if (filterGemeindeId !== "all" && credentialEinwohner?.gemeinde_id !== filterGemeindeId) {
       return false;
     }
-    
+
     // Volksbegehren filter
     if (filterVolksbegehrenId !== "all" && credential.volksbegehren_id !== filterVolksbegehrenId) {
       return false;
     }
-    
+
     // Vorname search
     if (searchVorname && !credentialEinwohner?.vorname?.toLowerCase().includes(searchVorname.toLowerCase())) {
       return false;
     }
-    
+
     // Nachname search
     if (searchNachname && !credentialEinwohner?.nachname?.toLowerCase().includes(searchNachname.toLowerCase())) {
       return false;
     }
-    
+
     // Geburtsdatum search
     if (searchGeburtsdatum && !credentialEinwohner?.geburtsdatum?.includes(searchGeburtsdatum)) {
       return false;
     }
-    
+
     return true;
   });
 
@@ -517,7 +517,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                 </Dialog>
               )}
             </div>
-            
+
             {/* Search and Filter Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 pt-4 border-t">
               <div className="space-y-2">
@@ -536,7 +536,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Volksbegehren</label>
                 <Select value={filterVolksbegehrenId} onValueChange={setFilterVolksbegehrenId}>
@@ -553,7 +553,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Vorname</label>
                 <div className="relative">
@@ -566,7 +566,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Nachname</label>
                 <div className="relative">
@@ -579,7 +579,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Geburtsdatum</label>
                 <Input
@@ -591,13 +591,13 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
             </div>
           </div>
         </CardHeader>
-        
+
         <CardContent>
           <div className="space-y-2">
             {filteredCredentials.length === 0 ? (
               <p className="text-muted-foreground">
-                {credentials.length === 0 
-                  ? "Keine Ausweise vorhanden" 
+                {credentials.length === 0
+                  ? "Keine Ausweise vorhanden"
                   : "Keine Ausweise mit den gewählten Filtern gefunden"}
               </p>
             ) : (
@@ -627,31 +627,31 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                       </p>
                       <p className="text-xs text-muted-foreground">
                         Ausgestellt: {new Date(credential.issued_at).toLocaleDateString("de-CH")}{" "}
-                        {new Date(credential.issued_at).toLocaleTimeString("de-CH", { 
-                          hour: '2-digit', 
-                          minute: '2-digit' 
+                        {new Date(credential.issued_at).toLocaleTimeString("de-CH", {
+                          hour: '2-digit',
+                          minute: '2-digit'
                         })}
                       </p>
                     </div>
                     <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleUpdateCredentialStatus(credential.id, credential.management_id)}
+                        disabled={updatingStatus === credential.id}
+                      >
+                        <RefreshCw className={`w-4 h-4 ${updatingStatus === credential.id ? 'animate-spin' : ''}`} />
+                      </Button>
+                      {credential.status !== "revoked" && (
                         <Button
-                          variant="outline"
+                          variant="destructive"
                           size="sm"
-                          onClick={() => handleUpdateCredentialStatus(credential.id, credential.management_id)}
-                          disabled={updatingStatus === credential.id}
+                          onClick={() => handleRevokeCredential(credential)}
+                          disabled={loading}
                         >
-                          <RefreshCw className={`w-4 h-4 ${updatingStatus === credential.id ? 'animate-spin' : ''}`} />
+                          <Ban className="w-4 h-4" />
                         </Button>
-                        {credential.status !== "revoked" && (
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => handleRevokeCredential(credential)}
-                            disabled={loading}
-                          >
-                            <Ban className="w-4 h-4" />
-                          </Button>
-                        )}
+                      )}
                     </div>
                   </div>
                 );
@@ -676,15 +676,15 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
           {viewCredential && (() => {
             const credentialEinwohner = einwohner.find((e) => e.id === viewCredential.einwohner_id);
             const credentialVolksbegehren = volksbegehren.find((v) => v.id === viewCredential.volksbegehren_id);
-            
+
             return (
               <div className="mt-6 space-y-6">
                 <div className="space-y-4">
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">Einwohner</label>
                     <p className="text-lg font-semibold">
-                      {credentialEinwohner 
-                        ? `${credentialEinwohner.vorname} ${credentialEinwohner.nachname}` 
+                      {credentialEinwohner
+                        ? `${credentialEinwohner.vorname} ${credentialEinwohner.nachname}`
                         : "Unbekannt"}
                     </p>
                   </div>
@@ -706,8 +706,8 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                         <option value="SUSPENDED">SUSPENDED</option>
                         <option value="REVOKED">REVOKED</option>
                       </select>
-                      <Button 
-                        size="sm" 
+                      <Button
+                        size="sm"
                         onClick={handleUpdateStatus}
                         disabled={loadingDetails || selectedStatus.toLowerCase() === viewCredential.status}
                       >
@@ -750,18 +750,17 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                   )}
 
                   {/* Credential Metadata */}
-                  <div>
-                      <label className="text-md font-medium text-muted-foreground">Credential Metadata</label>
-                      
-                    </div>
+                  <div className="border-t pt-4">
+                    <label className="text-md font-medium text-muted-foreground">Credential Metadata</label>
+                  </div>
                   {viewCredential.credential_valid_from && (
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">Gültig ab</label>
                       <p className="text-sm">
                         {new Date(viewCredential.credential_valid_from).toLocaleDateString("de-CH")}{" "}
-                        {new Date(viewCredential.credential_valid_from).toLocaleTimeString("de-CH", { 
-                          hour: '2-digit', 
-                          minute: '2-digit' 
+                        {new Date(viewCredential.credential_valid_from).toLocaleTimeString("de-CH", {
+                          hour: '2-digit',
+                          minute: '2-digit'
                         })}
                       </p>
                     </div>
@@ -771,9 +770,9 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                       <label className="text-sm font-medium text-muted-foreground">Gültig bis</label>
                       <p className="text-sm">
                         {new Date(viewCredential.credential_valid_until).toLocaleDateString("de-CH")}{" "}
-                        {new Date(viewCredential.credential_valid_until).toLocaleTimeString("de-CH", { 
-                          hour: '2-digit', 
-                          minute: '2-digit' 
+                        {new Date(viewCredential.credential_valid_until).toLocaleTimeString("de-CH", {
+                          hour: '2-digit',
+                          minute: '2-digit'
                         })}
                       </p>
                     </div>
@@ -791,9 +790,9 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                     <label className="text-sm font-medium text-muted-foreground">Ausgestellt am</label>
                     <p className="text-lg">
                       {new Date(viewCredential.issued_at).toLocaleDateString("de-CH")}{" "}
-                      {new Date(viewCredential.issued_at).toLocaleTimeString("de-CH", { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
+                      {new Date(viewCredential.issued_at).toLocaleTimeString("de-CH", {
+                        hour: '2-digit',
+                        minute: '2-digit'
                       })}
                     </p>
                   </div>
@@ -802,9 +801,9 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                       <label className="text-sm font-medium text-muted-foreground">Widerrufen am</label>
                       <p className="text-lg">
                         {new Date(viewCredential.revoked_at).toLocaleDateString("de-CH")}{" "}
-                        {new Date(viewCredential.revoked_at).toLocaleTimeString("de-CH", { 
-                          hour: '2-digit', 
-                          minute: '2-digit' 
+                        {new Date(viewCredential.revoked_at).toLocaleTimeString("de-CH", {
+                          hour: '2-digit',
+                          minute: '2-digit'
                         })}
                       </p>
                     </div>
@@ -832,9 +831,9 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                             <label className="text-sm font-medium text-muted-foreground">Gültig ab</label>
                             <p className="text-sm">
                               {new Date(credentialDetails.valid_from).toLocaleDateString("de-CH")}{" "}
-                              {new Date(credentialDetails.valid_from).toLocaleTimeString("de-CH", { 
-                                hour: '2-digit', 
-                                minute: '2-digit' 
+                              {new Date(credentialDetails.valid_from).toLocaleTimeString("de-CH", {
+                                hour: '2-digit',
+                                minute: '2-digit'
                               })}
                             </p>
                           </div>
@@ -844,9 +843,9 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                             <label className="text-sm font-medium text-muted-foreground">Gültig bis</label>
                             <p className="text-sm">
                               {new Date(credentialDetails.valid_until).toLocaleDateString("de-CH")}{" "}
-                              {new Date(credentialDetails.valid_until).toLocaleTimeString("de-CH", { 
-                                hour: '2-digit', 
-                                minute: '2-digit' 
+                              {new Date(credentialDetails.valid_until).toLocaleTimeString("de-CH", {
+                                hour: '2-digit',
+                                minute: '2-digit'
                               })}
                             </p>
                           </div>
