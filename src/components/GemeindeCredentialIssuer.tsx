@@ -757,6 +757,7 @@ export function GemeindeCredentialIssuer() {
       console.log('Created credential record with ID:', credentialDbId);
 
       // Payload für Backend API - Backend benötigt die Claims im credential_subject_data
+      // WICHTIG: Stelle sicher, dass Zeitformate im Z-Format sind (nicht +00:00)
       const payload = {
         metadata_credential_supported_id: ["stimmregister-vc"],
         credential_subject_data: {
@@ -766,8 +767,8 @@ export function GemeindeCredentialIssuer() {
           issuedDate: credentialData.issued_date
         },
         offer_validity_seconds: 86400,
-        credential_valid_from: credentialData.credential_valid_from,
-        credential_valid_until: credentialData.credential_valid_until,
+        credential_valid_from: new Date(credentialData.credential_valid_from).toISOString(),
+        credential_valid_until: new Date(credentialData.credential_valid_until).toISOString(),
         status_lists: statusListUrl ? [statusListUrl] : undefined
       };
 
