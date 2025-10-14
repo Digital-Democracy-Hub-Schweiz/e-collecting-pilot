@@ -717,13 +717,18 @@ export function GemeindeCredentialIssuer() {
       console.log('Generated nullifier from:', { einwohnerDbId, volksbegehrenUuid, gemeindeDbId });
 
       // Bestimme Gültigkeitsdatum aus Volksbegehren end_date
+      // WICHTIG: Backend erwartet Z-Format mit 3 Dezimalstellen (.000Z)
       let validUntil: string;
       if (volksbegehrenEndDate) {
-        // Konvertiere end_date zu ISO-String (falls es ein Date-String ist)
-        validUntil = new Date(volksbegehrenEndDate).toISOString();
+        // Konvertiere end_date zu ISO-String und setze Zeit auf Mitternacht
+        const validUntilDate = new Date(volksbegehrenEndDate);
+        validUntilDate.setHours(0, 0, 0, 0);
+        validUntil = validUntilDate.toISOString(); // Erzeugt Format mit .000Z
       } else {
         // Fallback: 1 Jahr ab jetzt
-        validUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+        const validUntilDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+        validUntilDate.setHours(0, 0, 0, 0);
+        validUntil = validUntilDate.toISOString(); // Erzeugt Format mit .000Z
         console.warn('No end_date found for Volksbegehren, using fallback validity period');
       }
 
