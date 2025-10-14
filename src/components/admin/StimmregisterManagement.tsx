@@ -373,8 +373,35 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
     }
   };
 
+  // Valid status transitions based on state diagram
+  const getValidStatusTransitions = (currentStatus: string): string[] => {
+    const statusMap: Record<string, string[]> = {
+      'OFFERED': ['CANCELLED', 'IN_PROGRESS', 'EXPIRED'],
+      'IN_PROGRESS': ['DEFERRED', 'ISSUED', 'EXPIRED'],
+      'DEFERRED': ['READY', 'EXPIRED'],
+      'READY': ['ISSUED', 'EXPIRED'],
+      'ISSUED': ['SUSPENDED', 'REVOKED'],
+      'SUSPENDED': ['ISSUED'],
+      'CANCELLED': [],
+      'EXPIRED': [],
+      'REVOKED': []
+    };
+    return statusMap[currentStatus.toUpperCase()] || [];
+  };
+
   const handleUpdateStatus = async () => {
     if (!viewCredential?.management_id || !selectedStatus) return;
+
+    // Validate status transition
+    const currentStatus = viewCredential.status?.toUpperCase() || '';
+    const validTransitions = getValidStatusTransitions(currentStatus);
+    
+    if (!validTransitions.includes(selectedStatus)) {
+      toast.error("Ungültiger Status-Übergang", {
+        description: `Von ${currentStatus} kann nicht zu ${selectedStatus} gewechselt werden.`,
+      });
+      return;
+    }
 
     setLoadingDetails(true);
     try {
@@ -700,11 +727,21 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                         onChange={(e) => setSelectedStatus(e.target.value)}
                         className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                       >
-                        <option value="CANCELLED">CANCELLED</option>
-                        <option value="READY">READY</option>
-                        <option value="ISSUED">ISSUED</option>
-                        <option value="SUSPENDED">SUSPENDED</option>
-                        <option value="REVOKED">REVOKED</option>
+                        {(() => {
+                          const currentStatus = viewCredential.status?.toUpperCase() || '';
+                          const validTransitions = getValidStatusTransitions(currentStatus);
+                          const allStatuses = ['OFFERED', 'CANCELLED', 'IN_PROGRESS', 'DEFERRED', 'READY', 'ISSUED', 'SUSPENDED', 'REVOKED', 'EXPIRED'];
+                          
+                          return allStatuses.map(status => (
+                            <option 
+                              key={status} 
+                              value={status}
+                              disabled={status !== currentStatus && !validTransitions.includes(status)}
+                            >
+                              {status}
+                            </option>
+                          ));
+                        })()}
                       </select>
                       <Button
                         size="sm"
