@@ -217,13 +217,20 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
         return;
       }
 
-      // Generate nullifier (hash of einwohner_id + volksbegehren_id)
-      const nullifier = `${selectedEinwohnerId}-${selectedVolksbegehrenId}`;
+      // Generate nullifier (hash of einwohner_id + volksbegehren_id + gemeinde_id)
+      const encoder = new TextEncoder();
+      const data = encoder.encode(`${selectedEinwohnerId}${selectedVolksbegehrenId}${selectedGemeindeId}`);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const nullifier = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
       
       // Calculate valid_until date from volksbegehren end_date or default to 1 year
       const validUntil = selectedVolksbegehren.end_date 
         ? new Date(selectedVolksbegehren.end_date).toISOString()
         : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+
+      // Status-Liste URL
+      const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/8e4f0f38-f2ed-453c-899d-e5619535efe2.jwt";
 
       // Issue credential via Gemeinde API with correct format
       const response = await gemeindeIssuerAPI.issueCredential({
@@ -236,7 +243,8 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
         },
         offer_validity_seconds: 86400,
         credential_valid_from: new Date().toISOString(),
-        credential_valid_until: validUntil
+        credential_valid_until: validUntil,
+        status_lists: statusListUrl ? [statusListUrl] : undefined
       });
 
       // Save to database
@@ -776,15 +784,72 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                       </div>
                     )}
 
+                    {/* Payload Informationen */}
+                    <div className="space-y-2 border-t pt-4">
+                      <h4 className="font-semibold">Credential Payload</h4>
+                      <div className="bg-muted/30 rounded-lg p-3 space-y-3">
+                        <div>
+                          <label className="text-xs font-medium text-muted-foreground">Nullifier</label>
+                          <p className="text-xs font-mono break-all mt-1">
+                            {credentialDetails?.credential_subject?.nullifier || "N/A"}
+                          </p>
+                        </div>
+                        <div>
+                          <label className="text-xs font-medium text-muted-foreground">Volksbegehren UUID</label>
+                          <p className="text-xs font-mono break-all mt-1">
+                            {credentialDetails?.credential_subject?.volksbegehren || viewCredential.volksbegehren_id}
+                          </p>
+                        </div>
+                        <div>
+                          <label className="text-xs font-medium text-muted-foreground">Issuer DID</label>
+                          <p className="text-xs font-mono break-all mt-1">
+                            {credentialDetails?.credential_subject?.issuerDid || "N/A"}
+                          </p>
+                        </div>
+                        <div>
+                          <label className="text-xs font-medium text-muted-foreground">Issued Date</label>
+                          <p className="text-xs font-mono mt-1">
+                            {credentialDetails?.credential_subject?.issuedDate || "N/A"}
+                          </p>
+                        </div>
+                        <div>
+                          <label className="text-xs font-medium text-muted-foreground">Offer Validity (seconds)</label>
+                          <p className="text-xs font-mono mt-1">86400</p>
+                        </div>
+                        <div>
+                          <label className="text-xs font-medium text-muted-foreground">Valid From</label>
+                          <p className="text-xs font-mono mt-1">
+                            {credentialDetails?.valid_from 
+                              ? new Date(credentialDetails.valid_from).toLocaleString("de-CH")
+                              : "N/A"}
+                          </p>
+                        </div>
+                        <div>
+                          <label className="text-xs font-medium text-muted-foreground">Valid Until</label>
+                          <p className="text-xs font-mono mt-1">
+                            {credentialDetails?.valid_until 
+                              ? new Date(credentialDetails.valid_until).toLocaleString("de-CH")
+                              : "N/A"}
+                          </p>
+                        </div>
+                        <div>
+                          <label className="text-xs font-medium text-muted-foreground">Status Lists</label>
+                          <p className="text-xs font-mono break-all mt-1">
+                            https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/8e4f0f38-f2ed-453c-899d-e5619535efe2.jwt
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
                     {/* Attribute */}
                     {credentialDetails.credential_subject && (
                       <div className="space-y-2 border-t pt-4">
-                        <h4 className="font-semibold">Ausgestellte Attribute</h4>
+                        <h4 className="font-semibold">Alle Credential Subject Attribute</h4>
                         <div className="bg-muted/30 rounded-lg p-3 space-y-2">
                           {Object.entries(credentialDetails.credential_subject).map(([key, value]) => (
                             <div key={key} className="flex justify-between text-sm">
                               <span className="font-medium text-muted-foreground">{key}:</span>
-                              <span className="font-mono">{String(value)}</span>
+                              <span className="font-mono text-xs break-all max-w-[60%] text-right">{String(value)}</span>
                             </div>
                           ))}
                         </div>
