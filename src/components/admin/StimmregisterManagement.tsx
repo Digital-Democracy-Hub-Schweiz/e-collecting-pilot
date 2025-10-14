@@ -457,7 +457,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                           <SelectTrigger>
                             <SelectValue placeholder="Wählen Sie einen Einwohner" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent position="popper" className="z-[100] pointer-events-auto">
                             {einwohner.map((person) => (
                               <SelectItem key={person.id} value={person.id}>
                                 {person.vorname} {person.nachname} (
@@ -477,7 +477,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                           <SelectTrigger>
                             <SelectValue placeholder="Wählen Sie ein Volksbegehren" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent position="popper" className="z-[100] pointer-events-auto">
                             {volksbegehren.map((vb) => (
                               <SelectItem key={vb.id} value={vb.id}>
                                 {vb.title_de}
