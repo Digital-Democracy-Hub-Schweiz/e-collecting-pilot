@@ -578,14 +578,13 @@ export function GemeindeCredentialIssuer() {
           .select("*")
           .eq("einwohner_id", einwohnerData.id)
           .eq("volksbegehren_id", selectedVolksbegehren.id)
-          .eq("status", "issued")
           .maybeSingle();
 
         if (existingCredential) {
           setBanner({
             type: 'warning',
-            title: 'Credential bereits ausgestellt',
-            description: 'Für dieses Volksbegehren wurde bereits ein Credential ausgestellt.'
+            title: 'Credential bereits vorhanden',
+            description: `Für dieses Volksbegehren wurde bereits ein Credential ausgestellt (Status: ${existingCredential.status}).`
           });
           return false;
         }
