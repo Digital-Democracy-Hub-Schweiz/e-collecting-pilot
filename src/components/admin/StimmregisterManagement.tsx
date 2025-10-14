@@ -742,6 +742,18 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                       <p className="text-sm">{new Date(viewCredential.issued_date).toLocaleDateString("de-CH")}</p>
                     </div>
                   )}
+                  {viewCredential.volksbegehren_id && (
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Volksbegehren</label>
+                      <p className="text-sm">{viewCredential.volksbegehren_id}</p>
+                    </div>
+                  )}
+
+                  {/* Credential Metadata */}
+                  <div>
+                      <label className="text-md font-medium text-muted-foreground">Credential Metadata</label>
+                      
+                    </div>
                   {viewCredential.credential_valid_from && (
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">Gültig ab</label>
