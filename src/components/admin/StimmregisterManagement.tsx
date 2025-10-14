@@ -724,6 +724,12 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                     <label className="text-sm font-medium text-muted-foreground">Management ID</label>
                     <p className="text-sm font-mono break-all">{viewCredential.management_id || "N/A"}</p>
                   </div>*/}
+                  {/* Credential Claims */}
+                  <div className="border-t pt-4">
+                    <label className="text-md font-medium text-muted-foreground">Claims</label>
+                  </div>
+
+
                   {viewCredential.nullifier && (
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">Nullifier</label>
