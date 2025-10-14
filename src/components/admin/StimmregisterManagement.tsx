@@ -367,7 +367,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
   const handleViewCredential = (credential: Credential) => {
     setViewCredential(credential);
     setCredentialDetails(null);
-    setSelectedStatus(credential.status || "");
+    setSelectedStatus(credential.status?.toUpperCase() || "");
     if (credential.management_id) {
       loadCredentialDetails(credential.management_id);
     }
