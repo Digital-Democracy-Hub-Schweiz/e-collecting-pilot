@@ -715,6 +715,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                       </Button>
                     </div>
                   </div>
+                  {/*
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">Credential ID</label>
                     <p className="text-sm font-mono break-all">{viewCredential.credential_id || "N/A"}</p>
@@ -722,7 +723,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">Management ID</label>
                     <p className="text-sm font-mono break-all">{viewCredential.management_id || "N/A"}</p>
-                  </div>
+                  </div>*/}
                   {viewCredential.nullifier && (
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">Nullifier</label>
@@ -765,6 +766,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                       </p>
                     </div>
                   )}
+                  {/*
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">Offer Deeplink</label>
                     <p className="text-sm font-mono break-all">{viewCredential.offer_deeplink || "N/A"}</p>
@@ -772,7 +774,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">Issued By</label>
                     <p className="text-sm font-mono break-all">{viewCredential.issued_by || "N/A"}</p>
-                  </div>
+                  </div>*/}
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">Ausgestellt am</label>
                     <p className="text-lg">
