@@ -225,6 +225,9 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
         ? new Date(selectedVolksbegehren.end_date).toISOString()
         : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
 
+      // Statusliste URL
+      const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/8e4f0f38-f2ed-453c-899d-e5619535efe2.jwt";
+
       // Issue credential via Gemeinde API with correct format
       const response = await gemeindeIssuerAPI.issueCredential({
         metadata_credential_supported_id: ["stimmregister-vc"],
@@ -236,7 +239,8 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
         },
         offer_validity_seconds: 86400,
         credential_valid_from: new Date().toISOString(),
-        credential_valid_until: validUntil
+        credential_valid_until: validUntil,
+        status_lists: statusListUrl ? [statusListUrl] : undefined
       });
 
       // Save to database
