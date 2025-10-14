@@ -83,10 +83,10 @@ const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        "relative z-[9999] max-h-96 min-w-[8rem] overflow-hidden rounded-[1px] border border-[#e0e4e8] bg-white text-foreground shadow-[0px_10px_38px_-10px_rgba(22,23,24,0.35),0px_10px_20px_-15px_rgba(22,23,24,0.2)]",
+        "relative z-[9999] max-h-96 min-w-[8rem] overflow-hidden rounded-[1px] border border-[#e0e4e8] bg-white text-foreground shadow-[0px_10px_38px_-10px_rgba(22,23,24,0.35),0px_10px_20px_-15px_rgba(22,23,24,0.2)] pointer-events-auto",
         className
       )}
-      position="item-aligned"
+      position={position}
       onCloseAutoFocus={(e) => e.preventDefault()}
       {...props}
     >
