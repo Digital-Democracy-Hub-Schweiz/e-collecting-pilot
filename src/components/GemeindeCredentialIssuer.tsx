@@ -751,15 +751,12 @@ export function GemeindeCredentialIssuer() {
       credentialDbId = credentialData?.id || null;
       console.log('Created credential record with ID:', credentialDbId);
 
-      // Payload mit Nullifier, Volksbegehren-ID und Gemeinde-DID (verwende gespeicherte Werte)
+      // Payload für Backend API (nur die vom API erwarteten Felder)
+      // Die zusätzlichen Felder (nullifier, volksbegehren, issuerDid, issuedDate) 
+      // sind bereits in der DB gespeichert und müssen nicht ans Backend gesendet werden
       const payload = {
         metadata_credential_supported_id: ["stimmregister-vc"],
-        credential_subject_data: {
-          nullifier: credentialData.nullifier,
-          volksbegehren: volksbegehrenUuid,
-          issuerDid: credentialData.issuer_did,
-          issuedDate: credentialData.issued_date
-        },
+        credential_subject_data: {},
         offer_validity_seconds: 86400,
         credential_valid_from: credentialData.credential_valid_from,
         credential_valid_until: credentialData.credential_valid_until,
