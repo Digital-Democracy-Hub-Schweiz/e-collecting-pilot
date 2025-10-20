@@ -140,3 +140,8 @@
 - 24/2009 - Pilotprojekt E-Collecting (Interpellation) [link](https://www.zh.ch/de/politik-staat/gesetze-beschluesse/beschluesse-des-regierungsrates/rrb/regierungsratsbeschluss-423-2009.html)
 - 5/2019 - Einführung E-Collecting, elektronische Unterschriftensammlung für Initiativen und Referenden im Internet oder auf mobilen Endgeräten (Motion) [link](https://www.kantonsrat.zh.ch/geschaefte/geschaeft/?id=7ea3ad7713194104a4428b8a7cf85264)
 
+---
+
+## Lizenz
+
+Dieses Werk ist lizenziert unter der [Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/).

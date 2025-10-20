@@ -109,8 +109,12 @@ Die Lösung soll:
 ---
 
 ## 9. Abnahmekriterien
-- Erfolgreiche Pilotinitiative mit >90 % Erfolgsquote in Verifikation.  
-- Positive unabhängige Audits (Sicherheit, Datenschutz, Usability).  
-- Bürger:innen können ihre Teilnahme prüfen, ohne sich zu enttarnen.  
+- Erfolgreiche Pilotinitiative mit >90 % Erfolgsquote in Verifikation.
+- Positive unabhängige Audits (Sicherheit, Datenschutz, Usability).
+- Bürger:innen können ihre Teilnahme prüfen, ohne sich zu enttarnen.
 
 ---
+
+## Lizenz
+
+Dieses Werk ist lizenziert unter der [Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/).

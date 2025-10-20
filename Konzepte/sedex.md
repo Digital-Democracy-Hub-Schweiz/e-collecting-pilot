@@ -113,3 +113,9 @@ Original mit Kommentarfunktion: [Google Docs](https://docs.google.com/document/d
 [[11]](https://www.inside-it.ch/als-erster-kanton-startet-st-gallen-wohl-bald-mit-e-collecting-20250204#:~:text=,Die%20Technologie%20kommt%20von%20Abraxas) Als erster Kanton startet St. Gallen wohl bald mit E-Collecting
 
 [https://www.inside-it.ch/als-erster-kanton-startet-st-gallen-wohl-bald-mit-e-collecting-20250204](https://www.inside-it.ch/als-erster-kanton-startet-st-gallen-wohl-bald-mit-e-collecting-20250204)
+
+---
+
+## Lizenz
+
+Dieses Werk ist lizenziert unter der [Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/).

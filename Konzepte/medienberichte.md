@@ -10,3 +10,9 @@ https://www.srf.ch/news/dialog/e-id-diskussion-e-collecting-eine-vitaminspritze-
 
 ## Tagesanzeiger
 https://www.tagesanzeiger.ch/e-collecting-nationalrat-will-elektronische-unterschriften-248961146555
+
+---
+
+## Lizenz
+
+Dieses Werk ist lizenziert unter der [Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/).

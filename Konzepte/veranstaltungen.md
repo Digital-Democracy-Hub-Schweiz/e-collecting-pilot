@@ -13,3 +13,9 @@
 
 
 - 31. Oktober bis 1. November Hackathon [Link](https://www.bk.admin.ch/bk/de/home/politische-rechte/e-collecting/aktuelles.html)
+
+---
+
+## Lizenz
+
+Dieses Werk ist lizenziert unter der [Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/).
