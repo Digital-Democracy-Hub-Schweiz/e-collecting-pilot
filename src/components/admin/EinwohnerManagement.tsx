@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { NativeSelect } from "@/components/ui/native-select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { toast } from "sonner";
@@ -164,19 +164,17 @@ const EinwohnerManagement = ({ userId }: EinwohnerManagementProps) => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label>Gemeinde auswählen</Label>
-            <Select value={selectedGemeindeId} onValueChange={setSelectedGemeindeId}>
-              <SelectTrigger>
-                <SelectValue placeholder="Wählen Sie eine Gemeinde" />
-              </SelectTrigger>
-              <SelectContent>
-                {gemeinden.map((gemeinde) => (
-                  <SelectItem key={gemeinde.id} value={gemeinde.id}>
-                    {gemeinde.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Label htmlFor="gemeinde-select">Gemeinde auswählen</Label>
+            <NativeSelect
+              id="gemeinde-select"
+              value={selectedGemeindeId}
+              onValueChange={setSelectedGemeindeId}
+              options={gemeinden.map((gemeinde) => ({
+                value: gemeinde.id,
+                label: gemeinde.name
+              }))}
+              placeholder="Wählen Sie eine Gemeinde"
+            />
           </div>
 
           {selectedGemeindeId && (

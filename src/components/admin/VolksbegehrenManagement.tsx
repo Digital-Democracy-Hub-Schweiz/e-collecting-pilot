@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { NativeSelect } from "@/components/ui/native-select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
@@ -211,41 +211,35 @@ const VolksbegehrenManagement = () => {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="type">Typ *</Label>
-                      <Select
+                      <NativeSelect
+                        id="type"
                         value={newVolksbegehren.type}
                         onValueChange={(value) =>
                           setNewVolksbegehren({ ...newVolksbegehren, type: value })
                         }
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="referendum">Referendum</SelectItem>
-                          <SelectItem value="initiative">Initiative</SelectItem>
-                        </SelectContent>
-                      </Select>
+                        options={[
+                          { value: "referendum", label: "Referendum" },
+                          { value: "initiative", label: "Initiative" }
+                        ]}
+                      />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="level">Ebene *</Label>
-                      <Select
+                      <NativeSelect
+                        id="level"
                         value={newVolksbegehren.level}
                         onValueChange={(value) =>
                           setNewVolksbegehren({ ...newVolksbegehren, level: value })
                         }
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="federal">Bundesebene</SelectItem>
-                          <SelectItem value="cantonal">Kantonal</SelectItem>
-                          <SelectItem value="municipal">Gemeinde</SelectItem>
-                        </SelectContent>
-                      </Select>
+                        options={[
+                          { value: "federal", label: "Bundesebene" },
+                          { value: "cantonal", label: "Kantonal" },
+                          { value: "municipal", label: "Gemeinde" }
+                        ]}
+                      />
                     </div>
                   </div>
 
@@ -510,37 +504,31 @@ const VolksbegehrenManagement = () => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="edit-type">Typ *</Label>
-                  <Select
+                  <NativeSelect
+                    id="edit-type"
                     value={editVolksbegehren.type}
                     onValueChange={(value) => setEditVolksbegehren({ ...editVolksbegehren, type: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="referendum">Referendum</SelectItem>
-                      <SelectItem value="initiative">Initiative</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    options={[
+                      { value: "referendum", label: "Referendum" },
+                      { value: "initiative", label: "Initiative" }
+                    ]}
+                  />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="edit-level">Ebene *</Label>
-                  <Select
+                  <NativeSelect
+                    id="edit-level"
                     value={editVolksbegehren.level}
                     onValueChange={(value) => setEditVolksbegehren({ ...editVolksbegehren, level: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="federal">Bundesebene</SelectItem>
-                      <SelectItem value="cantonal">Kantonal</SelectItem>
-                      <SelectItem value="municipal">Gemeinde</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    options={[
+                      { value: "federal", label: "Bundesebene" },
+                      { value: "cantonal", label: "Kantonal" },
+                      { value: "municipal", label: "Gemeinde" }
+                    ]}
+                  />
                 </div>
               </div>
 

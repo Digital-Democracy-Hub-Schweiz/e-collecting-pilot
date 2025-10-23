@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { gemeindeIssuerAPI } from "@/services/gemeindeIssuerAPI";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { NativeSelect } from "@/components/ui/native-select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
@@ -497,39 +497,31 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                       <div className="space-y-2">
-                        <label className="text-sm font-medium">Einwohner</label>
-                        <Select value={selectedEinwohnerId} onValueChange={setSelectedEinwohnerId}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Wählen Sie einen Einwohner" />
-                          </SelectTrigger>
-                          <SelectContent position="popper" className="z-[100] pointer-events-auto">
-                            {einwohner.map((person) => (
-                              <SelectItem key={person.id} value={person.id}>
-                                {person.vorname} {person.nachname} (
-                                {new Date(person.geburtsdatum).toLocaleDateString("de-CH")})
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <label htmlFor="einwohner-select" className="text-sm font-medium">Einwohner</label>
+                        <NativeSelect
+                          id="einwohner-select"
+                          value={selectedEinwohnerId}
+                          onValueChange={setSelectedEinwohnerId}
+                          options={einwohner.map((person) => ({
+                            value: person.id,
+                            label: `${person.vorname} ${person.nachname} (${new Date(person.geburtsdatum).toLocaleDateString("de-CH")})`
+                          }))}
+                          placeholder="Wählen Sie einen Einwohner"
+                        />
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-sm font-medium">Volksbegehren</label>
-                        <Select
+                        <label htmlFor="volksbegehren-select" className="text-sm font-medium">Volksbegehren</label>
+                        <NativeSelect
+                          id="volksbegehren-select"
                           value={selectedVolksbegehrenId}
                           onValueChange={setSelectedVolksbegehrenId}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Wählen Sie ein Volksbegehren" />
-                          </SelectTrigger>
-                          <SelectContent position="popper" className="z-[100] pointer-events-auto">
-                            {volksbegehren.map((vb) => (
-                              <SelectItem key={vb.id} value={vb.id}>
-                                {vb.title_de}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                          options={volksbegehren.map((vb) => ({
+                            value: vb.id,
+                            label: vb.title_de
+                          }))}
+                          placeholder="Wählen Sie ein Volksbegehren"
+                        />
                       </div>
 
                       <Button
@@ -548,37 +540,37 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
             {/* Search and Filter Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 pt-4 border-t">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Gemeinde</label>
-                <Select value={filterGemeindeId} onValueChange={setFilterGemeindeId}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Alle Gemeinden" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Alle Gemeinden</SelectItem>
-                    {gemeinden.map((gemeinde) => (
-                      <SelectItem key={gemeinde.id} value={gemeinde.id}>
-                        {gemeinde.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <label htmlFor="filter-gemeinde" className="text-sm font-medium">Gemeinde</label>
+                <NativeSelect
+                  id="filter-gemeinde"
+                  value={filterGemeindeId}
+                  onValueChange={setFilterGemeindeId}
+                  options={[
+                    { value: "all", label: "Alle Gemeinden" },
+                    ...gemeinden.map((gemeinde) => ({
+                      value: gemeinde.id,
+                      label: gemeinde.name
+                    }))
+                  ]}
+                  placeholder="Alle Gemeinden"
+                />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium">Volksbegehren</label>
-                <Select value={filterVolksbegehrenId} onValueChange={setFilterVolksbegehrenId}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Alle Volksbegehren" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Alle Volksbegehren</SelectItem>
-                    {volksbegehren.map((vb) => (
-                      <SelectItem key={vb.id} value={vb.id}>
-                        {vb.title_de}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <label htmlFor="filter-volksbegehren" className="text-sm font-medium">Volksbegehren</label>
+                <NativeSelect
+                  id="filter-volksbegehren"
+                  value={filterVolksbegehrenId}
+                  onValueChange={setFilterVolksbegehrenId}
+                  options={[
+                    { value: "all", label: "Alle Volksbegehren" },
+                    ...volksbegehren.map((vb) => ({
+                      value: vb.id,
+                      label: vb.title_de
+                    }))
+                  ]}
+                  placeholder="Alle Volksbegehren"
+                />
               </div>
 
               <div className="space-y-2">
