@@ -2,8 +2,11 @@
 
 - ECI Europa
 - Italien [link](https://firmereferendum.giustizia.it/referendum/open)
-
+- petition 3.0 [link](http://www.petition3.ch/)
+- e-initiative.ch
 ---
+
+
 
 ## Lizenz
 
