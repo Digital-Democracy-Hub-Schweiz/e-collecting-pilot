@@ -7,7 +7,7 @@ Willensbekundungen **fälschungssicher, anonym und einmalig** für ein
 konkretes Volksbegehren abzugeben.
 
 ---
-
+```mermaid
 sequenceDiagram
     actor User as Bürger
     participant Portal as E-Collecting Portal
@@ -72,7 +72,7 @@ sequenceDiagram
         Gemeinde-->>Portal: Berechtigung verweigert
         Portal-->>User: Zeigt Ablehnungsmeldung
     end
-
+```
 ---
 
 ## Lizenz
