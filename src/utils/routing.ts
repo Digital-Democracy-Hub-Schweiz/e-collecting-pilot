@@ -6,31 +6,36 @@ export const routeTranslations = {
     volksbegehren: 'volksbegehren',
     anleitung: 'anleitung',
     projekt: 'projekt',
-    impressum: 'impressum'
+    impressum: 'impressum',
+    stimmregister: 'stimmregister'
   },
   fr: {
     volksbegehren: 'objet-votation-populaire',
     anleitung: 'instructions',
     projekt: 'projet',
-    impressum: 'mentions-legales'
+    impressum: 'mentions-legales',
+    stimmregister: 'registre-electoral'
   },
   it: {
     volksbegehren: 'oggetto-votazione-popolare',
     anleitung: 'istruzioni',
     projekt: 'progetto',
-    impressum: 'colofone'
+    impressum: 'colofone',
+    stimmregister: 'registro-elettorale'
   },
   rm: {
     volksbegehren: 'dumonda-populara',
     anleitung: 'instrucziuns',
     projekt: 'project',
-    impressum: 'impressum'
+    impressum: 'impressum',
+    stimmregister: 'register-da-votar'
   },
   en: {
     volksbegehren: 'popular-vote',
     anleitung: 'instructions',
     projekt: 'project',
-    impressum: 'imprint'
+    impressum: 'imprint',
+    stimmregister: 'electoral-register'
   }
 };
 
