@@ -1,3 +1,4 @@
+```mermaid
 flowchart TD
     Start([Bürger startet Prozess]) --> Adresse[Wohnadresse eingeben]
     Adresse --> AdressCheck{Adresse<br/>gültig?}
@@ -26,7 +27,7 @@ flowchart TD
     style QR1 fill:#fff4e1
     style QR2 fill:#fff4e1
     style Import fill:#e1e5ff
-
+```
 ---
 
 ## Lizenz
