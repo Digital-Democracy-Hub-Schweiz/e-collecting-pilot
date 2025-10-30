@@ -409,6 +409,7 @@ export function GemeindeCredentialIssuer() {
           clearInterval(pollInterval);
 
           // Extrahiere Daten aus Wallet Response
+          console.log('Verification result:', result);
           const credentialData = result.wallet_response?.credential_subject_data;
           if (credentialData) {
             const verifiedData = {
