@@ -63,12 +63,6 @@ export function ReceiptCredentialIssuer({
   const [verificationUrl, setVerificationUrl] = useState<string | null>(null);
   const [isCreatingVerification, setIsCreatingVerification] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [verificationData, setVerificationData] = useState<{
-    given_name?: string;
-    family_name?: string;
-    birth_date?: string;
-    signatures?: any;
-  } | null>(null);
   const stepTitleRef = useRef<HTMLHeadingElement | null>(null);
   const bannerRef = useRef<HTMLDivElement | null>(null);
 
@@ -370,15 +364,7 @@ export function ReceiptCredentialIssuer({
 
           // Extract data from wallet response
           const credentialData = result.wallet_response?.credential_subject_data;
-          const signatures = result.wallet_response?.signatures || result.wallet_response;
-          
           if (credentialData) {
-            setVerificationData({
-              given_name: credentialData.given_name || "",
-              family_name: credentialData.family_name || "",
-              birth_date: credentialData.birth_date || "",
-              signatures: signatures
-            });
             setFirstName(credentialData.given_name || "");
             setLastName(credentialData.family_name || "");
             setBirthDate(credentialData.birth_date || "");
@@ -389,8 +375,8 @@ export function ReceiptCredentialIssuer({
             description: t('forms:step4.verification.description')
           });
 
-          // Navigate to step 3 to show verification data instead of auto-issuing
-          setStep(3);
+          // Automatically issue the credential with the verified data
+          handleIssue(credentialData);
         } else if (result.state === 'FAILED') {
           clearInterval(pollInterval);
           setBanner({
@@ -702,53 +688,6 @@ export function ReceiptCredentialIssuer({
                           </div>
                         </div>
                       </div>
-
-                      {/* Verifizierte Attribute Section - only show when verification data exists */}
-                      {verificationData && (
-                        <>
-                          <div className="py-4 mt-8">
-                            <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">Verifizierte Attribute</div>
-                          </div>
-                          <div className="border-t border-[#adb4bc] divide-y divide-[#adb4bc]">
-                            <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
-                              <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">Vorname:</div>
-                              <div className="w-full sm:w-[441px] space-y-2">
-                                <div className="text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{verificationData.given_name || '—'}</div>
-                                {verificationData.signatures?.given_name && (
-                                  <div className="text-[14px] leading-[20px] text-[#6b7280] font-mono break-all bg-[#f5f6f7] p-2 rounded">
-                                    <div className="font-semibold mb-1">Signatur:</div>
-                                    {JSON.stringify(verificationData.signatures.given_name, null, 2)}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                            <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
-                              <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">Nachname:</div>
-                              <div className="w-full sm:w-[441px] space-y-2">
-                                <div className="text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{verificationData.family_name || '—'}</div>
-                                {verificationData.signatures?.family_name && (
-                                  <div className="text-[14px] leading-[20px] text-[#6b7280] font-mono break-all bg-[#f5f6f7] p-2 rounded">
-                                    <div className="font-semibold mb-1">Signatur:</div>
-                                    {JSON.stringify(verificationData.signatures.family_name, null, 2)}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                            <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-start py-6">
-                              <div className="w-full sm:w-[229px] text-[#1f2937] text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] font-semibold">Geburtsdatum:</div>
-                              <div className="w-full sm:w-[441px] space-y-2">
-                                <div className="text-[18px] leading-[28px] sm:text-[22px] sm:leading-[33px] text-[#1f2937] font-medium">{verificationData.birth_date || '—'}</div>
-                                {verificationData.signatures?.birth_date && (
-                                  <div className="text-[14px] leading-[20px] text-[#6b7280] font-mono break-all bg-[#f5f6f7] p-2 rounded">
-                                    <div className="font-semibold mb-1">Signatur:</div>
-                                    {JSON.stringify(verificationData.signatures.birth_date, null, 2)}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      )}
                     </div>
                   </div>
  
@@ -796,53 +735,37 @@ export function ReceiptCredentialIssuer({
                       <Button
                         variant="bare"
                         size="xl"
-                        onClick={() => { 
-                          setBanner(null); 
-                          setVerificationData(null);
-                          setStep(2); 
-                        }}
+                        onClick={() => { setBanner(null); setStep(2); }}
                         className="w-full sm:w-auto"
                       >
                         {t('common:back')}
                       </Button>
-                      {!verificationData ? (
-                        <Button
-                          variant="filled"
-                          size="xl"
-                          onClick={handleStartVerification}
-                          disabled={
-                            isCreatingVerification || 
-                            isValidatingAddress ||
-                            (() => {
-                              const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
-                              const selectedLevel = selectedItem?.level;
-                              const userCanton = municipalityDetails?.cantonFromBfs;
-                              
-                              // Disable if there's a canton mismatch
-                              if (selectedLevel && selectedLevel !== "Bund" && userCanton) {
-                                const isCantonMatch = selectedLevel.includes(userCanton) || userCanton.includes(selectedLevel.replace("Kanton ", ""));
-                                return !isCantonMatch;
-                              }
-                              return false;
-                            })()
-                          }
-                          className="w-full sm:w-auto"
-                        >
-                          {isCreatingVerification && <RefreshCw className="w-5 h-5 mr-2 animate-spin" />}
-                          {t('forms:step3.supportButton')}
-                          <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="filled"
-                          size="xl"
-                          onClick={() => handleIssue(verificationData)}
-                          className="w-full sm:w-auto"
-                        >
-                          Weiter zu Schritt 4
-                          <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
-                        </Button>
-                      )}
+                      <Button
+                        variant="filled"
+                        size="xl"
+                        onClick={handleStartVerification}
+                        disabled={
+                          isCreatingVerification || 
+                          isValidatingAddress ||
+                          (() => {
+                            const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
+                            const selectedLevel = selectedItem?.level;
+                            const userCanton = municipalityDetails?.cantonFromBfs;
+                            
+                            // Disable if there's a canton mismatch
+                            if (selectedLevel && selectedLevel !== "Bund" && userCanton) {
+                              const isCantonMatch = selectedLevel.includes(userCanton) || userCanton.includes(selectedLevel.replace("Kanton ", ""));
+                              return !isCantonMatch;
+                            }
+                            return false;
+                          })()
+                        }
+                        className="w-full sm:w-auto"
+                      >
+                        {isCreatingVerification && <RefreshCw className="w-5 h-5 mr-2 animate-spin" />}
+                        {t('forms:step3.supportButton')}
+                        <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
+                      </Button>
                     </div>
                   </div>
                 </div>}
