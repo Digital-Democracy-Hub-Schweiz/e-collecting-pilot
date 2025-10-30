@@ -806,8 +806,8 @@ export function GemeindeCredentialIssuer() {
       
       setBanner({
         type: 'success',
-        title: 'Stimmregister-Nachweis erfolgreich erstellt',
-        description: 'Der Stimmregister-Nachweis kann mit der swiyu-Wallet App heruntergeladen werden.'
+        title: 'Stimmrechtsausweis-Nachweis erfolgreich erstellt',
+        description: 'Der Stimmrechtsausweis-Nachweis kann mit der swiyu-Wallet App heruntergeladen werden.'
       });
 
       // Gehe zu Step 5 (Erfolg)
@@ -1316,7 +1316,7 @@ export function GemeindeCredentialIssuer() {
                       disabled={filteredVolksbegehrenOptions.length === 0 && type !== ""}
                       className="w-full sm:w-auto"
                     >
-                      Stimmregister-Nachweis erstellen
+                      Stimmrechtsausweis-Nachweis erstellen
                       <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                     </Button>
                   </div>
@@ -1352,12 +1352,12 @@ export function GemeindeCredentialIssuer() {
                     <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6 max-w-full">
                       <div className="py-4">
                         <div className="text-[28px] leading-[36px] sm:text-[32px] sm:leading-[43px] font-semibold text-[#1f2937]">
-                          Stimmregister-Nachweis erfolgreich erstellt
+                          Stimmrechtsausweis-Nachweis erfolgreich erstellt
                         </div>
                       </div>
                       
                       <div className="text-[16px] leading-[24px] sm:text-[18px] sm:leading-[28px] md:text-[22px] md:leading-[33px] text-[#1f2937] font-medium mb-6">
-                        Der Stimmregister-Nachweis kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrer swiyu-Wallet App oder klicken Sie auf den Button.
+                        Der Stimmrechtsausweis-Nachweis kann mit der swiyu-Wallet App heruntergeladen werden. Scannen Sie dazu den QR-Code mit Ihrer swiyu-Wallet App oder klicken Sie auf den Button.
                       </div>
                       
                       {/* Initiative Info */}
@@ -1394,7 +1394,7 @@ export function GemeindeCredentialIssuer() {
                           disabled={!offerDeeplink}
                           className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[#5c6977] text-white rounded-[1px] hover:bg-[#4c5967] transition-colors font-semibold h-12 text-[16px] leading-[24px] sm:text-[20px] sm:leading-[32px] shadow-[0px_2px_4px_-1px_rgba(17,24,39,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Stimmregister-Nachweis herunterladen
+                          Stimmrechtsausweis-Nachweis herunterladen
                           <ArrowRight className="w-5 h-5 ml-2" aria-hidden />
                         </button>
                       </div>

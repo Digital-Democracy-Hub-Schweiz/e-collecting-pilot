@@ -68,7 +68,7 @@ const EIdCredentialFlow = () => {
           <PageContainer paddingYClassName="py-0">
             <div className="py-14 md:py-16 flex flex-col items-start">
               <h1 className="sd-h1 max-w-[1024px]">
-                {t('content:gemeinde.hero.title', 'Stimmregister-Nachweis für anonyme Willensbekundungen')}
+                {t('content:gemeinde.hero.title', 'Stimmrechtsausweis-Nachweis für anonyme Willensbekundungen')}
               </h1>
               <div className="h-6 md:h-10" />
               <p className="sd-lead max-w-[1024px]">

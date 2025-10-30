@@ -274,7 +274,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
 
       if (error) throw error;
 
-      toast.success("Stimmrechtsausweis erfolgreich ausgestellt");
+      toast.success("Stimmrechtsausweis-Nachweis erfolgreich ausgestellt");
 
       // Show QR code dialog
       setIssuedOfferDeeplink(response.offer_deeplink);
