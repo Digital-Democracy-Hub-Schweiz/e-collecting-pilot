@@ -25,7 +25,8 @@
     "volksbegehren": "oggetto-votazione-popolare",
     "anleitung": "istruzioni",
     "projekt": "progetto",
-    "impressum": "colofone"
+    "impressum": "colofone",
+    "stimmregister": "registro-elettorale"
   },
   "navigation": {
     "home": "Pagina principale",
@@ -35,6 +36,7 @@
     "instructions": "Istruzioni",
     "project": "Progetto",
     "volksbegehren": "Oggetto di votazione popolare",
+    "stimmregister": "NUOVO: Registro elettorale",
     "contact": "Contatto",
     "newsletter": "Newsletter",
     "blog": "Blog"

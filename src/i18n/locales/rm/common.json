@@ -26,7 +26,8 @@
     "volksbegehren": "dumonda-populara",
     "anleitung": "instrucziuns",
     "projekt": "project",
-    "impressum": "impressum"
+    "impressum": "impressum",
+    "stimmregister": "register-da-vuschar"
   },
   "navigation": {
     "home": "Pagina principala",
@@ -36,6 +37,7 @@
     "instructions": "Instrucziuns",
     "project": "Project",
     "volksbegehren": "Dumonda populara",
+    "stimmregister": "NOV: Register da vuschar",
     "contact": "Contact",
     "newsletter": "Newsletter",
     "blog": "Blog"

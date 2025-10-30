@@ -25,7 +25,8 @@
     "volksbegehren": "volksbegehren",
     "anleitung": "anleitung",
     "projekt": "projekt",
-    "impressum": "impressum"
+    "impressum": "impressum",
+    "stimmregister": "stimmregister"
   },
   "navigation": {
     "home": "Hauptseite",
@@ -35,6 +36,7 @@
     "instructions": "Anleitung",
     "project": "Projekt",
     "volksbegehren": "Volksbegehren",
+    "stimmregister": "NEU: Stimmregister",
     "contact": "Kontakt",
     "newsletter": "Newsletter",
     "blog": "Blog"

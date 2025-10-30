@@ -25,7 +25,8 @@
     "volksbegehren": "popular-vote",
     "anleitung": "instructions",
     "projekt": "project",
-    "impressum": "imprint"
+    "impressum": "imprint",
+    "stimmregister": "electoral-register"
   },
   "navigation": {
     "home": "Home page",
@@ -35,6 +36,7 @@
     "instructions": "Instructions",
     "project": "Project",
     "volksbegehren": "Popular Vote",
+    "stimmregister": "NEW: Electoral Register",
     "contact": "Contact",
     "newsletter": "Newsletter",
     "blog": "Blog"

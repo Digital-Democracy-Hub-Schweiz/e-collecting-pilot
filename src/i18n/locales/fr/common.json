@@ -25,7 +25,8 @@
     "volksbegehren": "objet-votation-populaire",
     "anleitung": "instructions",
     "projekt": "projet",
-    "impressum": "mentions-legales"
+    "impressum": "mentions-legales",
+    "stimmregister": "registre-electoral"
   },
   "navigation": {
     "home": "Page principale",
@@ -35,6 +36,7 @@
     "instructions": "Instructions",
     "project": "Projet",
     "volksbegehren": "Objet de votation populaire",
+    "stimmregister": "NOUVEAU: Registre électoral",
     "contact": "Contact",
     "newsletter": "Newsletter",
     "blog": "Blog"
