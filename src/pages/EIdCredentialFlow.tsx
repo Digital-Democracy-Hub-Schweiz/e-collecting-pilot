@@ -72,7 +72,7 @@ const EIdCredentialFlow = () => {
               </h1>
               <div className="h-6 md:h-10" />
               <p className="sd-lead max-w-[1024px]">
-                {t('content:gemeinde.hero.description', 'Weisen Sie Ihre Stimmberechtigung nach und erhalten Sie ein digitales Stimmregister-Credential. Damit können Sie später fälschungssicher, anonym und nur einmal pro Volksbegehren Ihre Willensbekundung abgeben – ohne dass Ihre Identität preisgegeben wird.')}
+                {t('content:gemeinde.hero.description', 'Weisen Sie Ihre Stimmberechtigung nach und erhalten Sie einen digitalen Stimmrechtsausweis als Credential. Damit können Sie später fälschungssicher, anonym und nur einmal pro Volksbegehren Ihre Willensbekundung abgeben – ohne dass Ihre Identität preisgegeben wird.')}
               </p>
             </div>
             <div className="h-24 opacity-0" />
