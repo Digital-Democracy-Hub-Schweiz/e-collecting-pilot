@@ -500,8 +500,8 @@ export function GemeindeCredentialIssuer() {
         .from("einwohner")
         .select("*")
         .eq("gemeinde_id", gemeindeData.id)
-        .eq("vorname", verifiedData.given_name)
-        .eq("nachname", verifiedData.family_name)
+        .ilike("vorname", verifiedData.given_name)
+        .ilike("nachname", verifiedData.family_name)
         .eq("geburtsdatum", verifiedData.birth_date)
         .maybeSingle();
 
