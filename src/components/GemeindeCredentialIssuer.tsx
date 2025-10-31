@@ -214,40 +214,11 @@ export function GemeindeCredentialIssuer() {
     }));
   }, [type, normalizedVolksbegehren]);
 
-  // Gefilterte Volksbegehren basierend auf Typ, Gemeinde/Kanton
+  // Gefilterte Volksbegehren: keine Kanton/Ort-Filter mehr
   const filteredVolksbegehrenOptions: Option[] = useMemo(() => {
     if (!type) return [];
-    
-    let baseOptions = volksbegehrenOptions;
-    
-    if (municipalityDetails) {
-      const userCanton = municipalityDetails.cantonFromBfs || municipalityDetails.canton;
-      
-      baseOptions = volksbegehrenOptions.filter(option => {
-        const volksbegehren = normalizedVolksbegehren.find(v => v.id === option.id);
-        if (!volksbegehren?.level) return true; // Wenn kein Level definiert, zeige an
-        
-        // "Bund" Level -> für alle Kantone verfügbar
-        if (volksbegehren.level === "Bund") return true;
-        
-        // Kanton-spezifisch -> prüfe ob Kanton übereinstimmt
-        if (volksbegehren.level.includes("Kanton")) {
-          const cantonInLevel = volksbegehren.level.replace("Kanton ", "");
-          return userCanton.includes(cantonInLevel) || cantonInLevel.includes(userCanton);
-        }
-        
-        // Gemeinde-spezifisch -> prüfe ob Gemeinde übereinstimmt
-        if (volksbegehren.level.includes(municipalityDetails.town)) {
-          return true;
-        }
-        
-        // Default: zeige wenn unklar
-        return true;
-      });
-    }
-    
-    return baseOptions;
-  }, [type, volksbegehrenOptions, normalizedVolksbegehren, municipalityDetails]);
+    return volksbegehrenOptions;
+  }, [type, volksbegehrenOptions]);
 
   // Selected item for summary display
   const selectedItem = useMemo(() => {

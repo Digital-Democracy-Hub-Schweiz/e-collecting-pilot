@@ -711,33 +711,6 @@ export function ReceiptCredentialIssuer({
                   </div>
  
                   <div className="space-y-4 pt-4">
-                     {/* Canton validation for non-federal initiatives */}
-                     {(() => {
-                       const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
-                       const selectedLevel = selectedItem?.level;
-                       const userCanton = municipalityDetails?.cantonFromBfs;
-                       
-                       // Check if initiative level is not "Bund" and we have canton data
-                       if (selectedLevel && selectedLevel !== "Bund" && userCanton) {
-                         const isCantonMatch = selectedLevel.includes(userCanton) || userCanton.includes(selectedLevel.replace("Kanton ", ""));
-                         
-                         if (!isCantonMatch) {
-                           return (
-                            <div className="p-4 border border-red-200 rounded-[1px] bg-red-50">
-                              <div className="flex items-start space-x-3">
-                                <div className="text-red-600 mt-1">⚠️</div>
-                                <div>
-                                  <div className="text-[16px] leading-[24px] font-medium text-red-800" role="heading" aria-level={4}>{t('forms:step3.cantonConflict.title')}</div>
-                                  <p className="text-[16px] leading-[24px] text-red-700 mt-1" dangerouslySetInnerHTML={{ __html: t('forms:step3.cantonConflict.message', { level: selectedLevel, canton: userCanton }) }}>
-                                   </p>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                         }
-                       }
-                       return null;
-                     })()}
  
                     <div className="bg-[#fff7ed] p-6 rounded-[3px] shadow-[0px_2px_6px_-1px_rgba(17,24,39,0.08)]">
                         <div className="flex items-start gap-3">
@@ -765,21 +738,9 @@ export function ReceiptCredentialIssuer({
                         onClick={handleStartVerification}
                         disabled={
                           isCreatingVerification || 
-                          isValidatingAddress ||
-                          (() => {
-                            const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
-                            const selectedLevel = selectedItem?.level;
-                            const userCanton = municipalityDetails?.cantonFromBfs;
-                            
-                            // Disable if there's a canton mismatch
-                            if (selectedLevel && selectedLevel !== "Bund" && userCanton) {
-                              const isCantonMatch = selectedLevel.includes(userCanton) || userCanton.includes(selectedLevel.replace("Kanton ", ""));
-                              return !isCantonMatch;
-                            }
-                            return false;
-                          })()
-                        }
-                        className="w-full sm:w-auto"
+                          isValidatingAddress
+                         }
+                         className="w-full sm:w-auto"
                       >
                         {isCreatingVerification && <RefreshCw className="w-5 h-5 mr-2 animate-spin" />}
                         {t('forms:step3.supportButton')}
