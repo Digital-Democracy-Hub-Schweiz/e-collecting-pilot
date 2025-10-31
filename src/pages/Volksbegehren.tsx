@@ -6,6 +6,7 @@ import { Share2, Printer } from "lucide-react";
 import { useCurrentLanguage, getLocalizedPath, type SupportedLanguage } from "@/utils/routing";
 import { useTranslation } from "react-i18next";
 import React from "react";
+import { useVolksbegehren } from "@/hooks/use-volksbegehren";
 
 const Volksbegehren = () => {
   const { t } = useTranslation(['common', 'content']);
@@ -92,50 +93,23 @@ export default Volksbegehren;
 
 type VolksbegehrenItem = {
   id: string;
-  type: 'initiative' | 'referendum';
+  type: string;
   level: string;
   title: string;
   slug: string;
-  comitee: string;
+  comitee: string | null;
   wording: string;
   start_date: string; // ISO
   end_date: string;   // ISO
   show: boolean;
   image?: string;
+  pdf_url?: string;
 };
 
 const DataDrivenSections: React.FC = () => {
   const { t } = useTranslation(['content']);
   const lang: SupportedLanguage = useCurrentLanguage();
-  const [items, setItems] = React.useState<VolksbegehrenItem[]>([]);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    let canceled = false;
-    setLoading(true);
-    setError(null);
-    try {
-      const modules = import.meta.glob<Record<string, unknown>>('/src/data/volksbegehren/*.json', { eager: true });
-      const path = `/src/data/volksbegehren/${lang}.json`;
-      const fallbackPath = `/src/data/volksbegehren/de.json`;
-      const mod = (modules[path] ?? modules[fallbackPath]) as { default?: unknown } | undefined;
-      const raw = (mod && (mod as { default?: unknown }).default) as unknown;
-      const data = (Array.isArray(raw) ? (raw as unknown[]) : []) as VolksbegehrenItem[];
-      if (!canceled) {
-        setItems(Array.isArray(data) ? data.filter(d => d.show !== false) : []);
-        setLoading(false);
-      }
-    } catch (e) {
-      if (!canceled) {
-        setError(t('content:volksbegehren.error'));
-        setLoading(false);
-      }
-    }
-    return () => {
-      canceled = true;
-    };
-  }, [lang]);
+  const { volksbegehren: items, isLoading: loading } = useVolksbegehren();
 
   if (loading) {
     return (
@@ -147,15 +121,6 @@ const DataDrivenSections: React.FC = () => {
     );
   }
 
-  if (error) {
-    return (
-      <section className="bg-white">
-        <PageContainer paddingYClassName="py-8">
-          <div className="text-red-600">{error}</div>
-        </PageContainer>
-      </section>
-    );
-  }
 
   const initiatives = items.filter(i => i.type === 'initiative');
   const referendums = items.filter(i => i.type === 'referendum');
