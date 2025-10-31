@@ -33,11 +33,11 @@ export const LanguageSwitcher = ({ variant = 'default' }: LanguageSwitcherProps)
   const triggerTopbar = "h-6 text-[16px] leading-[24px] border border-transparent bg-transparent text-white hover:bg-transparent focus:ring-0";
   const triggerClass = `${triggerBase} ${variant === 'topbar' ? triggerTopbar : triggerDefault}`;
 
-  const contentClass = "min-w-[120px] bg-white border border-[#e0e4e8] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)] rounded-[1px]";
+  const contentClass = "min-w-[120px] bg-white border border-[#e0e4e8] shadow-[0px_1px_2px_0px_rgba(17,24,39,0.08)] rounded-[1px] z-50";
   const itemClass = "py-2 text-[16px] leading-[24px] data-[state=checked]:bg-[#f5f6f7] data-[highlighted]:bg-[#f5f6f7] focus:bg-[#f5f6f7]";
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center relative">
       <Select value={i18n.language} onValueChange={handleLanguageChange}>
         <SelectTrigger
           aria-label={t('common:language', 'Sprache')}
@@ -48,7 +48,7 @@ export const LanguageSwitcher = ({ variant = 'default' }: LanguageSwitcherProps)
             <span>{i18n.language.toUpperCase()}</span>
           </SelectValue>
         </SelectTrigger>
-        <SelectContent className={contentClass} align="end">
+        <SelectContent className={contentClass} align="end" position="popper" sideOffset={4}>
           {languages.map((language) => (
             <SelectItem key={language.code} value={language.code} className={itemClass}>
               <span>{language.code.toUpperCase()}</span>
