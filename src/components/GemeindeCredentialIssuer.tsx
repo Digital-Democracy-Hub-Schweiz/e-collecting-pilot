@@ -98,7 +98,7 @@ type Option = {
 export function GemeindeCredentialIssuer() {
   const { t } = useTranslation(['forms', 'errors', 'common']);
   const currentLang = useCurrentLanguage();
-  const volksbegehren = useVolksbegehren();
+  const { volksbegehren, isLoading: isLoadingVolksbegehren } = useVolksbegehren();
   const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/8e4f0f38-f2ed-453c-899d-e5619535efe2.jwt";
   
   // Form state
@@ -150,7 +150,7 @@ export function GemeindeCredentialIssuer() {
 
   // Normalisierte Volksbegehren-Liste
   const normalizedVolksbegehren = useMemo(() => {
-    return (volksbegehren as any[]).map((item, idx) => {
+    return volksbegehren.map((item, idx) => {
       const title: string = item?.title ?? "";
       const providedSlug: string = String(item?.slug || "").trim();
       const computedSlug = title
@@ -168,7 +168,8 @@ export function GemeindeCredentialIssuer() {
         type,
         title,
         comitee: item?.comitee ?? null,
-        level: item?.level ?? null
+        level: item?.level ?? null,
+        end_date: item?.end_date ?? null
       };
     });
   }, [volksbegehren]);

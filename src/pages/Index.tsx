@@ -26,10 +26,10 @@ const Index = () => {
     data: healthStatus,
     isLoading: healthLoading
   } = useHealthStatus();
-  const volksbegehren = useVolksbegehren();
+  const { volksbegehren, isLoading: isLoadingVolksbegehren } = useVolksbegehren();
   
   // Normalisieren der Volksbegehren-Daten unter Verwendung der sprachspezifischen IDs
-  const normalized = (volksbegehren as any[]).map((item, idx) => {
+  const normalized = volksbegehren.map((item, idx) => {
     const title: string = item?.title ?? "";
     const providedSlug: string = String(item?.slug || "").trim();
     const computedSlug = title.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");

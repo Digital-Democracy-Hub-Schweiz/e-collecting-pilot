@@ -33,7 +33,7 @@ export function ReceiptCredentialIssuer({
   const { t } = useTranslation(['forms', 'errors', 'common']);
   // const { toast } = useToast();
   const currentLang = useCurrentLanguage();
-  const volksbegehren = useVolksbegehren();
+  const { volksbegehren, isLoading: isLoadingVolksbegehren } = useVolksbegehren();
   const [type, setType] = useState<"Initiative" | "Referendum" | "">("");
   const [selectedId, setSelectedId] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -111,7 +111,7 @@ export function ReceiptCredentialIssuer({
 
   // Normalisierte Liste aus volksbegehren.json ableiten
   const normalized = useMemo(() => {
-    return (volksbegehren as any[]).map((item, idx) => {
+    return volksbegehren.map((item, idx) => {
       const title: string = item?.title ?? "";
       const providedSlug: string = String(item?.slug || "").trim();
       const computedSlug = title
@@ -225,7 +225,7 @@ export function ReceiptCredentialIssuer({
       const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
       
       // Prüfe ob das Volksbegehren noch gültig ist
-      const volksbegehrenItem = (volksbegehren as any[]).find(v => 
+      const volksbegehrenItem = volksbegehren.find(v => 
         v.id === selectedId || v.slug === selectedItem?.slug
       );
       
