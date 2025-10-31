@@ -637,12 +637,13 @@ export function GemeindeCredentialIssuer() {
       // Prüfe ob das Volksbegehren noch gültig ist
       if (volksbegehrenEndDate) {
         const endDate = new Date(volksbegehrenEndDate);
+        endDate.setHours(23, 59, 59, 999); // Setze auf Ende des Tages
         const now = new Date();
         if (endDate < now) {
           setBanner({
             type: 'error',
             title: 'Volksbegehren nicht mehr gültig',
-            description: `Dieses Volksbegehren ist abgelaufen (gültig bis ${endDate.toLocaleDateString('de-CH')}). Es können keine weiteren Stimmregister-Nachweise ausgestellt werden.`
+            description: `Dieses Volksbegehren ist abgelaufen (gültig bis ${new Date(volksbegehrenEndDate).toLocaleDateString('de-CH')}). Es können keine weiteren Stimmregister-Nachweise ausgestellt werden.`
           });
           return;
         }

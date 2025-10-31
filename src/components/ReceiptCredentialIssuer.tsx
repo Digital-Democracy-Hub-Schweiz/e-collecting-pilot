@@ -223,6 +223,25 @@ export function ReceiptCredentialIssuer({
     }
     try {
       const selectedItem = normalized.find(o => o.type === type && o.id === selectedId);
+      
+      // Prüfe ob das Volksbegehren noch gültig ist
+      const volksbegehrenItem = (volksbegehren as any[]).find(v => 
+        v.id === selectedId || v.slug === selectedItem?.slug
+      );
+      
+      if (volksbegehrenItem?.end_date) {
+        const endDate = new Date(volksbegehrenItem.end_date);
+        endDate.setHours(23, 59, 59, 999); // Setze auf Ende des Tages
+        const now = new Date();
+        if (endDate < now) {
+          setBanner({
+            type: 'error',
+            title: 'Volksbegehren nicht mehr gültig',
+            description: `Dieses Volksbegehren ist abgelaufen (gültig bis ${new Date(volksbegehrenItem.end_date).toLocaleDateString('de-CH')}). Es können keine weiteren Unterstützungserklärungen abgegeben werden.`
+          });
+          return;
+        }
+      }
       const selectedTitle = selectedItem?.title || "";
       const selectedcomitee = selectedItem?.comitee ?? null;
       const selectedLevel = selectedItem?.level ?? null;
