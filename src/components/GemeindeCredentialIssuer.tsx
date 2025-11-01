@@ -432,12 +432,15 @@ export function GemeindeCredentialIssuer() {
     }
 
     try {
+      // Normalisiere BFS-Nummer (entferne führende Nullen)
+      const normalizedBfs = municipalityDetails.bfs.replace(/^0+/, '');
+      
       // 1. Prüfe ob Gemeinde mit BFS-Nummer existiert
-      console.log('Searching for gemeinde with BFS:', municipalityDetails.bfs);
+      console.log('Searching for gemeinde with BFS:', normalizedBfs, '(original:', municipalityDetails.bfs, ')');
       const { data: gemeindeData, error: gemeindeError } = await supabase
         .from("gemeinden")
         .select("*")
-        .eq("bfs_nummer", municipalityDetails.bfs)
+        .eq("bfs_nummer", normalizedBfs)
         .maybeSingle();
 
       console.log('Gemeinde query result:', { gemeindeData, gemeindeError });
