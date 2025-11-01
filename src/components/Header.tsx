@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
     { label: t('common:navigation.instructions'), href: getLocalizedPath(currentLang, 'anleitung') },
     { label: t('common:navigation.project'), href: getLocalizedPath(currentLang, 'projekt') },
     { label: t('common:navigation.volksbegehren'), href: getLocalizedPath(currentLang, 'volksbegehren') },
-    { label: t('common:navigation.stimmregister'), href: getLocalizedPath(currentLang, 'stimmregister') },
+    // { label: t('common:navigation.stimmregister'), href: getLocalizedPath(currentLang, 'stimmregister') },
   ];
 
   const handleEasyLanguageOk = () => {
