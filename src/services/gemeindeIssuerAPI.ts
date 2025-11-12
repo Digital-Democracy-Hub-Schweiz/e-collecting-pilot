@@ -31,7 +31,7 @@ export interface IssueGemeindeCredentialResponse {
 
 class GemeindeIssuerAPI {
   // Gemeinde-spezifischer Service für Stimmrechtsausweise
-  private baseUrl = "https://issuer-gemeinde.ecollecting.ch/management/api";
+  private baseUrl = "https://issuer-stimmrecht.ecollecting.ch/management/api";
 
   async issueCredential(payload: IssueGemeindeCredentialRequest): Promise<IssueGemeindeCredentialResponse> {
     try {

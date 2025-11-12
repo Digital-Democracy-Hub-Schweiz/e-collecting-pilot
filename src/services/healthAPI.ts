@@ -12,9 +12,8 @@ export interface SystemHealth {
 
 class HealthAPI {
   private verifierManagementUrl = "https://verifier-management.ecollecting.ch/actuator";
-  private issuerManagementUrl = "https://issuer-management.ecollecting.ch/actuator";
-  private issuerOid4vciUrl = "https://issuer-oid4vci.ecollecting.ch/actuator";
-  private issuerGemeindeUrl = "https://issuer-gemeinde.ecollecting.ch/actuator";
+  private issuerReceiptUrl = "https://issuer-receipt.ecollecting.ch/actuator";
+  private issuerStimmrechtUrl = "https://issuer-stimmrecht.ecollecting.ch/actuator";
 
   async getVerifierManagementHealth(): Promise<HealthStatus> {
     try {
@@ -34,9 +33,9 @@ class HealthAPI {
     }
   }
 
-  async getIssuerManagementHealth(): Promise<HealthStatus> {
+  async getIssuerReceiptHealth(): Promise<HealthStatus> {
     try {
-      const res = await fetch(`${this.issuerManagementUrl}/health`, {
+      const res = await fetch(`${this.issuerReceiptUrl}/health`, {
         method: "GET",
         headers: {
           accept: "application/vnd.spring-boot.actuator.v3+json",
@@ -47,14 +46,14 @@ class HealthAPI {
       }
       return await res.json();
     } catch (e) {
-      console.error("Failed to fetch issuer management health status", e);
+      console.error("Failed to fetch issuer receipt health status", e);
       throw e;
     }
   }
 
-  async getIssuerOid4vciHealth(): Promise<HealthStatus> {
+  async getIssuerStimmrechtHealth(): Promise<HealthStatus> {
     try {
-      const res = await fetch(`${this.issuerOid4vciUrl}/health`, {
+      const res = await fetch(`${this.issuerStimmrechtUrl}/health`, {
         method: "GET",
         headers: {
           accept: "application/vnd.spring-boot.actuator.v3+json",
@@ -65,42 +64,23 @@ class HealthAPI {
       }
       return await res.json();
     } catch (e) {
-      console.error("Failed to fetch issuer oid4vci health status", e);
-      throw e;
-    }
-  }
-
-  async getIssuerGemeindeHealth(): Promise<HealthStatus> {
-    try {
-      const res = await fetch(`${this.issuerGemeindeUrl}/health`, {
-        method: "GET",
-        headers: {
-          accept: "application/vnd.spring-boot.actuator.v3+json",
-        },
-      });
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
-      }
-      return await res.json();
-    } catch (e) {
-      console.error("Failed to fetch issuer gemeinde health status", e);
+      console.error("Failed to fetch issuer stimmrecht health status", e);
       throw e;
     }
   }
 
   async getSystemHealth(): Promise<SystemHealth> {
-    const [verifierManagement, issuerManagement, issuerOid4vci, issuerGemeinde] = await Promise.allSettled([
+    const [verifierManagement, issuerReceipt, issuerStimmrecht] = await Promise.allSettled([
       this.getVerifierManagementHealth(),
-      this.getIssuerManagementHealth(),
-      this.getIssuerOid4vciHealth(),
-      this.getIssuerGemeindeHealth()
+      this.getIssuerReceiptHealth(),
+      this.getIssuerStimmrechtHealth()
     ]);
 
     return {
       verifierManagement: verifierManagement.status === 'fulfilled' ? verifierManagement.value : null,
-      issuerManagement: issuerManagement.status === 'fulfilled' ? issuerManagement.value : null,
-      issuerOid4vci: issuerOid4vci.status === 'fulfilled' ? issuerOid4vci.value : null,
-      issuerGemeinde: issuerGemeinde.status === 'fulfilled' ? issuerGemeinde.value : null,
+      issuerManagement: issuerReceipt.status === 'fulfilled' ? issuerReceipt.value : null,
+      issuerOid4vci: null, // Legacy field, kept for compatibility
+      issuerGemeinde: issuerStimmrecht.status === 'fulfilled' ? issuerStimmrecht.value : null,
     };
   }
 }
