@@ -83,10 +83,9 @@
     "youtube": "YouTube",
     "github": "GitHub",
     "services": {
-      "verifierMgmt": "Verifier-Mgmt",
-      "issuerMgmt": "Issuer-Mgmt",
-      "issuerOid4vci": "Issuer-OID4VCI",
-      "issuerGemeinde": "Comune"
+      "verifierMgmt": "Verifier Identity",
+      "issuerMgmt": "Issuer Receipt",
+      "issuerGemeinde": "Issuer Diritti di voto"
     }
   }
 }
