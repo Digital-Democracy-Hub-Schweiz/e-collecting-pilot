@@ -11,13 +11,13 @@ export interface SystemHealth {
 }
 
 class HealthAPI {
-  private verifierManagementUrl = "https://verifier-management.ecollecting.ch/actuator";
+  private verifierIdentityUrl = "https://verifier-identity.ecollecting.ch/actuator";
   private issuerReceiptUrl = "https://issuer-receipt.ecollecting.ch/actuator";
   private issuerStimmrechtUrl = "https://issuer-stimmrecht.ecollecting.ch/actuator";
 
-  async getVerifierManagementHealth(): Promise<HealthStatus> {
+  async getVerifierIdentityHealth(): Promise<HealthStatus> {
     try {
-      const res = await fetch(`${this.verifierManagementUrl}/health`, {
+      const res = await fetch(`${this.verifierIdentityUrl}/health`, {
         method: "GET",
         headers: {
           accept: "application/vnd.spring-boot.actuator.v3+json",
@@ -28,7 +28,7 @@ class HealthAPI {
       }
       return await res.json();
     } catch (e) {
-      console.error("Failed to fetch verifier management health status", e);
+      console.error("Failed to fetch verifier identity health status", e);
       throw e;
     }
   }
@@ -70,14 +70,14 @@ class HealthAPI {
   }
 
   async getSystemHealth(): Promise<SystemHealth> {
-    const [verifierManagement, issuerReceipt, issuerStimmrecht] = await Promise.allSettled([
-      this.getVerifierManagementHealth(),
+    const [verifierIdentity, issuerReceipt, issuerStimmrecht] = await Promise.allSettled([
+      this.getVerifierIdentityHealth(),
       this.getIssuerReceiptHealth(),
       this.getIssuerStimmrechtHealth()
     ]);
 
     return {
-      verifierManagement: verifierManagement.status === 'fulfilled' ? verifierManagement.value : null,
+      verifierManagement: verifierIdentity.status === 'fulfilled' ? verifierIdentity.value : null,
       issuerManagement: issuerReceipt.status === 'fulfilled' ? issuerReceipt.value : null,
       issuerOid4vci: null, // Legacy field, kept for compatibility
       issuerGemeinde: issuerStimmrecht.status === 'fulfilled' ? issuerStimmrecht.value : null,
