@@ -30,7 +30,7 @@ export interface AddressSearchResponse {
 export const searchAddresses = async (
   query: string,
   countryCode: string = 'CH',
-  limit: number = 20,
+  limit: number = 10,
   minScore: number = 88
 ): Promise<AddressSearchResponse> => {
   const params = new URLSearchParams({
