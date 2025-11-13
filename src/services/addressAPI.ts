@@ -31,7 +31,7 @@ export const searchAddresses = async (
   query: string,
   countryCode: string = 'CH',
   limit: number = 10,
-  minScore: number = 88
+  minScore: number = 75
 ): Promise<AddressSearchResponse> => {
   const params = new URLSearchParams({
     query,
