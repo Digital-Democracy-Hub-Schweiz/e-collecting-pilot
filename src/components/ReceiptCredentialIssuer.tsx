@@ -290,10 +290,18 @@ export function ReceiptCredentialIssuer({
         });*/
       }
     } catch (e: any) {
+      console.error('Credential issuance error:', e);
+      let errorMessage = e?.message ?? t('errors:api.unknownError');
+      
+      // Extract detailed error info if available
+      if (e?.message?.includes('HTTP')) {
+        errorMessage = e.message;
+      }
+      
       setBanner({
         type: 'error',
         title: t('errors:api.credentialError'),
-        description: e?.message ?? t('errors:api.unknownError')
+        description: errorMessage
       });
     }
   };

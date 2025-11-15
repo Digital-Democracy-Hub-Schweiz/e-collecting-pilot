@@ -39,7 +39,21 @@ class IssuerBusinessAPI {
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
+        // Try to get detailed error message from response
+        let errorDetail = `HTTP ${res.status}`;
+        try {
+          const errorData = await res.json();
+          if (errorData.detail) {
+            errorDetail += `\n\nDetails: ${errorData.detail}`;
+          }
+          if (errorData.status) {
+            errorDetail += `\nStatus: ${errorData.status}`;
+          }
+        } catch {
+          // If JSON parsing fails, use status text
+          errorDetail += `: ${res.statusText}`;
+        }
+        throw new Error(errorDetail);
       }
       return await res.json();
     } catch (e) {
