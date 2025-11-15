@@ -259,8 +259,8 @@ export function ReceiptCredentialIssuer({
         },
         offer_validity_seconds: 86400,
         credential_valid_from: new Date().toISOString(),
-        credential_valid_until: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-        status_lists: statusListUrl ? [statusListUrl] : undefined
+        credential_valid_until: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+        // status_lists: statusListUrl ? [statusListUrl] : undefined
       };
       const res = await issuerBusinessAPI.issueCredential(payload);
       setIssuedId(res.id || (res as any).management_id || null);

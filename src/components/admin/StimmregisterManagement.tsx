@@ -253,7 +253,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
         offer_validity_seconds: 86400,
         credential_valid_from: validFrom,
         credential_valid_until: validUntil,
-        status_lists: statusListUrl ? [statusListUrl] : undefined
+        // status_lists: statusListUrl ? [statusListUrl] : undefined
       });
 
       // Save to database with all credential details

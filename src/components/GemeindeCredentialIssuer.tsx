@@ -745,8 +745,8 @@ export function GemeindeCredentialIssuer() {
         },
         offer_validity_seconds: 86400,
         credential_valid_from: new Date(credentialData.credential_valid_from).toISOString(),
-        credential_valid_until: new Date(credentialData.credential_valid_until).toISOString(),
-        status_lists: statusListUrl ? [statusListUrl] : undefined
+        credential_valid_until: new Date(credentialData.credential_valid_until).toISOString()
+        // status_lists: statusListUrl ? [statusListUrl] : undefined
       };
 
       const response = await gemeindeIssuerAPI.issueStimmregisterCredential(payload);
