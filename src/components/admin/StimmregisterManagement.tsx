@@ -239,7 +239,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
       const validFrom = new Date().toISOString();
 
       // Statusliste URL
-      const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/8e4f0f38-f2ed-453c-899d-e5619535efe2.jwt";
+      const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/82f80ac2-997c-4411-8e75-ee85f33f2e63.jwt";
 
       // Issue credential via Gemeinde API - Backend benötigt die Claims
       const response = await gemeindeIssuerAPI.issueCredential({
@@ -253,7 +253,7 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
         offer_validity_seconds: 86400,
         credential_valid_from: validFrom,
         credential_valid_until: validUntil,
-        // status_lists: statusListUrl ? [statusListUrl] : undefined
+        status_lists: statusListUrl ? [statusListUrl] : undefined
       });
 
       // Save to database with all credential details

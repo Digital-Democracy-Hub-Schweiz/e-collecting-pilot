@@ -7,10 +7,9 @@ import { ErrorBadge } from "@/components/ui/error-badge";
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { verificationBusinessAPI } from "@/services/verificationAPI";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
-import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import QRCode from "react-qr-code";
-import { RefreshCw, Share2, AlertCircle, CheckCircle2, Info, ArrowRight } from "lucide-react";
+import { AlertCircle, CheckCircle2, Info, ArrowRight } from "lucide-react";
 import { determineCantonFromBfs } from "@/utils/cantonUtils";
 import { useTranslation } from 'react-i18next';
 import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
@@ -98,8 +97,8 @@ type Option = {
 export function GemeindeCredentialIssuer() {
   const { t } = useTranslation(['forms', 'errors', 'common']);
   const currentLang = useCurrentLanguage();
-  const { volksbegehren, isLoading: isLoadingVolksbegehren } = useVolksbegehren();
-  const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/8e4f0f38-f2ed-453c-899d-e5619535efe2.jwt";
+  const { volksbegehren } = useVolksbegehren();
+  const statusListUrl = "https://status-reg.trust-infra.swiyu-int.admin.ch/api/v1/statuslist/82f80ac2-997c-4411-8e75-ee85f33f2e63.jwt";
   
   // Form state
   const [type, setType] = useState<"Initiative" | "Referendum" | "">("");
@@ -356,22 +355,6 @@ export function GemeindeCredentialIssuer() {
   };
 
   // Step 3: Volksbegehren auswählen (nach E-ID)
-  const handleNextFromStep3 = () => {
-    const missingVolksbegehren = !selectedVolksbegehrenId;
-    
-    if (missingVolksbegehren) {
-      setFieldErrors({ selectedVolksbegehrenId: t('errors:validation.required') });
-      setBanner({
-        type: 'warning',
-        title: t('errors:validation.missingFields'),
-        description: t('forms:gemeinde.step1.selectVolksbegehren')
-      });
-      return;
-    }
-    
-    // Bei Volksbegehren-Auswahl direkt Stimmregister VC ausstellen
-    handleIssueStimmregisterCredential();
-  };
 
   const startPollingVerification = (verificationId: string) => {
     const pollInterval = setInterval(async () => {
@@ -745,8 +728,8 @@ export function GemeindeCredentialIssuer() {
         },
         offer_validity_seconds: 86400,
         credential_valid_from: new Date(credentialData.credential_valid_from).toISOString(),
-        credential_valid_until: new Date(credentialData.credential_valid_until).toISOString()
-        // status_lists: statusListUrl ? [statusListUrl] : undefined
+        credential_valid_until: new Date(credentialData.credential_valid_until).toISOString(),
+        status_lists: statusListUrl ? [statusListUrl] : undefined
       };
 
       const response = await gemeindeIssuerAPI.issueStimmregisterCredential(payload);
@@ -810,32 +793,6 @@ export function GemeindeCredentialIssuer() {
     }
   };
 
-  const handleShare = async () => {
-    try {
-      const selectedVolksbegehren = normalizedVolksbegehren.find(v => v.id === selectedVolksbegehrenId);
-      const title = selectedVolksbegehren?.title || "Volksbegehren";
-      const path = getLocalizedPath(currentLang, 'volksbegehren', { id: selectedVolksbegehren?.slug || selectedVolksbegehrenId });
-      const url = `${window.location.origin}${path}`;
-      
-      if (navigator.share) {
-        await navigator.share({
-          title: title,
-          text: `${t('forms:shareText')}: ${title}`,
-          url
-        });
-      } else {
-        await navigator.clipboard.writeText(url);
-      }
-      
-      setShareModalOpen(true);
-    } catch (e: any) {
-      setBanner({
-        type: 'error',
-        title: t('common:error'),
-        description: e?.message ?? t('errors:api.unknownError')
-      });
-    }
-  };
 
   // Postal code handler wie im normalen Flow
   const handlePostalCodeChange = (value: string) => {
