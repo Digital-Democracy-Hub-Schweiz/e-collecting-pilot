@@ -58,7 +58,7 @@ const hashString = async (str: string): Promise<string> => {
 // Gemeinde Issuer API Service
 const gemeindeIssuerAPI = {
   async issueStimmregisterCredential(payload: any) {
-    const response = await fetch('https://issuer-gemeinde.ecollecting.ch/management/api/credentials', {
+    const response = await fetch('https://issuer-stimmrecht.ecollecting.ch/management/api/credentials', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ const gemeindeIssuerAPI = {
   },
 
   async getCredentialStatus(credentialId: string) {
-    const response = await fetch(`https://issuer-gemeinde.ecollecting.ch/management/api/credentials/${credentialId}/status`, {
+    const response = await fetch(`https://issuer-stimmrecht.ecollecting.ch/management/api/credentials/${credentialId}/status`, {
       method: 'GET',
       headers: {
         'Accept': '*/*',
