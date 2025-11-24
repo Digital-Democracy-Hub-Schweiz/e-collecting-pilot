@@ -284,15 +284,32 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                 <a href={getLocalizedPath(currentLang, 'impressum')} className="hover:text-white/80 transition-colors">{t('common:footer.imprint')}</a>
                 <button type="button" onClick={() => setAccessibilityOpen(true)} className="hover:text-white/80 transition-colors">{t('common:footer.accessibility')}</button>
               </div>
-              <div className="text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
+              <div className="flex items-center gap-8">
                 <a
-                  href="https://buymeacoffee.com/digitaldemocracyhub"
+                  href="https://www.websitecarbon.com/website/beta-ecollecting-ch/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white/80 transition-colors"
+                  className="flex items-center gap-2 hover:opacity-80 transition-opacity group"
+                  title="Only 0.04g of CO2 per page view - Cleaner than 92% of web pages"
                 >
-                  {t('common:footer.supportCoffee')}
+                  <div className="flex items-center gap-1.5 text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
+                    <span className="text-green-300">0.04g</span>
+                    <span>CO₂</span>
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-bold">
+                    A
+                  </div>
                 </a>
+                <div className="text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
+                  <a
+                    href="https://buymeacoffee.com/digitaldemocracyhub"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white/80 transition-colors"
+                  >
+                    {t('common:footer.supportCoffee')}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -306,15 +323,32 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
             <a href={getLocalizedPath(currentLang, 'impressum')} className="hover:text-white/80 transition-colors">{t('common:footer.imprint')}</a>
             <button type="button" onClick={() => setAccessibilityOpen(true)} className="hover:text-white/80 transition-colors">{t('common:footer.accessibility')}</button>
           </div>
-          <div className="w-full text-right text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
+          <div className="flex items-center justify-between gap-4">
             <a
-              href="https://buymeacoffee.com/digitaldemocracyhub"
+              href="https://www.websitecarbon.com/website/beta-ecollecting-ch/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white/80 transition-colors"
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+              title="Only 0.04g of CO2 per page view - Cleaner than 92% of web pages"
             >
-              {t('common:footer.buyMeCoffee')}
+              <div className="flex items-center gap-1.5 text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
+                <span className="text-green-300">0.04g</span>
+                <span>CO₂</span>
+              </div>
+              <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-bold">
+                A
+              </div>
             </a>
+            <div className="text-[14px] sm:text-[16px] font-medium leading-[20px] sm:leading-[24px] text-white">
+              <a
+                href="https://buymeacoffee.com/digitaldemocracyhub"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white/80 transition-colors"
+              >
+                {t('common:footer.buyMeCoffee')}
+              </a>
+            </div>
           </div>
         </div>
       </div>
