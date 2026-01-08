@@ -105,7 +105,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
                 </h2>
                 <div className="text-[16px] sm:text-[18px] font-medium leading-[24px] sm:leading-[28px] text-white">
                   <p>{t('content:footer.projectDescription')}</p>
-                  <p className="mt-4 text-white" dangerouslySetInnerHTML={{ __html: t('content:footer.copyright') }} />
+                  <p className="mt-4 text-white" dangerouslySetInnerHTML={{ __html: t('content:footer.copyright', { year: new Date().getFullYear() }) }} />
                   <p className="text-white">{t('content:footer.dataCredit')}</p>
                 </div>
               </div>
@@ -195,7 +195,7 @@ export const Footer: React.FC<FooterProps> = ({ healthStatus, healthLoading }) =
               </h2>
               <div className="text-[16px] sm:text-[18px] font-medium leading-[24px] sm:leading-[28px] text-white">
                 <p>{t('content:footer.projectDescription')}</p>
-                <p className="mt-4 text-white" dangerouslySetInnerHTML={{ __html: t('content:footer.copyright') }} />
+                <p className="mt-4 text-white" dangerouslySetInnerHTML={{ __html: t('content:footer.copyright', { year: new Date().getFullYear() }) }} />
                 <p className="text-white">{t('content:footer.dataCredit')}</p>
               </div>
             </div>

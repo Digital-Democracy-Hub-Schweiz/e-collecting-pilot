@@ -46,7 +46,7 @@
   },
   "footer": {
     "projectDescription": "Il progetto pilota è iniziato a dicembre 2024. Vuole rendere la raccolta di firme per gli oggetti di votazione popolare digitale, sicura e accessibile - come complemento alla carta. Questo pilota testa una possibile variante di E-Collecting tramite la Beta-ID della Confederazione. Dietro il progetto senza scopo di lucro ci sono il Digital Democracy Hub Svizzera e la Fondazione per la democrazia diretta.",
-    "copyright": "© 2025 un progetto del <a href=\"https://www.digitaldemocracyhub.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Digital Democracy Hub Svizzera</a> in cooperazione con la <a href=\"https://www.demokratie.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Fondazione per la democrazia diretta</a>",
+    "copyright": "© {{year}} un progetto del <a href=\"https://www.digitaldemocracyhub.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Digital Democracy Hub Svizzera</a> in cooperazione con la <a href=\"https://www.demokratie.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Fondazione per la democrazia diretta</a>",
     "dataCredit": "© Dati: swisstopo & liip",
     "contact": {
       "organization": "Digital Democracy Hub Svizzera",

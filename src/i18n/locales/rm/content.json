@@ -46,7 +46,7 @@
   },
   "footer": {
     "projectDescription": "Il project pilot ha cumenzà en december 2024. El vul render la collecziun da suttascripziuns per dumondas popularas digitala, segira ed accessibla - sco cumplementaziun al palpiri. Quest pilot testa ina varianta pussaivla d'E-Collecting tras la Beta-ID da la Confederaziun. Davos il project senza finamira da profit stan il Digital Democracy Hub Svizra e la Fundaziun per la democrazia directa.",
-    "copyright": "© 2025 in project dal <a href=\"https://www.digitaldemocracyhub.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Digital Democracy Hub Svizra</a> en cooperaziun cun la <a href=\"https://www.demokratie.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Fundaziun per la democrazia directa</a>",
+    "copyright": "© {{year}} in project dal <a href=\"https://www.digitaldemocracyhub.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Digital Democracy Hub Svizra</a> en cooperaziun cun la <a href=\"https://www.demokratie.ch\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"hover:text-white transition-colors underline underline-offset-4\">Fundaziun per la democrazia directa</a>",
     "dataCredit": "© Datas: swisstopo & liip",
     "contact": {
       "organization": "Digital Democracy Hub Svizra",
