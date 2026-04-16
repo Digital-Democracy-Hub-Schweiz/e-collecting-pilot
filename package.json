@@ -1,8 +1,16 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "e-collecting-pilot",
+  "description": "Pilot-Plattform für E-Collecting in der Schweiz – digitale Unterschriftensammlung für Volksinitiativen und Referenden.",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "homepage": "https://beta.ecollecting.ch",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot.git"
+  },
+  "author": "Digital Democracy Hub Schweiz",
+  "license": "UNLICENSED",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
