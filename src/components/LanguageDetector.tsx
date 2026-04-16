@@ -1,37 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { type SupportedLanguage } from '@/utils/routing';
-
-// Detect user's preferred language from browser
-const detectUserLanguage = (): SupportedLanguage => {
-  // Try localStorage first (user's previous choice)
-  const savedLang = localStorage.getItem('i18nextLng');
-  if (savedLang && ['de', 'fr', 'it', 'rm', 'en'].includes(savedLang)) {
-    return savedLang as SupportedLanguage;
-  }
-
-  // Try browser language
-  const browserLang = navigator.language.toLowerCase();
-  
-  // Direct matches
-  if (browserLang.startsWith('de')) return 'de';
-  if (browserLang.startsWith('fr')) return 'fr';
-  if (browserLang.startsWith('it')) return 'it';
-  if (browserLang.startsWith('rm')) return 'rm';
-  if (browserLang.startsWith('en')) return 'en';
-  
-  // Check all browser languages
-  const browserLanguages = navigator.languages || [navigator.language];
-  for (const lang of browserLanguages) {
-    const langCode = lang.toLowerCase().substring(0, 2);
-    if (['de', 'fr', 'it', 'rm', 'en'].includes(langCode)) {
-      return langCode as SupportedLanguage;
-    }
-  }
-  
-  // Fallback to German
-  return 'de';
-};
+import { detectUserLanguage } from '@/utils/routing';
 
 interface LanguageDetectorProps {
   children: React.ReactNode;

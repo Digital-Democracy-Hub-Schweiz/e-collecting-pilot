@@ -14,20 +14,24 @@ import EIdCredentialFlow from "./pages/EIdCredentialFlow";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import { LanguageDetector } from "@/components/LanguageDetector";
-import { useEffect } from "react";
-import { getLocalizedPath, type SupportedLanguage } from "@/utils/routing";
+import { useEffect, type ComponentType } from "react";
+import { getLocalizedPath, detectUserLanguage, routeTranslations, type RouteKey } from "@/utils/routing";
 
-const queryClient = new QueryClient();
-
-const supportedLanguages: SupportedLanguage[] = ['de', 'fr', 'it', 'rm', 'en'];
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      retry: 2,
+    },
+  },
+});
 
 // Developer console message
 const showDeveloperMessage = () => {
   if (typeof console === 'undefined') return;
-  
-  // Detect dark mode
+
   const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  
+
   const styles = isDarkMode ? {
     title: 'background: linear-gradient(45deg, #4a9eff, #7c7cff); color: white; padding: 10px 16px; border-radius: 6px; font-size: 18px; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.3);',
     subtitle: 'background: #5ba3f5; color: white; padding: 8px 12px; border-radius: 4px; font-size: 14px; font-weight: bold;',
@@ -46,18 +50,18 @@ const showDeveloperMessage = () => {
   console.log('%c👋 Hey Developer!', styles.subtitle);
   console.log('%cGreat to see you exploring behind the scenes! 🕵️‍♂️', styles.text);
   console.log('%c─────────────────────────────────────────', isDarkMode ? 'color: #4a5568;' : 'color: #cbd5e0;');
-  
+
   console.log('%c🚀 Want to contribute?', styles.highlight);
   console.log('%c📂 GitHub Repository:', styles.text);
   console.log('%chttps://github.com/Digital-Democracy-Hub-Schweiz/e-collecting-pilot', styles.link);
   console.log('%c• Fork it, create issues, or send pull requests!', styles.text);
   console.log('%c─────────────────────────────────────────', isDarkMode ? 'color: #4a5568;' : 'color: #cbd5e0;');
-  
+
   console.log('%c☕ Support our work!', styles.highlight);
   console.log('%cIf you find this project interesting, consider buying us a coffee:', styles.text);
   console.log('%chttps://buymeacoffee.com/digitaldemocracyhub', styles.link);
   console.log('%c─────────────────────────────────────────', isDarkMode ? 'color: #4a5568;' : 'color: #cbd5e0;');
-  
+
   console.log('%c🛠️ Tech Stack:', styles.text);
   console.log('%c• React + TypeScript', styles.text);
   console.log('%c• Tailwind CSS + Swiss Design System', styles.text);
@@ -65,47 +69,27 @@ const showDeveloperMessage = () => {
   console.log('%c• Verifiable Credentials & Swiss Beta-ID', styles.text);
   console.log('%c• React Router with localized routes', styles.text);
   console.log('%c─────────────────────────────────────────', isDarkMode ? 'color: #4a5568;' : 'color: #cbd5e0;');
-  
+
   console.log('%c🎯 Mission: Making democracy digital & accessible for everyone!', styles.highlight);
   console.log('%cBuilt with ❤️ by Digital Democracy Hub Switzerland', styles.text);
-};
-
-// Helper function to detect user language
-const detectUserLanguage = (): SupportedLanguage => {
-  const savedLang = localStorage.getItem('i18nextLng');
-  if (savedLang && supportedLanguages.includes(savedLang as SupportedLanguage)) {
-    return savedLang as SupportedLanguage;
-  }
-  
-  const browserLang = navigator.language.toLowerCase();
-  if (browserLang.startsWith('de')) return 'de';
-  if (browserLang.startsWith('fr')) return 'fr';
-  if (browserLang.startsWith('it')) return 'it';
-  if (browserLang.startsWith('rm')) return 'rm';
-  if (browserLang.startsWith('en')) return 'en';
-  
-  return 'de'; // fallback
 };
 
 // Component to handle language routing
 const LanguageWrapper = ({ children }: { children: React.ReactNode }) => {
   const { lang } = useParams<{ lang: string }>();
   const { i18n } = useTranslation();
-  
+
   useEffect(() => {
-    // Always set the language from URL parameter
-    const urlLang = lang || 'de'; // fallback to German if no lang in URL
+    const urlLang = lang || 'de';
     if (['de', 'fr', 'it', 'rm', 'en'].includes(urlLang)) {
-      // Only change if different to avoid unnecessary re-renders
       if (i18n.language !== urlLang) {
         i18n.changeLanguage(urlLang);
       }
     } else {
-      // If invalid language, fall back to German
       i18n.changeLanguage('de');
     }
   }, [lang, i18n]);
-  
+
   return <>{children}</>;
 };
 
@@ -124,8 +108,47 @@ const LegacyImpressumRedirect = () => {
   return <Navigate to={target} replace />;
 };
 
+// Route key to component mapping
+const routeComponents: Record<RouteKey, ComponentType> = {
+  volksbegehren: Volksbegehren,
+  anleitung: Anleitung,
+  projekt: Projekt,
+  impressum: Impressum,
+  stimmregister: EIdCredentialFlow,
+};
+
+// Generate localized routes programmatically from routeTranslations
+const generateLocalizedRoutes = () => {
+  const seenSlugs = new Set<string>();
+  const routes: React.ReactElement[] = [];
+
+  for (const langRoutes of Object.values(routeTranslations)) {
+    for (const [key, slug] of Object.entries(langRoutes)) {
+      if (seenSlugs.has(slug)) continue;
+      seenSlugs.add(slug);
+
+      const Component = routeComponents[key as RouteKey];
+      routes.push(
+        <Route key={slug} path={`/:lang/${slug}`} element={
+          <LanguageWrapper><Component /></LanguageWrapper>
+        } />
+      );
+
+      // Volksbegehren detail routes (renders Index with preselected item)
+      if (key === 'volksbegehren') {
+        routes.push(
+          <Route key={`${slug}-detail`} path={`/:lang/${slug}/:id`} element={
+            <LanguageWrapper><Index /></LanguageWrapper>
+          } />
+        );
+      }
+    }
+  }
+
+  return routes;
+};
+
 const App = () => {
-  // Show developer message on app start
   useEffect(() => {
     showDeveloperMessage();
   }, []);
@@ -140,191 +163,25 @@ const App = () => {
             {/* Admin routes (no language prefix, no LanguageDetector) */}
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Admin />} />
-            
+
             {/* All other routes with LanguageDetector */}
             <Route path="*" element={
               <LanguageDetector>
                 <Routes>
-                  {/* Root and routes without language prefix will be handled by LanguageDetector */}
-              
-                  {/* Language-prefixed routes */}
+                  {/* Home route */}
                   <Route path="/:lang" element={
-                    <LanguageWrapper>
-                      <Index />
-                    </LanguageWrapper>
+                    <LanguageWrapper><Index /></LanguageWrapper>
                   } />
-                  {/* German routes */}
-                  <Route path="/:lang/projekt" element={
-                    <LanguageWrapper>
-                      <Projekt />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/anleitung" element={
-                    <LanguageWrapper>
-                      <Anleitung />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/volksbegehren" element={
-                    <LanguageWrapper>
-                      <Volksbegehren />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/stimmregister" element={
-                    <LanguageWrapper>
-                      <EIdCredentialFlow />
-                    </LanguageWrapper>
-                  } />
-                  
-                  {/* English routes */}
-                  <Route path="/:lang/project" element={
-                    <LanguageWrapper>
-                      <Projekt />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/instructions" element={
-                    <LanguageWrapper>
-                      <Anleitung />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/popular-vote" element={
-                    <LanguageWrapper>
-                      <Volksbegehren />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/electoral-register" element={
-                    <LanguageWrapper>
-                      <EIdCredentialFlow />
-                    </LanguageWrapper>
-                  } />
-                  
-                  {/* French routes */}
-                  <Route path="/:lang/projet" element={
-                    <LanguageWrapper>
-                      <Projekt />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/instructions" element={
-                    <LanguageWrapper>
-                      <Anleitung />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/objet-votation-populaire" element={
-                    <LanguageWrapper>
-                      <Volksbegehren />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/registre-electoral" element={
-                    <LanguageWrapper>
-                      <EIdCredentialFlow />
-                    </LanguageWrapper>
-                  } />
-                  
-                  {/* Italian routes */}
-                  <Route path="/:lang/progetto" element={
-                    <LanguageWrapper>
-                      <Projekt />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/istruzioni" element={
-                    <LanguageWrapper>
-                      <Anleitung />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/oggetto-votazione-popolare" element={
-                    <LanguageWrapper>
-                      <Volksbegehren />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/registro-elettorale" element={
-                    <LanguageWrapper>
-                      <EIdCredentialFlow />
-                    </LanguageWrapper>
-                  } />
-                  
-                  {/* Romansh routes */}
-                  <Route path="/:lang/instrucziuns" element={
-                    <LanguageWrapper>
-                      <Anleitung />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/dumonda-populara" element={
-                    <LanguageWrapper>
-                      <Volksbegehren />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/register-da-votar" element={
-                    <LanguageWrapper>
-                      <EIdCredentialFlow />
-                    </LanguageWrapper>
-                  } />
-                  
-                  {/* Legacy routes without language prefix (redirect to German) */}
+
+                  {/* Programmatically generated localized routes */}
+                  {generateLocalizedRoutes()}
+
+                  {/* Legacy routes without language prefix (redirect to detected language) */}
                   <Route path="/initiative/:id" element={<LegacyRedirect />} />
                   <Route path="/referendum/:id" element={<LegacyRedirect />} />
                   <Route path="/volksbegehren/:id" element={<LegacyRedirect />} />
-                  
-                  {/* Language-prefixed volksbegehren routes */}
-                  <Route path="/:lang/volksbegehren/:id" element={
-                    <LanguageWrapper>
-                      <Index />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/objet-votation-populaire/:id" element={
-                    <LanguageWrapper>
-                      <Index />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/oggetto-votazione-popolare/:id" element={
-                    <LanguageWrapper>
-                      <Index />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/dumonda-populara/:id" element={
-                    <LanguageWrapper>
-                      <Index />
-                    </LanguageWrapper>
-                  } />
-                  <Route path="/:lang/popular-vote/:id" element={
-                    <LanguageWrapper>
-                      <Index />
-                    </LanguageWrapper>
-                  } />
-                  
-                  {/* Language-prefixed impressum routes */}
-                  {/* German */}
-                  <Route path="/:lang/impressum" element={
-                    <LanguageWrapper>
-                      <Impressum />
-                    </LanguageWrapper>
-                  } />
-                  {/* English */}
-                  <Route path="/:lang/imprint" element={
-                    <LanguageWrapper>
-                      <Impressum />
-                    </LanguageWrapper>
-                  } />
-                  {/* French */}
-                  <Route path="/:lang/mentions-legales" element={
-                    <LanguageWrapper>
-                      <Impressum />
-                    </LanguageWrapper>
-                  } />
-                  {/* Italian */}
-                  <Route path="/:lang/colofone" element={
-                    <LanguageWrapper>
-                      <Impressum />
-                    </LanguageWrapper>
-                  } />
-                  {/* Romansh uses impressum like German */}
-                  <Route path="/:lang/impressum" element={
-                    <LanguageWrapper>
-                      <Impressum />
-                    </LanguageWrapper>
-                  } />
-                  
-                  {/* Legacy impressum route */}
                   <Route path="/impressum" element={<LegacyImpressumRedirect />} />
-                  
+
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

@@ -30,15 +30,47 @@ When adding new routes, define slug translations in `routeTranslations` in `src/
 
 ### Backend Services
 
-Three external backend services on `*.ecollecting.ch` (Spring Boot, health via `/actuator/health`):
+Three external backend services on `*.ecollecting.ch` (Spring Boot, health via `/actuator/health`). API clients are in `src/services/` -- each is a class-based singleton. The credential flow uses SD-JWT verifiable credentials (ES256) with the swiyu-Wallet.
 
-| Service | Base URL | Purpose |
+#### Verifier Identity
+
+- **Base URL:** `https://verifier-identity.ecollecting.ch/management/api`
+- **Client:** `src/services/verificationAPI.ts` (singleton `verificationBusinessAPI`)
+- **Purpose:** Verifies a citizen's Beta-ID via OpenID4VP presentation requests. The frontend creates a verification, receives a `verification_url` (deeplink for swiyu-Wallet), and polls for status.
+
+| Endpoint | Method | Description |
 |---|---|---|
-| Verifier | `verifier-identity.ecollecting.ch` | Beta-ID verification (presentation requests) |
-| Issuer Receipt | `issuer-receipt.ecollecting.ch` | Issues signing receipt credentials |
-| Issuer Stimmrecht | `issuer-stimmrecht.ecollecting.ch` | Issues Gemeinde voting-right credentials |
+| `/verifications` | POST | Create a new presentation request. Requests selective disclosure of `family_name`, `given_name`, `birth_date` from a `betaid-sdjwt` credential. |
+| `/verifications/{id}` | GET | Poll verification status. States: `PENDING`, `SUCCESS`, `FAILED`. On `SUCCESS`, `wallet_response` contains the disclosed claims. |
 
-API clients are in `src/services/` -- each is a class-based singleton. The credential flow uses SD-JWT verifiable credentials with the swiyu-Wallet.
+#### Issuer Receipt
+
+- **Base URL:** `https://issuer-receipt.ecollecting.ch/management/api`
+- **Client:** `src/services/issuerAPI.ts` (singleton `issuerBusinessAPI`)
+- **Purpose:** Issues a signing receipt credential after a citizen successfully signs an initiative/referendum. The receipt is offered as a deeplink to the swiyu-Wallet.
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/credentials` | POST | Issue a new receipt credential. Payload includes `firstName`, `lastName`, `birthDate`, `signDate`, `type`, `title`, `comitee`, `level`, plus validity and status-list config. Returns `offer_deeplink`. |
+| `/credentials/{id}/status` | GET | Check issuance status of a receipt credential. |
+
+#### Issuer Stimmrecht
+
+- **Base URL:** `https://issuer-stimmrecht.ecollecting.ch/management/api`
+- **Client:** `src/services/gemeindeIssuerAPI.ts` (singleton `gemeindeIssuerAPI`)
+- **Purpose:** Issues Gemeinde-level voting-right credentials (Stimmrechtsausweise). Used by Gemeinde admins to grant citizens a verifiable voting-right credential tied to a specific Volksbegehren.
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/credentials` | POST | Issue a new Stimmrecht credential. Payload includes `nullifier`, `volksbegehren`, `issuerDid`, `issuedDate`, plus validity and status-list config. Returns `offer_deeplink`. |
+| `/credentials/{id}` | GET | Get full credential details. |
+| `/credentials/{id}/status` | GET | Check issuance status. |
+| `/credentials/{id}/status?credentialStatus={status}` | PATCH | Update credential status (e.g. suspend). |
+| `/credentials/{id}/revoke` | POST | Revoke an issued credential. |
+
+#### Health Monitoring
+
+All three services expose Spring Boot Actuator endpoints (`/actuator/health`). The `src/services/healthAPI.ts` client (singleton `healthAPI`) provides `getSystemHealth()` which polls all three in parallel and returns a `SystemHealth` object.
 
 ### Supabase
 

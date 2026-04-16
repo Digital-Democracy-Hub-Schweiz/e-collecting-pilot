@@ -42,6 +42,25 @@ export const routeTranslations = {
 export type SupportedLanguage = keyof typeof routeTranslations;
 export type RouteKey = keyof typeof routeTranslations.de;
 
+const supportedLanguages: SupportedLanguage[] = ['de', 'fr', 'it', 'rm', 'en'];
+
+export const detectUserLanguage = (): SupportedLanguage => {
+  const savedLang = localStorage.getItem('i18nextLng');
+  if (savedLang && supportedLanguages.includes(savedLang as SupportedLanguage)) {
+    return savedLang as SupportedLanguage;
+  }
+
+  const browserLanguages = navigator.languages || [navigator.language];
+  for (const lang of browserLanguages) {
+    const langCode = lang.toLowerCase().substring(0, 2);
+    if (supportedLanguages.includes(langCode as SupportedLanguage)) {
+      return langCode as SupportedLanguage;
+    }
+  }
+
+  return 'de';
+};
+
 // Generate localized URL
 export const getLocalizedPath = (
   lang: SupportedLanguage,

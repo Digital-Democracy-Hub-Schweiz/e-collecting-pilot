@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { parseRouteFromPath, useCurrentLanguage, routeTranslations } from "@/utils/routing";
 import PageContainer from "@/components/PageContainer";
 const Index = () => {
-  const { t } = useTranslation(['common', 'content']);
+  const { t } = useTranslation(['common', 'content', 'forms']);
   const location = useLocation();
   const currentLang = useCurrentLanguage();
   const routeInfo = parseRouteFromPath(location.pathname);
@@ -102,14 +102,14 @@ const Index = () => {
   const handleShare = async () => {
     try {
       const url = window.location.href;
-      const title = document.title || 'Teilen';
+      const title = document.title || t('common:share');
       if (navigator.share) {
         await navigator.share({ title, url });
       } else if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(url);
-        alert('Link kopiert.');
+        alert(t('forms:linkCopied'));
       } else {
-        window.prompt('Link kopieren:', url);
+        window.prompt(t('common:copy'), url);
       }
     } catch (_) {
       // Abbruch durch Nutzer ignorieren
@@ -139,10 +139,10 @@ const Index = () => {
         {/* Print/Share Section (Figma) */}
         <section className="bg-white">
           <PageContainer className="h-[52px] flex items-center justify-end gap-3">
-            <button type="button" aria-label="Teilen" onClick={handleShare} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
+            <button type="button" aria-label={t('common:share')} onClick={handleShare} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
               <Share2 className="w-5 h-5" aria-hidden />
             </button>
-            <button type="button" aria-label="Drucken" onClick={handlePrint} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
+            <button type="button" aria-label={t('common:print')} onClick={handlePrint} className="w-10 h-10 flex items-center justify-center text-[#1f2937] p-0 leading-none">
               <Printer className="w-5 h-5" aria-hidden />
             </button>
           </PageContainer>
