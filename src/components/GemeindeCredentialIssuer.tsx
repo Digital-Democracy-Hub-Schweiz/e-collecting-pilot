@@ -454,16 +454,15 @@ export function GemeindeCredentialIssuer() {
         geburtsdatum: verifiedData.birth_date
       });
 
-      const { data: einwohnerData, error: einwohnerError } = await supabase
-        .from("einwohner")
-        .select("*")
-        .eq("gemeinde_id", gemeindeData.id)
-        .ilike("vorname", verifiedData.given_name)
-        .ilike("nachname", verifiedData.family_name)
-        .eq("geburtsdatum", verifiedData.birth_date)
-        .maybeSingle();
+      const { data: einwohnerId, error: einwohnerError } = await supabase
+        .rpc("find_einwohner_in_gemeinde", {
+          _gemeinde_id: gemeindeData.id,
+          _vorname: verifiedData.given_name,
+          _nachname: verifiedData.family_name,
+          _geburtsdatum: verifiedData.birth_date,
+        });
 
-      console.log('Einwohner query result:', { einwohnerData, einwohnerError });
+      console.log('Einwohner RPC result:', { einwohnerId, einwohnerError });
 
       if (einwohnerError) {
         setBanner({
@@ -474,7 +473,7 @@ export function GemeindeCredentialIssuer() {
         return;
       }
 
-      if (!einwohnerData) {
+      if (!einwohnerId) {
         setFlowAborted(true);
         setBanner({
           type: 'error',
@@ -503,14 +502,15 @@ export function GemeindeCredentialIssuer() {
     }
   };
 
-  // Vereinfachte Backend-Validierung vor Credential-Ausstellung
+  // Sanity-Check vor Credential-Ausstellung: Gemeinde + Einwohner müssen
+  // weiterhin auflösbar sein. Duplikat-Erkennung passiert serverseitig
+  // innerhalb von request_stimmregister_credential.
   const validateBackendDataForCredential = async (): Promise<boolean> => {
     if (!municipalityDetails || !verifiedEIdData) {
       return false;
     }
 
     try {
-      // Prüfe ob bereits ein Credential für dieses Volksbegehren ausgestellt wurde
       const { data: gemeindeData } = await supabase
         .from("gemeinden")
         .select("id")
@@ -519,38 +519,15 @@ export function GemeindeCredentialIssuer() {
 
       if (!gemeindeData) return false;
 
-      const { data: einwohnerData } = await supabase
-        .from("einwohner")
-        .select("id")
-        .eq("gemeinde_id", gemeindeData.id)
-        .eq("vorname", verifiedEIdData.given_name)
-        .eq("nachname", verifiedEIdData.family_name)
-        .eq("geburtsdatum", verifiedEIdData.birth_date)
-        .maybeSingle();
+      const { data: einwohnerId } = await supabase
+        .rpc("find_einwohner_in_gemeinde", {
+          _gemeinde_id: gemeindeData.id,
+          _vorname: verifiedEIdData.given_name,
+          _nachname: verifiedEIdData.family_name,
+          _geburtsdatum: verifiedEIdData.birth_date,
+        });
 
-      if (!einwohnerData) return false;
-
-      const selectedVolksbegehren = normalizedVolksbegehren.find(v => v.id === selectedVolksbegehrenId);
-      if (selectedVolksbegehren) {
-        const { data: existingCredential } = await supabase
-          .from("credentials")
-          .select("*")
-          .eq("einwohner_id", einwohnerData.id)
-          .eq("volksbegehren_id", selectedVolksbegehren.id)
-          .eq("status", "issued")
-          .maybeSingle();
-
-        if (existingCredential) {
-          setBanner({
-            type: 'warning',
-            title: 'Credential bereits vorhanden',
-            description: `Für dieses Volksbegehren wurde bereits ein Credential ausgestellt.`
-          });
-          return false;
-        }
-      }
-
-      return true;
+      return Boolean(einwohnerId);
     } catch (e: any) {
       setBanner({
         type: 'error',
@@ -641,34 +618,25 @@ export function GemeindeCredentialIssuer() {
       const gemeindeDid = gemeindeData.did;
       console.log('Found gemeinde:', gemeindeData);
 
-      const { data: einwohnerData, error: einwohnerError } = await supabase
-        .from("einwohner")
-        .select("id, vorname, nachname, geburtsdatum")
-        .eq("gemeinde_id", gemeindeData.id)
-        .eq("vorname", verifiedEIdData.given_name)
-        .eq("nachname", verifiedEIdData.family_name)
-        .eq("geburtsdatum", verifiedEIdData.birth_date)
-        .maybeSingle();
+      const { data: einwohnerLookupId, error: einwohnerError } = await supabase
+        .rpc("find_einwohner_in_gemeinde", {
+          _gemeinde_id: gemeindeData.id,
+          _vorname: verifiedEIdData.given_name,
+          _nachname: verifiedEIdData.family_name,
+          _geburtsdatum: verifiedEIdData.birth_date,
+        });
 
       if (einwohnerError) {
         console.error('Error fetching einwohner:', einwohnerError);
         throw new Error(`Einwohner lookup failed: ${einwohnerError.message}`);
       }
 
-      if (!einwohnerData) {
+      if (!einwohnerLookupId) {
         throw new Error(`Einwohner ${verifiedEIdData.given_name} ${verifiedEIdData.family_name} (${verifiedEIdData.birth_date}) nicht in ${gemeindeData.name} gefunden`);
       }
 
-      einwohnerDbId = einwohnerData.id;
-      console.log('Found einwohner:', einwohnerData);
-
-      // Lösche alte Credentials mit Status != "issued" (falls vorhanden)
-      await supabase
-        .from("credentials")
-        .delete()
-        .eq("einwohner_id", einwohnerDbId)
-        .eq("volksbegehren_id", volksbegehrenUuid)
-        .neq("status", "issued");
+      einwohnerDbId = einwohnerLookupId;
+      console.log('Found einwohner id:', einwohnerDbId);
 
       // Nullifier generieren: Hash(EinwohnerID + VolksbegehrensID + Secret)
       // Secret = GemeindeID (hardcoded)
@@ -692,28 +660,36 @@ export function GemeindeCredentialIssuer() {
         console.warn('No end_date found for Volksbegehren, using fallback validity period');
       }
 
-      // Speichere Credential-Anfrage in DB (Status: pending) mit allen relevanten Daten
-      const { data: credentialData, error: credentialError } = await supabase
-        .from("credentials")
-        .insert({
-          einwohner_id: einwohnerDbId,
-          volksbegehren_id: volksbegehrenUuid,
-          status: "pending",
-          nullifier: nullifier,
-          issuer_did: gemeindeDid,
-          issued_date: new Date().toISOString().slice(0, 10),
-          credential_valid_from: new Date().toISOString(),
-          credential_valid_until: validUntil
-        })
-        .select()
-        .single();
+      const issuedDate = new Date().toISOString().slice(0, 10);
+      const credentialValidFrom = new Date().toISOString();
+
+      // Credential-Anfrage via RPC anlegen (räumt alte non-issued Einträge auf
+      // und meldet Duplikate via Exception 'credential_already_issued').
+      const { data: credentialDbIdResult, error: credentialError } = await supabase
+        .rpc("request_stimmregister_credential", {
+          _einwohner_id: einwohnerDbId,
+          _volksbegehren_id: volksbegehrenUuid,
+          _nullifier: nullifier,
+          _issuer_did: gemeindeDid,
+          _issued_date: issuedDate,
+          _credential_valid_from: credentialValidFrom,
+          _credential_valid_until: validUntil,
+        });
 
       if (credentialError) {
         console.error('Failed to create credential record:', credentialError);
+        if (credentialError.message?.includes('credential_already_issued')) {
+          setBanner({
+            type: 'warning',
+            title: 'Credential bereits vorhanden',
+            description: `Für dieses Volksbegehren wurde bereits ein Credential ausgestellt.`
+          });
+          return;
+        }
         throw new Error(`Credential DB insert failed: ${credentialError.message}`);
       }
 
-      credentialDbId = credentialData?.id || null;
+      credentialDbId = credentialDbIdResult ?? null;
       console.log('Created credential record with ID:', credentialDbId);
 
       // Payload für Backend API - Backend benötigt die Claims im credential_subject_data
@@ -721,19 +697,19 @@ export function GemeindeCredentialIssuer() {
       const payload = {
         metadata_credential_supported_id: ["stimmregister-vc"],
         credential_subject_data: {
-          nullifier: credentialData.nullifier,
+          nullifier,
           volksbegehren: volksbegehrenUuid,
-          issuerDid: credentialData.issuer_did,
-          issuedDate: credentialData.issued_date
+          issuerDid: gemeindeDid,
+          issuedDate
         },
         offer_validity_seconds: 86400,
-        credential_valid_from: new Date(credentialData.credential_valid_from).toISOString(),
-        credential_valid_until: new Date(credentialData.credential_valid_until).toISOString(),
+        credential_valid_from: credentialValidFrom,
+        credential_valid_until: validUntil,
         status_lists: statusListUrl ? [statusListUrl] : undefined
       };
 
       const response = await gemeindeIssuerAPI.issueStimmregisterCredential(payload);
-      
+
       setIssuedCredentialId(response.management_id || null);
       setOfferDeeplink(response.offer_deeplink || null);
 
@@ -746,14 +722,12 @@ export function GemeindeCredentialIssuer() {
         });
 
         const { error: updateError } = await supabase
-          .from("credentials")
-          .update({
-            credential_id: response.id,
-            management_id: response.management_id,
-            offer_deeplink: response.offer_deeplink,
-            status: "issued"
-          })
-          .eq("id", credentialDbId);
+          .rpc("finalize_stimmregister_credential", {
+            _credential_db_id: credentialDbId,
+            _credential_id: response.id ?? null,
+            _management_id: response.management_id ?? null,
+            _offer_deeplink: response.offer_deeplink ?? null,
+          });
 
         if (updateError) {
           console.error('Failed to update credential:', updateError);
@@ -777,12 +751,9 @@ export function GemeindeCredentialIssuer() {
 
       // Update Credential in DB auf "error" Status
       if (credentialDbId) {
-        await supabase
-          .from("credentials")
-          .update({
-            status: "error"
-          })
-          .eq("id", credentialDbId);
+        await supabase.rpc("fail_stimmregister_credential", {
+          _credential_db_id: credentialDbId,
+        });
       }
 
       setBanner({

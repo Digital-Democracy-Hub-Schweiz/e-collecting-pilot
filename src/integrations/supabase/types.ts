@@ -284,6 +284,28 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      fail_stimmregister_credential: {
+        Args: { _credential_db_id: string }
+        Returns: undefined
+      }
+      finalize_stimmregister_credential: {
+        Args: {
+          _credential_db_id: string
+          _credential_id: string | null
+          _management_id: string | null
+          _offer_deeplink: string | null
+        }
+        Returns: undefined
+      }
+      find_einwohner_in_gemeinde: {
+        Args: {
+          _gemeinde_id: string
+          _vorname: string
+          _nachname: string
+          _geburtsdatum: string
+        }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -294,6 +316,18 @@ export type Database = {
       is_gemeinde_admin: {
         Args: { _gemeinde_id: string; _user_id: string }
         Returns: boolean
+      }
+      request_stimmregister_credential: {
+        Args: {
+          _einwohner_id: string
+          _volksbegehren_id: string
+          _nullifier: string
+          _issuer_did: string
+          _issued_date: string
+          _credential_valid_from: string
+          _credential_valid_until: string
+        }
+        Returns: string
       }
     }
     Enums: {
