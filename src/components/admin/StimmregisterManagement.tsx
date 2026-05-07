@@ -693,8 +693,12 @@ const StimmregisterManagement = ({ userId }: StimmregisterManagementProps) => {
             <SheetDescription>Detaillierte Informationen zum Ausweis</SheetDescription>
           </SheetHeader>
           {viewCredential && (() => {
-            const credentialEinwohner = einwohner.find((e) => e.id === viewCredential.einwohner_id);
-            const credentialVolksbegehren = volksbegehren.find((v) => v.id === viewCredential.volksbegehren_id);
+            const credentialEinwohner =
+              viewCredential.einwohner ??
+              einwohner.find((e) => e.id === viewCredential.einwohner_id);
+            const credentialVolksbegehren =
+              viewCredential.volksbegehren ??
+              volksbegehren.find((v) => v.id === viewCredential.volksbegehren_id);
 
             return (
               <div className="mt-6 space-y-6">
