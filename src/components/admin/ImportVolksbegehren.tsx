@@ -39,7 +39,7 @@ const ImportVolksbegehren = () => {
           type: vbDE.type,
           level: vbDE.level === "Bund" ? "federal" : "cantonal",
           comitee: vbDE.comitee || null,
-          sign_date: vbDE.start_date || null,
+          start_date: vbDE.start_date || null,
           status: "active",
         };
       });
