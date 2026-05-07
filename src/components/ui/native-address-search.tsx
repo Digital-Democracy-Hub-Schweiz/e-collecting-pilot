@@ -33,7 +33,7 @@ export function NativeAddressSearch({
   const [isListOpen, setIsListOpen] = React.useState(false);
 
   // Debounce timer ref
-  const timeoutRef = React.useRef<NodeJS.Timeout>();
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
 
   const performSearch = React.useCallback(async (query: string) => {
     if (query.length < 5) {
