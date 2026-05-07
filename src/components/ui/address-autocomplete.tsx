@@ -30,7 +30,7 @@ export function AddressAutocomplete({
   const [focusedIndex, setFocusedIndex] = useState(-1);
 
   // Debounce timer ref
-  const timeoutRef = React.useRef<NodeJS.Timeout>();
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
