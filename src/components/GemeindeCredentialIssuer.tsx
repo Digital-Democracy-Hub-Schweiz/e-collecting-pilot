@@ -16,6 +16,7 @@ import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
 import { NativeAddressSearch } from "@/components/ui/native-address-search";
 import { AddressHit } from "@/services/addressAPI";
 import { createTitleVariants } from "@/lib/title-utils";
+import { getLevelLabel } from "@/utils/level";
 
 // Status-Anzeige Helper Funktion
 const getStatusDisplay = (status: string | null) => {
@@ -1271,7 +1272,7 @@ export function GemeindeCredentialIssuer() {
                         </div>
                         {selectedItem?.level && (
                           <div className="mt-1 text-[14px] leading-[20px] sm:text-[16px] sm:leading-[24px] text-blue-700">
-                            Ebene: {selectedItem.level}
+                            {t('forms:level.label', 'Ebene')}: {getLevelLabel(selectedItem.level, t)}
                           </div>
                         )}
                       </div>

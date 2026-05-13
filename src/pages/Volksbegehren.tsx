@@ -7,6 +7,7 @@ import { useCurrentLanguage, getLocalizedPath, type SupportedLanguage } from "@/
 import { useTranslation } from "react-i18next";
 import React from "react";
 import { useVolksbegehren } from "@/hooks/use-volksbegehren";
+import { getLevelLabel } from "@/utils/level";
 
 const Volksbegehren = () => {
   const { t } = useTranslation(['common', 'content']);
@@ -136,6 +137,7 @@ const DataDrivenSections: React.FC = () => {
 type SectionCardRowProps = { title: string; items: VolksbegehrenItem[]; lang: string };
 
 const SectionCardRow: React.FC<SectionCardRowProps> = ({ title, items, lang }) => {
+  const { t } = useTranslation(['forms']);
   const [page, setPage] = React.useState(0);
   const pageSize = 3;
   const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
@@ -176,7 +178,7 @@ const SectionCardRow: React.FC<SectionCardRowProps> = ({ title, items, lang }) =
               <div className="pt-6 px-4 pb-6 sm:pt-7 sm:px-5 sm:pb-7 md:pt-9 md:px-7 md:pb-7">
                 {/* Meta */}
                 <div className="text-[12px] leading-[16px] sm:text-[14px] sm:leading-[18px] text-[#6b7280] flex items-center gap-[8px] sm:gap-[10px]">
-                  <span className="font-medium">{card.level}</span>
+                  <span className="font-medium">{getLevelLabel(card.level, t)}</span>
                   <span aria-hidden className="text-center w-[16px] sm:w-[21px]">|</span>
                   <span className="font-medium">{`${formatDate(card.start_date, lang)} bis ${formatDate(card.end_date, lang)}`}</span>
                 </div>

@@ -40,7 +40,10 @@
   "type": "Tip",
   "title": "Titel",
   "level": {
-    "label": "Nivel"
+    "label": "Nivel",
+    "federal": "Confederaziun",
+    "cantonal": "Chantun",
+    "municipal": "Vischnanca"
   },
   "step4": {
     "verification": {

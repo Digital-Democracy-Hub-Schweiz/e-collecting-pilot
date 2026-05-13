@@ -18,6 +18,7 @@ import { useCurrentLanguage, getLocalizedPath } from "@/utils/routing";
 import { NativeAddressSearch } from "@/components/ui/native-address-search";
 import { AddressHit } from "@/services/addressAPI";
 import { createTitleVariants } from "@/lib/title-utils";
+import { getLevelLabel } from "@/utils/level";
 type Option = {
   id: string;
   title: string;
@@ -150,8 +151,8 @@ export function ReceiptCredentialIssuer({
     return normalized.find(o => o.type === type && o.id === selectedId) || null;
   }, [normalized, type, selectedId]);
   const levelDisplay = useMemo(() => {
-    return selectedItem?.level ?? '';
-  }, [selectedItem]);
+    return getLevelLabel(selectedItem?.level, t);
+  }, [selectedItem, t]);
 
 
   // Vorbelegung via URL
@@ -244,7 +245,7 @@ export function ReceiptCredentialIssuer({
       }
       const selectedTitle = selectedItem?.title || "";
       const selectedcomitee = selectedItem?.comitee ?? null;
-      const selectedLevel = selectedItem?.level ?? null;
+      const selectedLevel = getLevelLabel(selectedItem?.level, t) || null;
       const payload = {
         metadata_credential_supported_id: ["e-collecting-pilot-receipt"],
         credential_subject_data: {

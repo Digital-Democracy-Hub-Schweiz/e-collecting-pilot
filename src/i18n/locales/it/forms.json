@@ -40,7 +40,10 @@
   "type": "Tipo",
   "title": "Titolo",
   "level": {
-    "label": "Livello"
+    "label": "Livello",
+    "federal": "Confederazione",
+    "cantonal": "Cantone",
+    "municipal": "Comune"
   },
   "step4": {
     "verification": {

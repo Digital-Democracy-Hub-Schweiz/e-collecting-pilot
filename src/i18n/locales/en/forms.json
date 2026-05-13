@@ -40,7 +40,10 @@
   "type": "Type",
   "title": "Title",
   "level": {
-    "label": "Level"
+    "label": "Level",
+    "federal": "Federal",
+    "cantonal": "Cantonal",
+    "municipal": "Municipal"
   },
   "step4": {
     "verification": {

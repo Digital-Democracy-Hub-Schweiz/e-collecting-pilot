@@ -40,7 +40,10 @@
   "type": "Typ",
   "title": "Titel",
   "level": {
-    "label": "Ebene"
+    "label": "Ebene",
+    "federal": "Bund",
+    "cantonal": "Kanton",
+    "municipal": "Gemeinde"
   },
   "step4": {
     "verification": {
