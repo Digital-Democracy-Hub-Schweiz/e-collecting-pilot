@@ -141,11 +141,26 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    scrollbar-gutter: stable;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     line-height: 1.5;
     font-weight: 400;
+  }
+
+  /* Radix UI (react-remove-scroll) compensates for the disappearing scrollbar by
+     adding margin-right (gapMode default = 'margin') to body when a
+     Select/Dialog/Sheet opens. With scrollbar-gutter:stable above, the gutter is
+     already reserved, so this compensation causes a visible left-shift of
+     centered content and right-aligned items (e.g. top-bar). Suppress it.
+     Uses html-prefix to outrank the runtime-injected stylesheet's specificity. */
+  html body[data-scroll-locked] {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
