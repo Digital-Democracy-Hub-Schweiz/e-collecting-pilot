@@ -60,7 +60,10 @@ export class VerificationBusinessAPI {
   private baseUrl = 'https://verifier-identity.ecollecting.ch/management/api';
 
   async createVerification(): Promise<VerificationResponse> {
+    const acceptedIssuerDid = import.meta.env.VITE_BETA_ID_ISSUER_DID ?? 'did:tdw:QmPEZPhDFR4nEYSFK5bMnvECqdpf1tPTPJuWs9QrMjCumw:identifier-reg.trust-infra.swiyu-int.admin.ch:api:v1:did:9a5559f0-b81c-4368-a170-e7b4ae424527';
+
     const requestData = {
+      "accepted_issuer_dids": [acceptedIssuerDid],
       "presentation_definition": {
         "id": "00000000-0000-0000-0000-000000000000",
         "input_descriptors": [
