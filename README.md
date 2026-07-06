@@ -2,10 +2,10 @@
 
 ### E-Collecting Pilotprojekt
 
-Diese Website ist ein gemeinnütziges Projekt der Zivilgesellschaft. Unser Ziel ist es, Initiativen und Referenden mithilfe der neuen E-ID sicher, digital und barrierefrei zu unterstützen.
+Diese Website ist ein gemeinnütziges Projekt der Zivilgesellschaft. Unser Ziel ist es, Initiativen und Referenden mithilfe der neuen e-ID sicher, digital und barrierefrei zu unterstützen.
 
 ### e-ID
-Die e-ID wird vom Staat herausgegeben. Sie ergänzt die physische Identitätskarte und ist kostenlos. Am 28. September stimmt die Bevölkerung über die Vorlage ab.
+Die e-ID wird vom Staat herausgegeben. Sie ergänzt die physische Identitätskarte und ist kostenlos. 
 
 ### swiyu-Wallet App
 Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Für die Teilnahme muss eine Beta-ID über die swiyu-Wallet App erstellt werden. Im Rahmen des Projekts werden ausschliesslich fiktive Vorlagen und die Beta-ID des Bundes genutzt. Es werden keine persönlichen Daten gespeichert.
@@ -18,8 +18,8 @@ Dieses Pilotprojekt verwendet den Beta Credential Service des Bundes. Für die T
 ### Dokumentationen und Repos
 - **Cookbooks**: `https://swiyu-admin-ch.github.io/cookbooks/`
 - **DID Toolbox**: `https://github.com/swiyu-admin-ch/didtoolbox-java`
-- **Verifier Management**: `https://github.com/swiyu-admin-ch/eidch-verifier-agent-management`
-- **Issuer Management**: `https://github.com/swiyu-admin-ch/eidch-issuer-agent-management`
+- **swiyu Generic Verifier**: `https://github.com/swiyu-admin-ch/swiyu-verifier`
+- **swiyu Generic Issuer**: `https://github.com/swiyu-admin-ch/swiyu-issuer`
 
 
 ## Datenquellen
